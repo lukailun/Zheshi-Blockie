@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ class CameraApp extends StatefulWidget {
 
 class _CameraAppState extends State<CameraApp> {
   CameraController? controller;
+  XFile? _file;
 
   Future<void> _initCamera() async {
     try {
@@ -75,17 +78,27 @@ class _CameraAppState extends State<CameraApp> {
           onPressed: () {
             MessageToast.showMessage('Take Photo');
             try {
-              controller!.takePicture().then(
-                  (value) => {MessageToast.showMessage("Success: $value")});
+              controller!.takePicture().then((XFile file) {
+                MessageToast.showMessage("Success: ${file.path}");
+                setState(() {
+                  _file = file;
+                });
+              });
             } catch (e) {
               MessageToast.showMessage(e.toString());
             }
           },
           child: const Text(
             'Take Photo',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
-        )
+        ),
+        if (_file != null)
+          SizedBox(
+            width: 100,
+            height: 100,
+            child: Image.file(File(_file!.path)),
+          )
       ],
     ));
   }
