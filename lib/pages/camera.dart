@@ -65,17 +65,15 @@ class _CameraAppState extends State<CameraApp> {
       return Container();
     }
     return MaterialApp(
-      home: Column(
-        children: [
-          CameraPreview(controller!),
-          ElevatedButton(
-            child: const Text("Take Photo"),
-            onPressed: () {
-              controller!.startImageStream((image) => {Get.back()});
-            },
-          )
-        ],
+      home: GestureDetector(
+        child: CameraPreview(controller!),
+        onTap: () {
+          MessageToast.showMessage('Take Photo');
+          controller!.startImageStream((image) => {Get.back()});
+        },
       ),
     );
   }
 }
+
+// CameraPreview(controller!)
