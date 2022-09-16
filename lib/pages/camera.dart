@@ -1,8 +1,7 @@
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
-import 'package:camera_web/camera_web.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
 
 late List<CameraDescription> _cameras;
 
@@ -66,7 +65,17 @@ class _CameraAppState extends State<CameraApp> {
       return Container();
     }
     return MaterialApp(
-      home: CameraPreview(controller!),
+      home: Column(
+        children: [
+          CameraPreview(controller!),
+          ElevatedButton(
+            child: const Text("Take Photo"),
+            onPressed: () {
+              controller!.startImageStream((image) => {Get.back()});
+            },
+          )
+        ],
+      ),
     );
   }
 }
