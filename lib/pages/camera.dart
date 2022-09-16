@@ -18,18 +18,9 @@ class CameraApp extends StatefulWidget {
 class _CameraAppState extends State<CameraApp> {
   CameraController? controller;
 
-  Future<html.MediaStream?> _openCamera() async {
-    final html.MediaStream? stream = await html.window.navigator.mediaDevices
-        ?.getUserMedia({'video': true, 'audio': true});
-    // _preview.srcObject = stream;
-    MessageToast.showMessage('Camera: ' + stream.toString());
-    return stream;
-  }
-
   Future<void> _initCamera() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
-      // await _openCamera();
       _cameras = await availableCameras();
       controller = CameraController(_cameras[0], ResolutionPreset.max);
       controller?.initialize().then((_) {
