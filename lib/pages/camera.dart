@@ -65,14 +65,34 @@ class _CameraAppState extends State<CameraApp> {
       return Container();
     }
     return MaterialApp(
-      home: GestureDetector(
-        child: CameraPreview(controller!),
-        onTap: () {
-          MessageToast.showMessage('Take Photo');
-          controller!.startImageStream((image) => {Get.back()});
-        },
-      ),
-    );
+        home: Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: CameraPreview(controller!),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            MessageToast.showMessage('Take Photo');
+            controller!.startImageStream(
+                (image) => {MessageToast.showMessage(image.toString())});
+          },
+          child: const Text(
+            'Take Photo',
+            style: TextStyle(color: Colors.blueAccent),
+          ),
+        )
+      ],
+    ));
+    // return MaterialApp(
+    //   home: GestureDetector(
+    //     child: CameraPreview(controller!),
+    //     onTap: () {
+    //       MessageToast.showMessage('Take Photo');
+    //       controller!.startImageStream((image) => {Get.back()});
+    //     },
+    //   ),
+    // );
   }
 }
 
