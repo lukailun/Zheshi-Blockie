@@ -50,7 +50,7 @@ class _CameraAppState extends State<CameraApp> {
         }
       });
     } catch (e) {
-      // MessageToast.showMessage(e.toString());
+      MessageToast.showMessage(e.toString());
     }
   }
 
