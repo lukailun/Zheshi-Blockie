@@ -75,14 +75,15 @@ class _CameraAppState extends State<CameraApp> {
           onPressed: () {
             MessageToast.showMessage('Take Photo');
             try {
-              controller!.takePicture();
+              controller!.takePicture().then(
+                  (value) => {MessageToast.showMessage("Success: $value")});
             } catch (e) {
               MessageToast.showMessage(e.toString());
             }
           },
           child: const Text(
             'Take Photo',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
         )
       ],
