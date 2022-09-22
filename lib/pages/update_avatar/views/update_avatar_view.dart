@@ -11,8 +11,8 @@ import '../controllers/update_avatar_controller.dart';
 import 'dart:ui' as ui;
 
 class UpdateAvatarView extends GetView<UpdateAvatarController> {
-  const UpdateAvatarView({super.key});
-
+  const UpdateAvatarView({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     const html = '<input type="file" accept="image/*">';

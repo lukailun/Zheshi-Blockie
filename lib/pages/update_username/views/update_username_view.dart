@@ -8,7 +8,7 @@ import '../../../widgets/basic_app_bar.dart';
 import '../controllers/update_username_controller.dart';
 
 class UpdateUsernameView extends GetView<UpdateUsernameController> {
-  const UpdateUsernameView({super.key});
+  const UpdateUsernameView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
