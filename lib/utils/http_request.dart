@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:blockie_app/common/project_group.dart';
 import 'package:blockie_app/common/project_group_load_info.dart';
+import 'package:blockie_app/services/auth_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:blockie_app/common/global.dart';
 import 'package:blockie_app/common/user_info.dart';
@@ -9,17 +10,23 @@ import 'package:blockie_app/common/project_detail_info.dart';
 import 'package:blockie_app/common/nft_info.dart';
 import 'package:blockie_app/common/nft_load_info.dart';
 import 'package:blockie_app/common/project_load_info.dart';
+import 'package:blockie_app/common/issuer_info.dart';
 import 'package:blockie_app/common/project_group_load_info.dart';
+
+import 'data_storage.dart';
 
 const scheme = "https";
 const serverHost = "s.blockie.zheshi.tech";
 const commandPath = "/api/v1";
 const loginCommand = "/login";
 const getUserInfoCommand = "/user";
+const getOtherUserInfoCommand = "/users";
 const getProjectsCommand = "/activities";
+const getIssuerInfoCommand = "/issuers";
 const getUserQRCodeCommand = "/qrcode";
 const getUserNftListCommand = "/NFTs";
-
+const logoutCommand = "/logout";
+const updateUserInfoCommand = "/user";
 
 class HttpRequest{
   static dynamic _getResponseData(http.Response response) {
@@ -32,7 +39,7 @@ class HttpRequest{
     }
   }
 
-  static Future<String> login(String code) async {
+  static Future<Map<String, dynamic>> login(String code) async {
     final url = Uri(
       scheme: scheme,
       host: serverHost,
@@ -41,17 +48,20 @@ class HttpRequest{
     final data = {'code': code};
     final response = await http.post(url, body: data);
     if (response.statusCode == 200) {
+      AuthService.to.login();
       final res = HttpRequest._getResponseData(response);
-      return res['token'];
+      String token = res['token'];
+      UserInfo userInfo = UserInfo.fromJson(res);
+      return {'token': token, 'user': userInfo};
     } else {
       throw Exception('Failed to login');
     }
   }
 
   static Future<UserInfo> getUserInfo(String token) async {
-    if (Global.userInfo != null) {
-      return Global.userInfo!;
-    }
+    // if (Global.userInfo != null) {
+    //   return Global.userInfo!;
+    // }
     final url = Uri(
         scheme: scheme,
         host: serverHost,
@@ -62,6 +72,22 @@ class HttpRequest{
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
       Global.userInfo = userInfo;
+      return userInfo;
+    } else {
+      throw Exception('Failed to get user info');
+    }
+  }
+
+  static Future<UserInfo> getOtherUserInfo(String uid) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: "$commandPath$getOtherUserInfoCommand/$uid"
+    );
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      UserInfo userInfo = UserInfo.fromJson(res);
       return userInfo;
     } else {
       throw Exception('Failed to get user info');
@@ -109,6 +135,26 @@ class HttpRequest{
     }
   }
 
+  static Future<ProjectGroup> loadProjectGroup({required String groupUid}) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + getProjectsCommand,
+        queryParameters: {'group_uid': groupUid}
+    );
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      if (res['data'].length > 0) {
+        return ProjectGroup.fromJson(res['data'][0]);
+      } else {
+        throw Exception('Failed to get project group');
+      }
+    } else {
+      throw Exception('Failed to get project group');
+    }
+  }
+
   static Future<ProjectDetailInfo> loadProjectDetail({String? uid, String? issuerUid, String? token}) async {
     String? projectUid;
     if (uid != null) {
@@ -130,6 +176,21 @@ class HttpRequest{
       return ProjectDetailInfo.fromJson(res);
     } else {
       throw Exception('Failed to get project detail');
+    }
+  }
+
+  static Future<IssuerInfo> loadIssuerDetail({required String uid}) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: '$commandPath$getIssuerInfoCommand/$uid'
+    );
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      return IssuerInfo.fromJson(res);
+    } else {
+      throw Exception('Failed to get issuer detail');
     }
   }
 
@@ -200,6 +261,38 @@ class HttpRequest{
       return NftInfo.fromJson(res);
     } else {
       throw Exception('Failed to mint');
+    }
+  }
+
+  Future<bool> logout() async {
+    final uri = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + logoutCommand
+    );
+    final response = await http.delete(uri, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
+    if (response.statusCode == 200) {
+      AuthService.to.logout();
+      return true;
+    } else {
+      throw Exception('Failed to logout');
+    }
+  }
+
+  Future<UserInfo> updateUsername(String username) async {
+    final uri = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + updateUserInfoCommand
+    );
+    final response = await http.put(uri, body: {"nickname": username}, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      UserInfo userInfo = UserInfo.fromJson(res);
+      Global.userInfo = userInfo;
+      return userInfo;
+    } else {
+      throw Exception('Failed to logout');
     }
   }
 }

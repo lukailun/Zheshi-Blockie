@@ -4,18 +4,16 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 import 'package:blockie_app/common/project_group.dart';
 import 'package:blockie_app/common/user_info.dart';
+import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/description_text.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:blockie_app/common/global.dart';
 import 'package:blockie_app/common/project_info.dart';
-import 'package:blockie_app/common/project_load_info.dart';
-import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:blockie_app/common/routes.dart';
+import 'package:blockie_app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/widgets/project_item.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 class Projects extends StatefulWidget {
   const Projects({Key? key}) : super(key: key);
@@ -31,8 +29,9 @@ class _ProjectsState extends State<Projects> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero,() async {
+      ProjectGroup group = await HttpRequest.loadProjectGroup(groupUid: Get.parameters["groupUid"]!);
       setState(() {
-        projectGroup = ProjectGroup.fromJson(jsonDecode(Get.parameters["projectGroup"]!));
+        projectGroup = group;
       });
     });
   }
@@ -44,7 +43,7 @@ class _ProjectsState extends State<Projects> {
     }
 
     Widget title = Container(
-      padding: const EdgeInsets.only(left: 21, right: 22, top: Global.titleButtonTop, bottom: 20),
+      padding: const EdgeInsets.only(top: Global.titleButtonTop, bottom: 20),
       child: Column(
         children: [
           Row(
@@ -55,8 +54,8 @@ class _ProjectsState extends State<Projects> {
                   }, // Image tapped
                   child: Image.asset(
                     "images/back.png",
-                    width: 29,
-                    height: 29,
+                    width: 40,
+                    height: 40,
                   )
               )
             ],
@@ -81,7 +80,6 @@ class _ProjectsState extends State<Projects> {
     );
 
     Widget listView = Container(
-      width: 400,
       child: ListView.builder(
           itemCount: projectGroup!.projects.length + 2,
           shrinkWrap: true,
@@ -98,17 +96,20 @@ class _ProjectsState extends State<Projects> {
       ),
     );
 
-    return Material(
-        color: const Color(0xff3C63F8),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              listView,
-            ],
-          ),
-        )
+    // return Material(
+    //     color: const Color(0xff3C63F8),
+    //     child: ConstrainedBox(
+    //       constraints: const BoxConstraints.expand(),
+    //       child: Stack(
+    //         alignment: Alignment.center,
+    //         children: [
+    //           listView,
+    //         ],
+    //       ),
+    //     )
+    // );
+    return ScreenBoundary(
+        body: listView
     );
   }
 
@@ -121,8 +122,8 @@ class _ProjectsState extends State<Projects> {
           Get.toNamed("${Routes.project}?projectUid=${projectInfo.uid}");
         },
         child: Container(
-          margin: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
-          child: ProjectItem(projectInfo: projectInfo, width: 332, height: 462),
+          margin: const EdgeInsets.only(bottom: 32),
+          child: ProjectItem(projectInfo: projectInfo),
         )
     );
   }

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:blockie_app/common/project_detail_info.dart';
+import 'package:blockie_app/utils/http_request.dart';
 import 'package:flutter/material.dart';
 import 'package:blockie_app/common/image_view_data.dart';
 import 'package:blockie_app/common/global.dart';
-import 'package:blockie_app/common/routes.dart';
+import 'package:blockie_app/routes/app_pages.dart';
 import 'package:get/get.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 class ImageView extends StatefulWidget{
   const ImageView({Key? key}) : super(key: key);
@@ -21,10 +24,10 @@ class _ImageViewState extends State<ImageView> {
   @override
   void initState() {
     controller = PageController();
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero,() async {
+      ProjectDetailInfo project = await HttpRequest.loadProjectDetail(uid: Get.parameters["projectUid"]!);
       setState(() {
-        // ImageViewData? args = ModalRoute.of(context)?.settings.arguments as ImageViewData?;
-        imageUrls = jsonDecode(Get.parameters["images"]!).map<String>((e) => e.toString()).toList();
+        imageUrls = project.images;
         currentIndex = int.parse(Get.parameters["index"]!);
         controller.jumpToPage(currentIndex);
       });
@@ -61,8 +64,8 @@ class _ImageViewState extends State<ImageView> {
               }, // Image tapped
               child: Image.asset(
                 "images/back.png",
-                width: 29,
-                height: 29,
+                width: 40,
+                height: 40,
               )
           ),
           Expanded(
@@ -82,15 +85,25 @@ class _ImageViewState extends State<ImageView> {
       ),
     );
 
-    return Material(
-      color: const Color(0xff3c63f8),
-      child: Column(
-        children: [
-          title,
-          Expanded(child: swiper),
-          Container(height: 79,)
-        ],
-      )
+    // return Material(
+    //   color: const Color(0xff3c63f8),
+    //   child: Column(
+    //     children: [
+    //       title,
+    //       Expanded(child: swiper),
+    //       Container(height: 79,)
+    //     ],
+    //   )
+    // );
+    return ScreenBoundary(
+        body: Column(
+          children: [
+            title,
+            Expanded(child: swiper),
+            Container(height: 79,)
+          ],
+        ),
+        padding: 0,
     );
   }
 }

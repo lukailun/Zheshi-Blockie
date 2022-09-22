@@ -5,14 +5,12 @@ class IssuerInfo{
   final String summary;
   final String logo;
   final String uid;
-  Map<String, dynamic>? json;
 
   IssuerInfo({
     required this.title,
     required this.summary,
     required this.logo,
-    required this.uid,
-    this.json
+    required this.uid
   });
 
   factory IssuerInfo.fromJson(Map<String, dynamic> json) {
@@ -20,8 +18,7 @@ class IssuerInfo{
       title: json['title'],
       summary: json['summary'] ?? '',
       logo: Global.assetHost + json['logo'],
-      uid: json['uid'],
-      json: json
+      uid: json['uid']
     );
   }
 }

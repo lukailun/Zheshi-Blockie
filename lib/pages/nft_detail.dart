@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:blockie_app/widgets/ellipsized_text.dart';
+import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +14,11 @@ import 'package:blockie_app/common/global.dart';
 import 'package:blockie_app/common/nft_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
-import 'package:blockie_app/common/routes.dart';
+import 'package:blockie_app/routes/app_pages.dart';
 import 'package:get/get.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
+
+import '../common/app_theme_data.dart';
 
 class NftPage extends StatefulWidget{
   const NftPage({Key? key}) : super(key: key);
@@ -25,6 +30,7 @@ class NftPage extends StatefulWidget{
 class _NftPageState extends State<NftPage> {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
+  bool _isLoading = false;
   @override
   void initState() {
     // Future.delayed(Duration.zero,(){
@@ -36,19 +42,33 @@ class _NftPageState extends State<NftPage> {
     //ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory('blockie_moment', (int viewId) {
       return IFrameElement()
-        ..id="iframe"
+        ..id = "iframe"
         ..style.width = '100%'
         ..style.height = '100%'
         ..style.border = 'none';
     });
+    if (_nftInfo == null) {
+      _isLoading = true;
+      Future.delayed(Duration.zero,() async {
+        NftInfo nftInfo = await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
+        setState(() {
+          // _nftInfo = ModalRoute.of(context)!.settings.arguments as NftInfo;
+          _nftInfo = nftInfo;
+          _isLoading = false;
+          // _nftInfo = Get.arguments;
+        });
+      });
+    }
   }
 
   String getNftSceneUrl(NftInfo nftInfo) {
     switch(nftInfo.type) {
       case 2:
-        return 'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&image1=${nftInfo.textures['part1']??''}&image2=${nftInfo.textures['part2']??''}&image3=${nftInfo.textures['part3']??''}&image4=${nftInfo.textures['part4']??''}';
+        return 'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&image0=${nftInfo.textures['part0']??''}&image1=${nftInfo.textures['part1']??''}&image2=${nftInfo.textures['part2']??''}&image3=${nftInfo.textures['part3']??''}&image4=${nftInfo.textures['part4']??''}';
       case 3:
         return 'https://sandbox.blockie.zheshi.tech?type=card&image1=${nftInfo.textures['part0']??''}&image2=${nftInfo.textures['part1']??''}';
+      case 4:
+        return 'https://sandbox.blockie.zheshi.tech?type=kettlebell&model=${nftInfo.model}';
       default:
         return '';
     }
@@ -56,18 +76,66 @@ class _NftPageState extends State<NftPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget appBar = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.only(left: 22, right: 10),
+          child: PointerInterceptor(
+              child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  }, // Image tapped
+                  child: Image.asset(
+                    "images/back.png",
+                    width: 40,
+                    height: 40,
+                  )
+              )
+          ),
+        ),
+        Expanded(
+            child: Text(
+              "${_nftInfo?.projectName ?? ""} ${_nftInfo?.tokenId ?? ""}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: Color(0xffffffff),
+                  fontSize: 20
+              ),
+              maxLines: 2,
+            )
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: 22),
+          child: PointerInterceptor(
+            child: GestureDetector(
+                onTap: () {
+                  try {
+                    Clipboard.setData(ClipboardData(text: Global.webLink + Get.currentRoute));
+                    MessageToast.showMessage("复制nft成功");
+                  } catch (e) {
+                    MessageToast.showException(e.toString());
+                  }
+                }, // Image tapped
+                child: Image.asset(
+                  "images/copy.png",
+                  width: 40,
+                  height: 40,
+                )
+            ),
+          ),
+        )
+      ],
+    );
     if (_nftInfo == null) {
-      Future.delayed(Duration.zero,() async {
-        NftInfo nftInfo = await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
-        setState(() {
-          // _nftInfo = ModalRoute.of(context)!.settings.arguments as NftInfo;
-          _nftInfo = nftInfo;
-          // _nftInfo = Get.arguments;
-        });
-      });
-      return const Material(
-        color: Color(0xff3c63f8),
-        child: SizedBox(),
+      return ScreenBoundary(
+        body: Container(
+          padding: const EdgeInsets.only(top: Global.titleButtonTop),
+          color: AppThemeData.primaryColor,
+          child: Column(
+            children: [appBar, const Expanded(child: LoadingIndicator())],
+          ),
+        ),
       );
     }
     if (!updatedNftUrl) {
@@ -84,7 +152,7 @@ class _NftPageState extends State<NftPage> {
 
     Widget webView = SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.9,
       child: const HtmlElementView(viewType: 'blockie_moment'),
     );
 
@@ -94,84 +162,19 @@ class _NftPageState extends State<NftPage> {
       fit: BoxFit.contain,
     );
 
-    Widget title = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 22),
-          child: PointerInterceptor(
-              child: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  }, // Image tapped
-                  child: Image.asset(
-                    "images/back.png",
-                    width: 29,
-                    height: 29,
-                  )
-              )
-          ),
-        ),
-        Expanded(
-          child: Text(
-            "${_nftInfo!.projectName} ${_nftInfo!.tokenId}",
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: Color(0xffffffff),
-                fontSize: 20
-            ),
-          )
-        ),
-        Container(
-          padding: const EdgeInsets.only(right: 22),
-          child: PointerInterceptor(
-            child: GestureDetector(
-                onTap: () {
-                  try {
-                    Clipboard.setData(ClipboardData(text: Global.webLink + Get.currentRoute));
-                    MessageToast.showMessage("复制nft成功");
-                  } catch (e) {
-                    MessageToast.showException(e.toString());
-                  }
-                }, // Image tapped
-                child: Image.asset(
-                  "images/copy.png",
-                  width: 23,
-                  height: 23,
-                )
-            ),
-          ),
-        )
-      ],
-    );
-
-    Widget zoomButton = GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        }, // Image tapped
-        child: Image.asset(
-          "images/zoom.png",
-          width: 29,
-          height: 29,
-        )
-    );
-
     Widget webPanel = Stack(
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       children: [
         _nftInfo!.type == 1 ? nftImage : webView,
-        Positioned(
-            top: Global.titleButtonTop,
-            width: MediaQuery.of(context).size.width,
-            child: title
-        ),
         // Positioned(
-        //     bottom: 22,
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [zoomButton],
-        //     ),
-        // )
+        //     top: Global.titleButtonTop,
+        //     width: MediaQuery.of(context).size.width,
+        //     child: title
+        // ),
+        Container(
+          padding: EdgeInsets.only(top: Global.titleButtonTop),
+          child: appBar,
+        )
       ],
     );
 
@@ -273,11 +276,10 @@ class _NftPageState extends State<NftPage> {
               Container(
                 padding: const EdgeInsets.only(right: 3),
                 width: 150,
-                child: Text(
+                child: EllipsizedText(
                   _nftInfo!.projectContract,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: itemValueStyle,
+                  ellipsis: Ellipsis.middle,
                 ),
               ),
               copyButton
@@ -321,15 +323,25 @@ class _NftPageState extends State<NftPage> {
       ),
     );
 
-    return Material(
-      color: const Color(0xff3c63f8),
-      child: ListView(
-        children: [
-          webPanel,
-          brand,
-          nftDetail
-        ],
-      ),
+    // return Material(
+    //   color: const Color(0xff3c63f8),
+    //   child: ListView(
+    //     children: [
+    //       webPanel,
+    //       brand,
+    //       nftDetail
+    //     ],
+    //   ),
+    // );
+    return ScreenBoundary(
+        body: ListView(
+          children: [
+            webPanel,
+            brand,
+            nftDetail
+          ],
+        ),
+      padding: 0,
     );
   }
 }

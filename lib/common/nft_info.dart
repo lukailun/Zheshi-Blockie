@@ -9,6 +9,7 @@ class NftInfo {
   final String cover;
   final String? image;
   final Map<String, String> textures;
+  final String model;
   final String video;
   final int type;
   final String uid;
@@ -17,7 +18,6 @@ class NftInfo {
   final int projectAmount;
   final IssuerInfo issuer;
   final UserInfo user;
-  Map<String, dynamic>? json;
 
   NftInfo({
     required this.projectContract,
@@ -26,6 +26,7 @@ class NftInfo {
     required this.cover,
     required this.image,
     required this.textures,
+    required this.model,
     required this.video,
     required this.type,
     required this.uid,
@@ -33,19 +34,19 @@ class NftInfo {
     required this.projectSummary,
     required this.projectAmount,
     required this.issuer,
-    required this.user,
-    this.json
+    required this.user
   });
 
   factory NftInfo.fromJson(Map<String, dynamic> json) {
     final imageData = json['image'];
-    List<String> textures = [imageData['part1']??'', imageData['part2']??'', imageData['part3']??'', imageData['part4']??''];
+    // List<String> textures = [imageData['part1']??'', imageData['part2']??'', imageData['part3']??'', imageData['part4']??''];
     return NftInfo(
       tokenId: json['token_id'],
       mintedAt: json['minted_at'],
       cover: Global.assetHost + json['cover'],
       image: Global.assetHost + (json['image']['normal']??''),
       textures: Map.from(json['image']),
+      model: json['model']??'',
       video: json['video'] == null ? '' : json['video']['key'],
       type: json['type'],
       uid: json['uid'],
@@ -54,8 +55,7 @@ class NftInfo {
       projectContract: json['activity']['contract'],
       projectAmount: json['activity']['total_amount'],
       issuer: IssuerInfo.fromJson(json['issuer']),
-      user: UserInfo.fromJson(json['user']),
-      json: json
+      user: UserInfo.fromJson(json['user'])
     );
   }
 }

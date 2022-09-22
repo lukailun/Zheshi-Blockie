@@ -1,14 +1,16 @@
 import 'dart:convert';
 
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:blockie_app/common/global.dart';
 import 'package:blockie_app/common/issuer_info.dart';
 import 'package:blockie_app/common/project_info.dart';
 import 'package:blockie_app/common/project_load_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/common/routes.dart';
+import 'package:blockie_app/routes/app_pages.dart';
 import 'package:get/get.dart';
-
+import 'package:blockie_app/widgets/screen_bound.dart';
+import 'package:blockie_app/widgets/project_item.dart';
 
 class BrandPage extends StatefulWidget{
   const BrandPage({Key? key}) : super(key: key);
@@ -24,10 +26,10 @@ class _BrandPageState extends State<BrandPage>{
 
   @override
   void initState() {
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero,() async {
+      IssuerInfo issuerInfo = await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
       setState(() {
-        // _issuerInfo = ModalRoute.of(context)!.settings.arguments as IssuerInfo;
-        _issuerInfo = IssuerInfo.fromJson(jsonDecode(Get.parameters["issuer"]!));
+        _issuerInfo = issuerInfo;
         _addProjects(uid: _issuerInfo!.uid);
       });
     });
@@ -59,74 +61,15 @@ class _BrandPageState extends State<BrandPage>{
           Get.toNamed("${Routes.project}?projectUid=${projectInfo.uid}");
         },
         child: Container(
-            margin: const EdgeInsets.only(left: 30, right: 30, bottom: 16),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/HomeCardOutline.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            width: 332,
-            height: 450,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              child: Column(children: [
-                Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8),
-                      ),
-                      child: Image.network(
-                        projectInfo.cover,
-                        // width: 332,
-                        // height: 250s,
-                        fit: BoxFit.contain,
-                      ),
-                    )
-                ),
-                Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 5),
-                              child: Text(
-                                projectInfo.name,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xffffffff),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          // height: 20,
-                          child: Text(
-                            projectInfo.summary,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                color: Color(0xb3ffffff)
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                ),
-              ],),
-            )
+          margin: const EdgeInsets.only(bottom: 32),
+          child: ProjectItem(projectGroup: null, projectInfo: projectInfo,
+          showBrand: false,),
         ),
       );
     }
 
     Widget topButton = Container(
-      padding: const EdgeInsets.only(left: 19, right: 19, top: Global.titleButtonTop, bottom: 10),
+      padding: const EdgeInsets.only(right: 19, top: Global.titleButtonTop, bottom: 10),
       child: Row(
         children: [
           GestureDetector(
@@ -135,8 +78,8 @@ class _BrandPageState extends State<BrandPage>{
               }, // Image tapped
               child: Image.asset(
                 "images/back.png",
-                width: 29,
-                height: 29,
+                width: 40,
+                height: 40,
               )
           )
         ],
@@ -164,14 +107,7 @@ class _BrandPageState extends State<BrandPage>{
       ],
     );
 
-    Widget brandIntro = Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 22),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("images/BrandIntroOutline.png"),
-          fit: BoxFit.fill,
-        ),
-      ),
+    Widget brandIntro = SizedBox(
       width: 332,
       height: 62,
       child: Center(
@@ -184,7 +120,7 @@ class _BrandPageState extends State<BrandPage>{
           ),
         ),
       ),
-    );
+    ).outlined().paddingOnly(bottom: 22);
 
     const projectTitleStyle = TextStyle(
         color: Color(0xffffffff),
@@ -209,7 +145,6 @@ class _BrandPageState extends State<BrandPage>{
     );
 
     Widget brandCards = SizedBox(
-      width: 400,
       child: ListView.builder(
           itemCount: _projects.length + 1,
           shrinkWrap: true,
@@ -220,7 +155,7 @@ class _BrandPageState extends State<BrandPage>{
               if (_nextPageUrl != null) {
                 _addProjects();
                 return Container(
-                  padding: const EdgeInsets.all(16.0),
+                  // padding: const EdgeInsets.all(16.0),
                   alignment: Alignment.center,
                   child: const SizedBox(
                     width: 24.0,
@@ -231,7 +166,7 @@ class _BrandPageState extends State<BrandPage>{
               } else {
                 return Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.all(16.0),
+                  // padding: const EdgeInsets.all(16.0),
                   child: const Text(
                     "没有更多了",
                     style: TextStyle(color: Colors.grey),
@@ -244,9 +179,21 @@ class _BrandPageState extends State<BrandPage>{
       ),
     );
 
-    return Material(
-        color: const Color(0xff3C63F8),
-        child: ListView(
+    // return Material(
+    //     color: const Color(0xff3C63F8),
+    //     child: ListView(
+    //       shrinkWrap: true,
+    //       children: [
+    //         topButton,
+    //         brandInfo,
+    //         brandIntro,
+    //         brandCardTitle,
+    //         brandCards
+    //       ],
+    //     )
+    // );
+    return ScreenBoundary(
+        body: ListView(
           shrinkWrap: true,
           children: [
             topButton,

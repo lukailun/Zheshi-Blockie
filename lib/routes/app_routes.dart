@@ -1,3 +1,5 @@
+part of 'app_pages.dart';
+
 abstract class Routes {
   static const initial = '/';
   static const projects = '/projects';
@@ -6,4 +8,7 @@ abstract class Routes {
   static const project = '/project';
   static const imageView = '/image_view';
   static const nft = '/nft';
+  static const settings = '/settings';
+  static const updateName = '/update_name';
+  static const updateAvatar = '/update_avatar';
 }

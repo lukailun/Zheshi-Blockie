@@ -6,15 +6,13 @@ class ProjectGroup {
   final String description;
   final String uid;
   final List<ProjectInfo> projects;
-  Map<String, dynamic>? json;
 
   ProjectGroup({
     required this.name,
     required this.summary,
     required this.description,
     required this.uid,
-    required this.projects,
-    this.json
+    required this.projects
   });
 
   factory ProjectGroup.fromJson(Map<String, dynamic> json) {
@@ -28,8 +26,7 @@ class ProjectGroup {
         summary: json['summary'],
         description: json['description'],
         uid: json['uid'],
-        projects: projects,
-        json: json
+        projects: projects
     );
   }
 }

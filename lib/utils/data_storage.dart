@@ -1,6 +1,7 @@
 import 'dart:html';
 
 const String tokenName = "token";
+const String userUidName = "user_uid";
 
 class DataStorage{
   static void _setStorageValue(String valueName, String value) {
@@ -17,5 +18,13 @@ class DataStorage{
   
   static String? getToken() {
     return DataStorage._getStorageValue(tokenName);
+  }
+
+  static void setUserUid(String uid) {
+    DataStorage._setStorageValue(userUidName, uid);
+  }
+
+  static String? getUserUid() {
+    return DataStorage._getStorageValue(userUidName);
   }
 }

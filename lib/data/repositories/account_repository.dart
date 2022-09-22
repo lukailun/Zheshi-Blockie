@@ -1,0 +1,13 @@
+import '../../common/user_info.dart';
+import '../../utils/http_request.dart';
+
+class AccountRepository {
+  final HttpRequest client;
+
+  AccountRepository({required this.client});
+
+  Future<bool> logout() => client.logout();
+
+  Future<UserInfo> updateUsername(String username) =>
+      client.updateUsername(username);
+}

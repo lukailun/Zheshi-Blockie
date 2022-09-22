@@ -5,7 +5,7 @@ class MessageToast{
     Fluttertoast.showToast(
         msg: text,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
+        gravity: ToastGravity.CENTER,
         webPosition: "center",
         webBgColor: "#666666",
         timeInSecForIosWeb: 2,

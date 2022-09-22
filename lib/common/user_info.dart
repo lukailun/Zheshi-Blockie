@@ -7,7 +7,6 @@ class UserInfo{
   final int? level;
   final String uid;
   final String? walletAddress;
-  Map<String, dynamic>? json;
 
   UserInfo({
     required this.nickname,
@@ -15,8 +14,7 @@ class UserInfo{
     required this.phone,
     required this.level,
     required this.uid,
-    required this.walletAddress,
-    this.json
+    required this.walletAddress
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -26,8 +24,7 @@ class UserInfo{
       phone: json['phone'],
       level: json['level'],
       uid: json['uid'],
-      walletAddress: json['wallets'] == null ? null : json['wallets'][0]['address'],
-      json: json
+      walletAddress: json['wallets'] == null ? null : json['wallets'][0]['address']
     );
   }
 }
