@@ -54,16 +54,19 @@ class _FaceVerificationCameraViewState
     return SizedBox(
       width: min(256, Get.width - 120),
       height: min(256, Get.width - 120),
-      child: FutureBuilder(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              _controller != null) {
-            return CameraPreview(_controller!);
-          } else {
-            return const SizedBox();
-          }
-        },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(min(256, Get.width - 120) / 2),
+        child: FutureBuilder(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                _controller != null) {
+              return CameraPreview(_controller!);
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
     return ClipRRect(
