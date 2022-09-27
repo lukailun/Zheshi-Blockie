@@ -74,16 +74,20 @@ class _FaceVerificationCameraViewState
       home: Column(
         children: [
           CameraPreview(_controller!),
-          Image.file(File(path ?? "")),
+          Image.file(
+            File(path ?? ""),
+            width: 200,
+            height: 200,
+          ),
           GestureDetector(
-            child: const Text('Take 2'),
+            child: const Text('Take 3'),
             onTap: () async {
               MessageToast.showMessage('Take Photo');
               try {
                 final image = await _controller!.takePicture();
                 path = image.path;
                 setState(() {});
-                MessageToast.showMessage("Image: ${image.path}");
+                MessageToast.showMessage("Image: $path");
               } catch (e) {
                 MessageToast.showMessage("Error: ${e.toString()}");
               }
