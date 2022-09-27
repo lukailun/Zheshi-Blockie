@@ -30,6 +30,7 @@ class _FaceVerificationCameraViewState
       _controller = CameraController(_cameras[0], ResolutionPreset.medium);
       if (_controller != null) {
         _initializeControllerFuture = _controller!.initialize();
+        setState(() {});
       }
     } catch (error) {
       MessageToast.showMessage(error.toString());
