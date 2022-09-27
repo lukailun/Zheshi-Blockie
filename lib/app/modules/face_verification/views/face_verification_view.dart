@@ -1,11 +1,11 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_camera_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:camera/camera.dart';
 import 'package:blockie_app/app/modules/face_verification/controllers/face_verification_controller.dart';
 
 import '../../../../models/app_theme_data.dart';
@@ -13,7 +13,11 @@ import '../../../../widgets/basic_app_bar.dart';
 import '../../../../widgets/screen_bound.dart';
 
 class FaceVerificationView extends GetView<FaceVerificationController> {
-  const FaceVerificationView({super.key});
+  FaceVerificationView({super.key});
+
+  final _faceVerificationCameraViewKey =
+      GlobalKey<FaceVerificationCameraViewState>();
+  Uint8List? _bytes;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,10 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
       child: SizedBox(
         width: min(256, Get.width - 120),
         height: min(256, Get.width - 120),
-        child: const FaceVerificationCameraView(),
+        child: FaceVerificationCameraView(
+          key: _faceVerificationCameraViewKey,
+          onPhotoTaken: (file) {},
+        ),
       ),
     );
     final takePhotoButton = SizedBox(
@@ -43,7 +50,7 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         backgroundColor: Colors.white,
         textColor: AppThemeData.primaryColor,
         title: "同意并拍摄上传",
-        onTap: () {},
+        onTap: () => _faceVerificationCameraViewKey.currentState?.takePhoto(),
       ),
     ).paddingOnly(bottom: 150);
     return ScreenBoundary(
@@ -63,6 +70,12 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
               const Expanded(child: SizedBox()),
               cameraView,
               const Expanded(child: SizedBox()),
+              if (_bytes != null)
+                Image.memory(
+                  _bytes!,
+                  width: 20,
+                  height: 20,
+                ),
               takePhotoButton,
             ],
           ).paddingSymmetric(horizontal: 20),

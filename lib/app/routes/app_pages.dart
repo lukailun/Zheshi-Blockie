@@ -72,7 +72,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.faceVerification,
-      page: () => const FaceVerificationView(),
+      page: () => FaceVerificationView(),
       binding: FaceVerificationBinding(),
     ),
   ];

@@ -1,24 +1,27 @@
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class FaceVerificationCameraView extends StatefulWidget {
-  const FaceVerificationCameraView({Key? key}) : super(key: key);
+  final void Function(XFile) onPhotoTaken;
+
+  const FaceVerificationCameraView({
+    Key? key,
+    required this.onPhotoTaken,
+  }) : super(key: key);
 
   @override
   State<FaceVerificationCameraView> createState() =>
-      _FaceVerificationCameraViewState();
+      FaceVerificationCameraViewState();
 }
 
-class _FaceVerificationCameraViewState
+class FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
   late List<CameraDescription> _cameras;
   CameraController? _controller;
   Future<void>? _initializeControllerFuture;
-  Uint8List? bytes;
 
   Future<void> _initCamera() async {
     try {
@@ -34,6 +37,13 @@ class _FaceVerificationCameraViewState
       }
     } catch (error) {
       MessageToast.showMessage(error.toString());
+    }
+  }
+
+  void takePhoto() async {
+    XFile? file = await _controller?.takePicture();
+    if (file != null) {
+      widget.onPhotoTaken(file);
     }
   }
 
