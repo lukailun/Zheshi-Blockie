@@ -16,7 +16,7 @@ class FaceVerificationCameraView extends StatefulWidget {
 class _FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
   late List<CameraDescription> _cameras;
-  late CameraController _controller;
+  CameraController? _controller;
   late Future<void> _initializeControllerFuture;
   Uint8List? bytes;
 
@@ -28,7 +28,9 @@ class _FaceVerificationCameraViewState
         return;
       }
       _controller = CameraController(_cameras[0], ResolutionPreset.medium);
-      _initializeControllerFuture = _controller.initialize();
+      if (_controller != null) {
+        _initializeControllerFuture = _controller!.initialize();
+      }
     } catch (error) {
       MessageToast.showMessage(error.toString());
     }
@@ -43,7 +45,7 @@ class _FaceVerificationCameraViewState
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller?.dispose();
   }
 
   @override
@@ -51,8 +53,9 @@ class _FaceVerificationCameraViewState
     return FutureBuilder(
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return CameraPreview(_controller);
+        if (snapshot.connectionState == ConnectionState.done &&
+            _controller != null) {
+          return CameraPreview(_controller!);
         } else {
           return const LoadingIndicator();
         }
