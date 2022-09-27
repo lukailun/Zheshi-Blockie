@@ -61,7 +61,10 @@ class _FaceVerificationCameraViewState
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 _controller != null) {
-              return CameraPreview(_controller!);
+              return Container(
+                color: Colors.white,
+                child: CameraPreview(_controller!),
+              );
             } else {
               return const SizedBox();
             }
