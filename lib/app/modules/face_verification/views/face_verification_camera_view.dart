@@ -72,10 +72,15 @@ class _FaceVerificationCameraViewState
         children: [
           CameraPreview(_controller!),
           GestureDetector(
-            child: const Text('Take Photo'),
-            onTap: () {
+            child: const Text('Take Photo 1'),
+            onTap: () async {
               MessageToast.showMessage('Take Photo');
-              _controller!.startImageStream((image) => {Get.back()});
+              try {
+                final image = await _controller!.takePicture();
+                MessageToast.showMessage("Image: ${image.path}");
+              } catch (e) {
+                MessageToast.showMessage("Error: ${e.toString()}");
+              }
             },
           ),
         ],
