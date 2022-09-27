@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_camera_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
@@ -35,6 +36,16 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         child: const FaceVerificationCameraView(),
       ),
     );
+    final takePhotoButton = SizedBox(
+      height: 48,
+      child: BasicElevatedButton(
+        borderRadius: 8,
+        backgroundColor: Colors.white,
+        textColor: AppThemeData.primaryColor,
+        title: "同意并拍摄上传",
+        onTap: () {},
+      ),
+    ).paddingOnly(bottom: 150);
     return ScreenBoundary(
       padding: 0,
       body: Scaffold(
@@ -49,7 +60,10 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
             children: [
               title,
               subtitle,
+              const Expanded(child: SizedBox()),
               cameraView,
+              const Expanded(child: SizedBox()),
+              takePhotoButton,
             ],
           ).paddingSymmetric(horizontal: 20),
         ),

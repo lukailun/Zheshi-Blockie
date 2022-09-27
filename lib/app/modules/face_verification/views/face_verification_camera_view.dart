@@ -55,7 +55,9 @@ class _FaceVerificationCameraViewState
       child: Container(
         width: min(256, Get.width - 120),
         height: min(256, Get.width - 120),
-        color: Colors.white,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
         child: FutureBuilder(
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
