@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,7 @@ class _FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
   late List<CameraDescription> _cameras;
   CameraController? _controller;
+  String? path;
 
   Future<void> _initCamera() async {
     try {
@@ -71,12 +74,15 @@ class _FaceVerificationCameraViewState
       home: Column(
         children: [
           CameraPreview(_controller!),
+          Image.file(File(path ?? "")),
           GestureDetector(
-            child: const Text('Take Photo 1'),
+            child: const Text('Take 2'),
             onTap: () async {
               MessageToast.showMessage('Take Photo');
               try {
                 final image = await _controller!.takePicture();
+                path = image.path;
+                setState(() {});
                 MessageToast.showMessage("Image: ${image.path}");
               } catch (e) {
                 MessageToast.showMessage("Error: ${e.toString()}");
