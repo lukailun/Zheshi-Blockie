@@ -1,4 +1,4 @@
-import 'package:blockie_app/common/user_info.dart';
+import 'package:blockie_app/models/user_info.dart';
 import 'package:get/get.dart';
 
 class AuthService extends GetxService {
@@ -8,8 +8,6 @@ class AuthService extends GetxService {
   final userInfo = Rxn<UserInfo>();
 
   bool get isLoggedIn => _isLoggedIn.value;
-
-  // UserInfo? get userInfo => _userInfo.value;
 
   void updateUserInfo(UserInfo? newUserInfo) {
     userInfo.value = newUserInfo;

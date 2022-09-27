@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:blockie_app/pages/project_groups.dart';
+import 'package:blockie_app/app/modules/project_groups.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

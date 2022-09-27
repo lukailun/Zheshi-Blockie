@@ -142,4 +142,8 @@ extension TextExtension<T extends Text> on T {
   T withUnderLine() => copyWith(
       style: (style ?? const TextStyle())
           .copyWith(decoration: TextDecoration.underline)) as T;
+
+  T withoutUnderLine() => copyWith(
+      style: (style ?? const TextStyle())
+          .copyWith(decoration: TextDecoration.none)) as T;
 }

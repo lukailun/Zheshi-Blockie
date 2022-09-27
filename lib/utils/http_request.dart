@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'package:blockie_app/common/project_group.dart';
-import 'package:blockie_app/common/project_group_load_info.dart';
+import 'package:blockie_app/models/project_group.dart';
+import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:blockie_app/common/global.dart';
-import 'package:blockie_app/common/user_info.dart';
-import 'package:blockie_app/common/project_info.dart';
-import 'package:blockie_app/common/project_detail_info.dart';
-import 'package:blockie_app/common/nft_info.dart';
-import 'package:blockie_app/common/nft_load_info.dart';
-import 'package:blockie_app/common/project_load_info.dart';
-import 'package:blockie_app/common/issuer_info.dart';
-import 'package:blockie_app/common/project_group_load_info.dart';
+import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/models/project_detail_info.dart';
+import 'package:blockie_app/models/nft_info.dart';
+import 'package:blockie_app/models/nft_load_info.dart';
+import 'package:blockie_app/models/issuer_info.dart';
 
 import 'data_storage.dart';
 
@@ -94,7 +91,7 @@ class HttpRequest{
     }
   }
 
-  static Future<ProjectLoadInfo> loadBrandProjects({String? pageUrl, String? issuerUid}) async {
+  static Future<ProjectGroupLoadInfo> loadBrandGroups({String? pageUrl, String? issuerUid}) async {
     final url = pageUrl == null ? Uri(
         scheme: scheme,
         host: serverHost,
@@ -105,11 +102,11 @@ class HttpRequest{
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       String? nextPageUrl = res['next_page_url'];
-      List<ProjectInfo> projects = [];
+      List<ProjectGroup> projectGroups = [];
       for (final data in res['data']) {
-        projects.add(ProjectInfo.fromJson(data));
+        projectGroups.add(ProjectGroup.fromJson(data));
       }
-      return ProjectLoadInfo(nextPageUrl: nextPageUrl, projects: projects);
+      return ProjectGroupLoadInfo(nextPageUrl: nextPageUrl, projectGroups: projectGroups);
     } else {
       throw Exception('Failed to get projects');
     }
@@ -285,14 +282,14 @@ class HttpRequest{
         host: serverHost,
         path: commandPath + updateUserInfoCommand
     );
-    final response = await http.put(uri, body: {"nickname": username}, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
+    final response = await http.post(uri, body: {"nickname": username}, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
       Global.userInfo = userInfo;
       return userInfo;
     } else {
-      throw Exception('Failed to logout');
+      throw Exception('Failed to update username');
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
@@ -7,7 +8,7 @@ class LoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
         child: CircularProgressIndicator(
-      color: Colors.white,
+      color: AppThemeData.indicatorColor,
     ));
   }
 }

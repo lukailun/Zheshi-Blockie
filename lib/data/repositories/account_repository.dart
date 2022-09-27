@@ -1,4 +1,4 @@
-import '../../common/user_info.dart';
+import '../../models/user_info.dart';
 import '../../utils/http_request.dart';
 
 class AccountRepository {

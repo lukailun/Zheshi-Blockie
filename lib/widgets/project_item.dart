@@ -1,11 +1,47 @@
-import 'package:blockie_app/common/issuer_info.dart';
+import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:blockie_app/common/project_info.dart';
-import 'package:blockie_app/common/project_group.dart';
+import 'package:blockie_app/models/project_info.dart';
+import 'package:blockie_app/models/project_group.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:get/get.dart';
 
 const double imageItemPadding = 16;
 const double groupImageWidth = 280;
+
+Widget createProjectItemMixed(ProjectGroup inGroup, {Function? whenBack,
+bool showBrand=true}) {
+  if (inGroup.type == 1) {
+    return createProjectItemSingle(inGroup.projects[0], whenBack: whenBack,
+    showBrand: showBrand);
+  }
+  return GestureDetector(
+      onTap: () {
+        Get.toNamed("${Routes.projects}?groupUid=${inGroup.uid}")?.then((_){
+          whenBack?.call();
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 32),
+        child: ProjectItem(projectGroup: inGroup, showBrand: showBrand,),
+      )
+  );
+}
+
+Widget createProjectItemSingle(ProjectInfo info, {Function? whenBack,
+  bool showBrand=true}) {
+  return GestureDetector(
+      onTap: () {
+        Get.toNamed("${Routes.project}?projectUid=${info.uid}")?.then((_){
+          whenBack?.call();
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 32),
+        child: ProjectItem(projectInfo: info, showBrand: showBrand,),
+      )
+  );
+}
 
 class ProjectItem extends StatelessWidget{
   ProjectInfo? projectInfo;
@@ -137,7 +173,7 @@ class ProjectItem extends StatelessWidget{
         child: Column(children: [
             cover,
             Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(imageItemPadding),
                 child: textCol,
             )
           ],
