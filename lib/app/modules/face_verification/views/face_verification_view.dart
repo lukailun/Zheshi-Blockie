@@ -17,7 +17,6 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
 
   final _faceVerificationCameraViewKey =
       GlobalKey<FaceVerificationCameraViewState>();
-  Uint8List? _bytes;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,9 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         height: min(256, Get.width - 120),
         child: FaceVerificationCameraView(
           key: _faceVerificationCameraViewKey,
-          onPhotoTaken: (file) {},
+          onPhotoTaken: (file) async {
+            controller.bytes.value = await file.readAsBytes();
+          },
         ),
       ),
     );
@@ -70,12 +71,13 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
               const Expanded(child: SizedBox()),
               cameraView,
               const Expanded(child: SizedBox()),
-              if (_bytes != null)
-                Image.memory(
-                  _bytes!,
+              Obx(
+                () => Image.memory(
+                  controller.bytes.value ?? Uint8List.fromList([]),
                   width: 20,
                   height: 20,
                 ),
+              ),
               takePhotoButton,
             ],
           ).paddingSymmetric(horizontal: 20),
