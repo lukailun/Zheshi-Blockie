@@ -52,22 +52,26 @@ class _FaceVerificationCameraViewState
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(min(256, Get.width - 120) / 2),
-      child: Container(
+      child: SizedBox(
         width: min(256, Get.width - 120),
         height: min(256, Get.width - 120),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: FutureBuilder(
-          future: _initializeControllerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                _controller != null) {
-              return CameraPreview(_controller!);
-            } else {
-              return const SizedBox();
-            }
-          },
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.red,
+            ),
+            FutureBuilder(
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    _controller != null) {
+                  return CameraPreview(_controller!);
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
