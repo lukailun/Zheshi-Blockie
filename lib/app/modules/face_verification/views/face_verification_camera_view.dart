@@ -61,39 +61,11 @@ class _FaceVerificationCameraViewState
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 _controller != null) {
-              return Container(
-                color: Colors.white,
-                child: CameraPreview(_controller!),
-              );
+              return CameraPreview(_controller!);
             } else {
-              return const SizedBox();
+              return Container(color: Colors.white);
             }
           },
-        ),
-      ),
-    );
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(min(256, Get.width - 120) / 2),
-      child: SizedBox(
-        width: min(256, Get.width - 120),
-        height: min(256, Get.width - 120),
-        child: Stack(
-          children: [
-            Container(
-              color: Colors.white,
-            ),
-            FutureBuilder(
-              future: _initializeControllerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    _controller != null) {
-                  return CameraPreview(_controller!);
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
-          ],
         ),
       ),
     );
