@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class FaceVerificationCameraView extends StatefulWidget {
@@ -17,7 +16,8 @@ class FaceVerificationCameraView extends StatefulWidget {
 class _FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
   late List<CameraDescription> _cameras;
-  CameraController? _controller;
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
   Uint8List? bytes;
 
   Future<void> _initCamera() async {
@@ -27,25 +27,8 @@ class _FaceVerificationCameraViewState
       if (_cameras.isEmpty) {
         return;
       }
-      _controller = CameraController(_cameras[0], ResolutionPreset.max);
-      MessageToast.showMessage('InitCamera');
-      _controller?.initialize().then((_) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {});
-      }).catchError((error) {
-        if (error is CameraException) {
-          switch (error.code) {
-            case 'CameraAccessDenied':
-              print('User denied camera access.');
-              break;
-            default:
-              print('Handle other errors.');
-              break;
-          }
-        }
-      });
+      _controller = CameraController(_cameras[0], ResolutionPreset.medium);
+      _initializeControllerFuture = _controller.initialize();
     } catch (error) {
       MessageToast.showMessage(error.toString());
     }
@@ -60,42 +43,20 @@ class _FaceVerificationCameraViewState
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null) {
-      return Container();
-    }
-    if (!_controller!.value.isInitialized) {
-      return Container();
-    }
-    return MaterialApp(
-      home: Column(
-        children: [
-          CameraPreview(_controller!),
-          if (bytes != null)
-            Image.memory(
-              bytes!,
-              width: 200,
-              height: 200,
-            ),
-          GestureDetector(
-            child: const Text('Take Photo'),
-            onTap: () async {
-              MessageToast.showMessage('Take Photo');
-              try {
-                final image = await _controller!.takePicture();
-                bytes = await image.readAsBytes();
-                setState(() {});
-              } catch (e) {
-                MessageToast.showMessage("Error: ${e.toString()}");
-              }
-            },
-          ),
-        ],
-      ),
+    return FutureBuilder(
+      future: _initializeControllerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return CameraPreview(_controller);
+        } else {
+          return const LoadingIndicator();
+        }
+      },
     );
   }
 }
