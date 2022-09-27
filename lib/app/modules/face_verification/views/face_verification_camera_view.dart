@@ -3,8 +3,6 @@ import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-late List<CameraDescription> _cameras;
-
 class FaceVerificationCameraView extends StatefulWidget {
   const FaceVerificationCameraView({Key? key}) : super(key: key);
 
@@ -15,21 +13,26 @@ class FaceVerificationCameraView extends StatefulWidget {
 
 class _FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
-  CameraController? controller;
+  late List<CameraDescription> _cameras;
+  CameraController? _controller;
 
   Future<void> _initCamera() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       _cameras = await availableCameras();
-      controller = CameraController(_cameras[0], ResolutionPreset.max);
-      controller?.initialize().then((_) {
+      if (_cameras.isEmpty) {
+        return;
+      }
+      _controller = CameraController(_cameras[0], ResolutionPreset.max);
+      MessageToast.showMessage('InitCamera');
+      _controller?.initialize().then((_) {
         if (!mounted) {
           return;
         }
         setState(() {});
-      }).catchError((Object e) {
-        if (e is CameraException) {
-          switch (e.code) {
+      }).catchError((error) {
+        if (error is CameraException) {
+          switch (error.code) {
             case 'CameraAccessDenied':
               print('User denied camera access.');
               break;
@@ -39,8 +42,8 @@ class _FaceVerificationCameraViewState
           }
         }
       });
-    } catch (e) {
-      MessageToast.showMessage(e.toString());
+    } catch (error) {
+      MessageToast.showMessage(error.toString());
     }
   }
 
@@ -52,25 +55,30 @@ class _FaceVerificationCameraViewState
 
   @override
   void dispose() {
-    controller?.dispose();
     super.dispose();
+    _controller?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null) {
+    if (_controller == null) {
       return Container();
     }
-    if (!controller!.value.isInitialized) {
+    if (!_controller!.value.isInitialized) {
       return Container();
     }
     return MaterialApp(
-      home: GestureDetector(
-        child: CameraPreview(controller!),
-        onTap: () {
-          MessageToast.showMessage('Take Photo');
-          controller!.startImageStream((image) => {Get.back()});
-        },
+      home: Column(
+        children: [
+          CameraPreview(_controller!),
+          GestureDetector(
+            child: const Text('Take Photo'),
+            onTap: () {
+              MessageToast.showMessage('Take Photo');
+              _controller!.startImageStream((image) => {Get.back()});
+            },
+          ),
+        ],
       ),
     );
   }

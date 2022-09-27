@@ -28,7 +28,7 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
     ).paddingOnly(top: 21);
     final cameraView = Container(
       width: 200,
-      height: 200,
+      height: 300,
       child: FaceVerificationCameraView(),
     );
     return ScreenBoundary(
