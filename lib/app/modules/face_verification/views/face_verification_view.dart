@@ -71,11 +71,13 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
               const Expanded(child: SizedBox()),
               cameraView,
               const Expanded(child: SizedBox()),
-              Obx(
-                () => Image.memory(
-                  controller.bytes.value ?? Uint8List.fromList([]),
-                  width: 20,
-                  height: 20,
+              Center(
+                child: Obx(
+                  () => Image.memory(
+                    controller.bytes.value ?? Uint8List.fromList([]),
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
               ),
               takePhotoButton,
