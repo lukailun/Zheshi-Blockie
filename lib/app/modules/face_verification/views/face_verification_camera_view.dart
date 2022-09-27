@@ -50,6 +50,21 @@ class _FaceVerificationCameraViewState
 
   @override
   Widget build(BuildContext context) {
+    return SizedBox(
+      width: min(256, Get.width - 120),
+      height: min(256, Get.width - 120),
+      child: FutureBuilder(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              _controller != null) {
+            return CameraPreview(_controller!);
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
+    );
     return ClipRRect(
       borderRadius: BorderRadius.circular(min(256, Get.width - 120) / 2),
       child: SizedBox(
@@ -65,11 +80,7 @@ class _FaceVerificationCameraViewState
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     _controller != null) {
-                  return SizedBox(
-                    width: min(256, Get.width - 120),
-                    height: min(256, Get.width - 120),
-                    child: CameraPreview(_controller!),
-                  );
+                  return CameraPreview(_controller!);
                 } else {
                   return const SizedBox();
                 }
