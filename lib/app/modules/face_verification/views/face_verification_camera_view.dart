@@ -1,6 +1,6 @@
+import 'dart:math';
 import 'dart:typed_data';
-
-import 'package:blockie_app/widgets/loading_indicator.dart';
+import 'package:get/get.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class _FaceVerificationCameraViewState
     extends State<FaceVerificationCameraView> {
   late List<CameraDescription> _cameras;
   CameraController? _controller;
-  late Future<void> _initializeControllerFuture;
+  Future<void>? _initializeControllerFuture;
   Uint8List? bytes;
 
   Future<void> _initCamera() async {
@@ -50,16 +50,24 @@ class _FaceVerificationCameraViewState
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            _controller != null) {
-          return CameraPreview(_controller!);
-        } else {
-          return const LoadingIndicator();
-        }
-      },
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(min(256, Get.width - 120) / 2),
+      child: Container(
+        width: min(256, Get.width - 120),
+        height: min(256, Get.width - 120),
+        color: Colors.white,
+        child: FutureBuilder(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                _controller != null) {
+              return CameraPreview(_controller!);
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
+      ),
     );
   }
 }
