@@ -1,6 +1,8 @@
+import 'package:blockie_app/app/modules/face_verification/views/face_verification_camera_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:camera/camera.dart';
 import 'package:blockie_app/app/modules/face_verification/controllers/face_verification_controller.dart';
 
 import '../../../../models/app_theme_data.dart';
@@ -24,6 +26,11 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
           .fontSize(18)
           .fontWeight(FontWeightCompat.regular),
     ).paddingOnly(top: 21);
+    final cameraView = Container(
+      width: 200,
+      height: 200,
+      child: FaceVerificationCameraView(),
+    );
     return ScreenBoundary(
       padding: 0,
       body: Scaffold(
@@ -38,6 +45,7 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
             children: [
               title,
               subtitle,
+              cameraView,
             ],
           ).paddingSymmetric(horizontal: 20),
         ),
