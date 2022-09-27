@@ -58,14 +58,18 @@ class _FaceVerificationCameraViewState
         child: Stack(
           children: [
             Container(
-              color: Colors.red,
+              color: Colors.white,
             ),
             FutureBuilder(
               future: _initializeControllerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     _controller != null) {
-                  return CameraPreview(_controller!);
+                  return SizedBox(
+                    width: min(256, Get.width - 120),
+                    height: min(256, Get.width - 120),
+                    child: CameraPreview(_controller!),
+                  );
                 } else {
                   return const SizedBox();
                 }
