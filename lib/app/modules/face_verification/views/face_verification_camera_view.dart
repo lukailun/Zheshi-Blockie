@@ -80,7 +80,7 @@ class _FaceVerificationCameraViewState
             height: 200,
           ),
           GestureDetector(
-            child: const Text('Take 3'),
+            child: const Text('Take 4'),
             onTap: () async {
               MessageToast.showMessage('Take Photo');
               try {
