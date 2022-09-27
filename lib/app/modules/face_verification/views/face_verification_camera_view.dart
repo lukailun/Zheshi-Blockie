@@ -82,14 +82,13 @@ class _FaceVerificationCameraViewState
               height: 200,
             ),
           GestureDetector(
-            child: const Text('Take 5'),
+            child: const Text('Take Photo'),
             onTap: () async {
               MessageToast.showMessage('Take Photo');
               try {
                 final image = await _controller!.takePicture();
                 bytes = await image.readAsBytes();
                 setState(() {});
-                MessageToast.showMessage("Image: $bytes");
               } catch (e) {
                 MessageToast.showMessage("Error: ${e.toString()}");
               }
