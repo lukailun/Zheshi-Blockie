@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
@@ -10,7 +11,9 @@ import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/nft_load_info.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'data_storage.dart';
+import 'package:http_parser/http_parser.dart';
 
 const scheme = "https";
 const serverHost = "s.blockie.zheshi.tech";
@@ -60,7 +63,8 @@ class HttpRequest {
         scheme: scheme,
         host: serverHost,
         path: commandPath + getUserInfoCommand);
-    final response = await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
+    final response = await dio.getUri(url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
@@ -170,7 +174,9 @@ class HttpRequest {
         path: '$commandPath$getProjectsCommand/$projectUid');
     final response = token == null
         ? await dio.getUri(url)
-        : await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));;
+        : await dio.getUri(url,
+            options: Options(headers: {'Authorization': 'Bearer $token'}));
+    ;
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       return ProjectDetailInfo.fromJson(res);
@@ -198,7 +204,8 @@ class HttpRequest {
         scheme: scheme,
         host: serverHost,
         path: commandPath + getUserQRCodeCommand);
-    final response = await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
+    final response = await dio.getUri(url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       String qrcode = HttpRequest._getResponseData(response);
       return qrcode;
@@ -253,7 +260,8 @@ class HttpRequest {
         scheme: scheme,
         host: serverHost,
         path: "$commandPath/activities/$uid/mint");
-    final response = await dio.postUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
+    final response = await dio.postUri(url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       return NftInfo.fromJson(res);
@@ -265,7 +273,10 @@ class HttpRequest {
   Future<bool> logout() async {
     final uri = Uri(
         scheme: scheme, host: serverHost, path: commandPath + logoutCommand);
-    final response = await dio.deleteUri(uri, options: Options(headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'}));
+    final response = await dio.deleteUri(uri,
+        options: Options(headers: {
+          'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'
+        }));
     if (response.statusCode == 200) {
       AuthService.to.logout();
       return true;
@@ -281,7 +292,8 @@ class HttpRequest {
         path: commandPath + updateUserInfoCommand);
     final data = {"nickname": username};
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
-    final response = await dio.postUri(uri, data: data, options: Options(headers: headers));
+    final response =
+        await dio.postUri(uri, data: data, options: Options(headers: headers));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
@@ -292,16 +304,22 @@ class HttpRequest {
     }
   }
 
-  Future<void> uploadFacePhoto() async {
+  Future<void> uploadFacePhoto(List<int> bytes) async {
     final uri = Uri(
         scheme: scheme,
         host: serverHost,
         path: commandPath + uploadFacePhotoCommand);
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
-    final response = await dio.postUri(uri, options: Options(headers: headers));
+    final image = Image.memory(bytes as Uint8List);
+    var formData = FormData.fromMap({
+      "face": MultipartFile.fromBytes(bytes,
+          filename: "img.jpg", contentType: MediaType("image", "jpeg"))
+    });
+    final response = await dio.postUri(uri,
+        data: formData, options: Options(headers: headers));
     if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      MessageToast.showMessage(res.toString());
+      // final res = HttpRequest._getResponseData(response);
+      MessageToast.showMessage(response.toString());
       // UserInfo userInfo = UserInfo.fromJson(res);
       // Global.userInfo = userInfo;
       // return userInfo;

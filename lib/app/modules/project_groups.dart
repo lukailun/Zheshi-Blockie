@@ -55,8 +55,6 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   }
 
   void _showLicenseDialog() {
-    Get.toNamed(Routes.faceVerification);
-    return;
     Get.dialog(LicenseDialog(
       onTermsOfServiceTap: () {
         Get.back();
@@ -101,8 +99,8 @@ class _ProjectGroupsState extends State<ProjectGroups> {
                 if (_userInfo == null) {
                   _showLicenseDialog();
                 } else {
-                  // Navigator.of(context).pushNamed("/user", arguments: _userInfo);
-                  Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
+                  Get.toNamed(Routes.faceVerification);
+                  // Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
                 }
               }, // Image tapped
               child: CircleAvatar(

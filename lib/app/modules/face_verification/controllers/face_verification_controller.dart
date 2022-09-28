@@ -7,8 +7,8 @@ class FaceVerificationController extends GetxController {
   final bytes = Rxn<Uint8List>();
   FaceVerificationController({required this.repository});
 
-  void uploadFacePhoto() {
-    repository.uploadFacePhoto().then((isSuccessful) {
+  void uploadFacePhoto(List<int> bytes) {
+    repository.uploadFacePhoto(bytes).then((isSuccessful) {
 
     });
   }

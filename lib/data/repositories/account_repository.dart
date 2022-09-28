@@ -11,5 +11,5 @@ class AccountRepository {
   Future<UserInfo> updateUsername(String username) =>
       client.updateUsername(username);
 
-  Future<void> uploadFacePhoto() => client.uploadFacePhoto();
+  Future<void> uploadFacePhoto(List<int> bytes) => client.uploadFacePhoto(bytes);
 }
