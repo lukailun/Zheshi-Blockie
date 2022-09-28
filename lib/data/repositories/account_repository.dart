@@ -10,4 +10,6 @@ class AccountRepository {
 
   Future<UserInfo> updateUsername(String username) =>
       client.updateUsername(username);
+
+  Future<void> uploadFacePhoto() => client.uploadFacePhoto();
 }

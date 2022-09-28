@@ -39,7 +39,8 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         child: FaceVerificationCameraView(
           key: _faceVerificationCameraViewKey,
           onPhotoTaken: (file) async {
-            controller.bytes.value = await file.readAsBytes();
+            controller.uploadFacePhoto();
+            // controller.bytes.value = await file.readAsBytes();
           },
         ),
       ),

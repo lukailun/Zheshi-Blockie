@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:http/http.dart' as http;
+import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/models/project_detail_info.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/nft_load_info.dart';
 import 'package:blockie_app/models/issuer_info.dart';
-
+import 'package:dio/dio.dart';
 import 'data_storage.dart';
 
 const scheme = "https";
@@ -24,10 +24,13 @@ const getUserQRCodeCommand = "/qrcode";
 const getUserNftListCommand = "/NFTs";
 const logoutCommand = "/logout";
 const updateUserInfoCommand = "/user";
+const uploadFacePhotoCommand = "/face";
 
-class HttpRequest{
-  static dynamic _getResponseData(http.Response response) {
-    final res = jsonDecode(utf8.decode(response.bodyBytes));
+class HttpRequest {
+  static final dio = Dio();
+
+  static dynamic _getResponseData(Response response) {
+    final res = jsonDecode(response.toString());
     String status = res['status'];
     if (status == 'success') {
       return res['data'];
@@ -37,13 +40,10 @@ class HttpRequest{
   }
 
   static Future<Map<String, dynamic>> login(String code) async {
-    final url = Uri(
-      scheme: scheme,
-      host: serverHost,
-      path: commandPath + loginCommand
-    );
+    final url =
+        Uri(scheme: scheme, host: serverHost, path: commandPath + loginCommand);
     final data = {'code': code};
-    final response = await http.post(url, body: data);
+    final response = await dio.postUri(url, data: data);
     if (response.statusCode == 200) {
       AuthService.to.login();
       final res = HttpRequest._getResponseData(response);
@@ -56,15 +56,11 @@ class HttpRequest{
   }
 
   static Future<UserInfo> getUserInfo(String token) async {
-    // if (Global.userInfo != null) {
-    //   return Global.userInfo!;
-    // }
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: commandPath + getUserInfoCommand
-    );
-    final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+        path: commandPath + getUserInfoCommand);
+    final response = await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
@@ -79,9 +75,8 @@ class HttpRequest{
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: "$commandPath$getOtherUserInfoCommand/$uid"
-    );
-    final response = await http.get(url);
+        path: "$commandPath$getOtherUserInfoCommand/$uid");
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
@@ -91,14 +86,16 @@ class HttpRequest{
     }
   }
 
-  static Future<ProjectGroupLoadInfo> loadBrandGroups({String? pageUrl, String? issuerUid}) async {
-    final url = pageUrl == null ? Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + getProjectsCommand,
-        queryParameters: {'issuer_uid': issuerUid}
-    ) : Uri.parse(pageUrl);
-    final response = await http.get(url);
+  static Future<ProjectGroupLoadInfo> loadBrandGroups(
+      {String? pageUrl, String? issuerUid}) async {
+    final url = pageUrl == null
+        ? Uri(
+            scheme: scheme,
+            host: serverHost,
+            path: commandPath + getProjectsCommand,
+            queryParameters: {'issuer_uid': issuerUid})
+        : Uri.parse(pageUrl);
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       String? nextPageUrl = res['next_page_url'];
@@ -106,19 +103,22 @@ class HttpRequest{
       for (final data in res['data']) {
         projectGroups.add(ProjectGroup.fromJson(data));
       }
-      return ProjectGroupLoadInfo(nextPageUrl: nextPageUrl, projectGroups: projectGroups);
+      return ProjectGroupLoadInfo(
+          nextPageUrl: nextPageUrl, projectGroups: projectGroups);
     } else {
       throw Exception('Failed to get projects');
     }
   }
 
-  static Future<ProjectGroupLoadInfo> loadProjectGroups({String? pageUrl}) async {
-    final url = pageUrl == null ? Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + getProjectsCommand
-    ) : Uri.parse(pageUrl);
-    final response = await http.get(url);
+  static Future<ProjectGroupLoadInfo> loadProjectGroups(
+      {String? pageUrl}) async {
+    final url = pageUrl == null
+        ? Uri(
+            scheme: scheme,
+            host: serverHost,
+            path: commandPath + getProjectsCommand)
+        : Uri.parse(pageUrl);
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       String? nextPageUrl = res['next_page_url'];
@@ -126,20 +126,21 @@ class HttpRequest{
       for (final data in res['data']) {
         projectGroups.add(ProjectGroup.fromJson(data));
       }
-      return ProjectGroupLoadInfo(nextPageUrl: nextPageUrl, projectGroups: projectGroups);
+      return ProjectGroupLoadInfo(
+          nextPageUrl: nextPageUrl, projectGroups: projectGroups);
     } else {
       throw Exception('Failed to get project groups');
     }
   }
 
-  static Future<ProjectGroup> loadProjectGroup({required String groupUid}) async {
+  static Future<ProjectGroup> loadProjectGroup(
+      {required String groupUid}) async {
     final url = Uri(
         scheme: scheme,
         host: serverHost,
         path: commandPath + getProjectsCommand,
-        queryParameters: {'group_uid': groupUid}
-    );
-    final response = await http.get(url);
+        queryParameters: {'group_uid': groupUid});
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       if (res['data'].length > 0) {
@@ -152,7 +153,8 @@ class HttpRequest{
     }
   }
 
-  static Future<ProjectDetailInfo> loadProjectDetail({String? uid, String? issuerUid, String? token}) async {
+  static Future<ProjectDetailInfo> loadProjectDetail(
+      {String? uid, String? issuerUid, String? token}) async {
     String? projectUid;
     if (uid != null) {
       projectUid = uid;
@@ -165,9 +167,10 @@ class HttpRequest{
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: '$commandPath$getProjectsCommand/$projectUid'
-    );
-    final response = token == null ? await http.get(url) : await http.get(url, headers: {'Authorization': 'Bearer $token'});
+        path: '$commandPath$getProjectsCommand/$projectUid');
+    final response = token == null
+        ? await dio.getUri(url)
+        : await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));;
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       return ProjectDetailInfo.fromJson(res);
@@ -180,9 +183,8 @@ class HttpRequest{
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: '$commandPath$getIssuerInfoCommand/$uid'
-    );
-    final response = await http.get(url);
+        path: '$commandPath$getIssuerInfoCommand/$uid');
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       return IssuerInfo.fromJson(res);
@@ -195,9 +197,8 @@ class HttpRequest{
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: commandPath + getUserQRCodeCommand
-    );
-    final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+        path: commandPath + getUserQRCodeCommand);
+    final response = await dio.getUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       String qrcode = HttpRequest._getResponseData(response);
       return qrcode;
@@ -206,14 +207,16 @@ class HttpRequest{
     }
   }
 
-  static Future<NftLoadInfo> loadUserNfts({String? userUid, String? pageUrl}) async {
-    final url = pageUrl == null ? Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + getUserNftListCommand,
-        queryParameters: userUid == null ? null : {'user_uid': userUid}
-    ) : Uri.parse(pageUrl);
-    final response = await http.get(url);
+  static Future<NftLoadInfo> loadUserNfts(
+      {String? userUid, String? pageUrl}) async {
+    final url = pageUrl == null
+        ? Uri(
+            scheme: scheme,
+            host: serverHost,
+            path: commandPath + getUserNftListCommand,
+            queryParameters: userUid == null ? null : {'user_uid': userUid})
+        : Uri.parse(pageUrl);
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       final String? nextPageUrl = res['next_page_url'];
@@ -232,9 +235,8 @@ class HttpRequest{
         scheme: scheme,
         host: serverHost,
         path: commandPath + getUserNftListCommand,
-        queryParameters: {'uid': uid}
-    );
-    final response = await http.get(url);
+        queryParameters: {'uid': uid});
+    final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       if (res['data'].length > 0) {
@@ -250,9 +252,8 @@ class HttpRequest{
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: "$commandPath/activities/$uid/mint"
-    );
-    final response = await http.post(url, headers: {'Authorization': 'Bearer $token'});
+        path: "$commandPath/activities/$uid/mint");
+    final response = await dio.postUri(url, options: Options(headers: {'Authorization': 'Bearer $token'}));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       return NftInfo.fromJson(res);
@@ -263,11 +264,8 @@ class HttpRequest{
 
   Future<bool> logout() async {
     final uri = Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + logoutCommand
-    );
-    final response = await http.delete(uri, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
+        scheme: scheme, host: serverHost, path: commandPath + logoutCommand);
+    final response = await dio.deleteUri(uri, options: Options(headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'}));
     if (response.statusCode == 200) {
       AuthService.to.logout();
       return true;
@@ -280,9 +278,10 @@ class HttpRequest{
     final uri = Uri(
         scheme: scheme,
         host: serverHost,
-        path: commandPath + updateUserInfoCommand
-    );
-    final response = await http.post(uri, body: {"nickname": username}, headers: {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'});
+        path: commandPath + updateUserInfoCommand);
+    final data = {"nickname": username};
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.postUri(uri, data: data, options: Options(headers: headers));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
       UserInfo userInfo = UserInfo.fromJson(res);
@@ -290,6 +289,24 @@ class HttpRequest{
       return userInfo;
     } else {
       throw Exception('Failed to update username');
+    }
+  }
+
+  Future<void> uploadFacePhoto() async {
+    final uri = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + uploadFacePhotoCommand);
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.postUri(uri, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      MessageToast.showMessage(res.toString());
+      // UserInfo userInfo = UserInfo.fromJson(res);
+      // Global.userInfo = userInfo;
+      // return userInfo;
+    } else {
+      throw Exception('Failed to upload face photo');
     }
   }
 }
