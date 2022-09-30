@@ -24,8 +24,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
       child: Obx(() => BasicElevatedButton(
             title: '保存',
             isEnabled: controller.saveButtonIsEnabled(),
-            onTap: () =>
-                controller.updateUsername(controller.entryNumber.value),
+            onTap: () => controller.updateRegistrationInfo(),
           )),
     );
     final header = Row(
@@ -39,28 +38,49 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
       width: double.infinity,
       height: 62,
       child: Center(
-        child: BasicTextField(
-          autofocus: true,
-          hintText: "如：KN9901",
-          showsUnderline: true,
-          text: controller.initialName.value,
-          onValueChanged: (text) => controller.entryNumber.value = text,
+        child: Obx(
+          () => BasicTextField(
+            autofocus: true,
+            hintText: "如：KN9901",
+            showsUnderline: true,
+            text: controller.initialEntryNumber.value,
+            onValueChanged: (text) => controller.newEntryNumber.value = text,
+          ),
         ),
       ),
     );
-    final photoGridView = GridView(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 1,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
+    final uploadView = GestureDetector(
+      onTap: () => controller.goToFaceVerification(),
+      child: Center(
+        child: Image.asset('images/common/add.png'),
+      ).outlined(),
+    );
+    final photoGridView = Obx(
+      () => GridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 1,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+        ),
+        shrinkWrap: true,
+        children: controller.facePaths
+                .map(
+                  (it) => SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        it.hostAdded,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ).outlined(),
+                )
+                .toList() +
+            [uploadView],
       ),
-      shrinkWrap: true,
-      children: [
-        Center(
-          child: Image.asset('images/common/add.png'),
-        ).outlined(),
-      ],
     );
     return ScreenBoundary(
       padding: 0,

@@ -1,5 +1,7 @@
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
+import 'package:blockie_app/app/modules/event/views/event_view.dart';
+import 'package:blockie_app/app/modules/event/bindings/event_binding.dart';
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
 import 'package:blockie_app/app/modules/update_username/views/update_username_view.dart';
@@ -27,10 +29,6 @@ class AppPages {
       page: () => const ProjectGroups(),
     ),
     GetPage(
-      name: Routes.projects,
-      page: () => const Projects(),
-    ),
-    GetPage(
       name: Routes.user,
       page: () => const UserPage(),
     ),
@@ -39,8 +37,8 @@ class AppPages {
       page: () => const BrandPage(),
     ),
     GetPage(
-      name: Routes.project,
-      page: () => const ProjectPage(),
+      name: Routes.projectDetails,
+      page: () => const ProjectDetailsPage(),
     ),
     GetPage(
       name: Routes.imageView,
@@ -74,6 +72,11 @@ class AppPages {
       name: Routes.faceVerification,
       page: () => FaceVerificationView(),
       binding: FaceVerificationBinding(),
+    ),
+    GetPage(
+      name: Routes.event,
+      page: () => const EventContainerView(),
+      binding: EventBinding(),
     ),
   ];
 }

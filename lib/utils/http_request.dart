@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:typed_data';
+import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/models/project_detail_info.dart';
@@ -11,7 +10,7 @@ import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/nft_load_info.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import '../app/modules/event/models/event.dart';
 import 'data_storage.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -28,6 +27,9 @@ const getUserNftListCommand = "/NFTs";
 const logoutCommand = "/logout";
 const updateUserInfoCommand = "/user";
 const uploadFacePhotoCommand = "/face";
+const getProjectCommand = "/groups/@/poster";
+const getRegistrationInfoCommand = "/groups/@/workout";
+const updateRegistrationInfoCommand = "/groups/@/workout";
 
 class HttpRequest {
   static final dio = Dio();
@@ -304,27 +306,74 @@ class HttpRequest {
     }
   }
 
-  Future<void> uploadFacePhoto(List<int> bytes) async {
+  Future<void> uploadFacePhoto(List<int> bytes, String filename) async {
     final uri = Uri(
         scheme: scheme,
         host: serverHost,
         path: commandPath + uploadFacePhotoCommand);
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
-    final image = Image.memory(bytes as Uint8List);
     var formData = FormData.fromMap({
       "face": MultipartFile.fromBytes(bytes,
-          filename: "img.jpg", contentType: MediaType("image", "jpeg"))
+          filename: filename, contentType: MediaType("image", "jpeg"))
     });
     final response = await dio.postUri(uri,
         data: formData, options: Options(headers: headers));
     if (response.statusCode == 200) {
-      // final res = HttpRequest._getResponseData(response);
-      MessageToast.showMessage(response.toString());
+      final res = HttpRequest._getResponseData(response);
       // UserInfo userInfo = UserInfo.fromJson(res);
       // Global.userInfo = userInfo;
       // return userInfo;
     } else {
       throw Exception('Failed to upload face photo');
+    }
+  }
+
+  Future<Event> getEvent(String ID) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + getProjectCommand.replaceFirst("@", ID),
+        queryParameters: {'uid': ID});
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.getUri(url, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      Event event = Event.fromJson(res);
+      return event;
+    } else {
+      throw Exception('Failed to get event');
+    }
+  }
+
+  Future<RegistrationInfo> getRegistrationInfo(String ID) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + getRegistrationInfoCommand.replaceFirst("@", ID),
+        queryParameters: {'uid': ID});
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.getUri(url, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      RegistrationInfo registrationInfo = RegistrationInfo.fromJson(res);
+      return registrationInfo;
+    } else {
+      throw Exception('Failed to getRegistrationInfo');
+    }
+  }
+
+  Future<bool> updateRegistrationInfo(String ID, String number) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + updateRegistrationInfoCommand.replaceFirst("@", ID),
+        queryParameters: {'uid': ID, 'number': number});
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.postUri(url, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to updateRegistrationInfo');
     }
   }
 }

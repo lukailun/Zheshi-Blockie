@@ -17,7 +17,7 @@ bool showBrand=true}) {
   }
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.projects}?groupUid=${inGroup.uid}")?.then((_){
+        Get.toNamed("${Routes.event}?groupUid=${inGroup.uid}")?.then((_){
           whenBack?.call();
         });
       },
@@ -32,7 +32,7 @@ Widget createProjectItemSingle(ProjectInfo info, {Function? whenBack,
   bool showBrand=true}) {
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.project}?projectUid=${info.uid}")?.then((_){
+        Get.toNamed("${Routes.projectDetails}?projectUid=${info.uid}")?.then((_){
           whenBack?.call();
         });
       },

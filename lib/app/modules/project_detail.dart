@@ -42,14 +42,14 @@ const Map<MintState, String> mintToText = {
   MintState.minting: "正在铸造"
 };
 
-class ProjectPage extends StatefulWidget {
-  const ProjectPage({Key? key}) : super(key: key);
+class ProjectDetailsPage extends StatefulWidget {
+  const ProjectDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _ProjectPageState createState() => _ProjectPageState();
+  _ProjectDetailsPageState createState() => _ProjectDetailsPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage> {
+class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   bool _showNftCard = false;
   bool _showMintInfo = false;
   NftInfo? _mintedNft;

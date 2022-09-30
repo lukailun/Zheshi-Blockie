@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 extension WidgetOutlineExtension on Widget {
   Widget outlined() => Container(
@@ -9,8 +10,8 @@ extension WidgetOutlineExtension on Widget {
           ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: this,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          child: paddingAll(8),
         ),
       );
 }

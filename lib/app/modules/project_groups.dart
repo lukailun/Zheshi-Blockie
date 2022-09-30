@@ -99,8 +99,8 @@ class _ProjectGroupsState extends State<ProjectGroups> {
                 if (_userInfo == null) {
                   _showLicenseDialog();
                 } else {
-                  Get.toNamed(Routes.faceVerification);
-                  // Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
+                  // Navigator.of(context).pushNamed("/user", arguments: _userInfo);
+                  Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
                 }
               }, // Image tapped
               child: CircleAvatar(

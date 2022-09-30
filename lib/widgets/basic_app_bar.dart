@@ -15,6 +15,7 @@ enum AppBarButtonStyle {
 class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final String? title;
   final bool showsBackButton;
+  final bool showsLogo;
   final List<AppBarButtonItem>? actionItems;
   final AppBarButtonStyle buttonStyle;
 
@@ -22,9 +23,14 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     Key? key,
     this.title,
     this.showsBackButton = true,
+    this.showsLogo = false,
     this.actionItems,
     this.buttonStyle = AppBarButtonStyle.elevated,
   }) : super(key: key);
+
+  double get toolbarHeight => showsLogo ? 120 : 80;
+
+  double get paddingTop => showsLogo ? 30 : 0;
 
   @override
   Widget build(BuildContext context) {
@@ -54,28 +60,35 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
               child: button,
             ).paddingOnly(right: 13);
     }).toList();
+    final backButton = Visibility(
+      visible: showsBackButton,
+      child: BasicFlatButton(
+        assetName: "images/app_bar/back.png",
+        size: 34,
+        onTap: () => Get.back(),
+      ).paddingOnly(left: 22),
+    );
+    final logo = Visibility(
+      visible: showsLogo,
+      child: Image.asset(
+        "images/app_bar/logo.png",
+      ).paddingOnly(left: 22),
+    );
     return AppBar(
-      leading: Visibility(
-        visible: showsBackButton,
-        child: BasicFlatButton(
-          assetName: "images/app_bar/back.png",
-          size: 34,
-          onTap: () => Get.back(),
-        ).paddingOnly(left: 22),
-      ),
-      leadingWidth: 56,
+      leading: showsLogo ? logo : backButton,
+      leadingWidth: showsLogo ? double.infinity : 56,
       actions: actions?..add(const SizedBox(width: 9)),
       backgroundColor: Colors.transparent,
       centerTitle: true,
-      toolbarHeight: 80,
+      toolbarHeight: toolbarHeight,
       title: Text(
         title ?? '',
         maxLines: 2,
         textAlign: TextAlign.center,
       ).textColor(Colors.white).fontSize(20).fontWeight(FontWeightCompat.bold),
-    );
+    ).paddingOnly(top: paddingTop);
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 }

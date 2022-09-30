@@ -2,10 +2,10 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   static const initial = '/';
-  static const projects = '/projects';
+  static const event = '/event';
   static const user = '/user';
   static const brand = '/brand';
-  static const project = '/project';
+  static const projectDetails = '/project_details';
   static const imageView = '/image_view';
   static const nft = '/nft';
   static const settings = '/settings';

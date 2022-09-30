@@ -39,9 +39,9 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         child: FaceVerificationCameraView(
           key: _faceVerificationCameraViewKey,
           onPhotoTaken: (file) async {
-            controller.bytes.value = await file.readAsBytes();
             final bytes = await file.readAsBytes();
-            controller.uploadFacePhoto(bytes);
+            final filename = file.name;
+            controller.uploadFacePhoto(bytes, filename);
           },
         ),
       ),
@@ -73,15 +73,6 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
               const Expanded(child: SizedBox()),
               cameraView,
               const Expanded(child: SizedBox()),
-              Center(
-                child: Obx(
-                  () => Image.memory(
-                    controller.bytes.value ?? Uint8List.fromList([]),
-                    width: 100,
-                    height: 100,
-                  ),
-                ),
-              ),
               takePhotoButton,
             ],
           ).paddingSymmetric(horizontal: 20),

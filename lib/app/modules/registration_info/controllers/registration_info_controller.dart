@@ -1,33 +1,57 @@
-import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 
-import '../../../routes/app_pages.dart';
-
 class RegistrationInfoController extends GetxController {
-  final AccountRepository repository;
-  final initialName = (AuthService.to.userInfo.value?.nickname ?? "").obs;
-  final entryNumber = ''.obs;
+  final AccountRepository accountRepository;
+  final ProjectRepository projectRepository;
 
-  RegistrationInfoController({required this.repository});
+  final initialEntryNumber = ''.obs;
+  final newEntryNumber = ''.obs;
+  final facePaths = <String>[].obs;
+
+  final _ID = Get.parameters[RegistrationInfoParameter.ID] ?? "";
+
+  RegistrationInfoController({
+    required this.accountRepository,
+    required this.projectRepository,
+  });
 
   @override
   void onInit() {
     super.onInit();
-    entryNumber.value = initialName.value;
+    _getRegistrationInfo();
   }
 
   bool saveButtonIsEnabled() {
-    final notEmpty = entryNumber.value.isNotEmpty;
-    return notEmpty;
+    final notEmpty = newEntryNumber.value.isNotEmpty;
+    final notSame = newEntryNumber.value != initialEntryNumber.value;
+    return notEmpty && notSame;
   }
 
-  void updateUsername(String username) {
-    // repository.updateUsername(username).then((userInfo) {
-    //   initialName.value = userInfo.nickname;
-    //   newName.value = userInfo.nickname;
-    //   AuthService.to.updateUserInfo(userInfo);
-    //   MessageToast.showMessage('修改成功');
-    // });
+  void updateRegistrationInfo() async {
+    final isSuccessful = await projectRepository.updateRegistrationInfo(
+        _ID, newEntryNumber.value);
+    if (isSuccessful) {
+      initialEntryNumber.value = newEntryNumber.value;
+      MessageToast.showMessage("保存成功");
+    }
   }
+
+  void goToFaceVerification() {
+    Get.toNamed(Routes.faceVerification);
+  }
+
+  void _getRegistrationInfo() async {
+    final registrationInfo = await projectRepository.getRegistrationInfo(_ID);
+    initialEntryNumber.value = registrationInfo.entryNumber;
+    newEntryNumber.value = registrationInfo.entryNumber;
+    facePaths.value = registrationInfo.faceInfos.map((it) => it.path).toList();
+  }
+}
+
+class RegistrationInfoParameter {
+  static const ID = "ID";
 }
