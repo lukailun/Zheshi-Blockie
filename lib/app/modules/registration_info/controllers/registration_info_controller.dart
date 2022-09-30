@@ -10,6 +10,7 @@ class RegistrationInfoController extends GetxController {
 
   final initialEntryNumber = ''.obs;
   final newEntryNumber = ''.obs;
+  bool isUpdate = false;
   final facePaths = <String>[].obs;
 
   final _ID = Get.parameters[RegistrationInfoParameter.ID] ?? "";
@@ -33,15 +34,18 @@ class RegistrationInfoController extends GetxController {
 
   void updateRegistrationInfo() async {
     final isSuccessful = await projectRepository.updateRegistrationInfo(
-        _ID, newEntryNumber.value);
+        _ID, newEntryNumber.value, isUpdate);
     if (isSuccessful) {
-      initialEntryNumber.value = newEntryNumber.value;
       MessageToast.showMessage("保存成功");
+      _getRegistrationInfo();
     }
   }
 
-  void goToFaceVerification() {
-    Get.toNamed(Routes.faceVerification);
+  void goToFaceVerification() async {
+    final needUpdate = await Get.toNamed(Routes.faceVerification);
+    if (needUpdate == true) {
+      _getRegistrationInfo();
+    }
   }
 
   void _getRegistrationInfo() async {
@@ -49,6 +53,7 @@ class RegistrationInfoController extends GetxController {
     initialEntryNumber.value = registrationInfo.entryNumber;
     newEntryNumber.value = registrationInfo.entryNumber;
     facePaths.value = registrationInfo.faceInfos.map((it) => it.path).toList();
+    isUpdate = registrationInfo.hasSigned;
   }
 }
 

@@ -40,7 +40,7 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
           key: _faceVerificationCameraViewKey,
           onPhotoTaken: (file) async {
             final bytes = await file.readAsBytes();
-            final filename = file.name;
+            final filename = "${file.path.split("/").last}.png";
             controller.uploadFacePhoto(bytes, filename);
           },
         ),

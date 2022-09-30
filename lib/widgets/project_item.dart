@@ -1,3 +1,4 @@
+import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -9,45 +10,54 @@ import 'package:get/get.dart';
 const double imageItemPadding = 16;
 const double groupImageWidth = 280;
 
-Widget createProjectItemMixed(ProjectGroup inGroup, {Function? whenBack,
-bool showBrand=true}) {
+Widget createProjectItemMixed(ProjectGroup inGroup,
+    {Function? whenBack, bool showBrand = true}) {
   if (inGroup.type == 1) {
-    return createProjectItemSingle(inGroup.projects[0], whenBack: whenBack,
-    showBrand: showBrand);
+    return createProjectItemSingle(inGroup.projects[0],
+        whenBack: whenBack, showBrand: showBrand);
   }
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.event}?groupUid=${inGroup.uid}")?.then((_){
+        Get.toNamed("${Routes.event}?${EventParameter.ID}=${inGroup.uid}")
+            ?.then((_) {
           whenBack?.call();
         });
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 32),
-        child: ProjectItem(projectGroup: inGroup, showBrand: showBrand,),
-      )
-  );
+        child: ProjectItem(
+          projectGroup: inGroup,
+          showBrand: showBrand,
+        ),
+      ));
 }
 
-Widget createProjectItemSingle(ProjectInfo info, {Function? whenBack,
-  bool showBrand=true}) {
+Widget createProjectItemSingle(ProjectInfo info,
+    {Function? whenBack, bool showBrand = true}) {
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.projectDetails}?projectUid=${info.uid}")?.then((_){
+        Get.toNamed("${Routes.projectDetails}?projectUid=${info.uid}&showsRule=${false}")
+            ?.then((_) {
           whenBack?.call();
         });
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 32),
-        child: ProjectItem(projectInfo: info, showBrand: showBrand,),
-      )
-  );
+        child: ProjectItem(
+          projectInfo: info,
+          showBrand: showBrand,
+        ),
+      ));
 }
 
-class ProjectItem extends StatelessWidget{
+class ProjectItem extends StatelessWidget {
   ProjectInfo? projectInfo;
   ProjectGroup? projectGroup;
   bool showBrand;
-  ProjectItem({Key? key, this.projectInfo, this.projectGroup, this.showBrand=true}) : super(key: key);
+
+  ProjectItem(
+      {Key? key, this.projectInfo, this.projectGroup, this.showBrand = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,65 +66,67 @@ class ProjectItem extends StatelessWidget{
     }
 
     bool isGroup = projectGroup != null;
-    IssuerInfo issuer = isGroup ? projectGroup!.projects[0].issuer : projectInfo!.issuer;
+    IssuerInfo issuer =
+        isGroup ? projectGroup!.projects[0].issuer : projectInfo!.issuer;
     String name = isGroup ? projectGroup!.name : projectInfo!.name;
     String summary = isGroup ? projectGroup!.summary : projectInfo!.summary;
 
     double summaryHeight = isGroup ? 80 : 40;
     int summaryLines = isGroup ? 3 : 2;
-    Widget cover = isGroup ?
-    Container(
-      padding: const EdgeInsets.only(top: imageItemPadding, bottom: imageItemPadding),
-      height: groupImageWidth + imageItemPadding * 2,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: projectGroup!.projects.length + 1,
-          itemBuilder: (context, index){
-            if (index == 0) {
-              return const SizedBox(width: imageItemPadding,);
-            }
-            return Container(
-              padding: const EdgeInsets.only(right: imageItemPadding),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    child: Image.network(
-                      projectGroup!.projects[index - 1].cover,
-                      width: groupImageWidth,
-                      height: groupImageWidth,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                      left: 21,
-                      bottom: 13,
-                      width: groupImageWidth -30,
-                      child: Text(
-                        projectGroup!.projects[index - 1].name,
-                        style: const TextStyle(
-                            color: Color(0xffffffff),
-                            fontSize: 20
+    Widget cover = isGroup
+        ? Container(
+            padding: const EdgeInsets.only(
+                top: imageItemPadding, bottom: imageItemPadding),
+            height: groupImageWidth + imageItemPadding * 2,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: projectGroup!.projects.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return const SizedBox(
+                      width: imageItemPadding,
+                    );
+                  }
+                  return Container(
+                    padding: const EdgeInsets.only(right: imageItemPadding),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          child: Image.network(
+                            projectGroup!.projects[index - 1].cover,
+                            width: groupImageWidth,
+                            height: groupImageWidth,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      )
-                  )
-                ],
-              ),
-            );
-          }),
-    ) :
-    ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(8),
-        topRight: Radius.circular(8),
-      ),
-      child: Image.network(
-        projectInfo!.cover,
-        fit: BoxFit.contain,
-      ),
-    );
+                        Positioned(
+                            left: 21,
+                            bottom: 13,
+                            width: groupImageWidth - 30,
+                            child: Text(
+                              projectGroup!.projects[index - 1].name,
+                              style: const TextStyle(
+                                  color: Color(0xffffffff), fontSize: 20),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ))
+                      ],
+                    ),
+                  );
+                }),
+          )
+        : ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: Image.network(
+              projectInfo!.cover,
+              fit: BoxFit.contain,
+            ),
+          );
 
     Widget textCol = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,47 +149,60 @@ class ProjectItem extends StatelessWidget{
                 ),
               ]),
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         SizedBox(
-          height: summaryHeight,
-          child: Center(
-            child: Text(
-              summary,
-              softWrap: true,
-              style: const TextStyle(fontSize: 14, color: Color(0xb3ffffff)),
-              maxLines: summaryLines,
-            ),
-          )),
-        const SizedBox(height: 10,),
-        showBrand ?
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(issuer.logo),
-            ),
-            const SizedBox(width: 7,),
-            Text(issuer.title,
-                style: const TextStyle(
-                    fontSize: 14, color: Color(0xb3ffffff))),
-            const Spacer(flex: 1,),
-            Text(isGroup ? '' : '共发行 ${projectInfo!.totalAmount}',
-                style: const TextStyle(fontSize: 14, color: Color(0xb3ffffff)))
-          ],
-        ) : const SizedBox(height: 0,)
+            height: summaryHeight,
+            child: Center(
+              child: Text(
+                summary,
+                softWrap: true,
+                style: const TextStyle(fontSize: 14, color: Color(0xb3ffffff)),
+                maxLines: summaryLines,
+              ),
+            )),
+        const SizedBox(
+          height: 10,
+        ),
+        showBrand
+            ? Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(issuer.logo),
+                  ),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  Text(issuer.title,
+                      style: const TextStyle(
+                          fontSize: 14, color: Color(0xb3ffffff))),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  Text(isGroup ? '' : '共发行 ${projectInfo!.totalAmount}',
+                      style: const TextStyle(
+                          fontSize: 14, color: Color(0xb3ffffff)))
+                ],
+              )
+            : const SizedBox(
+                height: 0,
+              )
       ],
     );
 
-    return  Container(
-        padding: const EdgeInsets.all(4),
-        child: Column(children: [
-            cover,
-            Container(
-                padding: const EdgeInsets.all(imageItemPadding),
-                child: textCol,
-            )
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(4),
+      child: Column(
+        children: [
+          cover,
+          Container(
+            padding: const EdgeInsets.all(imageItemPadding),
+            child: textCol,
+          )
+        ],
+      ),
     ).outlined();
   }
 }

@@ -13,4 +13,5 @@ abstract class Routes {
   static const updateAvatar = '/update_avatar';
   static const registrationInfo = '/registration_info';
   static const faceVerification = '/face_verification';
+  static const share = '/share';
 }

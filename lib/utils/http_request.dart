@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
+import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
@@ -30,6 +32,7 @@ const uploadFacePhotoCommand = "/face";
 const getProjectCommand = "/groups/@/poster";
 const getRegistrationInfoCommand = "/groups/@/workout";
 const updateRegistrationInfoCommand = "/groups/@/workout";
+const getShareInfoCommand = "/activities/@/poster";
 
 class HttpRequest {
   static final dio = Dio();
@@ -306,25 +309,28 @@ class HttpRequest {
     }
   }
 
-  Future<void> uploadFacePhoto(List<int> bytes, String filename) async {
+  Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) async {
     final uri = Uri(
         scheme: scheme,
         host: serverHost,
         path: commandPath + uploadFacePhotoCommand);
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
-    var formData = FormData.fromMap({
+    final formData = FormData.fromMap({
       "face": MultipartFile.fromBytes(bytes,
-          filename: filename, contentType: MediaType("image", "jpeg"))
+          filename: "file.jpg", contentType: MediaType("image", "jpeg"))
     });
     final response = await dio.postUri(uri,
         data: formData, options: Options(headers: headers));
     if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      // UserInfo userInfo = UserInfo.fromJson(res);
-      // Global.userInfo = userInfo;
-      // return userInfo;
+      try {
+        final res = HttpRequest._getResponseData(response);
+        FaceInfo faceInfo = FaceInfo.fromJson(res);
+        return faceInfo;
+      } catch (_) {
+        return null;
+      }
     } else {
-      throw Exception('Failed to upload face photo');
+      return null;
     }
   }
 
@@ -362,16 +368,40 @@ class HttpRequest {
     }
   }
 
-  Future<bool> updateRegistrationInfo(String ID, String number) async {
+  Future<bool> updateRegistrationInfo(
+      String ID, String number, bool isUpdate) async {
     final url = Uri(
         scheme: scheme,
         host: serverHost,
         path: commandPath + updateRegistrationInfoCommand.replaceFirst("@", ID),
-        queryParameters: {'uid': ID, 'number': number});
+        queryParameters: {
+          'uid': ID,
+          'number': number,
+          'action': isUpdate ? 'update' : 'create'
+        });
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
     final response = await dio.postUri(url, options: Options(headers: headers));
     if (response.statusCode == 200) {
       return true;
+    } else {
+      throw Exception('Failed to updateRegistrationInfo');
+    }
+  }
+
+  Future<ShareInfo> getShareInfo(String ID) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + getShareInfoCommand.replaceFirst("@", ID),
+        queryParameters: {
+          'uid': ID,
+        });
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.getUri(url, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      ShareInfo shareInfo = ShareInfo.fromJson(res);
+      return shareInfo;
     } else {
       throw Exception('Failed to updateRegistrationInfo');
     }

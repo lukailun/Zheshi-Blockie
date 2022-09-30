@@ -7,12 +7,15 @@ part 'registration_info.g.dart';
 class RegistrationInfo {
   @JsonKey(name: 'number')
   String entryNumber;
+  @JsonKey(name: 'is_signed')
+  bool hasSigned;
   @JsonKey(name: 'faces')
   List<FaceInfo> faceInfos;
 
   RegistrationInfo({
     required this.entryNumber,
     required this.faceInfos,
+    required this.hasSigned,
   });
 
   factory RegistrationInfo.fromJson(Map<String, dynamic> json) =>

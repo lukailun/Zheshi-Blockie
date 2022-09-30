@@ -12,9 +12,12 @@ enum AppBarButtonStyle {
   flat,
 }
 
+final _popupMenuButtonController = BasicPopupMenuButtonController();
+
 class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final String? title;
   final bool showsBackButton;
+  final Widget? avatar;
   final bool showsLogo;
   final List<AppBarButtonItem>? actionItems;
   final AppBarButtonStyle buttonStyle;
@@ -25,6 +28,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     this.showsBackButton = true,
     this.showsLogo = false,
     this.actionItems,
+    this.avatar,
     this.buttonStyle = AppBarButtonStyle.elevated,
   }) : super(key: key);
 
@@ -34,7 +38,6 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final popupMenuButtonController = BasicPopupMenuButtonController();
     final List<Widget>? actions = actionItems?.map((item) {
       final button = buttonStyle == AppBarButtonStyle.elevated
           ? BasicIconButton(
@@ -44,14 +47,14 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
       return (item.items ?? []).isEmpty
           ? button.paddingOnly(right: 13)
           : BasicPopupMenuButton(
-              controller: popupMenuButtonController,
+              controller: _popupMenuButtonController,
               menuBuilder: () => Column(
                 children: (item.items ?? [])
                     .asMap()
                     .entries
                     .map((it) => BasicPopupMenuItem(
                           item: it.value,
-                          controller: popupMenuButtonController,
+                          controller: _popupMenuButtonController,
                           showsDivider: it.key != (item.items ?? []).length - 1,
                         ))
                     .toList(),
@@ -77,7 +80,8 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       leading: showsLogo ? logo : backButton,
       leadingWidth: showsLogo ? double.infinity : 56,
-      actions: actions?..add(const SizedBox(width: 9)),
+      actions: (avatar != null ? [avatar!] : actions)
+        ?..add(const SizedBox(width: 9)),
       backgroundColor: Colors.transparent,
       centerTitle: true,
       toolbarHeight: toolbarHeight,

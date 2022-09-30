@@ -1,3 +1,4 @@
+import 'package:blockie_app/app/modules/event/models/event_action_info.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -17,11 +18,14 @@ class EventStep {
   final String ID;
   @JsonKey(name: 'activity_status')
   final int? eventStatusValue;
+  @JsonKey(name: 'content')
+  final EventActionInfo actionInfo;
 
   EventStep({
     required this.statusValue,
     required this.title,
     required this.ID,
+    required this.actionInfo,
     this.time,
     this.description,
     this.imagePath,

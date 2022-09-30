@@ -13,6 +13,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       steps: (json['poster_components'] as List<dynamic>)
           .map((e) => EventStep.fromJson(e as Map<String, dynamic>))
           .toList(),
+      issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'description': instance.description,
       'uid': instance.ID,
       'poster_components': instance.steps.map((e) => e.toJson()).toList(),
+      'issuer': instance.issuer.toJson(),
     };

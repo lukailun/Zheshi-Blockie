@@ -5,6 +5,7 @@ import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:blockie_app/utils/http_request.dart';
@@ -29,13 +30,13 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   String? _nextPageUrl;
   UserInfo? _userInfo;
   bool _showLoginPanel = false;
+
   // late Future<ProjectLoadInfo> _futureProjects;
 
   @override
   void initState() {
     super.initState();
-    AnyWebService.to.accountsCode
-    .listen((event) {
+    AnyWebService.to.accountsCode.listen((event) {
       if (event.isSuccessful) {
         _login(event.data as String);
       } else {
@@ -44,8 +45,7 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         });
       }
     });
-    AnyWebService.to.logout
-        .listen((_) {
+    AnyWebService.to.logout.listen((_) {
       DataStorage.setToken('');
       _updateUser();
     });
@@ -73,106 +73,89 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   @override
   Widget build(BuildContext context) {
     //ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(AnyWebMethod.accounts.value, (int viewId) {
+    ui.platformViewRegistry.registerViewFactory(AnyWebMethod.accounts.value,
+        (int viewId) {
       return html.IFrameElement()
         ..style.width = '100%'
         ..style.height = '100%'
-        ..src = 'https://zheshi.tech/public/dist/?method=${AnyWebMethod.accounts.value}'
+        ..src =
+            'https://zheshi.tech/public/dist/?method=${AnyWebMethod.accounts.value}'
         ..style.border = 'none';
     });
 
-    final loginLoadingIndicator = HtmlElementView(viewType: AnyWebMethod.accounts.value);
+    final loginLoadingIndicator =
+        HtmlElementView(viewType: AnyWebMethod.accounts.value);
 
-    Widget title = Container(
-      // padding: const EdgeInsets.only(left: 35, right: 32, top: 30, bottom: 20),
-      padding: const EdgeInsets.only(top: 30, bottom: 20, left: 3),
-      child: Row(
-          children: [
-            Image.asset(
-              'images/blockie.png',
-              fit: BoxFit.contain,
-              height: 23,
-            ),
-            const Spacer(),
-            GestureDetector(
-              onTap: () {
-                if (_userInfo == null) {
-                  _showLicenseDialog();
-                } else {
-                  // Navigator.of(context).pushNamed("/user", arguments: _userInfo);
-                  Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
-                }
-              }, // Image tapped
-              child: CircleAvatar(
-                radius: 25,
-                backgroundImage: _userInfo == null ? null : NetworkImage(
-                  _userInfo!.avatar
+    final listView = ListView.builder(
+        itemCount: _projectGroups.length + 1,
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemBuilder: (context, index) {
+          //如果到了表尾
+          if (index == _projectGroups.length) {
+            if (_nextPageUrl != null) {
+              _addProjects();
+              return Container(
+                alignment: Alignment.center,
+                child: const SizedBox(
+                  width: 24.0,
+                  height: 24.0,
+                  child: CircularProgressIndicator(strokeWidth: 2.0),
                 ),
-                backgroundColor: Colors.grey,
-                child: Text(
-                  _userInfo == null ? "登录" : "",
-                  style: const TextStyle(
-                    color: Color(0xb3ffffff),
-                    fontSize: 14
-                  ),
+              );
+            } else {
+              return Container(
+                alignment: Alignment.center,
+                child: const Text(
+                  "没有更多了",
+                  style: TextStyle(color: Colors.grey),
                 ),
-              )
-            )
-          ],
-      ),
-    );
-    
-    Widget listView = Container(
-      child: ListView.builder(
-          itemCount: _projectGroups.length + 2,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return title;
+              ).paddingOnly(bottom: 20);
             }
-            //如果到了表尾
-            if (index == _projectGroups.length + 1) {
-              if (_nextPageUrl != null) {
-                _addProjects();
-                return Container(
-                  // padding: const EdgeInsets.all(16.0),
-                  alignment: Alignment.center,
-                  child: const SizedBox(
-                    width: 24.0,
-                    height: 24.0,
-                    child: CircularProgressIndicator(strokeWidth: 2.0),
-                  ),
-                );
-              } else {
-                return Container(
-                  alignment: Alignment.center,
-                  // padding: const EdgeInsets.all(16.0),
-                  child: const Text(
-                    "没有更多了",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                );
-              }
-            }
-            return createProjectItemMixed(_projectGroups[index - 1], whenBack: _updateUser);
           }
+          return createProjectItemMixed(_projectGroups[index],
+              whenBack: _updateUser);
+        });
+    final avatar = GestureDetector(
+      onTap: () {
+        if (_userInfo == null) {
+          _showLicenseDialog();
+        } else {
+          Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
+        }
+      }, // Image tapped
+      child: CircleAvatar(
+        radius: 25,
+        backgroundImage:
+            _userInfo == null ? null : NetworkImage(_userInfo!.avatar),
+        backgroundColor: Colors.grey,
+        child: Text(
+          _userInfo == null ? "登录" : "",
+          style: const TextStyle(color: Color(0xb3ffffff), fontSize: 14),
+        ),
       ),
-    );
-
+    ).paddingOnly(right: 10);
     return ScreenBoundary(
       padding: 0,
-      body: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: listView,
-          ),
-          if (_showLoginPanel) loginLoadingIndicator
-        ],
-      )
+      body: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: !_showLoginPanel
+            ? BasicAppBar(
+                showsLogo: true,
+                avatar: avatar,
+              )
+            : null,
+        body: Stack(
+          children: [
+            Container(
+              child: listView,
+            ),
+            if (_showLoginPanel) loginLoadingIndicator
+          ],
+        ),
+      ),
     );
   }
-
 
   void _switchLoginPanel(bool show) {
     setState(() {
@@ -197,10 +180,12 @@ class _ProjectGroupsState extends State<ProjectGroups> {
 
   void _addProjects() {
     Future.delayed(Duration.zero, () async {
-      ProjectGroupLoadInfo projectGroupLoadInfo = await HttpRequest.loadProjectGroups(pageUrl: _nextPageUrl);
+      ProjectGroupLoadInfo projectGroupLoadInfo =
+          await HttpRequest.loadProjectGroups(pageUrl: _nextPageUrl);
       _nextPageUrl = projectGroupLoadInfo.nextPageUrl;
       setState(() {
-        _projectGroups.insertAll(_projectGroups.length, projectGroupLoadInfo.projectGroups);
+        _projectGroups.insertAll(
+            _projectGroups.length, projectGroupLoadInfo.projectGroups);
       });
     });
   }
@@ -218,9 +203,10 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         _userInfo = userInfo;
       });
       MessageToast.showMessage("登录成功");
-    } catch(e) {
+    } catch (e) {
       if (DataStorage.getToken() != null) {
-        UserInfo userInfo = await HttpRequest.getUserInfo(DataStorage.getToken()!);
+        UserInfo userInfo =
+            await HttpRequest.getUserInfo(DataStorage.getToken()!);
         AuthService.to.updateUserInfo(userInfo);
         setState(() {
           _showLoginPanel = false;
@@ -230,4 +216,3 @@ class _ProjectGroupsState extends State<ProjectGroups> {
     }
   }
 }
-

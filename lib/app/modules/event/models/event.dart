@@ -1,5 +1,6 @@
 import 'package:blockie_app/app/modules/event/models/event_step.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:blockie_app/app/modules/event/models/issuer.dart';
 
 part 'event.g.dart';
 
@@ -11,16 +12,17 @@ class Event {
   final String ID;
   @JsonKey(name: 'poster_components')
   final List<EventStep> steps;
+  final Issuer issuer;
 
   Event({
     required this.name,
     required this.description,
     required this.ID,
     required this.steps,
+    required this.issuer,
   });
 
-  factory Event.fromJson(Map<String, dynamic> json) =>
-      _$EventFromJson(json);
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
   Map<String, dynamic> toJson() => _$EventToJson(this);
 }

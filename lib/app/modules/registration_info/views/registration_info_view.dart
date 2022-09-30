@@ -2,6 +2,7 @@ import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
@@ -40,7 +41,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
       child: Center(
         child: Obx(
           () => BasicTextField(
-            autofocus: true,
+            autofocus: false,
             hintText: "如：KN9901",
             showsUnderline: true,
             text: controller.initialEntryNumber.value,
@@ -64,6 +65,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
           crossAxisSpacing: 5,
         ),
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: controller.facePaths
                 .map(
                   (it) => SizedBox(
@@ -71,8 +73,8 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
                     height: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        it.hostAdded,
+                      child: CachedNetworkImage(
+                        imageUrl: it.hostAdded,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -91,21 +93,24 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
           width: double.infinity,
           height: double.infinity,
           color: AppThemeData.primaryColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              header,
-              _itemTitle('参赛号码'),
-              entryNumberTextField,
-              _itemTitle('人脸采集'),
-              const Text('通过采集你人脸照片以自动捕捉你的比赛镜头片段，生成你专属的视频 NFT')
-                  .textColor(const Color(0x80FFFFFF))
-                  .fontWeight(FontWeightCompat.regular)
-                  .fontSize(14),
-              const SizedBox(height: 14),
-              photoGridView,
-            ],
-          ).paddingSymmetric(horizontal: 20),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                header,
+                _itemTitle('参赛号码'),
+                entryNumberTextField,
+                _itemTitle('人脸采集'),
+                const Text('通过采集你人脸照片以自动捕捉你的比赛镜头片段，生成你专属的视频 NFT')
+                    .textColor(const Color(0x80FFFFFF))
+                    .fontWeight(FontWeightCompat.regular)
+                    .fontSize(14),
+                const SizedBox(height: 14),
+                photoGridView.paddingOnly(bottom: 20),
+              ],
+            ),
+          ),
         ),
       ),
     );

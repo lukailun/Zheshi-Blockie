@@ -10,6 +10,8 @@ EventStep _$EventStepFromJson(Map<String, dynamic> json) => EventStep(
       statusValue: json['status'] as int,
       title: json['name'] as String,
       ID: json['uid'] as String,
+      actionInfo:
+          EventActionInfo.fromJson(json['content'] as Map<String, dynamic>),
       time: json['time'] as String?,
       description: json['description'] as String?,
       imagePath: json['image'] as String?,
@@ -24,4 +26,5 @@ Map<String, dynamic> _$EventStepToJson(EventStep instance) => <String, dynamic>{
       'image': instance.imagePath,
       'uid': instance.ID,
       'activity_status': instance.eventStatusValue,
+      'content': instance.actionInfo.toJson(),
     };

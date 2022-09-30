@@ -1,8 +1,12 @@
 import 'dart:html' as html;
 import 'dart:ui' as ui;
 import 'dart:ui';
+import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
+import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
@@ -71,8 +75,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             uid: _projectUid, token: DataStorage.getToken());
       });
     });
-    AnyWebService.to.accountsCode
-        .listen((event) {
+    AnyWebService.to.accountsCode.listen((event) {
       if (event.isSuccessful) {
         _login(event.data as String);
       } else {
@@ -265,13 +268,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                         ));
 
               Widget copyButton = BasicIconButton(
-                  assetName: "images/app_bar/copy.png",
-                  size: 23,
-                  onTap: () {
-                    Clipboard.setData(
-                        ClipboardData(text: values[values.length - 1]));
-                    MessageToast.showMessage("复制成功");
-                  },
+                assetName: "images/app_bar/copy.png",
+                size: 23,
+                onTap: () {
+                  Clipboard.setData(
+                      ClipboardData(text: values[values.length - 1]));
+                  MessageToast.showMessage("复制成功");
+                },
               );
 
               Widget linkButton = GestureDetector(
@@ -575,10 +578,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 )
               ],
             ),
-            if (!_showLoginPanel) Container(
-              alignment: Alignment.bottomCenter,
-              child: bottomPanel,
-            ),
+            if (!_showLoginPanel)
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: bottomPanel,
+              ),
             if (_showMintInfo) mintInfo,
             if (_showNftCard) nftCard,
             if (_showLoginPanel) loginPanel,
@@ -586,9 +590,47 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
         );
       },
     );
+    final menuItems = [
+      AppBarButtonItem(
+        title: '首页',
+        assetName: "images/app_bar/home.png",
+        onTap: () => Get.offAllNamed(Routes.initial),
+      ),
+      AppBarButtonItem(
+        title: '我的',
+        assetName: "images/app_bar/user.png",
+        onTap: () => Get.toNamed(
+            "${Routes.user}?uid=${AuthService.to.userInfo.value?.uid ?? ""}"),
+      ),
+    ];
+    // if ((Get.parameters["showsRule"] ?? false) == true) {
+    menuItems.add(
+      AppBarButtonItem(
+        title: '铸造规则',
+        assetName: "images/app_bar/info.png",
+        onTap: () =>
+            Get.toNamed("${Routes.event}?${EventParameter.ID}=$_projectUid"),
+      ),
+    );
+    // }
     return ScreenBoundary(
       body: Scaffold(
-        appBar: !_showLoginPanel ? BasicAppBar() : null,
+        appBar: !_showLoginPanel
+            ? BasicAppBar(
+                buttonStyle: AppBarButtonStyle.flat,
+                actionItems: [
+                  AppBarButtonItem(
+                    assetName: "images/app_bar/share.png",
+                    onTap: () => Get.toNamed(
+                        "${Routes.share}?${ShareParameter.ID}=$_projectUid"),
+                  ),
+                  AppBarButtonItem(
+                    assetName: "images/app_bar/menu.png",
+                    items: menuItems,
+                  ),
+                ],
+              )
+            : null,
         extendBodyBehindAppBar: true,
         body: projectDetailStack,
       ),
@@ -713,7 +755,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
         _updatedMintState = false;
         _showLoginPanel = false;
       });
-      MessageToast.showMessage("登录成功");
     } catch (e) {
       setState(() {
         _futureProject = HttpRequest.loadProjectDetail(

@@ -4,6 +4,8 @@ import 'package:blockie_app/app/modules/event/views/event_view.dart';
 import 'package:blockie_app/app/modules/event/bindings/event_binding.dart';
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
+import 'package:blockie_app/app/modules/share/views/share_view.dart';
+import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
 import 'package:blockie_app/app/modules/update_username/views/update_username_view.dart';
 import 'package:blockie_app/app/modules/update_username/bindings/update_username_binding.dart';
 import 'package:blockie_app/app/modules/update_avatar/views/update_avatar_view.dart';
@@ -14,7 +16,6 @@ import 'package:blockie_app/app/modules/image_view.dart';
 import 'package:blockie_app/app/modules/nft_detail.dart';
 import 'package:blockie_app/app/modules/project_detail.dart';
 import 'package:blockie_app/app/modules/project_groups.dart';
-import 'package:blockie_app/app/modules/projects.dart';
 import 'package:blockie_app/app/modules/registration_info/bindings/registration_info_binding.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
 import 'package:blockie_app/app/modules/user.dart';
@@ -77,6 +78,11 @@ class AppPages {
       name: Routes.event,
       page: () => const EventContainerView(),
       binding: EventBinding(),
+    ),
+    GetPage(
+      name: Routes.share,
+      page: () => const ShareView(),
+      binding: ShareBinding(),
     ),
   ];
 }
