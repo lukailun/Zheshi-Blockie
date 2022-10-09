@@ -16,14 +16,14 @@ jobs:
           channel: "stable"
       - run: flutter config --enable-web
       - run: flutter pub get
-      - run: flutter build web --release --base-href '/Blockie/'
+      - run: flutter build web --release --base-href '/Zheshi-Blockie/'
       - run: |
           cd build/web
           git init
           git config --global user.email 957458041@qq.com
           git config --global user.name lukailun
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/lukailun/Blockie.git
+          git remote add origin https://${{secrets.commit_secret}}@github.com/lukailun/Zheshi-Blockie.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
