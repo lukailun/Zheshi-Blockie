@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class ImageButton extends StatelessWidget {
-  const ImageButton({Key? key,
+  const ImageButton({
+    Key? key,
     this.imageUrl,
     this.onPressed,
     this.width,

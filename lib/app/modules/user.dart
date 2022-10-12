@@ -40,7 +40,7 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await _loadUserInfo(Get.parameters["uid"]??'');
+      await _loadUserInfo(Get.parameters["uid"] ?? '');
       _addNfts();
       _loadQRCode();
     });
@@ -83,48 +83,44 @@ class _UserPageState extends State<UserPage> {
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(children: [
-            Container(
-                padding: const EdgeInsets.only(top: 15, bottom: 10),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(5)
-                  ),
-                  child: Image.network(
-                    nftInfo.cover,
-                    fit: BoxFit.contain,
-                  ),
-                )
-            ),
-            Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(top: 5, bottom: 6),
-                        child: Text(
-                          "${nftInfo.projectName} ${nftInfo.tokenId}",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xffffffff),
-                          ),
-                          overflow: TextOverflow.clip,
-                          maxLines: 1,
-                        ),
-                      ),
-                      Text(
-                        "by ${nftInfo.issuer.title}",
-                        textAlign: TextAlign.left,
+          child: Column(
+            children: [
+              Container(
+                  padding: const EdgeInsets.only(top: 15, bottom: 10),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    child: Image.network(
+                      nftInfo.cover,
+                      fit: BoxFit.contain,
+                    ),
+                  )),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 5, bottom: 6),
+                      child: Text(
+                        "${nftInfo.projectName} ${nftInfo.tokenId}",
                         style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xccffffff)
+                          fontSize: 14,
+                          color: Color(0xffffffff),
                         ),
-                      )
-                    ],
-                  ),
-            ),
-          ],)
-      ).outlined(),
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                      ),
+                    ),
+                    Text(
+                      "by ${nftInfo.issuer.title}",
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 12, color: Color(0xccffffff)),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )).outlined(),
     );
   }
 
@@ -150,66 +146,65 @@ class _UserPageState extends State<UserPage> {
       child: Container(
           width: 36,
           padding: const EdgeInsets.only(top: 3, bottom: 7),
-          child: Center(child: CircleAvatar(
-            radius: 36,
-            backgroundImage: NetworkImage(_userInfo.value?.avatar ?? ""),
-            backgroundColor: Colors.transparent,
-          ),)
-      ),
+          child: Center(
+            child: CircleAvatar(
+              radius: 36,
+              backgroundImage: NetworkImage(_userInfo.value?.avatar ?? ""),
+              backgroundColor: Colors.transparent,
+            ),
+          )),
     );
 
     Widget userTitle = Container(
-        padding: const EdgeInsets.only(top: 9, bottom: 23),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () => Get.toNamed(Routes.updateName),
-              child: Obx(
-                  () => Text(_userInfo.value?.nickname ?? "")
-                      .fontSize(20)
-                      .textColor(Colors.white)
-              ),
-            ),
-            SizedBox(
-              height: 30,
-              child: Stack(
-                children: [
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                            '区块链地址: ',
-                            style: TextStyle(fontSize: 14, color: Color(0xccffffff))
+      padding: const EdgeInsets.only(top: 9, bottom: 23),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () => Get.toNamed(Routes.updateName),
+            child: Obx(() => Text(_userInfo.value?.nickname ?? "")
+                .fontSize(20)
+                .textColor(Colors.white)),
+          ),
+          SizedBox(
+            height: 30,
+            child: Stack(
+              children: [
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('区块链地址: ',
+                          style: TextStyle(
+                              fontSize: 14, color: Color(0xccffffff))),
+                      SizedBox(
+                        width: 200,
+                        child: EllipsizedText(
+                          _userInfo.value?.walletAddress ?? "",
+                          style: const TextStyle(
+                              fontSize: 14, color: Color(0xccffffff)),
+                          ellipsis: Ellipsis.middle,
                         ),
-                        SizedBox(
-                          width: 200,
-                          child: EllipsizedText(
-                            _userInfo.value?.walletAddress ?? "",
-                            style: const TextStyle(fontSize: 14, color: Color(0xccffffff)),
-                            ellipsis: Ellipsis.middle,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Clipboard.setData(ClipboardData(
-                          text: _userInfo.value?.walletAddress ?? ""));
-                      MessageToast.showMessage("复制成功");
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.transparent,
-                    ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                        text: _userInfo.value?.walletAddress ?? ""));
+                    MessageToast.showMessage("复制成功");
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.transparent,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
 
     Widget divideLine =
@@ -280,8 +275,9 @@ class _UserPageState extends State<UserPage> {
                   Container(
                     padding: const EdgeInsets.only(top: 18, bottom: 7),
                     child: CircleAvatar(
-                      radius: 36,
-                      backgroundImage: NetworkImage(_userInfo.value?.avatar ?? "")),
+                        radius: 36,
+                        backgroundImage:
+                            NetworkImage(_userInfo.value?.avatar ?? "")),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 25),
@@ -340,12 +336,7 @@ class _UserPageState extends State<UserPage> {
       ],
     );
 
-    List<Widget> headers = [
-      avatar,
-      userTitle,
-      divideLine,
-      nftTitle
-    ];
+    List<Widget> headers = [avatar, userTitle, divideLine, nftTitle];
     return ScreenBoundary(
       padding: 0,
       body: Scaffold(
@@ -369,16 +360,19 @@ class _UserPageState extends State<UserPage> {
         body: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-           Visibility(
+            Visibility(
               visible: _nfts.isNotEmpty,
               replacement: Column(
                 children: [
                   ListView(shrinkWrap: true, children: headers),
-                  _isLoading ? const LoadingIndicator() : const Expanded(child: EmptyDatasetView())
+                  _isLoading
+                      ? const LoadingIndicator()
+                      : const Expanded(child: EmptyDatasetView())
                 ],
               ),
               child: ListView(
-                children: headers + (_isLoading ? [const LoadingIndicator()] : [nftGridView]),
+                children: headers +
+                    (_isLoading ? [const LoadingIndicator()] : [nftGridView]),
               ),
             ),
             if (_showQrCode) qrCodePanel,

@@ -1,5 +1,6 @@
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -20,4 +21,5 @@ void main() {
 void _initServices() {
   Get.put(AuthService());
   Get.put(AnyWebService());
+  Get.put(WechatService());
 }

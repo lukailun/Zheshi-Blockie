@@ -5,7 +5,7 @@ import 'package:blockie_app/models/global.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
 
-class ImageView extends StatefulWidget{
+class ImageView extends StatefulWidget {
   const ImageView({Key? key}) : super(key: key);
 
   @override
@@ -20,8 +20,9 @@ class _ImageViewState extends State<ImageView> {
   @override
   void initState() {
     controller = PageController();
-    Future.delayed(Duration.zero,() async {
-      ProjectDetailInfo project = await HttpRequest.loadProjectDetail(uid: Get.parameters["projectUid"]!);
+    Future.delayed(Duration.zero, () async {
+      ProjectDetailInfo project = await HttpRequest.loadProjectDetail(
+          uid: Get.parameters["projectUid"]!);
       setState(() {
         imageUrls = project.images;
         currentIndex = int.parse(Get.parameters["index"]!);
@@ -34,24 +35,25 @@ class _ImageViewState extends State<ImageView> {
   @override
   Widget build(BuildContext context) {
     Widget swiper = PageView.builder(
-        itemCount: imageUrls.length,
-        controller: controller,
-        // pageSnapping: true,
-        itemBuilder: (context, index) {
-          return Image.network(
-            imageUrls[index],
-            fit: BoxFit.contain,
-          );
-        },
-        onPageChanged: (int index){
-          setState(() {
-            currentIndex = index;
-          });
-        },
+      itemCount: imageUrls.length,
+      controller: controller,
+      // pageSnapping: true,
+      itemBuilder: (context, index) {
+        return Image.network(
+          imageUrls[index],
+          fit: BoxFit.contain,
+        );
+      },
+      onPageChanged: (int index) {
+        setState(() {
+          currentIndex = index;
+        });
+      },
     );
 
     Widget title = Container(
-      padding: const EdgeInsets.only(left: 19, right: 19, top: Global.titleButtonTop),
+      padding: const EdgeInsets.only(
+          left: 19, right: 19, top: Global.titleButtonTop),
       child: Row(
         children: [
           GestureDetector(
@@ -62,18 +64,13 @@ class _ImageViewState extends State<ImageView> {
                 "images/back.png",
                 width: 40,
                 height: 40,
-              )
-          ),
+              )),
           Expanded(
               child: Text(
-                "${currentIndex + 1}/${imageUrls.length}",
-                style: const TextStyle(
-                  color: Color(0xffffffff),
-                  fontSize: 20
-                ),
-                textAlign: TextAlign.center,
-              )
-          ),
+            "${currentIndex + 1}/${imageUrls.length}",
+            style: const TextStyle(color: Color(0xffffffff), fontSize: 20),
+            textAlign: TextAlign.center,
+          )),
           Container(
             width: 29,
           )
@@ -92,14 +89,16 @@ class _ImageViewState extends State<ImageView> {
     //   )
     // );
     return ScreenBoundary(
-        body: Column(
-          children: [
-            title,
-            Expanded(child: swiper),
-            Container(height: 79,)
-          ],
-        ),
-        padding: 0,
+      body: Column(
+        children: [
+          title,
+          Expanded(child: swiper),
+          Container(
+            height: 79,
+          )
+        ],
+      ),
+      padding: 0,
     );
   }
 }

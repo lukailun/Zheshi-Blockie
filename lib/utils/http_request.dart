@@ -15,6 +15,7 @@ import 'package:dio/dio.dart';
 import '../app/modules/event/models/event.dart';
 import 'data_storage.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:blockie_app/app/modules/share/models/wechat_config.dart';
 
 const scheme = "https";
 const serverHost = "s.blockie.zheshi.tech";
@@ -33,6 +34,8 @@ const getProjectCommand = "/groups/@/poster";
 const getRegistrationInfoCommand = "/groups/@/workout";
 const updateRegistrationInfoCommand = "/groups/@/workout";
 const getShareInfoCommand = "/activities/@/poster";
+const getNFTShareInfoCommand = "/NFTs/@/poster";
+const getWechatConfigCommand = "/wechat";
 
 class HttpRequest {
   static final dio = Dio();
@@ -388,7 +391,7 @@ class HttpRequest {
     }
   }
 
-  Future<ShareInfo> getShareInfo(String ID) async {
+  Future<ShareInfo> getProjectDetailsShareInfo(String ID) async {
     final url = Uri(
         scheme: scheme,
         host: serverHost,
@@ -403,7 +406,46 @@ class HttpRequest {
       ShareInfo shareInfo = ShareInfo.fromJson(res);
       return shareInfo;
     } else {
-      throw Exception('Failed to updateRegistrationInfo');
+      throw Exception('Failed to getShareInfo');
+    }
+  }
+
+  Future<ShareInfo> getNFTDetailsShareInfo(String ID) async {
+    final url = Uri(
+        scheme: scheme,
+        host: serverHost,
+        path: commandPath + getNFTShareInfoCommand.replaceFirst("@", ID),
+        queryParameters: {
+          'uid': ID,
+        });
+    final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
+    final response = await dio.getUri(url, options: Options(headers: headers));
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      ShareInfo shareInfo = ShareInfo.fromJson(res);
+      return shareInfo;
+    } else {
+      throw Exception('Failed to getNFTShareInfo');
+    }
+  }
+
+  Future<WechatConfig> getWechatConfig(String url, List<String> APIs) async {
+    final uri = Uri(
+      scheme: scheme,
+      host: serverHost,
+      path: commandPath + getWechatConfigCommand,
+      queryParameters: {
+        'url': url,
+        'api_list[]': APIs,
+      },
+    );
+    final response = await dio.postUri(uri);
+    if (response.statusCode == 200) {
+      final res = HttpRequest._getResponseData(response);
+      WechatConfig config = WechatConfig.fromJson(res);
+      return config;
+    } else {
+      throw Exception('Failed to getWechatConfig');
     }
   }
 }

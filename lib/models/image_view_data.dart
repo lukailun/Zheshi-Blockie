@@ -1,4 +1,4 @@
-class ImageViewData{
+class ImageViewData {
   List<String> imageUrls = [];
   int index = 0;
 

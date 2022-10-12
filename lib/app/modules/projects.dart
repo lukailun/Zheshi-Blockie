@@ -22,8 +22,9 @@ class _ProjectsState extends State<Projects> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero,() async {
-      ProjectGroup group = await HttpRequest.loadProjectGroup(groupUid: Get.parameters["groupUid"]!);
+    Future.delayed(Duration.zero, () async {
+      ProjectGroup group = await HttpRequest.loadProjectGroup(
+          groupUid: Get.parameters["groupUid"]!);
       setState(() {
         projectGroup = group;
       });
@@ -37,7 +38,8 @@ class _ProjectsState extends State<Projects> {
     }
 
     Widget title = Container(
-      padding: const EdgeInsets.only(top: 80 - Global.titleButtonTop, bottom: 20),
+      padding:
+          const EdgeInsets.only(top: 80 - Global.titleButtonTop, bottom: 20),
       child: Column(
         children: [
           Row(
@@ -46,34 +48,36 @@ class _ProjectsState extends State<Projects> {
                 padding: const EdgeInsets.only(top: 16, bottom: 15),
                 child: Text(
                   projectGroup!.name,
-                  style: const TextStyle(
-                      color: Color(0xffffffff),
-                      fontSize: 24
-                  ),
+                  style:
+                      const TextStyle(color: Color(0xffffffff), fontSize: 24),
                 ),
               )
             ],
           ),
-          DescriptionTextWidget(text: projectGroup!.summary, minLines: 3,)
+          DescriptionTextWidget(
+            text: projectGroup!.summary,
+            minLines: 3,
+          )
         ],
       ),
     );
 
     Widget listView = ListView.builder(
-          itemCount: projectGroup!.projects.length + 2,
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(top: 0),
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return title;
-            }
-            //如果到了表尾
-            if (index == projectGroup!.projects.length + 1) {
-              return const SizedBox(height: 16,);
-            }
-            return createProjectItemSingle(projectGroup!.projects[index - 1]);
+        itemCount: projectGroup!.projects.length + 2,
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(top: 0),
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return title;
           }
-    );
+          //如果到了表尾
+          if (index == projectGroup!.projects.length + 1) {
+            return const SizedBox(
+              height: 16,
+            );
+          }
+          return createProjectItemSingle(projectGroup!.projects[index - 1]);
+        });
 
     return ScreenBoundary(
         padding: 0,
@@ -82,8 +86,6 @@ class _ProjectsState extends State<Projects> {
           extendBodyBehindAppBar: true,
           appBar: BasicAppBar(),
           body: listView.paddingSymmetric(horizontal: 20),
-        )
-    );
+        ));
   }
 }
-

@@ -603,7 +603,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             "${Routes.user}?uid=${AuthService.to.userInfo.value?.uid ?? ""}"),
       ),
     ];
-    // if ((Get.parameters["showsRule"] ?? false) == true) {
     menuItems.add(
       AppBarButtonItem(
         title: '铸造规则',
@@ -612,7 +611,6 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
             Get.toNamed("${Routes.event}?${EventParameter.ID}=$_projectUid"),
       ),
     );
-    // }
     return ScreenBoundary(
       body: Scaffold(
         appBar: !_showLoginPanel
@@ -621,8 +619,10 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 actionItems: [
                   AppBarButtonItem(
                     assetName: "images/app_bar/share.png",
-                    onTap: () => Get.toNamed(
-                        "${Routes.share}?${ShareParameter.ID}=$_projectUid"),
+                    onTap: () => Get.toNamed(Routes.share, arguments: {
+                      ShareParameter.ID: _projectUid,
+                      ShareParameter.isNFT: false,
+                    }),
                   ),
                   AppBarButtonItem(
                     assetName: "images/app_bar/menu.png",

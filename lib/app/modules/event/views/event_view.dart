@@ -32,7 +32,17 @@ class EventContainerView extends GetView<EventController> {
     });
 
     final loginView = HtmlElementView(viewType: AnyWebMethod.accounts.value);
-
+    final actionItems = <AppBarButtonItem>[];
+    if (Get.routing.previous.isNotEmpty) {
+      actionItems.add(
+        AppBarButtonItem(
+          assetName: "images/app_bar/close.png",
+          onTap: () {
+            Get.back();
+          },
+        ),
+      );
+    }
     return ScreenBoundary(
       padding: 0,
       body: Obx(
@@ -41,14 +51,7 @@ class EventContainerView extends GetView<EventController> {
           appBar: !controller.showsLogin.value
               ? BasicAppBar(
                   showsLogo: true,
-                  actionItems: [
-                    AppBarButtonItem(
-                      assetName: "images/app_bar/close.png",
-                      onTap: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
+                  actionItems: actionItems,
                 )
               : null,
           body: () {

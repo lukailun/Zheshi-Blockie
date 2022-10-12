@@ -1,22 +1,14 @@
-import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:get/get.dart';
 import 'dart:html' as html;
 import 'dart:convert';
 
 enum AnyWebMethod {
-  accounts,
-  logout,
-}
+  accounts("cfx_accounts"),
+  logout("anyweb_logout");
 
-extension AnyWebMethodExtension on AnyWebMethod {
-  String get value {
-    switch (this) {
-      case AnyWebMethod.accounts:
-        return 'cfx_accounts';
-      case AnyWebMethod.logout:
-        return 'anyweb_logout';
-    }
-  }
+  const AnyWebMethod(this.value);
+
+  final String value;
 }
 
 class AnyWebEvent {

@@ -1,0 +1,36 @@
+image: cirrusci/flutter:latest
+
+before_script:
+  - flutter channel stable
+  - flutter upgrade
+  - flutter config --enable-web
+  - flutter pub get
+
+stages:
+  # - test
+  - build
+  - deploy
+
+# test:
+#   stage: test
+#   script: 
+#   tags:
+#     - flutter
+
+build_web:
+  stage: build
+  script:
+    - flutter build web --web-renderer html
+    - (Get-Content ./build/web/index.html) -Replace '<base href="/">', '<base href="/app/">' | Set-Content ./build/web/index.html
+    - (Get-Content ./build/web/main.dart.js) -Replace 'pushState', 'replaceState' | Set-Content ./build/web/main.dart.js
+  tags:
+    - flutter
+
+deploy_dev:
+  stage: deploy
+  only:
+    - master
+  script:
+    - scp -r ./build/web/* root@122.112.231.151:/apps/blockie_app/
+  tags:
+    - flutter

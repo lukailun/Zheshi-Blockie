@@ -25,30 +25,24 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
       children: [
         Expanded(
             child: Text(
-              widget.text,
-              softWrap: true,
-              maxLines: showText ? 50 : widget.minLines,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  color: Color(0xccffffff),
-                  fontSize: 14
-              ),
-            )
-        ),
+          widget.text,
+          softWrap: true,
+          maxLines: showText ? 50 : widget.minLines,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
+        )),
         Container(
           padding: const EdgeInsets.only(left: 7),
           child: GestureDetector(
               onTap: () {
-                setState((){
+                setState(() {
                   showText = !showText;
                 });
               }, // Image tapped
               child: Image.asset(
-                  showText ? "images/close.png" : "images/open.png",
+                  showText ? "images/collapse.png" : "images/expand.png",
                   width: 23,
-                  height: 23
-              )
-          ),
+                  height: 23)),
         )
       ],
     );

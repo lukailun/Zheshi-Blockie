@@ -17,5 +17,9 @@ class ProjectRepository {
           String ID, String number, bool isUpdate) =>
       client.updateRegistrationInfo(ID, number, isUpdate);
 
-  Future<ShareInfo> getShareInfo(String ID) => client.getShareInfo(ID);
+  Future<ShareInfo> getProjectDetailsShareInfo(String ID) =>
+      client.getProjectDetailsShareInfo(ID);
+
+  Future<ShareInfo> getNFTDetailsShareInfo(String ID) =>
+      client.getNFTDetailsShareInfo(ID);
 }

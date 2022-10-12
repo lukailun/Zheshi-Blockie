@@ -21,25 +21,24 @@ class ProjectDetailInfo {
   final String uid;
   final IssuerInfo issuer;
 
-  const ProjectDetailInfo({
-    required this.cover,
-    required this.name,
-    required this.summary,
-    required this.description,
-    required this.contract,
-    required this.images,
-    required this.isOpen,
-    required this.isSubscribed,
-    required this.mintChances,
-    required this.userMintedAmount,
-    required this.totalAmount,
-    required this.mintedAmount,
-    required this.holdPersonAmount,
-    required this.startedTime,
-    required this.endedTime,
-    required this.uid,
-    required this.issuer
-  });
+  const ProjectDetailInfo(
+      {required this.cover,
+      required this.name,
+      required this.summary,
+      required this.description,
+      required this.contract,
+      required this.images,
+      required this.isOpen,
+      required this.isSubscribed,
+      required this.mintChances,
+      required this.userMintedAmount,
+      required this.totalAmount,
+      required this.mintedAmount,
+      required this.holdPersonAmount,
+      required this.startedTime,
+      required this.endedTime,
+      required this.uid,
+      required this.issuer});
 
   factory ProjectDetailInfo.fromJson(Map<String, dynamic> json) {
     List<String> images = json['images']
@@ -62,7 +61,6 @@ class ProjectDetailInfo {
         startedTime: json['started_at'],
         endedTime: json['ended_at'],
         uid: json['uid'],
-        issuer: IssuerInfo.fromJson(json['issuer'])
-    );
+        issuer: IssuerInfo.fromJson(json['issuer']));
   }
 }

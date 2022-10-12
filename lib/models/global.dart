@@ -1,6 +1,6 @@
 import 'package:blockie_app/models/user_info.dart';
 
-class Global{
+class Global {
   static const double titleButtonTop = 23;
   static const String assetHost = "https://blockie.oos-cn.ctyunapi.cn/";
   static const String webLink = "https://s.blockie.zheshi.tech/app/#";
