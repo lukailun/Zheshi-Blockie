@@ -24,17 +24,19 @@ class BasicTextField extends StatefulWidget {
 }
 
 class _BasicTextFieldState extends State<BasicTextField> {
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController.fromValue(
+    _controller = TextEditingController.fromValue(
       TextEditingValue(
         text: widget.text,
         selection: TextSelection.collapsed(offset: widget.text.length),
       ),
     );
     return TextField(
-      controller: controller
-        ..addListener(() => widget.onValueChanged(controller.text)),
+      controller: _controller
+        ..addListener(() => widget.onValueChanged(_controller.text)),
       autofocus: widget.autofocus,
       style: const TextStyle(
         color: Colors.white,
@@ -60,13 +62,13 @@ class _BasicTextFieldState extends State<BasicTextField> {
                   borderSide: BorderSide(color: Colors.white),
                 )
               : null,
-          suffix: controller.text.isNotEmpty
+          suffix: _controller.text.isNotEmpty
               ? BasicIconButton(
                   assetName: 'images/common/clear.png',
                   size: 22,
                   onTap: () {
-                    controller.text = "";
-                    setState(() {});
+                    widget.onValueChanged("");
+                    _controller.text = "";
                   },
                 )
               : null),

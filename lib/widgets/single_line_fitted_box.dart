@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class SingleLineFittedBox extends StatelessWidget {
-  const SingleLineFittedBox({Key? key,this.child}) : super(key: key);
+  const SingleLineFittedBox({Key? key, this.child}) : super(key: key);
   final Widget? child;
 
   @override

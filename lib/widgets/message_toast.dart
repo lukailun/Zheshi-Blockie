@@ -1,6 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
-class MessageToast{
+class MessageToast {
   static void showMessage(String text) {
     Fluttertoast.showToast(
         msg: text,
@@ -9,8 +9,7 @@ class MessageToast{
         webPosition: "center",
         webBgColor: "#666666",
         timeInSecForIosWeb: 2,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 
   static void showException(String text) {
@@ -21,7 +20,6 @@ class MessageToast{
         webPosition: "center",
         webBgColor: "#ff0000",
         timeInSecForIosWeb: 2,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:blockie_app/app/modules/project_groups.dart';
 import 'package:blockie_app/app/modules/user.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -11,13 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0; //记录当前选中哪个页面
 
-  int _currentIndex = 0;//记录当前选中哪个页面
-
-  final List<Widget> _pages = [
-    const ProjectGroups(),
-    const UserPage()
-  ];
+  final List<Widget> _pages = [const ProjectGroups(), const UserPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +22,10 @@ class _HomePageState extends State<HomePage> {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Colors.blue,//底部导航栏按钮选中时的颜色
-        type: BottomNavigationBarType.fixed,//底部导航栏的适配，当item多的时候都展示出来
+        fixedColor: Colors.blue, //底部导航栏按钮选中时的颜色
+        type: BottomNavigationBarType.fixed, //底部导航栏的适配，当item多的时候都展示出来
         currentIndex: _currentIndex,
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });

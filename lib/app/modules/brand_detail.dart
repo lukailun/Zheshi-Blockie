@@ -9,22 +9,23 @@ import 'package:get/get.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
 import 'package:blockie_app/widgets/project_item.dart';
 
-class BrandPage extends StatefulWidget{
+class BrandPage extends StatefulWidget {
   const BrandPage({Key? key}) : super(key: key);
 
   @override
   _BrandPageState createState() => _BrandPageState();
 }
 
-class _BrandPageState extends State<BrandPage>{
+class _BrandPageState extends State<BrandPage> {
   IssuerInfo? _issuerInfo;
   String? _nextPageUrl;
   final _projectGroups = <ProjectGroup>[];
 
   @override
   void initState() {
-    Future.delayed(Duration.zero,() async {
-      IssuerInfo issuerInfo = await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
+    Future.delayed(Duration.zero, () async {
+      IssuerInfo issuerInfo =
+          await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
       setState(() {
         _issuerInfo = issuerInfo;
         _addProjects(uid: _issuerInfo!.uid);
@@ -35,10 +36,13 @@ class _BrandPageState extends State<BrandPage>{
 
   void _addProjects({String? uid}) {
     Future.delayed(Duration.zero, () async {
-      ProjectGroupLoadInfo projectGroupLoadInfo = await HttpRequest.loadBrandGroups(pageUrl: _nextPageUrl, issuerUid: uid);
+      ProjectGroupLoadInfo projectGroupLoadInfo =
+          await HttpRequest.loadBrandGroups(
+              pageUrl: _nextPageUrl, issuerUid: uid);
       _nextPageUrl = projectGroupLoadInfo.nextPageUrl;
       setState(() {
-        _projectGroups.insertAll(_projectGroups.length, projectGroupLoadInfo.projectGroups);
+        _projectGroups.insertAll(
+            _projectGroups.length, projectGroupLoadInfo.projectGroups);
       });
     });
   }
@@ -53,7 +57,8 @@ class _BrandPageState extends State<BrandPage>{
     }
 
     Widget topButton = Container(
-      padding: const EdgeInsets.only(right: 19, top: Global.titleButtonTop, bottom: 10),
+      padding: const EdgeInsets.only(
+          right: 19, top: Global.titleButtonTop, bottom: 10),
       child: Row(
         children: [
           GestureDetector(
@@ -64,8 +69,7 @@ class _BrandPageState extends State<BrandPage>{
                 "images/back.png",
                 width: 40,
                 height: 40,
-              )
-          )
+              ))
         ],
       ),
     );
@@ -74,18 +78,14 @@ class _BrandPageState extends State<BrandPage>{
       children: [
         CircleAvatar(
           radius: 36,
-          backgroundImage: NetworkImage(
-              _issuerInfo == null ? '' : _issuerInfo!.logo
-          ),
+          backgroundImage:
+              NetworkImage(_issuerInfo == null ? '' : _issuerInfo!.logo),
         ),
         Container(
           padding: const EdgeInsets.only(top: 7, bottom: 11),
           child: Text(
             _issuerInfo == null ? '' : _issuerInfo!.title,
-            style: const TextStyle(
-              color: Color(0xffffffff),
-              fontSize: 16
-            ),
+            style: const TextStyle(color: Color(0xffffffff), fontSize: 16),
           ),
         )
       ],
@@ -98,18 +98,12 @@ class _BrandPageState extends State<BrandPage>{
         child: Text(
           _issuerInfo!.summary,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: Color(0xccffffff),
-              fontSize: 14
-          ),
+          style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
         ),
       ),
     ).outlined().paddingOnly(bottom: 22);
 
-    const projectTitleStyle = TextStyle(
-        color: Color(0xffffffff),
-        fontSize: 16
-    );
+    const projectTitleStyle = TextStyle(color: Color(0xffffffff), fontSize: 16);
 
     Widget brandCardTitle = Container(
       padding: const EdgeInsets.only(left: 22, right: 22, bottom: 8, top: 22),
@@ -158,9 +152,9 @@ class _BrandPageState extends State<BrandPage>{
                 );
               }
             }
-            return createProjectItemMixed(_projectGroups[index], showBrand: false);
-          }
-      ),
+            return createProjectItemMixed(_projectGroups[index],
+                showBrand: false);
+          }),
     );
 
     // return Material(
@@ -178,15 +172,8 @@ class _BrandPageState extends State<BrandPage>{
     // );
     return ScreenBoundary(
         body: ListView(
-          shrinkWrap: true,
-          children: [
-            topButton,
-            brandInfo,
-            brandIntro,
-            brandCardTitle,
-            brandCards
-          ],
-        )
-    );
+      shrinkWrap: true,
+      children: [topButton, brandInfo, brandIntro, brandCardTitle, brandCards],
+    ));
   }
 }

@@ -18,8 +18,7 @@ class Issuer {
     required this.ID,
   });
 
-  factory Issuer.fromJson(Map<String, dynamic> json) =>
-      _$IssuerFromJson(json);
+  factory Issuer.fromJson(Map<String, dynamic> json) => _$IssuerFromJson(json);
 
   Map<String, dynamic> toJson() => _$IssuerToJson(this);
 }

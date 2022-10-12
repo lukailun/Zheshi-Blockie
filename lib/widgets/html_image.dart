@@ -11,8 +11,8 @@ class HtmlImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatarImageHtml =
-        '<img src="$url" object-fit="cover" display="block" height="100%" width="100%">';
+    final imageHtml =
+        '<img src="$url" object-fit="contain" display="block" width="100%">';
     final NodeValidator validator = NodeValidatorBuilder.common()
       ..allowElement(
         'img',
@@ -20,19 +20,21 @@ class HtmlImage extends StatelessWidget {
           'src',
           'object-fit',
           'display',
-          'height',
           'width',
         ],
         uriPolicy: AllowedUriPolicy(),
       );
     //ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory('avatarImage_$url', (_) {
+    ui.platformViewRegistry.registerViewFactory('htmlImage_$url', (_) {
       return HtmlHtmlElement()
         ..style.border = 'none'
         ..style.width = "%100"
         ..style.height = "%100"
-        ..setInnerHtml(avatarImageHtml, validator: validator);
+        ..style.display = "flex"
+        ..style.justifyContent = "center"
+        ..style.alignItems = "center"
+        ..setInnerHtml(imageHtml, validator: validator);
     });
-    return HtmlElementView(viewType: 'avatarImage_$url');
+    return HtmlElementView(viewType: 'htmlImage_$url');
   }
 }

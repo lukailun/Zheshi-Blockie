@@ -36,7 +36,8 @@ Widget createProjectItemSingle(ProjectInfo info,
     {Function? whenBack, bool showBrand = true}) {
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.projectDetails}?projectUid=${info.uid}&showsRule=${false}")
+        Get.toNamed(
+                "${Routes.projectDetails}?projectUid=${info.uid}&showsRule=${false}")
             ?.then((_) {
           whenBack?.call();
         });

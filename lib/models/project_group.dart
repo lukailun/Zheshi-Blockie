@@ -5,17 +5,16 @@ class ProjectGroup {
   final String summary;
   final String description;
   final String uid;
-  final int type;  // 1 == single project, 2 == group
+  final int type; // 1 == single project, 2 == group
   final List<ProjectInfo> projects;
 
-  ProjectGroup({
-    required this.name,
-    required this.summary,
-    required this.description,
-    required this.uid,
-    required this.type,
-    required this.projects
-  });
+  ProjectGroup(
+      {required this.name,
+      required this.summary,
+      required this.description,
+      required this.uid,
+      required this.type,
+      required this.projects});
 
   factory ProjectGroup.fromJson(Map<String, dynamic> json) {
     List<ProjectInfo> projects = [];
@@ -29,7 +28,6 @@ class ProjectGroup {
         description: json['description'],
         uid: json['uid'],
         type: json['type'],
-        projects: projects
-    );
+        projects: projects);
   }
 }

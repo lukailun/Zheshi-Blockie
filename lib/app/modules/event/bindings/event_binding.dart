@@ -6,7 +6,7 @@ import 'package:blockie_app/app/modules/event/controllers/event_controller.dart'
 class EventBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => EventController(
-        repository: ProjectRepository(client: HttpRequest())));
+    Get.lazyPut(() =>
+        EventController(repository: ProjectRepository(client: HttpRequest())));
   }
 }
