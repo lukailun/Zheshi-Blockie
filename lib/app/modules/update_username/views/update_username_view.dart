@@ -1,12 +1,17 @@
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_text_field.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/update_username/controllers/update_username_controller.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
+import 'package:blockie_app/widgets/basic_text_field.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 class UpdateUsernameView extends GetView<UpdateUsernameController> {
   const UpdateUsernameView({super.key});

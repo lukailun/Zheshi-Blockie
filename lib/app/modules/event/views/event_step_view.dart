@@ -1,8 +1,12 @@
-import 'package:blockie_app/app/modules/event/views/event_step_button.dart';
-import 'package:blockie_app/extensions/extensions.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
+import 'package:blockie_app/app/modules/event/views/event_step_button.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import '../models/event_step.dart';
 
 class EventStepView extends StatelessWidget {
@@ -86,14 +90,20 @@ class EventStepView extends StatelessWidget {
         ),
       );
     }
-    if (contents.length == 1) {
-      return Column(
-        children: contents,
-      ).paddingAll(8).paddingSymmetric(vertical: 20);
-    } else {
-      return Column(
-        children: contents,
-      ).outlined().paddingSymmetric(vertical: 15);
-    }
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.translucent,
+      child: () {
+        if (contents.length == 1) {
+          return Column(
+            children: contents,
+          ).paddingAll(8).paddingSymmetric(vertical: 20);
+        } else {
+          return Column(
+            children: contents,
+          ).outlined().paddingSymmetric(vertical: 15);
+        }
+      }(),
+    );
   }
 }

@@ -1,14 +1,20 @@
-import 'package:blockie_app/widgets/segmented_control/segmented_control.dart';
-import 'package:blockie_app/widgets/segmented_control/segmented_control_button.dart';
+// Dart imports:
+import 'dart:ui';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
+import 'package:blockie_app/widgets/segmented_control/segmented_control.dart';
 
 class ShareView extends GetView<ShareController> {
   const ShareView({super.key});
@@ -16,49 +22,47 @@ class ShareView extends GetView<ShareController> {
   @override
   Widget build(BuildContext context) {
     final segmentedControl = SegmentedControl(
-      items: [
-        SegmentedControlButtonItem(
-          ID: "分享海报".hashCode,
-          title: "分享海报",
-        ),
-        SegmentedControlButtonItem(
-          ID: "高清原图".hashCode,
-          title: "高清原图",
-        )
-      ],
+      items: controller.segmentedControlItems,
       selectedIndex: controller.selectedIndex.value,
       onSegmentSelected: (index) {
         controller.selectedIndex.value = index;
       },
-    ).paddingOnly(top: 50);
-    final buttons = Row(
-      children: [
-        Expanded(
-          child: BasicElevatedButton(
-            title: '返回',
-            textColor: Colors.white,
-            borderRadius: 8,
-            onTap: () => Get.back(),
+    );
+    final saveHintView = Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0x003C63F8),
+              Color(0xFF3C63F8),
+            ],
           ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Expanded(
-          child: BasicElevatedButton(
-            title: '保存到相册',
-            backgroundColor: Colors.white,
-            textColor: AppThemeData.primaryColor,
-            borderRadius: 8,
-            onTap: () {},
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
+          color: AppThemeData.primaryColor,
         ),
-      ],
-    ).paddingOnly(bottom: 30);
+        width: double.infinity,
+        height: 76,
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Center(
+              child: const Text('长按图片保存')
+                  .textColor(Colors.white)
+                  .fontSize(14)
+                  .fontWeight(FontWeightCompat.regular),
+            ),
+          ),
+        ));
 
     return ScreenBoundary(
       padding: 0,
       body: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: BasicAppBar(),
         body: Container(
           width: double.infinity,
           height: double.infinity,
@@ -77,10 +81,10 @@ class ShareView extends GetView<ShareController> {
                     }(),
                   ),
                 ),
-                buttons,
+                saveHintView,
               ],
             ),
-          ).paddingSymmetric(horizontal: 20),
+          ),
         ),
       ),
     );

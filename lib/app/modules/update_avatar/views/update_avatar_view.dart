@@ -1,9 +1,14 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/update_avatar/controllers/update_avatar_controller.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/app/modules/update_avatar/controllers/update_avatar_controller.dart';
 
 class UpdateAvatarView extends GetView<UpdateAvatarController> {
   const UpdateAvatarView({super.key});

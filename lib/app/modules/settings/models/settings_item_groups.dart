@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:ui';
+
 part 'settings_item_group.dart';
 
 part 'settings_item.dart';
@@ -9,7 +12,12 @@ class SettingsItemGroups {
     required this.groups,
   });
 
-  static List<SettingsItemGroup> initial(String phoneNumber, String version) {
+  static List<SettingsItemGroup> initial({
+    required String phoneNumber,
+    required String version,
+    required VoidCallback termsOfServiceOnTap,
+    required VoidCallback privacyPolicyOnTap,
+  }) {
     return [
       SettingsItemGroup(
         title: '账号安全',
@@ -22,8 +30,8 @@ class SettingsItemGroups {
         title: '关于我们',
         items: [
           SettingsItem(title: '当前版本', content: version, arrowIsVisible: false),
-          SettingsItem(title: '用户条款'),
-          SettingsItem(title: '隐私政策'),
+          SettingsItem(title: '用户条款', onTap: termsOfServiceOnTap),
+          SettingsItem(title: '隐私政策', onTap: privacyPolicyOnTap),
         ],
       ),
     ];

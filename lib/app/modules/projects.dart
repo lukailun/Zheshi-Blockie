@@ -1,11 +1,19 @@
+// Dart imports:
 import 'dart:ui';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/extensions/get_extension.dart';
+import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/description_text.dart';
-import 'package:flutter/material.dart';
-import 'package:blockie_app/models/global.dart';
-import 'package:get/get.dart';
 import 'package:blockie_app/widgets/project_item.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
 
@@ -24,7 +32,7 @@ class _ProjectsState extends State<Projects> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       ProjectGroup group = await HttpRequest.loadProjectGroup(
-          groupUid: Get.parameters["groupUid"]!);
+          groupUid: Get.jsonParameters["groupUid"]!);
       setState(() {
         projectGroup = group;
       });

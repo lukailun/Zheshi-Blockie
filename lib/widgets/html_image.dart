@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:html';
 import 'dart:ui' as ui;
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
 import '../models/allowed_uri_policy.dart';
 
 class HtmlImage extends StatelessWidget {

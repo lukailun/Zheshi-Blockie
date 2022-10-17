@@ -1,7 +1,13 @@
-import 'package:blockie_app/extensions/extensions.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+
+// Project imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import '../models/app_bar_button_item.dart';
 import '../models/app_theme_data.dart';
 import 'basic_popup_menu_button.dart';
@@ -38,12 +44,13 @@ class BasicPopupMenuItem extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
+                    SvgPicture.asset(
                       item.assetName,
-                      color: AppThemeData.primaryColor,
                       width: 16,
                       height: 16,
-                    ).paddingOnly(right: 12),
+                      fit: BoxFit.fitWidth,
+                      color: AppThemeData.primaryColor,
+                    ).outlined(visible: false),
                     Text(item.title ?? '')
                         .fontSize(16)
                         .fontWeight(FontWeightCompat.regular)

@@ -1,5 +1,8 @@
-import 'package:blockie_app/app/modules/event/models/event_step.dart';
+// Package imports:
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/event/models/event_step.dart';
 import 'package:blockie_app/app/modules/event/models/issuer.dart';
 
 part 'event.g.dart';

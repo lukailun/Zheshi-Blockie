@@ -1,11 +1,21 @@
-import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
-import 'package:blockie_app/models/issuer_info.dart';
-import 'package:blockie_app/extensions/extensions.dart';
+// Dart imports:
+import 'dart:convert';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:blockie_app/models/project_info.dart';
-import 'package:blockie_app/models/project_group.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
+import 'package:blockie_app/app/modules/project_detail.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/project_group.dart';
+import 'package:blockie_app/models/project_info.dart';
 
 const double imageItemPadding = 16;
 const double groupImageWidth = 280;
@@ -18,7 +28,10 @@ Widget createProjectItemMixed(ProjectGroup inGroup,
   }
   return GestureDetector(
       onTap: () {
-        Get.toNamed("${Routes.event}?${EventParameter.ID}=${inGroup.uid}")
+        final parameters = {
+          EventParameter.ID: inGroup.uid,
+        };
+        Get.toNamedWithJsonParameters(Routes.event, parameters: parameters)
             ?.then((_) {
           whenBack?.call();
         });
@@ -36,8 +49,12 @@ Widget createProjectItemSingle(ProjectInfo info,
     {Function? whenBack, bool showBrand = true}) {
   return GestureDetector(
       onTap: () {
-        Get.toNamed(
-                "${Routes.projectDetails}?projectUid=${info.uid}&showsRule=${false}")
+        final parameters = {
+          ProjectDetailsParameter.ID: info.uid,
+          ProjectDetailsParameter.showsRule: false,
+        };
+        Get.toNamedWithJsonParameters(Routes.projectDetails,
+                parameters: parameters)
             ?.then((_) {
           whenBack?.call();
         });
@@ -102,6 +119,11 @@ class ProjectItem extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
+                        Image.asset("images/cover_stack.png",
+                          width: groupImageWidth,
+                          height: groupImageWidth,
+                          fit: BoxFit.cover,
+                        ),
                         Positioned(
                             left: 21,
                             bottom: 13,
@@ -118,14 +140,17 @@ class ProjectItem extends StatelessWidget {
                   );
                 }),
           )
-        : ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
-            child: Image.network(
-              projectInfo!.cover,
-              fit: BoxFit.contain,
+        : AspectRatio(
+            aspectRatio: 1,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+              child: Image.network(
+                projectInfo!.cover,
+                fit: BoxFit.cover,
+              ),
             ),
           );
 

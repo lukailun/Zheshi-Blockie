@@ -1,3 +1,16 @@
+// Dart imports:
+import 'dart:html' as html;
+import 'dart:ui' as ui;
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
 import 'package:blockie_app/app/modules/event/models/event.dart';
 import 'package:blockie_app/app/modules/event/models/event_action_info.dart';
 import 'package:blockie_app/app/modules/event/models/event_step.dart';
@@ -6,12 +19,6 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
-import 'dart:html' as html;
-import 'dart:ui' as ui;
 import '../../../../widgets/basic_app_bar.dart';
 import '../../../../widgets/screen_bound.dart';
 
@@ -36,7 +43,7 @@ class EventContainerView extends GetView<EventController> {
     if (Get.routing.previous.isNotEmpty) {
       actionItems.add(
         AppBarButtonItem(
-          assetName: "images/app_bar/close.png",
+          assetName: "images/app_bar/close.svg",
           onTap: () {
             Get.back();
           },
@@ -72,10 +79,10 @@ class EventContainerView extends GetView<EventController> {
                       }
                       break;
                     case EventAction.signUp:
-                      controller.goToRegistrationInfo();
+                      controller.goToRegistrationInfo(event.ID);
                       break;
                     case EventAction.mint:
-                      controller.goToProjectDetails(step.ID);
+                      controller.goToProjectDetails(step.actionInfo.ID);
                       break;
                   }
                 },

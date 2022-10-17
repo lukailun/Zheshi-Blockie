@@ -1,6 +1,6 @@
 part of wechat_js_sdk;
 
-@JS('wx.onMenuShareTimeline')
+@JS('wx.updateTimelineShareData')
 external Object wechatUpdateTimelineShareData(
     WechatUpdateTimelineShareDataParams params);
 

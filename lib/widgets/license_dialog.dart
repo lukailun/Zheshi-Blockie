@@ -1,11 +1,16 @@
+// Dart imports:
 import 'dart:math';
 
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
+// Flutter imports:
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import '../models/app_theme_data.dart';
 
 class LicenseDialog extends StatelessWidget {

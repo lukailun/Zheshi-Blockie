@@ -1,6 +1,8 @@
-import 'package:blockie_app/widgets/basic_icon_button.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:blockie_app/widgets/basic_icon_button.dart';
 import '../extensions/font_weight_compat.dart';
 
 class BasicTextField extends StatefulWidget {

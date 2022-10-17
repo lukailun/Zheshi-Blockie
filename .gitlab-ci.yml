@@ -19,6 +19,8 @@ stages:
 
 build_web:
   stage: build
+  only:
+    - master
   script:
     - flutter build web --web-renderer html
     - (Get-Content ./build/web/index.html) -Replace '<base href="/">', '<base href="/app/">' | Set-Content ./build/web/index.html

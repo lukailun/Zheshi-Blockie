@@ -1,13 +1,19 @@
+// Dart imports:
 import 'dart:math';
 import 'dart:typed_data';
 
+// Flutter imports:
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/face_verification/controllers/face_verification_controller.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_camera_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/app/modules/face_verification/controllers/face_verification_controller.dart';
-
 import '../../../../models/app_theme_data.dart';
 import '../../../../widgets/basic_app_bar.dart';
 import '../../../../widgets/screen_bound.dart';
@@ -46,6 +52,35 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         ),
       ),
     );
+    final licenseText = Center(
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '我们承诺仅将你的人脸照片信息用于运动数据分析服务\n继续拍摄表示你已阅读并同意',
+              style: _messageStyle(underline: false, opacity: 0.8),
+            ),
+            TextSpan(
+              text: '用户条款',
+              style: _messageStyle(underline: true),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => controller.goToTermsOfService(),
+            ),
+            TextSpan(
+              text: '和',
+              style: _messageStyle(underline: false, opacity: 0.8),
+            ),
+            TextSpan(
+              text: '隐私政策',
+              style: _messageStyle(underline: true),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => controller.goToPrivacyPolicy(),
+            ),
+          ],
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ).paddingOnly(bottom: 36);
     final takePhotoButton = SizedBox(
       height: 48,
       child: BasicElevatedButton(
@@ -73,11 +108,21 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
               const Expanded(child: SizedBox()),
               cameraView,
               const Expanded(child: SizedBox()),
+              licenseText,
               takePhotoButton,
             ],
           ).paddingSymmetric(horizontal: 20),
         ),
       ),
+    );
+  }
+
+  TextStyle _messageStyle({required bool underline, double opacity = 1}) {
+    return TextStyle(
+      color: Colors.white.withOpacity(opacity),
+      fontWeight: FontWeightCompat.medium,
+      fontSize: 11,
+      decoration: underline ? TextDecoration.underline : TextDecoration.none,
     );
   }
 }

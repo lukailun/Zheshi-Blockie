@@ -5,11 +5,24 @@ A Web3 sports life platform.
 ## Backend
 * https://www.apifox.cn/web/project/1423402
 
+## Docs
+* https://ulv7gaxq0g.feishu.cn/docx/doxcnjVqcp8bOh5UFBZgFHFhvtc
+
 ## UI/UX
 
 * https://share.lanhuapp.com/#/invite?sid=lX0l61Yy
 * https://lanhuapp.com/url/arU2S-AV8aKt
 * https://mastergo.com/file/72336366832516
+
+## Sort Imports
+```
+$ flutter pub run import_sorter:main
+```
+
+## Generate Json Code
+```
+$ flutter pub run build_runner build
+```
 
 ## How to generate module structure files
 

@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:blockie_app/app/modules/event/models/event.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';

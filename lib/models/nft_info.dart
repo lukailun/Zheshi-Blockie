@@ -1,6 +1,7 @@
+// Project imports:
 import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/user_info.dart';
 
 class NftInfo {
   final String projectContract;

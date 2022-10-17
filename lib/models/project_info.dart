@@ -1,5 +1,5 @@
+// Project imports:
 import 'package:blockie_app/models/issuer_info.dart';
-
 import 'global.dart';
 
 class ProjectInfo {

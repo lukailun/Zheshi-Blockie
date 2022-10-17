@@ -1,5 +1,8 @@
-import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
+// Package imports:
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 
 part 'registration_info.g.dart';
 

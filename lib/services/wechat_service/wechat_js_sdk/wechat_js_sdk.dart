@@ -1,6 +1,7 @@
 @JS()
 library wechat_js_sdk;
 
+// Package imports:
 import 'package:js/js.dart';
 
 part 'wechat_js_sdk_supported_apis.dart';

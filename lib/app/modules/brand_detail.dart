@@ -1,13 +1,19 @@
-import 'package:blockie_app/extensions/extensions.dart';
+// Flutter imports:
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 import 'package:blockie_app/widgets/project_item.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 class BrandPage extends StatefulWidget {
   const BrandPage({Key? key}) : super(key: key);
@@ -24,8 +30,8 @@ class _BrandPageState extends State<BrandPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      IssuerInfo issuerInfo =
-          await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
+      IssuerInfo issuerInfo = await HttpRequest.loadIssuerDetail(
+          uid: Get.jsonParameters["issuerUid"]!);
       setState(() {
         _issuerInfo = issuerInfo;
         _addProjects(uid: _issuerInfo!.uid);
@@ -157,23 +163,20 @@ class _BrandPageState extends State<BrandPage> {
           }),
     );
 
-    // return Material(
-    //     color: const Color(0xff3C63F8),
-    //     child: ListView(
-    //       shrinkWrap: true,
-    //       children: [
-    //         topButton,
-    //         brandInfo,
-    //         brandIntro,
-    //         brandCardTitle,
-    //         brandCards
-    //       ],
-    //     )
-    // );
     return ScreenBoundary(
+      body: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: BasicAppBar(),
         body: ListView(
-      shrinkWrap: true,
-      children: [topButton, brandInfo, brandIntro, brandCardTitle, brandCards],
-    ));
+          shrinkWrap: true,
+          children: [
+            brandInfo,
+            brandIntro,
+            brandCardTitle,
+            brandCards,
+          ],
+        ),
+      ),
+    );
   }
 }

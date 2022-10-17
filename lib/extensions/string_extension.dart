@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:blockie_app/models/global.dart';
 
 extension StringExtension on String {

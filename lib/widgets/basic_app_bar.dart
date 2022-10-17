@@ -1,11 +1,16 @@
-import 'package:blockie_app/models/app_bar_button_item.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/widgets/basic_flat_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_item.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 enum AppBarButtonStyle {
   elevated,
@@ -17,6 +22,7 @@ final _popupMenuButtonController = BasicPopupMenuButtonController();
 class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final String? title;
   final bool showsBackButton;
+  final VoidCallback? backButtonOnTap;
   final Widget? avatar;
   final bool showsLogo;
   final List<AppBarButtonItem>? actionItems;
@@ -26,6 +32,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     Key? key,
     this.title,
     this.showsBackButton = true,
+    this.backButtonOnTap,
     this.showsLogo = false,
     this.actionItems,
     this.avatar,
@@ -64,11 +71,17 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
             ).paddingOnly(right: 13);
     }).toList();
     final backButton = Visibility(
-      visible: showsBackButton,
+      visible: showsBackButton && Get.routing.previous.isNotEmpty,
       child: BasicFlatButton(
-        assetName: "images/app_bar/back.png",
+        assetName: "images/app_bar/back.svg",
         size: 34,
-        onTap: () => Get.back(),
+        onTap: () {
+          if (backButtonOnTap != null) {
+            backButtonOnTap?.call();
+          } else {
+            Get.back();
+          }
+        },
       ).paddingOnly(left: 22),
     );
     final logo = Visibility(

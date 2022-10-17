@@ -1,8 +1,14 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/extensions/get_extension.dart';
+import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/project_detail_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
-import 'package:flutter/material.dart';
-import 'package:blockie_app/models/global.dart';
-import 'package:get/get.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
 
 class ImageView extends StatefulWidget {
@@ -22,10 +28,10 @@ class _ImageViewState extends State<ImageView> {
     controller = PageController();
     Future.delayed(Duration.zero, () async {
       ProjectDetailInfo project = await HttpRequest.loadProjectDetail(
-          uid: Get.parameters["projectUid"]!);
+          uid: Get.jsonParameters["projectUid"]!);
       setState(() {
         imageUrls = project.images;
-        currentIndex = int.parse(Get.parameters["index"]!);
+        currentIndex = int.parse(Get.jsonParameters["index"]!);
         controller.jumpToPage(currentIndex);
       });
     });

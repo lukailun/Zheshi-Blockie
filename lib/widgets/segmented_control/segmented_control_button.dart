@@ -1,5 +1,8 @@
-import 'package:blockie_app/extensions/extensions.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 
 class SegmentedControlButton extends StatelessWidget {

@@ -1,8 +1,13 @@
-import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/extensions/get_extension.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 
 class RegistrationInfoController extends GetxController {
   final AccountRepository accountRepository;
@@ -11,9 +16,9 @@ class RegistrationInfoController extends GetxController {
   final initialEntryNumber = ''.obs;
   final newEntryNumber = ''.obs;
   bool isUpdate = false;
-  final facePaths = <String>[].obs;
+  final faceInfos = <FaceInfo>[].obs;
 
-  final _ID = Get.parameters[RegistrationInfoParameter.ID] ?? "";
+  final _ID = Get.jsonParameters[RegistrationInfoParameter.ID] as String;
 
   RegistrationInfoController({
     required this.accountRepository,
@@ -42,7 +47,8 @@ class RegistrationInfoController extends GetxController {
   }
 
   void goToFaceVerification() async {
-    final needUpdate = await Get.toNamed(Routes.faceVerification);
+    final needUpdate =
+        await Get.toNamedWithJsonParameters(Routes.faceVerification);
     if (needUpdate == true) {
       _getRegistrationInfo();
     }
@@ -51,9 +57,16 @@ class RegistrationInfoController extends GetxController {
   void _getRegistrationInfo() async {
     final registrationInfo = await projectRepository.getRegistrationInfo(_ID);
     initialEntryNumber.value = registrationInfo.entryNumber;
-    newEntryNumber.value = registrationInfo.entryNumber;
-    facePaths.value = registrationInfo.faceInfos.map((it) => it.path).toList();
+    faceInfos.value = registrationInfo.faceInfos;
     isUpdate = registrationInfo.hasSigned;
+  }
+
+  void deleteFacePhoto(String faceID) async {
+    final isSuccessful = await accountRepository.deleteFacePhoto(faceID);
+    if (isSuccessful) {
+      MessageToast.showMessage("删除成功");
+      _getRegistrationInfo();
+    }
   }
 }
 

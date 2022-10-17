@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
 class SingleLineFittedBox extends StatelessWidget {

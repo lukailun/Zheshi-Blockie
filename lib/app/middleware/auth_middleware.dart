@@ -1,5 +1,7 @@
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
 import 'package:blockie_app/services/auth_service.dart';
 import '../routes/app_pages.dart';
 

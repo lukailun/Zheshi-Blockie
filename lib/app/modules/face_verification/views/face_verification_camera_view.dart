@@ -1,8 +1,15 @@
+// Dart imports:
 import 'dart:math';
-import 'package:get/get.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:camera/camera.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:camera/camera.dart';
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/widgets/message_toast.dart';
 
 class FaceVerificationCameraView extends StatefulWidget {
   final void Function(XFile) onPhotoTaken;

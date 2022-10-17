@@ -1,7 +1,10 @@
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
 
 class UpdateUsernameController extends GetxController {
   final AccountRepository repository;
@@ -23,12 +26,14 @@ class UpdateUsernameController extends GetxController {
     return notEmpty && notSame && inLengthLimit;
   }
 
-  void updateUsername(String username) {
-    repository.updateUsername(username).then((userInfo) {
-      initialName.value = userInfo.nickname;
-      newName.value = userInfo.nickname;
-      AuthService.to.updateUserInfo(userInfo);
-      MessageToast.showMessage('修改成功');
-    });
+  void updateUsername(String username) async {
+    final userInfo = await repository.updateUsername(username);
+    if (userInfo == null) {
+      return;
+    }
+    initialName.value = userInfo.nickname;
+    newName.value = userInfo.nickname;
+    AuthService.to.updateUserInfo(userInfo);
+    MessageToast.showMessage('修改成功');
   }
 }

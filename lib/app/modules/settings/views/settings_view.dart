@@ -1,15 +1,20 @@
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/extensions/extensions.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/settings/models/settings_item_groups.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_item_group_tile.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_dialog.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/widgets/basic_app_bar.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -29,8 +34,12 @@ class SettingsView extends GetView<SettingsController> {
     );
 
     final groups = SettingsItemGroups.initial(
-        controller.displayPhoneNumber(controller.initialPhoneNumber.value),
-        '1.0.0');
+      phoneNumber:
+          controller.displayPhoneNumber(controller.initialPhoneNumber.value),
+      version: '1.0.0',
+      termsOfServiceOnTap: () => controller.goToTermsOfService(),
+      privacyPolicyOnTap: () => controller.goToPrivacyPolicy(),
+    );
     final List<Widget> itemGroupTiles =
         groups.map((group) => SettingsItemGroupTile(group: group)).toList();
     final Widget title = const Text('设置')

@@ -1,5 +1,8 @@
-import 'package:blockie_app/models/user_info.dart';
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/models/user_info.dart';
 
 class AuthService extends GetxService {
   static AuthService get to => Get.find();

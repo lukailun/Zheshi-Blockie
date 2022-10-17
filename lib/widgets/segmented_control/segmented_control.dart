@@ -1,10 +1,15 @@
 export 'segmented_control_button.dart';
 export 'segmented_control_button_item.dart';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:pointer_interceptor/pointer_interceptor.dart';
+
+// Project imports:
 import 'package:blockie_app/widgets/segmented_control/segmented_control_button.dart';
 import 'package:blockie_app/widgets/segmented_control/segmented_control_button_item.dart';
-import 'package:flutter/material.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class SegmentedControl extends StatefulWidget {
   final List<SegmentedControlButtonItem> items;
@@ -45,6 +50,7 @@ class _SegmentedControlState extends State<SegmentedControl> {
           return Expanded(
             child: PointerInterceptor(
               child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   final index = items.indexOf(item);
                   onSegmentSelected?.call(index);

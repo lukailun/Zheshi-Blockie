@@ -1,26 +1,33 @@
+// Dart imports:
 import 'dart:async';
+import 'dart:html';
+import 'dart:ui' as ui;
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/extensions/get_extension.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
+import 'package:blockie_app/widgets/description_text.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:ui' as ui;
-import 'dart:html';
-import 'package:blockie_app/widgets/description_text.dart';
-import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/utils/http_request.dart';
-import 'package:get/get.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-
-import 'package:blockie_app/models/app_theme_data.dart';
 
 class NftPage extends StatefulWidget {
   const NftPage({Key? key}) : super(key: key);
@@ -49,12 +56,10 @@ class _NftPageState extends State<NftPage> {
       _isLoading = true;
       Future.delayed(Duration.zero, () async {
         NftInfo nftInfo =
-            await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
+            await HttpRequest.loadNft(uid: Get.jsonParameters["uid"]!);
         setState(() {
-          // _nftInfo = ModalRoute.of(context)!.settings.arguments as NftInfo;
           _nftInfo = nftInfo;
           _isLoading = false;
-          // _nftInfo = Get.arguments;
         });
       });
     }
@@ -112,49 +117,59 @@ class _NftPageState extends State<NftPage> {
 
     Widget webPanel = _nftInfo!.type == 1 ? nftImage : webView;
 
-    Widget brand = Container(
-      padding: const EdgeInsets.only(left: 19, right: 22, top: 20, bottom: 25),
+    Widget projectTitle = Container(
+      padding: const EdgeInsets.only(left: 22, right: 22, top: 14, bottom: 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            padding: const EdgeInsets.only(right: 5),
-            child: CircleAvatar(
-              radius: 24,
-              backgroundImage: NetworkImage(_nftInfo!.issuer.logo),
-            ),
-          ),
-          Expanded(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    _nftInfo!.projectName,
-                    style:
-                        const TextStyle(color: Color(0xffffffff), fontSize: 16),
+          Text(
+            _nftInfo!.projectName,
+            style: const TextStyle(
+                color: Color(0xffffffff),
+                fontSize: 20,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 2,
+                    color: Color.fromARGB(63, 0, 0, 0),
                   )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _nftInfo!.issuer.title,
-                    style:
-                        const TextStyle(color: Color(0xccffffff), fontSize: 14),
-                  ),
-                  Text(
-                    "限量${_nftInfo!.projectAmount}",
-                    style:
-                        const TextStyle(color: Color(0xccffffff), fontSize: 14),
-                  )
-                ],
-              )
-            ],
-          ))
+                ]),
+          )
         ],
       ),
+    );
+
+    Widget brandInfo = Container(
+      padding: const EdgeInsets.only(left: 22, right: 22, bottom: 13),
+      child: GestureDetector(
+          onTap: () {
+            final parameters = {
+              'issuerUid': _nftInfo!.issuer.uid,
+            };
+            Get.toNamedWithJsonParameters(Routes.brand, parameters: parameters);
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                  radius: 16,
+                  backgroundImage: NetworkImage(
+                    _nftInfo!.issuer.logo,
+                  )),
+              Container(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  _nftInfo!.issuer.title,
+                  style:
+                      const TextStyle(color: Color(0xffffffff), fontSize: 14),
+                ),
+              ),
+              const Expanded(child: SizedBox()),
+              Text(
+                "限量${_nftInfo!.projectAmount}",
+                style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
+              ),
+            ],
+          )),
     );
 
     Widget description = DescriptionTextWidget(
@@ -246,24 +261,20 @@ class _NftPageState extends State<NftPage> {
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
-        assetName: "images/app_bar/home.png",
+        assetName: "images/app_bar/home.svg",
         onTap: () => Get.offAllNamed(Routes.initial),
       ),
       AppBarButtonItem(
         title: '我的',
-        assetName: "images/app_bar/user.png",
-        onTap: () => Get.toNamed(
-            "${Routes.user}?uid=${AuthService.to.userInfo.value?.uid ?? ""}"),
+        assetName: "images/app_bar/user.svg",
+        onTap: () {
+          final parameters = {
+            'uid': AuthService.to.userInfo.value?.uid ?? "",
+          };
+          Get.toNamedWithJsonParameters(Routes.user, parameters: parameters);
+        },
       ),
     ];
-    menuItems.add(
-      AppBarButtonItem(
-        title: '铸造规则',
-        assetName: "images/app_bar/info.png",
-        onTap: () => Get.toNamed(
-            "${Routes.event}?${EventParameter.ID}=${_nftInfo?.uid ?? ""}"),
-      ),
-    );
     return ScreenBoundary(
       body: Scaffold(
         backgroundColor: Colors.transparent,
@@ -273,21 +284,61 @@ class _NftPageState extends State<NftPage> {
           buttonStyle: AppBarButtonStyle.flat,
           actionItems: [
             AppBarButtonItem(
-              assetName: "images/app_bar/share.png",
-              onTap: () => Get.toNamed(Routes.share, arguments: {
-                ShareParameter.ID: _nftInfo?.uid ?? "",
-                ShareParameter.isNFT: true,
-              }),
+              assetName: "images/app_bar/share.svg",
+              onTap: () {
+                final parameters = {
+                  ShareParameter.ID: _nftInfo?.uid ?? "",
+                  ShareParameter.isNFT: true,
+                  ShareParameter.title: _nftInfo?.projectName ?? '',
+                  ShareParameter.description: _nftInfo?.projectSummary ?? '',
+                  ShareParameter.imageUrl: _nftInfo?.image,
+                };
+                Get.toNamedWithJsonParameters(Routes.share,
+                    parameters: parameters);
+              },
             ),
             AppBarButtonItem(
-              assetName: "images/app_bar/menu.png",
+              assetName: "images/app_bar/menu.svg",
               items: menuItems,
             ),
           ],
         ),
         body: ListView(
           padding: const EdgeInsets.only(top: 0),
-          children: [webPanel, brand, nftDetail],
+          children: [
+            webPanel,
+            Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 100,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFFB3BCC5),
+                        Color(0xFF3C63F8),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                  ),
+                  transform: Matrix4.translationValues(0.0, -16.0, 0.0),
+                ),
+                Column(
+                  children: [
+                    // brand,
+                    projectTitle,
+                    brandInfo,
+                    nftDetail,
+                  ],
+                )
+              ],
+            )
+          ],
         ),
       ),
       padding: 0,

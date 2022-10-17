@@ -1,6 +1,9 @@
-import 'package:get/get.dart';
-import 'dart:html' as html;
+// Dart imports:
 import 'dart:convert';
+import 'dart:html' as html;
+
+// Package imports:
+import 'package:get/get.dart';
 
 enum AnyWebMethod {
   accounts("cfx_accounts"),

@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:blockie_app/models/nft_info.dart';
 
 class NftLoadInfo {

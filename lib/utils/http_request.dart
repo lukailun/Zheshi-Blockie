@@ -1,21 +1,27 @@
+// Dart imports:
 import 'dart:convert';
+
+// Package imports:
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
-import 'package:blockie_app/models/project_group.dart';
-import 'package:blockie_app/models/project_group_load_info.dart';
-import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/user_info.dart';
-import 'package:blockie_app/models/project_detail_info.dart';
+import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/nft_load_info.dart';
-import 'package:blockie_app/models/issuer_info.dart';
-import 'package:dio/dio.dart';
+import 'package:blockie_app/models/project_detail_info.dart';
+import 'package:blockie_app/models/project_group.dart';
+import 'package:blockie_app/models/project_group_load_info.dart';
+import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 import '../app/modules/event/models/event.dart';
 import 'data_storage.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:blockie_app/app/modules/share/models/wechat_config.dart';
 
 const scheme = "https";
 const serverHost = "s.blockie.zheshi.tech";
@@ -385,9 +391,18 @@ class HttpRequest {
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
     final response = await dio.postUri(url, options: Options(headers: headers));
     if (response.statusCode == 200) {
-      return true;
+      final Map<String, dynamic> object = response.data;
+      final String status = object['status'];
+      if (status == 'success') {
+        return true;
+      } else {
+        final int errorCode = object['err_code'];
+        final String errorMessage = object['err_msg'];
+        MessageToast.showException(errorMessage);
+        return false;
+      }
     } else {
-      throw Exception('Failed to updateRegistrationInfo');
+      return false;
     }
   }
 

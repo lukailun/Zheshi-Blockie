@@ -1,6 +1,12 @@
+// Flutter imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+// Package imports:
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
+// Project imports:
 import '../models/app_theme_data.dart';
 
 class BasicIconButton extends StatelessWidget {
@@ -41,11 +47,22 @@ class BasicIconButton extends StatelessWidget {
               ),
             ],
           ),
-          child: Image.asset(
-            assetName,
-            width: size,
-            height: size,
-          ),
+          child: () {
+            if (assetName.contains('svg')) {
+              return SvgPicture.asset(
+                assetName,
+                width: size,
+                height: size,
+                fit: BoxFit.fitWidth,
+              ).outlined(visible: false);
+            } else {
+              return Image.asset(
+                assetName,
+                width: size,
+                height: size,
+              );
+            }
+          }(),
         ),
       ),
     );

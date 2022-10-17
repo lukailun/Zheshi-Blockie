@@ -1,5 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+// Package imports:
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+
+// Project imports:
 import '../models/app_theme_data.dart';
 
 class BasicFlatButton extends StatelessWidget {
@@ -36,7 +42,16 @@ class BasicFlatButton extends StatelessWidget {
                 ),
               ),
               Center(
-                child: Image.asset(assetName),
+                child: () {
+                  if (assetName.contains('svg')) {
+                    return SvgPicture.asset(
+                      assetName,
+                      fit: BoxFit.contain,
+                    );
+                  } else {
+                    return Image.asset(assetName);
+                  }
+                }(),
               ),
             ],
           ),

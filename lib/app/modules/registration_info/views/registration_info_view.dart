@@ -1,13 +1,19 @@
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
+import 'package:blockie_app/widgets/basic_flat_button.dart';
 import 'package:blockie_app/widgets/basic_text_field.dart';
-import '../controllers/registration_info_controller.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 class RegistrationInfoView extends GetView<RegistrationInfoController> {
   const RegistrationInfoView({super.key});
@@ -42,7 +48,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
         child: Obx(
           () => BasicTextField(
             autofocus: false,
-            hintText: "如：KN9901",
+            hintText: "如：K9901",
             showsUnderline: true,
             text: controller.initialEntryNumber.value,
             onValueChanged: (text) => controller.newEntryNumber.value = text,
@@ -66,22 +72,42 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
         ),
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        children: controller.facePaths
+        children: controller.faceInfos
                 .map(
                   (it) => SizedBox(
                     width: double.infinity,
                     height: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: CachedNetworkImage(
-                        imageUrl: it.hostAdded,
-                        fit: BoxFit.cover,
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: CachedNetworkImage(
+                              imageUrl: it.path.hostAdded,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            right: 5,
+                            top: 5,
+                            child: BasicFlatButton(
+                              assetName: "images/common/clear.png",
+                              size: 23,
+                              onTap: () {
+                                final faceID = it.ID;
+                                controller.deleteFacePhoto(faceID);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ).outlined(),
                 )
                 .toList() +
-            [uploadView],
+            (controller.faceInfos.length < 6 ? [uploadView] : []),
       ),
     );
     return ScreenBoundary(

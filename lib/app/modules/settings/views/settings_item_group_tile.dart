@@ -1,7 +1,9 @@
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/app/modules/settings/views/settings_item_tile.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:blockie_app/app/modules/settings/views/settings_item_tile.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import '../models/settings_item_groups.dart';
 
 class SettingsItemGroupTile extends StatelessWidget {

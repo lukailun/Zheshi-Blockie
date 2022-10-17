@@ -1,22 +1,31 @@
-import 'dart:ui';
+// Dart imports:
 import 'dart:html' as html;
 import 'dart:ui' as ui;
+import 'dart:ui';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/apis/blockie_url_builder.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:flutter/material.dart';
-import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:get/get.dart';
+import 'package:blockie_app/utils/http_request.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/license_dialog.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:blockie_app/widgets/project_item.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-
-import 'package:blockie_app/services/anyweb_service.dart';
-import 'package:blockie_app/widgets/license_dialog.dart';
 
 class ProjectGroups extends StatefulWidget {
   const ProjectGroups({Key? key}) : super(key: key);
@@ -57,10 +66,16 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   void _showLicenseDialog() {
     Get.dialog(LicenseDialog(
       onTermsOfServiceTap: () {
-        Get.back();
+        final parameters = {
+          WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
+        };
+        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
       },
       onPrivacyPolicyTap: () {
-        Get.back();
+        final parameters = {
+          WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
+        };
+        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
       },
       onPositiveButtonTap: () {
         Get.back();
@@ -121,7 +136,10 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         if (_userInfo == null) {
           _showLicenseDialog();
         } else {
-          Get.toNamed("${Routes.user}?uid=${_userInfo!.uid}");
+          final parameters = {
+            'uid': _userInfo?.uid ?? "",
+          };
+          Get.toNamedWithJsonParameters(Routes.user, parameters: parameters);
         }
       }, // Image tapped
       child: CircleAvatar(

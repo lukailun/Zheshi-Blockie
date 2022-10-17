@@ -1,24 +1,30 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:ui';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_bar_button_item.dart';
+import 'package:blockie_app/models/nft_info.dart';
+import 'package:blockie_app/models/nft_load_info.dart';
+import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
+import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/empty_dataset_view.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:blockie_app/models/user_info.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/models/nft_load_info.dart';
-import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:get/get.dart';
 import 'package:blockie_app/widgets/screen_bound.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -33,14 +39,13 @@ class _UserPageState extends State<UserPage> {
   String? _nextPageUrl;
   String _qrcode = '';
   bool _isLoading = false;
-  bool _myself = false;
 
   final _userInfo = AuthService.to.userInfo;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await _loadUserInfo(Get.parameters["uid"] ?? '');
+      await _loadUserInfo(Get.jsonParameters["uid"] ?? '');
       _addNfts();
       _loadQRCode();
     });
@@ -58,9 +63,6 @@ class _UserPageState extends State<UserPage> {
     } else {
       userInfo = await HttpRequest.getOtherUserInfo(uid);
     }
-    setState(() {
-      _myself = myself;
-    });
   }
 
   _loadQRCode() async {
@@ -75,11 +77,10 @@ class _UserPageState extends State<UserPage> {
   Widget _createNftItem(NftInfo nftInfo) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).pushNamed("/nft", arguments: nftInfo);
-        // print(jsonEncode(nftInfo.json));
-        // print(jsonDecode(jsonEncode(nftInfo.json)));
-        // Get.toNamed(Routes.nft, arguments: nftInfo);
-        Get.toNamed("${Routes.nft}?uid=${nftInfo.uid}");
+        final parameters = {
+          'uid': nftInfo.uid,
+        };
+        Get.toNamedWithJsonParameters(Routes.nft, parameters: parameters);
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -142,7 +143,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     Widget avatar = GestureDetector(
-      onTap: () => Get.toNamed(Routes.updateAvatar),
+      onTap: () => Get.toNamedWithJsonParameters(Routes.updateAvatar),
       child: Container(
           width: 36,
           padding: const EdgeInsets.only(top: 3, bottom: 7),
@@ -160,7 +161,7 @@ class _UserPageState extends State<UserPage> {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Get.toNamed(Routes.updateName),
+            onTap: () => Get.toNamedWithJsonParameters(Routes.updateName),
             child: Obx(() => Text(_userInfo.value?.nickname ?? "")
                 .fontSize(20)
                 .textColor(Colors.white)),
@@ -342,9 +343,10 @@ class _UserPageState extends State<UserPage> {
       body: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: BasicAppBar(
+          backButtonOnTap: () => Get.offAllNamed(Routes.initial),
           actionItems: [
             AppBarButtonItem(
-              assetName: 'images/app_bar/qrcode.png',
+              assetName: 'images/app_bar/qrcode.svg',
               onTap: () {
                 setState(() {
                   _showQrCode = true;
@@ -352,8 +354,8 @@ class _UserPageState extends State<UserPage> {
               },
             ),
             AppBarButtonItem(
-              assetName: 'images/app_bar/settings.png',
-              onTap: () => Get.toNamed(Routes.settings),
+              assetName: 'images/app_bar/settings.svg',
+              onTap: () => Get.toNamedWithJsonParameters(Routes.settings),
             ),
           ],
         ),

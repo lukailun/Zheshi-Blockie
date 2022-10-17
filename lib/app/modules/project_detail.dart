@@ -1,32 +1,39 @@
+// Dart imports:
 import 'dart:html' as html;
 import 'dart:ui' as ui;
 import 'dart:ui';
-import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_icon_button.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/user_info.dart';
-import 'package:blockie_app/models/image_view_data.dart';
-import 'package:blockie_app/models/project_detail_info.dart';
-import 'package:blockie_app/widgets/description_text.dart';
-import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
+import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/apis/blockie_url_builder.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/models/nft_info.dart';
+import 'package:blockie_app/models/project_detail_info.dart';
+import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
+import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
+import 'package:blockie_app/utils/http_request.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_icon_button.dart';
+import 'package:blockie_app/widgets/description_text.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
+import 'package:blockie_app/widgets/screen_bound.dart';
 
 enum MintState { mint, notLogIn, unopened, unqualified, minting }
 
@@ -70,7 +77,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
-        _projectUid = Get.parameters["projectUid"];
+        _projectUid = Get.jsonParameters[ProjectDetailsParameter.ID] as String;
         _futureProject = HttpRequest.loadProjectDetail(
             uid: _projectUid, token: DataStorage.getToken());
       });
@@ -139,11 +146,13 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                               margin: const EdgeInsets.only(right: 9),
                               child: GestureDetector(
                                 onTap: () {
-                                  var data = ImageViewData(
-                                      snapshot.data!.images, index - 1);
-                                  // Navigator.of(context).pushNamed("/image_view", arguments: data);
-                                  Get.toNamed(
-                                      "${Routes.imageView}?index=${index - 1}&projectUid=${snapshot.data!.uid}");
+                                  final parameters = {
+                                    'index': index - 1,
+                                    'projectUid': snapshot.data!.uid,
+                                  };
+                                  Get.toNamedWithJsonParameters(
+                                      Routes.imageView,
+                                      parameters: parameters);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -192,9 +201,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           padding: const EdgeInsets.only(left: 22, right: 22, bottom: 13),
           child: GestureDetector(
               onTap: () {
-                // Navigator.of(context).pushNamed("/brand", arguments: snapshot.data!.issuer);
-                Get.toNamed(
-                    "${Routes.brand}?issuerUid=${snapshot.data!.issuer.uid}");
+                final parameters = {
+                  'issuerUid': snapshot.data!.issuer.uid,
+                };
+                Get.toNamedWithJsonParameters(Routes.brand,
+                    parameters: parameters);
               },
               child: Row(
                 children: [
@@ -223,7 +234,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
           ),
         );
 
-        const titles = ["发行总量", "已铸造", "持有者", "铸造资格说明", "铸造时间", "合约地址"];
+        const titles = ["发行总量", "已铸造", "持有者", "申领规则&玩法介绍", "铸造时间", "合约地址"];
         List<String> values = [
           snapshot.data!.totalAmount.toString(),
           snapshot.data!.mintedAmount.toString(),
@@ -412,9 +423,11 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                                 _showNftCard = false;
                               });
                               if (_mintedNft != null) {
-                                // Navigator.of(context).pushNamed("/nft", arguments: _mintedNft);
-                                Get.toNamed(
-                                    "${Routes.nft}?uid=${_mintedNft!.uid}");
+                                final parameters = {
+                                  "uid": _mintedNft?.uid ?? "",
+                                };
+                                Get.toNamedWithJsonParameters(Routes.nft,
+                                    parameters: parameters);
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -473,7 +486,7 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                       Container(
                         padding: const EdgeInsets.only(top: 10, bottom: 6),
                         child: const Text(
-                          "铸造资格说明",
+                          "申领规则&玩法介绍",
                           style:
                               TextStyle(color: Color(0xffffffff), fontSize: 18),
                         ),
@@ -593,24 +606,38 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
-        assetName: "images/app_bar/home.png",
+        assetName: "images/app_bar/home.svg",
         onTap: () => Get.offAllNamed(Routes.initial),
       ),
       AppBarButtonItem(
         title: '我的',
-        assetName: "images/app_bar/user.png",
-        onTap: () => Get.toNamed(
-            "${Routes.user}?uid=${AuthService.to.userInfo.value?.uid ?? ""}"),
+        assetName: "images/app_bar/user.svg",
+        onTap: () {
+          final parameters = {"uid": AuthService.to.userInfo.value?.uid ?? ""};
+          Get.toNamedWithJsonParameters(Routes.user, parameters: parameters);
+        },
       ),
     ];
-    menuItems.add(
-      AppBarButtonItem(
-        title: '铸造规则',
-        assetName: "images/app_bar/info.png",
-        onTap: () =>
-            Get.toNamed("${Routes.event}?${EventParameter.ID}=$_projectUid"),
-      ),
-    );
+    final bool showsShare =
+        Get.jsonParameters[ProjectDetailsParameter.showsRule];
+    if (showsShare) {
+      menuItems.add(
+        AppBarButtonItem(
+            title: '铸造规则',
+            assetName: "images/app_bar/info.svg",
+            onTap: () {
+              if (Get.routing.previous.contains(Routes.event)) {
+                Get.back();
+              } else {
+                final parameters = {
+                  EventParameter.ID: _projectUid,
+                };
+                Get.toNamedWithJsonParameters(Routes.event,
+                    parameters: parameters);
+              }
+            }),
+      );
+    }
     return ScreenBoundary(
       body: Scaffold(
         appBar: !_showLoginPanel
@@ -618,14 +645,21 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
                 buttonStyle: AppBarButtonStyle.flat,
                 actionItems: [
                   AppBarButtonItem(
-                    assetName: "images/app_bar/share.png",
-                    onTap: () => Get.toNamed(Routes.share, arguments: {
-                      ShareParameter.ID: _projectUid,
-                      ShareParameter.isNFT: false,
-                    }),
+                    assetName: "images/app_bar/share.svg",
+                    onTap: () {
+                      final parameters = {
+                        ShareParameter.ID: _projectUid,
+                        ShareParameter.isNFT: false,
+                        ShareParameter.title: '',
+                        ShareParameter.description: '',
+                        ShareParameter.imageUrl: '',
+                      };
+                      Get.toNamedWithJsonParameters(Routes.share,
+                          parameters: parameters);
+                    },
                   ),
                   AppBarButtonItem(
-                    assetName: "images/app_bar/menu.png",
+                    assetName: "images/app_bar/menu.svg",
                     items: menuItems,
                   ),
                 ],
@@ -708,10 +742,16 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
   void _showLicenseDialog() {
     Get.dialog(LicenseDialog(
       onTermsOfServiceTap: () {
-        Get.back();
+        final parameters = {
+          WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
+        };
+        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
       },
       onPrivacyPolicyTap: () {
-        Get.back();
+        final parameters = {
+          WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
+        };
+        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
       },
       onPositiveButtonTap: () {
         Get.back();
@@ -764,4 +804,9 @@ class _ProjectDetailsPageState extends State<ProjectDetailsPage> {
       });
     }
   }
+}
+
+class ProjectDetailsParameter {
+  static const ID = "ID";
+  static const showsRule = "showsRule";
 }
