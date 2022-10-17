@@ -63,20 +63,46 @@ class WechatService extends GetxService {
         jsApiList: wechatSupportedAPIs,
       ),
     );
-
-    wechatReady(
-      js.allowInterop(
-        () {
-          final title = WechatShareSource.defaults.getTitle();
-          final description = WechatShareSource.defaults.getDescription();
-          final imageUrl = WechatShareSource.defaults.getImageUrl();
-          updateShareInfo(
-            title: title,
-            description: description,
-            imageUrl: imageUrl,
-          );
-        },
-      ),
-    );
+    wechatReady(js.allowInterop(() {
+      wechatUpdateAppMessageShareData(WechatUpdateAppMessageShareDataParams(
+          title: "Blockie",
+          desc: "Hello world",
+          link: html.window.location.href,
+          imgUrl:
+              "https://www.gravatar.com/avatar/1be49f9ea6f801adf0681747955c1cde?s=256&d=identicon&r=PG",
+          success: () {}));
+    }));
   }
+
+// void _getWechatConfig() async {
+//   final config = await _repository.getWechatConfig(_url, wechatSupportedAPIs);
+//   if (config == null) {
+//     return;
+//   }
+//   wechatConfig(
+//     WechatConfigParams(
+//       debug: config.isDebug,
+//       appId: config.appID,
+//       timestamp: config.timestamp,
+//       nonceStr: config.nonceString,
+//       signature: config.signature,
+//       jsApiList: wechatSupportedAPIs,
+//     ),
+//   );
+//
+//   wechatReady(
+//     js.allowInterop(
+//       () {
+//         final title = WechatShareSource.defaults.getTitle();
+//         final description = WechatShareSource.defaults.getDescription();
+//         final imageUrl = WechatShareSource.defaults.getImageUrl();
+//         updateShareInfo(
+//           title: title,
+//           description: description,
+//           imageUrl: imageUrl,
+//         );
+//       },
+//     ),
+//   );
+// }
 }
