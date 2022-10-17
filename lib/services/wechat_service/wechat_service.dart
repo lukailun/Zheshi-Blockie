@@ -67,7 +67,7 @@ class WechatService extends GetxService {
       wechatUpdateAppMessageShareData(WechatUpdateAppMessageShareDataParams(
           title: "Blockie",
           desc: "Hello world",
-          link: html.window.location.href,
+          link: "https://s.blockie.zheshi.tech/app/",
           imgUrl:
               "https://www.gravatar.com/avatar/1be49f9ea6f801adf0681747955c1cde?s=256&d=identicon&r=PG",
           success: () {
