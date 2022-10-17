@@ -55,7 +55,7 @@ class WechatService extends GetxService {
     }
     wechatConfig(
       WechatConfigParams(
-        debug: config.isDebug,
+        debug: true,
         appId: config.appID,
         timestamp: config.timestamp,
         nonceStr: config.nonceString,
