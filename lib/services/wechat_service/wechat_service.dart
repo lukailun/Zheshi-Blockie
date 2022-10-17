@@ -74,6 +74,10 @@ class WechatService extends GetxService {
             alert("UpdateAppMessageSuccess");
           }));
     }));
+
+    wechatError(js.allowInterop((error) {
+      alert("Error: $error");
+    }));
   }
 
 // void _getWechatConfig() async {
