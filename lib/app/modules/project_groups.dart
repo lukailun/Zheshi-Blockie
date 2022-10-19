@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
@@ -25,7 +24,6 @@ import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:blockie_app/widgets/project_item.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class ProjectGroups extends StatefulWidget {
   const ProjectGroups({Key? key}) : super(key: key);
@@ -59,7 +57,6 @@ class _ProjectGroupsState extends State<ProjectGroups> {
       _updateUser();
     });
     _updateUser();
-    // _futureProjects = HttpRequest.loadNewProjects();
     _addProjects();
   }
 
@@ -69,13 +66,13 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         final parameters = {
           WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
         };
-        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+        Get.toNamed(Routes.webView, parameters: parameters);
       },
       onPrivacyPolicyTap: () {
         final parameters = {
           WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
         };
-        Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+        Get.toNamed(Routes.webView, parameters: parameters);
       },
       onPositiveButtonTap: () {
         Get.back();
@@ -139,7 +136,7 @@ class _ProjectGroupsState extends State<ProjectGroups> {
           final parameters = {
             'uid': _userInfo?.uid ?? "",
           };
-          Get.toNamedWithJsonParameters(Routes.user, parameters: parameters);
+          Get.toNamed(Routes.user, parameters: parameters);
         }
       }, // Image tapped
       child: CircleAvatar(
@@ -153,24 +150,21 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         ),
       ),
     ).paddingOnly(right: 10);
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: !_showLoginPanel
-            ? BasicAppBar(
-                showsLogo: true,
-                avatar: avatar,
-              )
-            : null,
-        body: Stack(
-          children: [
-            Container(
-              child: listView,
-            ),
-            if (_showLoginPanel) loginLoadingIndicator
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: !_showLoginPanel
+          ? BasicAppBar(
+              showsLogo: true,
+              avatar: avatar,
+            )
+          : null,
+      body: Stack(
+        children: [
+          Container(
+            child: listView,
+          ),
+          if (_showLoginPanel) loginLoadingIndicator
+        ],
       ),
     );
   }

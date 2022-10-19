@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:blockie_app/models/global.dart';
 
 class BlockieUrlBuilder {
@@ -23,11 +24,15 @@ class BlockieUrlBuilder {
 
   String buildGetProjectsUrl() => '$_baseUrl/activities';
 
+  String buildGetProjectDetailsUrl(String id) => '$_baseUrl/activities/$id';
+
+  String buildMintUrl(String id) => '$_baseUrl/activities/$id/mint';
+
   String buildGetIssuerInfoUrl() => '$_baseUrl/issuers';
 
-  String buildGetQRCodeUrl() => '$_baseUrl/qrcode';
+  String buildGetQrCodeUrl() => '$_baseUrl/qrcode';
 
-  String buildGetNFTsUrl() => '$_baseUrl/NFTs';
+  String buildGetNftsUrl() => '$_baseUrl/NFTs';
 
   String buildLogoutUrl() => '$_baseUrl/logout';
 
@@ -37,17 +42,17 @@ class BlockieUrlBuilder {
 
   String buildDeleteFacePhotoUrl(String faceID) => '$_baseUrl/faces/$faceID';
 
-  String buildGetEventUrl(String ID) => '$_baseUrl/groups/$ID/poster';
+  String buildGetActivityUrl(String id) => '$_baseUrl/groups/$id/poster';
 
-  String buildGetRegistrationInfoUrl(String ID) =>
-      '$_baseUrl/groups/$ID/workout';
+  String buildGetRegistrationInfoUrl(String id) =>
+      '$_baseUrl/groups/$id/workout';
 
-  String buildUpdateRegistrationInfoUrl(String ID) =>
-      '$_baseUrl/groups/$ID/workout';
+  String buildUpdateRegistrationInfoUrl(String id) =>
+      '$_baseUrl/groups/$id/workout';
 
-  String buildGetShareInfoUrl(String ID) => '$_baseUrl/activities/$ID/poster';
+  String buildGetShareInfoUrl(String id) => '$_baseUrl/activities/$id/poster';
 
-  String buildGetNFTShareInfoUrl(String ID) => '$_baseUrl/NFTs/$ID/poster';
+  String buildGetNFTShareInfoUrl(String id) => '$_baseUrl/NFTs/$id/poster';
 
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
 }

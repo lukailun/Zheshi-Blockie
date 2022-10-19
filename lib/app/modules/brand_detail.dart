@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -7,13 +6,12 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/project_item.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class BrandPage extends StatefulWidget {
   const BrandPage({Key? key}) : super(key: key);
@@ -30,8 +28,8 @@ class _BrandPageState extends State<BrandPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      IssuerInfo issuerInfo = await HttpRequest.loadIssuerDetail(
-          uid: Get.jsonParameters["issuerUid"]!);
+      IssuerInfo issuerInfo =
+          await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
       setState(() {
         _issuerInfo = issuerInfo;
         _addProjects(uid: _issuerInfo!.uid);
@@ -62,24 +60,6 @@ class _BrandPageState extends State<BrandPage> {
       );
     }
 
-    Widget topButton = Container(
-      padding: const EdgeInsets.only(
-          right: 19, top: Global.titleButtonTop, bottom: 10),
-      child: Row(
-        children: [
-          GestureDetector(
-              onTap: () {
-                Get.back();
-              }, // Image tapped
-              child: Image.asset(
-                "images/back.png",
-                width: 40,
-                height: 40,
-              ))
-        ],
-      ),
-    );
-
     Widget brandInfo = Column(
       children: [
         CircleAvatar(
@@ -97,22 +77,18 @@ class _BrandPageState extends State<BrandPage> {
       ],
     );
 
-    Widget brandIntro = SizedBox(
-      width: 332,
-      height: 62,
-      child: Center(
-        child: Text(
-          _issuerInfo!.summary,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
-        ),
+    Widget brandIntro = Center(
+      child: Text(
+        _issuerInfo!.summary,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
       ),
-    ).outlined().paddingOnly(bottom: 22);
+    ).paddingAll(15).outlined().paddingOnly(bottom: 22);
 
     const projectTitleStyle = TextStyle(color: Color(0xffffffff), fontSize: 16);
 
     Widget brandCardTitle = Container(
-      padding: const EdgeInsets.only(left: 22, right: 22, bottom: 8, top: 22),
+      padding: const EdgeInsets.only(bottom: 8, top: 22),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -154,7 +130,7 @@ class _BrandPageState extends State<BrandPage> {
                   child: const Text(
                     "没有更多了",
                     style: TextStyle(color: Colors.grey),
-                  ),
+                  ).paddingOnly(bottom: 15),
                 );
               }
             }
@@ -163,19 +139,18 @@ class _BrandPageState extends State<BrandPage> {
           }),
     );
 
-    return ScreenBoundary(
-      body: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: BasicAppBar(),
-        body: ListView(
-          shrinkWrap: true,
-          children: [
-            brandInfo,
-            brandIntro,
-            brandCardTitle,
-            brandCards,
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: BasicAppBar(),
+      body: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        children: [
+          brandInfo,
+          brandIntro,
+          brandCardTitle,
+          brandCards,
+        ],
       ),
     );
   }

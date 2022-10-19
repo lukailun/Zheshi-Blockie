@@ -3,13 +3,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'wechat_config.g.dart';
 
-@JsonSerializable(
-  createToJson: false,
-  explicitToJson: true,
-)
+@JsonSerializable(explicitToJson: true)
 class WechatConfig {
   @JsonKey(name: 'appId')
-  String appID;
+  String appId;
   @JsonKey(name: 'nonceStr')
   String nonceString;
   @JsonKey(name: 'timestamp')
@@ -17,19 +14,21 @@ class WechatConfig {
   @JsonKey(name: 'signature')
   String signature;
   @JsonKey(name: 'jsApiList')
-  List<String> APIs;
+  List<String> apis;
   @JsonKey(name: 'debug')
   bool isDebug;
 
   WechatConfig({
-    required this.appID,
+    required this.appId,
     required this.nonceString,
     required this.timestamp,
     required this.signature,
-    required this.APIs,
+    required this.apis,
     required this.isDebug,
   });
 
   factory WechatConfig.fromJson(Map<String, dynamic> json) =>
       _$WechatConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WechatConfigToJson(this);
 }

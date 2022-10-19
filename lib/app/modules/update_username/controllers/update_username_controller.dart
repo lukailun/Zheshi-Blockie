@@ -14,8 +14,8 @@ class UpdateUsernameController extends GetxController {
   UpdateUsernameController({required this.repository});
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
     newName.value = initialName.value;
   }
 

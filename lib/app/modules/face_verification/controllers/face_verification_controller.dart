@@ -31,13 +31,13 @@ class FaceVerificationController extends GetxController {
     final parameters = {
       WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
     };
-    Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+    Get.toNamed(Routes.webView, parameters: parameters);
   }
 
   void goToPrivacyPolicy() {
     final parameters = {
       WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
     };
-    Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+    Get.toNamed(Routes.webView, parameters: parameters);
   }
 }

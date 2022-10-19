@@ -14,7 +14,6 @@ import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_dialog.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -71,27 +70,24 @@ class SettingsView extends GetView<SettingsController> {
         ),
       ),
     ).paddingOnly(bottom: 97);
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: AppThemeData.primaryColor,
-          child: Obx(
-            () => Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [title] + itemGroupTiles + [expanded, logoutButton],
-                ),
-                if (controller.isLoggingOut.value) logoutLoadingIndicator,
-              ],
-            ),
-          ).paddingSymmetric(horizontal: 20),
-        ),
+    return Scaffold(
+      backgroundColor: AppThemeData.primaryColor,
+      appBar: BasicAppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppThemeData.primaryColor,
+        child: Obx(
+          () => Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [title] + itemGroupTiles + [expanded, logoutButton],
+              ),
+              if (controller.isLoggingOut.value) logoutLoadingIndicator,
+            ],
+          ),
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

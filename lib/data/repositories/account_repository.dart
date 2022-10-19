@@ -3,25 +3,24 @@ import 'package:blockie_app/app/modules/face_verification/models/face_info.dart'
 import 'package:blockie_app/data/apis/blockie_api.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/models/user_info.dart';
-import '../../utils/http_request.dart';
 
 class AccountRepository {
-  final BlockieAPI remoteAPI;
+  final BlockieApi remoteApi;
 
-  AccountRepository({required this.remoteAPI});
+  AccountRepository({required this.remoteApi});
 
-  Future<bool> logout() => remoteAPI.logout();
+  Future<bool> logout() => remoteApi.logout();
 
   Future<UserInfo?> updateUsername(String username) =>
-      remoteAPI.updateUsername(username);
+      remoteApi.updateUsername(username);
 
   Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) =>
-      remoteAPI.uploadFacePhoto(bytes, filename);
+      remoteApi.uploadFacePhoto(bytes, filename);
 
-  Future<bool> deleteFacePhoto(String faceID) =>
-      remoteAPI.deleteFacePhoto(faceID);
+  Future<bool> deleteFacePhoto(String faceId) =>
+      remoteApi.deleteFacePhoto(faceId);
 
   Future<WechatConfig?> getWechatConfig(
-          String supportedUrl, List<String> APIs) =>
-      remoteAPI.getWechatConfig(supportedUrl, APIs);
+          String supportedUrl, List<String> Apis) =>
+      remoteApi.getWechatConfig(supportedUrl, Apis);
 }

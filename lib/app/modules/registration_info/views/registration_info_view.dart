@@ -11,9 +11,8 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/basic_flat_button.dart';
+import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/basic_text_field.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class RegistrationInfoView extends GetView<RegistrationInfoController> {
   const RegistrationInfoView({super.key});
@@ -59,7 +58,11 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
     final uploadView = GestureDetector(
       onTap: () => controller.goToFaceVerification(),
       child: Center(
-        child: Image.asset('images/common/add.png'),
+        child: Image.asset(
+          'images/common/add.png',
+          width: 15,
+          height: 15,
+        ),
       ).outlined(),
     );
     final photoGridView = Obx(
@@ -92,7 +95,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
                           Positioned(
                             right: 5,
                             top: 5,
-                            child: BasicFlatButton(
+                            child: BasicIconButton(
                               assetName: "images/common/clear.png",
                               size: 23,
                               onTap: () {
@@ -110,32 +113,29 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
             (controller.faceInfos.length < 6 ? [uploadView] : []),
       ),
     );
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: AppThemeData.primaryColor,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                header,
-                _itemTitle('参赛号码'),
-                entryNumberTextField,
-                _itemTitle('人脸采集'),
-                const Text('通过采集你人脸照片以自动捕捉你的比赛镜头片段，生成你专属的视频 NFT')
-                    .textColor(const Color(0x80FFFFFF))
-                    .fontWeight(FontWeightCompat.regular)
-                    .fontSize(14),
-                const SizedBox(height: 14),
-                photoGridView.paddingOnly(bottom: 20),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: AppThemeData.primaryColor,
+      appBar: BasicAppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppThemeData.primaryColor,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              header,
+              _itemTitle('参赛号码'),
+              entryNumberTextField,
+              _itemTitle('人脸采集'),
+              const Text('通过采集你人脸照片以自动捕捉你的比赛镜头片段，生成你专属的视频 NFT')
+                  .textColor(const Color(0x80FFFFFF))
+                  .fontWeight(FontWeightCompat.regular)
+                  .fontSize(14),
+              const SizedBox(height: 14),
+              photoGridView.paddingOnly(bottom: 20),
+            ],
           ),
         ),
       ),

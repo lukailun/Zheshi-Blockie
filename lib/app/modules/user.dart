@@ -24,7 +24,6 @@ import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/empty_dataset_view.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -45,7 +44,7 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await _loadUserInfo(Get.jsonParameters["uid"] ?? '');
+      await _loadUserInfo(Get.parameters["uid"] ?? '');
       _addNfts();
       _loadQRCode();
     });
@@ -80,7 +79,7 @@ class _UserPageState extends State<UserPage> {
         final parameters = {
           'uid': nftInfo.uid,
         };
-        Get.toNamedWithJsonParameters(Routes.nft, parameters: parameters);
+        Get.toNamed(Routes.nft, parameters: parameters);
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -143,7 +142,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     Widget avatar = GestureDetector(
-      onTap: () => Get.toNamedWithJsonParameters(Routes.updateAvatar),
+      onTap: () => Get.toNamed(Routes.updateAvatar),
       child: Container(
           width: 36,
           padding: const EdgeInsets.only(top: 3, bottom: 7),
@@ -161,7 +160,7 @@ class _UserPageState extends State<UserPage> {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Get.toNamedWithJsonParameters(Routes.updateName),
+            onTap: () => Get.toNamed(Routes.updateName),
             child: Obx(() => Text(_userInfo.value?.nickname ?? "")
                 .fontSize(20)
                 .textColor(Colors.white)),
@@ -304,7 +303,7 @@ class _UserPageState extends State<UserPage> {
                   Container(
                     padding: const EdgeInsets.only(top: 25),
                     child: Image.asset(
-                      'images/blockie.png',
+                      'images/app_bar/logo.png',
                       width: 151,
                       height: 25,
                       fit: BoxFit.contain,
@@ -338,48 +337,45 @@ class _UserPageState extends State<UserPage> {
     );
 
     List<Widget> headers = [avatar, userTitle, divideLine, nftTitle];
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: BasicAppBar(
-          backButtonOnTap: () => Get.offAllNamed(Routes.initial),
-          actionItems: [
-            AppBarButtonItem(
-              assetName: 'images/app_bar/qrcode.svg',
-              onTap: () {
-                setState(() {
-                  _showQrCode = true;
-                });
-              },
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: BasicAppBar(
+        backButtonOnTap: () => Get.offAllNamed(Routes.initial),
+        actionItems: [
+          AppBarButtonItem(
+            assetName: 'images/app_bar/qrcode.png',
+            onTap: () {
+              setState(() {
+                _showQrCode = true;
+              });
+            },
+          ),
+          AppBarButtonItem(
+            assetName: 'images/app_bar/settings.png',
+            onTap: () => Get.toNamed(Routes.settings),
+          ),
+        ],
+      ),
+      body: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Visibility(
+            visible: _nfts.isNotEmpty,
+            replacement: Column(
+              children: [
+                ListView(shrinkWrap: true, children: headers),
+                _isLoading
+                    ? const LoadingIndicator()
+                    : const Expanded(child: EmptyDatasetView())
+              ],
             ),
-            AppBarButtonItem(
-              assetName: 'images/app_bar/settings.svg',
-              onTap: () => Get.toNamedWithJsonParameters(Routes.settings),
+            child: ListView(
+              children: headers +
+                  (_isLoading ? [const LoadingIndicator()] : [nftGridView]),
             ),
-          ],
-        ),
-        body: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Visibility(
-              visible: _nfts.isNotEmpty,
-              replacement: Column(
-                children: [
-                  ListView(shrinkWrap: true, children: headers),
-                  _isLoading
-                      ? const LoadingIndicator()
-                      : const Expanded(child: EmptyDatasetView())
-                ],
-              ),
-              child: ListView(
-                children: headers +
-                    (_isLoading ? [const LoadingIndicator()] : [nftGridView]),
-              ),
-            ),
-            if (_showQrCode) qrCodePanel,
-          ],
-        ),
+          ),
+          if (_showQrCode) qrCodePanel,
+        ],
       ),
     );
   }

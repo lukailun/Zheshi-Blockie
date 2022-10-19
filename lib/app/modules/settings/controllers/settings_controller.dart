@@ -22,7 +22,8 @@ class SettingsController extends GetxController {
   SettingsController({required this.repository});
 
   @override
-  void onInit() {
+  void onReady() {
+    super.onReady();
     //ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(AnyWebMethod.logout.value, (_) {
       return html.IFrameElement()
@@ -37,7 +38,6 @@ class SettingsController extends GetxController {
       isLoggingOut.value = false;
       logout();
     });
-    super.onInit();
   }
 
   String displayPhoneNumber(String phone) {
@@ -57,13 +57,13 @@ class SettingsController extends GetxController {
     final parameters = {
       WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
     };
-    Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+    Get.toNamed(Routes.webView, parameters: parameters);
   }
 
   void goToPrivacyPolicy() {
     final parameters = {
       WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
     };
-    Get.toNamedWithJsonParameters(Routes.webView, parameters: parameters);
+    Get.toNamed(Routes.webView, parameters: parameters);
   }
 }

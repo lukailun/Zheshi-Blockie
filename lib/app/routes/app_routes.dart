@@ -2,7 +2,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   static const initial = '/';
-  static const event = '/event';
+  static const activity = '/activity';
   static const user = '/user';
   static const brand = '/brand';
   static const projectDetails = '/project_details';

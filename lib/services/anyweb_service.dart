@@ -47,7 +47,8 @@ class AnyWebService extends GetxService {
   final logout = AnyWebEvent.empty.obs;
 
   @override
-  void onInit() {
+  void onReady() {
+    super.onReady();
     html.window.onMessage.listen((html.MessageEvent messageEvent) {
       final data = jsonDecode(messageEvent.data);
       final String status = data['status'];
@@ -66,6 +67,5 @@ class AnyWebService extends GetxService {
           break;
       }
     });
-    super.onInit();
   }
 }

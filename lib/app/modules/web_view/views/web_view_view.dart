@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class WebViewView extends GetView<WebViewController> {
   const WebViewView({super.key});
@@ -28,17 +27,14 @@ class WebViewView extends GetView<WebViewController> {
         ..style.border = 'none';
     });
     const webView = HtmlElementView(viewType: viewType);
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          child: webView,
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: BasicAppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white,
+        child: webView,
       ),
     );
   }

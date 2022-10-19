@@ -4,21 +4,23 @@ import 'package:http_parser/http_parser.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 import 'package:blockie_app/data/apis/models/exceptions.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 typedef UserTokenSupplier = String? Function();
 
-class BlockieAPI {
+class BlockieApi {
   static const _errorCodeJsonKey = 'err_code';
   static const _errorMessageJsonKey = 'err_msg';
 
-  BlockieAPI({
+  BlockieApi({
     required UserTokenSupplier userTokenSupplier,
   })  : _dio = Dio(),
         _urlBuilder = const BlockieUrlBuilder() {
@@ -61,10 +63,15 @@ class BlockieAPI {
 
   Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) async {
     final url = _urlBuilder.buildUploadFacePhotoUrl();
-    final requestData = FormData.fromMap({
-      "face": MultipartFile.fromBytes(bytes,
-          filename: "face.jpg", contentType: MediaType("image", "jpeg"))
-    });
+    final requestData = FormData.fromMap(
+      {
+        "face": MultipartFile.fromBytes(
+          bytes,
+          filename: "face.jpg",
+          contentType: MediaType("image", "jpeg"),
+        )
+      },
+    );
     final response = await _dio.post(url, data: requestData);
     try {
       final Map<String, dynamic> object = _getResponseData(response);
@@ -98,6 +105,30 @@ class BlockieAPI {
       final Map<String, dynamic> object = _getResponseData(response);
       final config = WechatConfig.fromJson(object);
       return config;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<ProjectDetails?> getProjectDetails(String id) async {
+    final url = _urlBuilder.buildGetProjectDetailsUrl(id);
+    final response = await _dio.get(url);
+    try {
+      final Map<String, dynamic> object = _getResponseData(response);
+      final projectDetails = ProjectDetails.fromJson(object);
+      return projectDetails;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<NftInfo?> mint(String id) async {
+    final url = _urlBuilder.buildMintUrl(id);
+    final response = await _dio.post(url);
+    try {
+      final Map<String, dynamic> object = _getResponseData(response);
+      final nft = NftInfo.fromJson(object);
+      return nft;
     } catch (error) {
       return null;
     }

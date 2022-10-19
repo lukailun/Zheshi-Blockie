@@ -8,14 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/extensions/get_extension.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/description_text.dart';
+import 'package:blockie_app/widgets/expandable_text.dart';
 import 'package:blockie_app/widgets/project_item.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class Projects extends StatefulWidget {
   const Projects({Key? key}) : super(key: key);
@@ -32,7 +30,7 @@ class _ProjectsState extends State<Projects> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       ProjectGroup group = await HttpRequest.loadProjectGroup(
-          groupUid: Get.jsonParameters["groupUid"]!);
+          groupUid: Get.parameters["groupUid"]!);
       setState(() {
         projectGroup = group;
       });
@@ -62,9 +60,9 @@ class _ProjectsState extends State<Projects> {
               )
             ],
           ),
-          DescriptionTextWidget(
+          ExpandableText(
             text: projectGroup!.summary,
-            minLines: 3,
+            maxLines: 3,
           )
         ],
       ),
@@ -87,13 +85,11 @@ class _ProjectsState extends State<Projects> {
           return createProjectItemSingle(projectGroup!.projects[index - 1]);
         });
 
-    return ScreenBoundary(
-        padding: 0,
-        body: Scaffold(
-          backgroundColor: Colors.transparent,
-          extendBodyBehindAppBar: true,
-          appBar: BasicAppBar(),
-          body: listView.paddingSymmetric(horizontal: 20),
-        ));
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      appBar: BasicAppBar(),
+      body: listView.paddingSymmetric(horizontal: 20),
+    );
   }
 }

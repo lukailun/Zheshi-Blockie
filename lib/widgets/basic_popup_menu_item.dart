@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -44,7 +43,7 @@ class BasicPopupMenuItem extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
+                    Image.asset(
                       item.assetName,
                       width: 16,
                       height: 16,

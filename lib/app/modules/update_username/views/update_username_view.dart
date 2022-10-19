@@ -11,7 +11,6 @@ import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_text_field.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class UpdateUsernameView extends GetView<UpdateUsernameController> {
   const UpdateUsernameView({super.key});
@@ -51,20 +50,17 @@ class UpdateUsernameView extends GetView<UpdateUsernameController> {
         ).paddingSymmetric(horizontal: 18),
       ),
     ).outlined().paddingOnly(top: 29);
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: AppThemeData.primaryColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [header, textField],
-          ).paddingSymmetric(horizontal: 20),
-        ),
+    return Scaffold(
+      backgroundColor: AppThemeData.primaryColor,
+      appBar: BasicAppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppThemeData.primaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [header, textField],
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

@@ -14,6 +14,7 @@ class BasicElevatedButton extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Color backgroundColor;
   final Color textColor;
+  final double textFontSize;
   final double borderRadius;
   final bool showsBorder;
   final bool showsShadow;
@@ -25,6 +26,7 @@ class BasicElevatedButton extends StatelessWidget {
     this.borderRadius = 30,
     this.backgroundColor = AppThemeData.primaryColor,
     this.textColor = Colors.white,
+    this.textFontSize = 14,
     this.showsBorder = true,
     this.showsShadow = true,
     this.isEnabled = true,
@@ -69,7 +71,7 @@ class BasicElevatedButton extends StatelessWidget {
                 .withoutUnderLine()
                 .textColor(textColor)
                 .fontWeight(FontWeightCompat.semiBold)
-                .fontSize(14),
+                .fontSize(textFontSize),
           ).paddingSymmetric(horizontal: 20, vertical: 8),
         ),
       ),

@@ -13,10 +13,9 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/face_verification/controllers/face_verification_controller.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_camera_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import '../../../../models/app_theme_data.dart';
-import '../../../../widgets/basic_app_bar.dart';
-import '../../../../widgets/screen_bound.dart';
 
 class FaceVerificationView extends GetView<FaceVerificationController> {
   FaceVerificationView({super.key});
@@ -91,28 +90,25 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
         onTap: () => _faceVerificationCameraViewKey.currentState?.takePhoto(),
       ),
     ).paddingOnly(bottom: 150);
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: AppThemeData.primaryColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              title,
-              subtitle,
-              const Expanded(child: SizedBox()),
-              cameraView,
-              const Expanded(child: SizedBox()),
-              licenseText,
-              takePhotoButton,
-            ],
-          ).paddingSymmetric(horizontal: 20),
-        ),
+    return Scaffold(
+      backgroundColor: AppThemeData.primaryColor,
+      appBar: BasicAppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppThemeData.primaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title,
+            subtitle,
+            const Expanded(child: SizedBox()),
+            cameraView,
+            const Expanded(child: SizedBox()),
+            licenseText,
+            takePhotoButton,
+          ],
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

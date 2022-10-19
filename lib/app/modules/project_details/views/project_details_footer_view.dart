@@ -1,0 +1,85 @@
+// Dart imports:
+import 'dart:ui';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
+
+class ProjectDetailsFooterView extends StatelessWidget {
+  final ProjectDetails projectDetails;
+  final bool isMinting;
+  final VoidCallback hintOnTap;
+  final VoidCallback buttonOnTap;
+
+  const ProjectDetailsFooterView({
+    Key? key,
+    required this.projectDetails,
+    required this.isMinting,
+    required this.hintOnTap,
+    required this.buttonOnTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final hintText = GestureDetector(
+      onTap:
+          projectDetails.mintStatus != MintStatus.notLogin ? hintOnTap : null,
+      child: SizedBox(
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(projectDetails.mintHint).textColor(Colors.white).fontSize(17),
+            Offstage(
+              offstage: projectDetails.mintStatus == MintStatus.notLogin,
+              child: Image.asset(
+                "images/project_details/hint.png",
+                width: 20,
+                height: 20,
+              ).paddingOnly(left: 5),
+            )
+          ],
+        ),
+      ),
+    );
+
+    final mintButton = BasicElevatedButton(
+      title: projectDetails.mintStatus(isMinting: isMinting).title,
+      borderRadius: 12,
+      backgroundColor:
+          Color(projectDetails.mintStatus(isMinting: isMinting).colorValue),
+      textColor: Colors.black,
+      textFontSize: 20,
+      onTap: buttonOnTap,
+    );
+
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.white24, width: 1))),
+      width: double.infinity,
+      height: 160,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Column(
+            children: [
+              hintText.paddingSymmetric(vertical: 16),
+              SizedBox(
+                height: 60,
+                child: mintButton,
+              ).paddingSymmetric(horizontal: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -20,7 +20,7 @@ import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import '../app/modules/event/models/event.dart';
+import '../app/modules/activity/models/activity.dart';
 import 'data_storage.dart';
 
 const scheme = "https";
@@ -343,20 +343,20 @@ class HttpRequest {
     }
   }
 
-  Future<Event> getEvent(String ID) async {
+  Future<Activity> getActivity(String activityId) async {
     final url = Uri(
         scheme: scheme,
         host: serverHost,
-        path: commandPath + getProjectCommand.replaceFirst("@", ID),
-        queryParameters: {'uid': ID});
+        path: commandPath + getProjectCommand.replaceFirst("@", activityId),
+        queryParameters: {'uid': activityId});
     final headers = {'Authorization': 'Bearer ${DataStorage.getToken() ?? ''}'};
     final response = await dio.getUri(url, options: Options(headers: headers));
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
-      Event event = Event.fromJson(res);
-      return event;
+      Activity activity = Activity.fromJson(res);
+      return activity;
     } else {
-      throw Exception('Failed to get event');
+      throw Exception('Failed to get activity');
     }
   }
 

@@ -15,8 +15,8 @@ import '../models/app_theme_data.dart';
 class BasicDialog extends StatelessWidget {
   final String title;
   final String message;
-  final void Function() onPositiveButtonTap;
-  final void Function() onNegativeButtonTap;
+  final VoidCallback onPositiveButtonTap;
+  final VoidCallback onNegativeButtonTap;
 
   const BasicDialog({
     Key? key,

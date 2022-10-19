@@ -6,7 +6,6 @@ import 'package:blockie_app/app/modules/face_verification/models/face_info.dart'
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/extensions/get_extension.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class RegistrationInfoController extends GetxController {
@@ -18,7 +17,7 @@ class RegistrationInfoController extends GetxController {
   bool isUpdate = false;
   final faceInfos = <FaceInfo>[].obs;
 
-  final _ID = Get.jsonParameters[RegistrationInfoParameter.ID] as String;
+  final _id = Get.parameters[RegistrationInfoParameter.id] as String;
 
   RegistrationInfoController({
     required this.accountRepository,
@@ -26,8 +25,8 @@ class RegistrationInfoController extends GetxController {
   });
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
     _getRegistrationInfo();
   }
 
@@ -39,7 +38,7 @@ class RegistrationInfoController extends GetxController {
 
   void updateRegistrationInfo() async {
     final isSuccessful = await projectRepository.updateRegistrationInfo(
-        _ID, newEntryNumber.value, isUpdate);
+        _id, newEntryNumber.value, isUpdate);
     if (isSuccessful) {
       MessageToast.showMessage("保存成功");
       _getRegistrationInfo();
@@ -47,15 +46,14 @@ class RegistrationInfoController extends GetxController {
   }
 
   void goToFaceVerification() async {
-    final needUpdate =
-        await Get.toNamedWithJsonParameters(Routes.faceVerification);
+    final needUpdate = await Get.toNamed(Routes.faceVerification);
     if (needUpdate == true) {
       _getRegistrationInfo();
     }
   }
 
   void _getRegistrationInfo() async {
-    final registrationInfo = await projectRepository.getRegistrationInfo(_ID);
+    final registrationInfo = await projectRepository.getRegistrationInfo(_id);
     initialEntryNumber.value = registrationInfo.entryNumber;
     faceInfos.value = registrationInfo.faceInfos;
     isUpdate = registrationInfo.hasSigned;
@@ -71,5 +69,5 @@ class RegistrationInfoController extends GetxController {
 }
 
 class RegistrationInfoParameter {
-  static const ID = "ID";
+  static const id = "id";
 }

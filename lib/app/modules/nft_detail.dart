@@ -11,10 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/extensions/get_extension.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/global.dart';
@@ -23,11 +21,10 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
-import 'package:blockie_app/widgets/description_text.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
+import 'package:blockie_app/widgets/expandable_text.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class NftPage extends StatefulWidget {
   const NftPage({Key? key}) : super(key: key);
@@ -56,7 +53,7 @@ class _NftPageState extends State<NftPage> {
       _isLoading = true;
       Future.delayed(Duration.zero, () async {
         NftInfo nftInfo =
-            await HttpRequest.loadNft(uid: Get.jsonParameters["uid"]!);
+            await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
         setState(() {
           _nftInfo = nftInfo;
           _isLoading = false;
@@ -81,12 +78,10 @@ class _NftPageState extends State<NftPage> {
   @override
   Widget build(BuildContext context) {
     if (_nftInfo == null) {
-      return ScreenBoundary(
-        body: Container(
-          padding: const EdgeInsets.only(top: Global.titleButtonTop),
-          color: AppThemeData.primaryColor,
-          child: const Expanded(child: LoadingIndicator()),
-        ),
+      return Container(
+        padding: const EdgeInsets.only(top: Global.titleButtonTop),
+        color: AppThemeData.primaryColor,
+        child: const Expanded(child: LoadingIndicator()),
       );
     }
     if (!updatedNftUrl) {
@@ -146,7 +141,7 @@ class _NftPageState extends State<NftPage> {
             final parameters = {
               'issuerUid': _nftInfo!.issuer.uid,
             };
-            Get.toNamedWithJsonParameters(Routes.brand, parameters: parameters);
+            Get.toNamed(Routes.brand, parameters: parameters);
           },
           child: Row(
             children: [
@@ -172,9 +167,9 @@ class _NftPageState extends State<NftPage> {
           )),
     );
 
-    Widget description = DescriptionTextWidget(
+    Widget description = ExpandableText(
       text: _nftInfo == null ? "" : _nftInfo!.projectSummary,
-      minLines: 2,
+      maxLines: 2,
     );
 
     TextStyle itemNameStyle =
@@ -184,7 +179,7 @@ class _NftPageState extends State<NftPage> {
         const TextStyle(color: Color(0xffffffff), fontSize: 14);
 
     Widget copyButton = BasicIconButton(
-      assetName: "images/app_bar/copy.png",
+      assetName: "images/common/copy.png",
       size: 23,
       onTap: () {
         try {
@@ -198,7 +193,7 @@ class _NftPageState extends State<NftPage> {
 
     Widget nftDetail = Container(
       padding: const EdgeInsets.only(left: 22, right: 22, bottom: 22),
-      height: 185,
+      // height: 185,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -221,7 +216,7 @@ class _NftPageState extends State<NftPage> {
               ),
               copyButton
             ],
-          ),
+          ).paddingSymmetric(vertical: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -234,7 +229,7 @@ class _NftPageState extends State<NftPage> {
                 style: itemValueStyle,
               )
             ],
-          ),
+          ).paddingSymmetric(vertical: 15),
           Row(
             children: [
               Expanded(
@@ -254,94 +249,89 @@ class _NftPageState extends State<NftPage> {
                 style: itemValueStyle,
               )
             ],
-          )
+          ).paddingSymmetric(vertical: 15),
         ],
       ),
     );
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
-        assetName: "images/app_bar/home.svg",
+        assetName: "images/app_bar/home.png",
         onTap: () => Get.offAllNamed(Routes.initial),
       ),
       AppBarButtonItem(
         title: '我的',
-        assetName: "images/app_bar/user.svg",
+        assetName: "images/app_bar/user.png",
         onTap: () {
           final parameters = {
             'uid': AuthService.to.userInfo.value?.uid ?? "",
           };
-          Get.toNamedWithJsonParameters(Routes.user, parameters: parameters);
+          Get.toNamed(Routes.user, parameters: parameters);
         },
       ),
     ];
-    return ScreenBoundary(
-      body: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: true,
-        appBar: BasicAppBar(
-          title: "${_nftInfo?.projectName ?? ""} ${_nftInfo?.tokenId ?? ""}",
-          buttonStyle: AppBarButtonStyle.flat,
-          actionItems: [
-            AppBarButtonItem(
-              assetName: "images/app_bar/share.svg",
-              onTap: () {
-                final parameters = {
-                  ShareParameter.ID: _nftInfo?.uid ?? "",
-                  ShareParameter.isNFT: true,
-                  ShareParameter.title: _nftInfo?.projectName ?? '',
-                  ShareParameter.description: _nftInfo?.projectSummary ?? '',
-                  ShareParameter.imageUrl: _nftInfo?.image,
-                };
-                Get.toNamedWithJsonParameters(Routes.share,
-                    parameters: parameters);
-              },
-            ),
-            AppBarButtonItem(
-              assetName: "images/app_bar/menu.svg",
-              items: menuItems,
-            ),
-          ],
-        ),
-        body: ListView(
-          padding: const EdgeInsets.only(top: 0),
-          children: [
-            webPanel,
-            Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFFB3BCC5),
-                        Color(0xFF3C63F8),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                  ),
-                  transform: Matrix4.translationValues(0.0, -16.0, 0.0),
-                ),
-                Column(
-                  children: [
-                    // brand,
-                    projectTitle,
-                    brandInfo,
-                    nftDetail,
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      appBar: BasicAppBar(
+        title: "${_nftInfo?.projectName ?? ""} ${_nftInfo?.tokenId ?? ""}",
+        actionItems: [
+          AppBarButtonItem(
+            assetName: "images/app_bar/share.png",
+            onTap: () {
+              final parameters = {
+                ShareParameter.id: _nftInfo?.uid ?? "",
+                ShareParameter.isNFT: 'true',
+                ShareParameter.shareTitle: _nftInfo?.projectName ?? '',
+                ShareParameter.shareDescription: _nftInfo?.projectSummary ?? '',
+                ShareParameter.shareImageUrl: _nftInfo?.image ?? '',
+              };
+              Get.toNamed(Routes.share, parameters: parameters);
+            },
+          ),
+          AppBarButtonItem(
+            assetName: "images/app_bar/menu.png",
+            items: menuItems,
+          ),
+        ],
       ),
-      padding: 0,
+      body: ListView(
+        padding: const EdgeInsets.only(top: 0),
+        children: [
+          webPanel,
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 100,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFFB3BCC5),
+                      Color(0xFF3C63F8),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                transform: Matrix4.translationValues(0.0, -16.0, 0.0),
+              ),
+              Column(
+                children: [
+                  // brand,
+                  projectTitle,
+                  brandInfo,
+                  nftDetail,
+                ],
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

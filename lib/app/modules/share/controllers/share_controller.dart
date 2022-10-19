@@ -1,12 +1,14 @@
+// Dart imports:
+import 'dart:html' as html;
+
 // Package imports:
-import 'package:blockie_app/services/wechat_service/wechat_service.dart';
-import 'package:blockie_app/services/wechat_service/wechat_share_source.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/share//models/share_type.dart';
+import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/extensions/get_extension.dart';
+import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 import 'package:blockie_app/widgets/segmented_control/segmented_control.dart';
 
 class ShareController extends GetxController {
@@ -20,32 +22,34 @@ class ShareController extends GetxController {
   final posterPath = "".obs;
   final path = "".obs;
 
-  final String _ID = Get.jsonParameters[ShareParameter.ID];
-  final bool _isNFT = Get.jsonParameters[ShareParameter.isNFT];
-  final String _title = Get.jsonParameters[ShareParameter.title];
-  final String _description = Get.jsonParameters[ShareParameter.description];
-  final String _imageUrl = Get.jsonParameters[ShareParameter.imageUrl];
+  final _id = Get.parameters[ShareParameter.id] ?? '';
+  final _isNFT = Get.parameters[ShareParameter.isNFT] ?? '';
+  final _title = Get.parameters[ShareParameter.shareTitle] ?? '';
+  final _description = Get.parameters[ShareParameter.shareDescription] ?? '';
+  final _imageUrl = Get.parameters[ShareParameter.shareImageUrl] ?? '';
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
     const info = ShareType.info;
     const image = ShareType.image;
     const poster = ShareType.poster;
-    if (_isNFT) {
+    if (_isNFT == 'true') {
       _getNFTDetailsShareInfo();
       segmentedControlItems = [
         SegmentedControlButtonItem(ID: info.ID, title: info.title),
         SegmentedControlButtonItem(ID: image.ID, title: image.title),
       ];
-      final shareTitle = WechatShareSource.NFT.getTitle(extraInfo: _title);
+      final shareTitle = WechatShareSource.nft.getTitle(extraInfo: _title);
       final shareDescription =
-          WechatShareSource.NFT.getDescription(extraInfo: _description);
+          WechatShareSource.nft.getDescription(extraInfo: _description);
+      final shareLink = html.window.location.href;
       final shareImageUrl =
-          WechatShareSource.NFT.getImageUrl(extraInfo: _imageUrl);
-      WechatService.to.updateShareInfo(
+          WechatShareSource.nft.getImageUrl(extraInfo: _imageUrl);
+      WechatService.to.updateShareConfig(
         title: shareTitle,
         description: shareDescription,
+        link: shareLink,
         imageUrl: shareImageUrl,
       );
     } else {
@@ -53,36 +57,38 @@ class ShareController extends GetxController {
       segmentedControlItems = [
         SegmentedControlButtonItem(ID: poster.ID, title: poster.title),
       ];
-      final shareTitle = WechatShareSource.event.getTitle(extraInfo: _title);
+      final shareTitle = WechatShareSource.activity.getTitle(extraInfo: _title);
       final shareDescription =
-          WechatShareSource.event.getDescription(extraInfo: _description);
+          WechatShareSource.activity.getDescription(extraInfo: _description);
+      final shareLink = html.window.location.href;
       final shareImageUrl =
-          WechatShareSource.event.getImageUrl(extraInfo: _imageUrl);
-      WechatService.to.updateShareInfo(
+          WechatShareSource.activity.getImageUrl(extraInfo: _imageUrl);
+      WechatService.to.updateShareConfig(
         title: shareTitle,
         description: shareDescription,
+        link: shareLink,
         imageUrl: shareImageUrl,
       );
     }
   }
 
   void _getProjectDetailsShareInfo() async {
-    final shareInfo = await repository.getProjectDetailsShareInfo(_ID);
+    final shareInfo = await repository.getProjectDetailsShareInfo(_id);
     posterPath.value = shareInfo.posterPath;
     path.value = shareInfo.path;
   }
 
   void _getNFTDetailsShareInfo() async {
-    final shareInfo = await repository.getNFTDetailsShareInfo(_ID);
+    final shareInfo = await repository.getNFTDetailsShareInfo(_id);
     posterPath.value = shareInfo.posterPath;
     path.value = shareInfo.path;
   }
 }
 
 class ShareParameter {
-  static const ID = "ID";
+  static const id = "id";
   static const isNFT = "isNFT";
-  static const title = "title";
-  static const description = "description";
-  static const imageUrl = "imageUrl";
+  static const shareTitle = "title";
+  static const shareDescription = "description";
+  static const shareImageUrl = "imageUrl";
 }

@@ -13,7 +13,6 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 import 'package:blockie_app/widgets/segmented_control/segmented_control.dart';
 
 class ShareView extends GetView<ShareController> {
@@ -57,33 +56,35 @@ class ShareView extends GetView<ShareController> {
             ),
           ),
         ));
-
-    return ScreenBoundary(
-      padding: 0,
-      body: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: BasicAppBar(),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          child: Obx(
-            () => Column(
-              children: [
-                segmentedControl,
-                Expanded(
-                  child: Center(
-                    child: () {
-                      final imageUrl = controller.selectedIndex.value == 0
-                          ? controller.posterPath.value.hostAdded
-                          : controller.path.value.hostAdded;
-                      return HtmlImage(url: imageUrl).paddingAll(30);
-                    }(),
+    final appBar = BasicAppBar();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: appBar,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white,
+        child: Obx(
+          () => Stack(
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: () {
+                        final imageUrl = controller.selectedIndex.value == 0
+                            ? controller.posterPath.value.hostAdded
+                            : controller.path.value.hostAdded;
+                        return HtmlImage(url: imageUrl).paddingAll(30);
+                      }(),
+                    ),
                   ),
-                ),
-                saveHintView,
-              ],
-            ),
+                  saveHintView,
+                ],
+              ),
+              segmentedControl.paddingOnly(top: appBar.toolbarHeight),
+            ],
           ),
         ),
       ),

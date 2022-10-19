@@ -7,15 +7,9 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/widgets/basic_flat_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_item.dart';
-
-enum AppBarButtonStyle {
-  elevated,
-  flat,
-}
 
 final _popupMenuButtonController = BasicPopupMenuButtonController();
 
@@ -26,7 +20,6 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final Widget? avatar;
   final bool showsLogo;
   final List<AppBarButtonItem>? actionItems;
-  final AppBarButtonStyle buttonStyle;
 
   BasicAppBar({
     Key? key,
@@ -36,7 +29,6 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     this.showsLogo = false,
     this.actionItems,
     this.avatar,
-    this.buttonStyle = AppBarButtonStyle.elevated,
   }) : super(key: key);
 
   double get toolbarHeight => showsLogo ? 120 : 80;
@@ -46,11 +38,8 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget>? actions = actionItems?.map((item) {
-      final button = buttonStyle == AppBarButtonStyle.elevated
-          ? BasicIconButton(
-              assetName: item.assetName, size: 34, onTap: item.onTap)
-          : BasicFlatButton(
-              assetName: item.assetName, size: 34, onTap: item.onTap);
+      final button = BasicIconButton(
+          assetName: item.assetName, size: 34, onTap: item.onTap);
       return (item.items ?? []).isEmpty
           ? button.paddingOnly(right: 13)
           : BasicPopupMenuButton(
@@ -72,8 +61,8 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     }).toList();
     final backButton = Visibility(
       visible: showsBackButton && Get.routing.previous.isNotEmpty,
-      child: BasicFlatButton(
-        assetName: "images/app_bar/back.svg",
+      child: BasicIconButton(
+        assetName: "images/app_bar/back.png",
         size: 34,
         onTap: () {
           if (backButtonOnTap != null) {

@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/event/controllers/event_controller.dart';
-import 'package:blockie_app/app/modules/project_detail.dart';
+import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
+import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/models/project_group.dart';
@@ -29,10 +28,9 @@ Widget createProjectItemMixed(ProjectGroup inGroup,
   return GestureDetector(
       onTap: () {
         final parameters = {
-          EventParameter.ID: inGroup.uid,
+          ActivityParameter.id: inGroup.uid,
         };
-        Get.toNamedWithJsonParameters(Routes.event, parameters: parameters)
-            ?.then((_) {
+        Get.toNamed(Routes.activity, parameters: parameters)?.then((_) {
           whenBack?.call();
         });
       },
@@ -50,12 +48,10 @@ Widget createProjectItemSingle(ProjectInfo info,
   return GestureDetector(
       onTap: () {
         final parameters = {
-          ProjectDetailsParameter.ID: info.uid,
-          ProjectDetailsParameter.showsRule: false,
+          ProjectDetailsParameter.id: info.uid,
+          ProjectDetailsParameter.showsRule: 'false',
         };
-        Get.toNamedWithJsonParameters(Routes.projectDetails,
-                parameters: parameters)
-            ?.then((_) {
+        Get.toNamed(Routes.projectDetails, parameters: parameters)?.then((_) {
           whenBack?.call();
         });
       },
@@ -119,7 +115,8 @@ class ProjectItem extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        Image.asset("images/cover_stack.png",
+                        Image.asset(
+                          "images/cover_stack.png",
                           width: groupImageWidth,
                           height: groupImageWidth,
                           fit: BoxFit.cover,
@@ -192,25 +189,33 @@ class ProjectItem extends StatelessWidget {
           height: 10,
         ),
         showBrand
-            ? Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(issuer.logo),
-                  ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  Text(issuer.title,
-                      style: const TextStyle(
-                          fontSize: 14, color: Color(0xb3ffffff))),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Text(isGroup ? '' : '共发行 ${projectInfo!.totalAmount}',
-                      style: const TextStyle(
-                          fontSize: 14, color: Color(0xb3ffffff)))
-                ],
+            ? GestureDetector(
+                onTap: () {
+                  final parameters = {
+                    'issuerUid': issuer.uid,
+                  };
+                  Get.toNamed(Routes.brand, parameters: parameters);
+                },
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(issuer.logo),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Text(issuer.title,
+                        style: const TextStyle(
+                            fontSize: 14, color: Color(0xb3ffffff))),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Text(isGroup ? '' : '共发行 ${projectInfo!.totalAmount}',
+                        style: const TextStyle(
+                            fontSize: 14, color: Color(0xb3ffffff)))
+                  ],
+                ),
               )
             : const SizedBox(
                 height: 0,

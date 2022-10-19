@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/extensions/get_extension.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/project_detail_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/widgets/screen_bound.dart';
 
 class ImageView extends StatefulWidget {
   const ImageView({Key? key}) : super(key: key);
@@ -28,10 +26,10 @@ class _ImageViewState extends State<ImageView> {
     controller = PageController();
     Future.delayed(Duration.zero, () async {
       ProjectDetailInfo project = await HttpRequest.loadProjectDetail(
-          uid: Get.jsonParameters["projectUid"]!);
+          uid: Get.parameters["projectUid"]!);
       setState(() {
         imageUrls = project.images;
-        currentIndex = int.parse(Get.jsonParameters["index"]!);
+        currentIndex = int.parse(Get.parameters["index"]!);
         controller.jumpToPage(currentIndex);
       });
     });
@@ -67,7 +65,7 @@ class _ImageViewState extends State<ImageView> {
                 Get.back();
               }, // Image tapped
               child: Image.asset(
-                "images/back.png",
+                "images/app_bar/back.png",
                 width: 40,
                 height: 40,
               )),
@@ -83,28 +81,14 @@ class _ImageViewState extends State<ImageView> {
         ],
       ),
     );
-
-    // return Material(
-    //   color: const Color(0xff3c63f8),
-    //   child: Column(
-    //     children: [
-    //       title,
-    //       Expanded(child: swiper),
-    //       Container(height: 79,)
-    //     ],
-    //   )
-    // );
-    return ScreenBoundary(
-      body: Column(
-        children: [
-          title,
-          Expanded(child: swiper),
-          Container(
-            height: 79,
-          )
-        ],
-      ),
-      padding: 0,
+    return Column(
+      children: [
+        title,
+        Expanded(child: swiper),
+        Container(
+          height: 79,
+        )
+      ],
     );
   }
 }
