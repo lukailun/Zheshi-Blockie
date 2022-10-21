@@ -8,12 +8,7 @@ import 'package:blockie_app/app/modules/registration_info/controllers/registrati
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/models/user_info.dart';
-import 'package:blockie_app/services/anyweb_service.dart';
-import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/utils/http_request.dart';
 
 class ActivityController extends GetxController {
   final ProjectRepository repository;
@@ -28,7 +23,6 @@ class ActivityController extends GetxController {
   void onReady() {
     super.onReady();
     _getActivity();
-    _listenLogin();
   }
 
   @override
@@ -97,36 +91,6 @@ class ActivityController extends GetxController {
       link: link,
       imageUrl: imageUrl,
     );
-  }
-
-  void _listenLogin() async {
-    AnyWebService.to.accountsCode.listen((event) {
-      if (event.isSuccessful) {
-        _login(event.data as String);
-      } else {
-        showsLogin.value = false;
-      }
-    });
-  }
-
-  void _login(String code) async {
-    try {
-      Map<String, dynamic> res = await HttpRequest.login(code);
-      String token = res['token'];
-      UserInfo userInfo = res['user'];
-      DataStorage.setToken(token);
-      DataStorage.setUserUid(userInfo.uid);
-      AuthService.to.updateUserInfo(userInfo);
-      showsLogin.value = false;
-      _getActivity();
-    } catch (e) {
-      if (DataStorage.getToken() != null) {
-        UserInfo userInfo =
-            await HttpRequest.getUserInfo(DataStorage.getToken()!);
-        AuthService.to.updateUserInfo(userInfo);
-        showsLogin.value = false;
-      }
-    }
   }
 }
 

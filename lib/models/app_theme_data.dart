@@ -6,4 +6,5 @@ class AppThemeData {
   static const dialogBackgroundColor = Colors.white;
   static const disabledColor = Color(0xFF9E9E9E);
   static const indicatorColor = Colors.white;
+  static const barrierColor = Color(0x80FFFFFF);
 }

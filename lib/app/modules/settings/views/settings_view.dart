@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/settings/models/settings_item_groups.dart';
@@ -21,26 +22,6 @@ class SettingsView extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final logoutLoadingIndicator = Stack(
-      children: [
-        Opacity(
-          opacity: 0,
-          alwaysIncludeSemantics: true,
-          child: HtmlElementView(viewType: AnyWebMethod.logout.value),
-        ),
-        const LoadingIndicator(),
-      ],
-    );
-
-    final groups = SettingsItemGroups.initial(
-      phoneNumber:
-          controller.displayPhoneNumber(controller.initialPhoneNumber.value),
-      version: '1.0.0',
-      termsOfServiceOnTap: () => controller.goToTermsOfService(),
-      privacyPolicyOnTap: () => controller.goToPrivacyPolicy(),
-    );
-    final List<Widget> itemGroupTiles =
-        groups.map((group) => SettingsItemGroupTile(group: group)).toList();
     final Widget title = const Text('设置')
         .textColor(Colors.white)
         .fontSize(24)
@@ -59,10 +40,7 @@ class SettingsView extends GetView<SettingsController> {
               Get.dialog(BasicDialog(
                 title: '提示',
                 message: '确定登出吗？',
-                onPositiveButtonTap: () {
-                  Get.back();
-                  controller.isLoggingOut.value = true;
-                },
+                onPositiveButtonTap: controller.openLogoutDialog,
                 onNegativeButtonTap: () => Get.back(),
               ));
             },
@@ -70,6 +48,7 @@ class SettingsView extends GetView<SettingsController> {
         ),
       ),
     ).paddingOnly(bottom: 97);
+
     return Scaffold(
       backgroundColor: AppThemeData.primaryColor,
       appBar: BasicAppBar(),
@@ -78,17 +57,30 @@ class SettingsView extends GetView<SettingsController> {
         height: double.infinity,
         color: AppThemeData.primaryColor,
         child: Obx(
-          () => Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [title] + itemGroupTiles + [expanded, logoutButton],
-              ),
-              if (controller.isLoggingOut.value) logoutLoadingIndicator,
-            ],
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [title] +
+                _getItemGroupTiles(version: controller.version.value) +
+                [expanded, logoutButton],
           ),
         ).paddingSymmetric(horizontal: 20),
       ),
     );
+  }
+
+  List<Widget> _getItemGroupTiles({
+    required String version,
+  }) {
+    final groups = SettingsItemGroups.initial(
+      phoneNumber:
+          controller.displayPhoneNumber(controller.initialPhoneNumber.value),
+      version: version,
+      termsOfServiceOnTap: () => controller.goToTermsOfService(),
+      privacyPolicyOnTap: () => controller.goToPrivacyPolicy(),
+      activityManagementOnTap: () => controller.goToActivityManagement(),
+    );
+    final List<Widget> itemGroupTiles =
+        groups.map((group) => SettingsItemGroupTile(group: group)).toList();
+    return itemGroupTiles;
   }
 }

@@ -15,8 +15,9 @@ class SettingsItemGroups {
   static List<SettingsItemGroup> initial({
     required String phoneNumber,
     required String version,
-    required VoidCallback termsOfServiceOnTap,
-    required VoidCallback privacyPolicyOnTap,
+    required Function() termsOfServiceOnTap,
+    required Function() privacyPolicyOnTap,
+    required Function() activityManagementOnTap,
   }) {
     return [
       SettingsItemGroup(
@@ -32,6 +33,7 @@ class SettingsItemGroups {
           SettingsItem(title: '当前版本', content: version, arrowIsVisible: false),
           SettingsItem(title: '用户条款', onTap: termsOfServiceOnTap),
           SettingsItem(title: '隐私政策', onTap: privacyPolicyOnTap),
+          SettingsItem(title: '活动管理', onTap: activityManagementOnTap),
         ],
       ),
     ];

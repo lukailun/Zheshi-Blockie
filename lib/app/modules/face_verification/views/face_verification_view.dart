@@ -82,12 +82,21 @@ class FaceVerificationView extends GetView<FaceVerificationController> {
     ).paddingOnly(bottom: 36);
     final takePhotoButton = SizedBox(
       height: 48,
-      child: BasicElevatedButton(
-        borderRadius: 8,
-        backgroundColor: Colors.white,
-        textColor: AppThemeData.primaryColor,
-        title: "同意并拍摄上传",
-        onTap: () => _faceVerificationCameraViewKey.currentState?.takePhoto(),
+      child: Obx(
+        () => BasicElevatedButton(
+          borderRadius: 8,
+          backgroundColor: Colors.white,
+          textColor: AppThemeData.primaryColor,
+          title: "同意并拍摄上传",
+          isLoading: controller.isTakingPhoto.value,
+          loadingIndicatorColor: AppThemeData.primaryColor,
+          onTap: !controller.isTakingPhoto.value
+              ? () {
+                  controller.isTakingPhoto.value = true;
+                  _faceVerificationCameraViewKey.currentState?.takePhoto();
+                }
+              : null,
+        ),
       ),
     ).paddingOnly(bottom: 150);
     return Scaffold(

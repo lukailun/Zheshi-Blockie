@@ -33,7 +33,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  bool _showQrCode = false;
   final _nfts = <NftInfo>[];
   String? _nextPageUrl;
   String _qrcode = '';
@@ -58,7 +57,7 @@ class _UserPageState extends State<UserPage> {
       if (DataStorage.getToken() != null) {
         userInfo = await HttpRequest.getUserInfo(DataStorage.getToken()!);
       }
-      AuthService.to.updateUserInfo(userInfo);
+      AuthService.to.userInfo.value = userInfo;
     } else {
       userInfo = await HttpRequest.getOtherUserInfo(uid);
     }
@@ -257,85 +256,6 @@ class _UserPageState extends State<UserPage> {
       ),
     );
 
-    Widget qrCode = Container(
-      color: const Color(0x80ffffff),
-      child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Center(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color(0xff3c63f8),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              padding: const EdgeInsets.only(left: 38, right: 38),
-              width: 300,
-              height: 465,
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 18, bottom: 7),
-                    child: CircleAvatar(
-                        radius: 36,
-                        backgroundImage:
-                            NetworkImage(_userInfo.value?.avatar ?? "")),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 25),
-                    child: Text(_userInfo.value?.nickname ?? "",
-                        style: const TextStyle(
-                            fontSize: 18, color: Color(0xffffffff))),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xffffffff),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    width: 243,
-                    height: 243,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      child: Image.memory(
-                        base64Decode(_qrcode),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 25),
-                    child: Image.asset(
-                      'images/app_bar/logo.png',
-                      width: 151,
-                      height: 25,
-                      fit: BoxFit.contain,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )),
-    );
-
-    Widget qrCodePanel = Stack(
-      alignment: Alignment.center,
-      children: [
-        qrCode,
-        Positioned(
-            right: 19,
-            top: 50,
-            child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _showQrCode = false;
-                  });
-                }, // Image tapped
-                child: Image.asset(
-                  "images/close_panel.png",
-                  width: 26,
-                  height: 26,
-                )))
-      ],
-    );
-
     List<Widget> headers = [avatar, userTitle, divideLine, nftTitle];
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -345,9 +265,13 @@ class _UserPageState extends State<UserPage> {
           AppBarButtonItem(
             assetName: 'images/app_bar/qrcode.png',
             onTap: () {
-              setState(() {
-                _showQrCode = true;
-              });
+              if (_userInfo.value == null) {
+                return;
+              }
+              Get.qrCodeDialog(
+                user: _userInfo.value!,
+                qrCode: _qrcode,
+              );
             },
           ),
           AppBarButtonItem(
@@ -374,7 +298,6 @@ class _UserPageState extends State<UserPage> {
                   (_isLoading ? [const LoadingIndicator()] : [nftGridView]),
             ),
           ),
-          if (_showQrCode) qrCodePanel,
         ],
       ),
     );

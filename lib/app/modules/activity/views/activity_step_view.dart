@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -46,8 +47,8 @@ class ActivityStepView extends StatelessWidget {
       );
     }
     final time = step.time ?? "";
-    final activityStatus = step.activityStatus;
-    if (time.isNotEmpty || activityStatus != ProjectStatus.unknown) {
+    final projectStatus = step.projectStatus;
+    if (time.isNotEmpty || projectStatus != ProjectStatus.unknown) {
       contents.add(
         SizedBox(
           width: double.infinity,
@@ -66,7 +67,7 @@ class ActivityStepView extends StatelessWidget {
                   .textColor(Colors.white)
                   .paddingSymmetric(horizontal: 10),
               const Expanded(child: SizedBox()),
-              Text(activityStatus.description)
+              Text(projectStatus.description)
                   .fontSize(16)
                   .fontWeight(FontWeightCompat.regular)
                   .textAlignment(TextAlign.end)

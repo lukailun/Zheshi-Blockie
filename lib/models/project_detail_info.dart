@@ -16,8 +16,8 @@ class ProjectDetailInfo {
   final int totalAmount;
   final int mintedAmount;
   final int holdPersonAmount;
-  final String startedTime;
-  final String endedTime;
+  final int startedTime;
+  final int endedTime;
   final String uid;
   final IssuerInfo issuer;
 

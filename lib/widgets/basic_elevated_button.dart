@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -14,11 +15,13 @@ class BasicElevatedButton extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Color backgroundColor;
   final Color textColor;
+  final Color loadingIndicatorColor;
   final double textFontSize;
   final double borderRadius;
   final bool showsBorder;
   final bool showsShadow;
   final bool isEnabled;
+  final bool isLoading;
 
   const BasicElevatedButton({
     Key? key,
@@ -26,10 +29,12 @@ class BasicElevatedButton extends StatelessWidget {
     this.borderRadius = 30,
     this.backgroundColor = AppThemeData.primaryColor,
     this.textColor = Colors.white,
+    this.loadingIndicatorColor = Colors.white,
     this.textFontSize = 14,
     this.showsBorder = true,
     this.showsShadow = true,
     this.isEnabled = true,
+    this.isLoading = false,
     this.onTap,
   }) : super(key: key);
 
@@ -67,11 +72,26 @@ class BasicElevatedButton extends StatelessWidget {
                 : null,
           ),
           child: Center(
-            child: Text(title)
-                .withoutUnderLine()
-                .textColor(textColor)
-                .fontWeight(FontWeightCompat.semiBold)
-                .fontSize(textFontSize),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Offstage(
+                  offstage: !isLoading,
+                  child: SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: CircularProgressIndicator(
+                      color: loadingIndicatorColor,
+                    ),
+                  ).paddingOnly(right: 15),
+                ),
+                Text(title)
+                    .withoutUnderLine()
+                    .textColor(textColor)
+                    .fontWeight(FontWeightCompat.semiBold)
+                    .fontSize(textFontSize),
+              ],
+            ),
           ).paddingSymmetric(horizontal: 20, vertical: 8),
         ),
       ),

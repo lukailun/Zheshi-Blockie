@@ -1,6 +1,7 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:html';
+import 'dart:convert';
+import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
@@ -36,27 +37,35 @@ class NftPage extends StatefulWidget {
 class _NftPageState extends State<NftPage> {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
-  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     //ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory('blockie_moment', (int viewId) {
-      return IFrameElement()
+      return html.IFrameElement()
         ..id = "iframe"
         ..style.width = '100%'
         ..style.height = '100%'
         ..style.border = 'none';
+      // ..onLoad.listen((event) async {
+      //   html.window.onMessage.listen((html.MessageEvent messageEvent) {
+      //     final data = messageEvent.data;
+      //     final event = jsonDecode(data);
+      //     final status = event['status'];
+      //     final method = event['method'];
+      //     if (status == 'ok' && method == 'download') {
+      //       goToShare();
+      //     }
+      //   });
+      // });
     });
     if (_nftInfo == null) {
-      _isLoading = true;
       Future.delayed(Duration.zero, () async {
         NftInfo nftInfo =
             await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
         setState(() {
           _nftInfo = nftInfo;
-          _isLoading = false;
         });
       });
     }
@@ -87,8 +96,8 @@ class _NftPageState extends State<NftPage> {
     if (!updatedNftUrl) {
       Future.delayed(Duration.zero, () async {
         setState(() {
-          IFrameElement? element =
-              document.getElementById('iframe') as IFrameElement?;
+          html.IFrameElement? element =
+              html.document.getElementById('iframe') as html.IFrameElement?;
           if (element != null) {
             element.src = getNftSceneUrl(_nftInfo!);
             updatedNftUrl = true;
@@ -278,16 +287,7 @@ class _NftPageState extends State<NftPage> {
         actionItems: [
           AppBarButtonItem(
             assetName: "images/app_bar/share.png",
-            onTap: () {
-              final parameters = {
-                ShareParameter.id: _nftInfo?.uid ?? "",
-                ShareParameter.isNFT: 'true',
-                ShareParameter.shareTitle: _nftInfo?.projectName ?? '',
-                ShareParameter.shareDescription: _nftInfo?.projectSummary ?? '',
-                ShareParameter.shareImageUrl: _nftInfo?.image ?? '',
-              };
-              Get.toNamed(Routes.share, parameters: parameters);
-            },
+            onTap: goToShare,
           ),
           AppBarButtonItem(
             assetName: "images/app_bar/menu.png",
@@ -333,5 +333,13 @@ class _NftPageState extends State<NftPage> {
         ],
       ),
     );
+  }
+
+  void goToShare() {
+    final parameters = {
+      ShareParameter.id: _nftInfo?.uid ?? "",
+      ShareParameter.isNFT: 'true',
+    };
+    Get.toNamed(Routes.share, parameters: parameters);
   }
 }

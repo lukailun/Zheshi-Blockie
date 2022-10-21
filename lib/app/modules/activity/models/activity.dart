@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/activity_step.dart';
-import 'package:blockie_app/app/modules/activity/models/issuer.dart';
+import 'package:blockie_app/data/apis/models/issuer.dart';
 
 part 'activity.g.dart';
 

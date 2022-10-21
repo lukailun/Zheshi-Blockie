@@ -1,9 +1,8 @@
 // Dart imports:
-import 'dart:html' as html;
-import 'dart:ui' as ui;
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_cover_view.dart';
@@ -19,7 +17,7 @@ import 'package:blockie_app/app/modules/project_details/views/project_details_fo
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/services/anyweb_service.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
@@ -33,18 +31,6 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    //ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(AnyWebMethod.accounts.value,
-        (int viewId) {
-      return html.IFrameElement()
-        ..style.width = '100%'
-        ..style.height = '100%'
-        ..src =
-            'https://zheshi.tech/public/dist/?method=${AnyWebMethod.accounts.value}'
-        ..style.border = 'none';
-    });
-
-    final loginView = HtmlElementView(viewType: AnyWebMethod.accounts.value);
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
@@ -74,35 +60,30 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
       () => Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
-        appBar: !controller.showsLogin.value
-            ? BasicAppBar(
-                actionItems: [
-                  AppBarButtonItem(
-                    assetName: "images/app_bar/share.png",
-                    onTap: () => controller.goToShare(),
-                  ),
-                  AppBarButtonItem(
-                    assetName: "images/app_bar/menu.png",
-                    items: menuItems,
-                  ),
-                ],
-              )
-            : null,
+        appBar: BasicAppBar(
+          actionItems: [
+            AppBarButtonItem(
+              assetName: "images/app_bar/share.png",
+              onTap: () => controller.goToShare(),
+            ),
+            AppBarButtonItem(
+              assetName: "images/app_bar/menu.png",
+              items: menuItems,
+            ),
+          ],
+        ),
         body: () {
-          if (controller.showsLogin.value) {
-            return loginView;
-          }
-          if (controller.projectDetails.value == null) {
+          final projectDetails = controller.projectDetails.value;
+          if (projectDetails == null) {
             return const LoadingIndicator();
           } else {
-            final projectDetails = controller.projectDetails.value!;
             return _ProjectDetailsView(
               projectDetails: projectDetails,
-              isMinting: controller.isMinting.value,
+              mintStatus: controller.mintStatus.value,
               galleryOnTap: controller.goToGallery,
               brandOnTap: (id) => controller.goToBrand(id),
               hintOnTap: controller.openHintDialog,
-              mintButtonOnTap: () => controller.mint(projectDetails.uid),
+              mintButtonOnTap: () => controller.mint(projectDetails.id),
             );
           }
         }(),
@@ -113,16 +94,16 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
 
 class _ProjectDetailsView extends StatelessWidget {
   final ProjectDetails projectDetails;
-  final bool isMinting;
+  final MintStatus mintStatus;
   final Function(int) galleryOnTap;
   final Function(String) brandOnTap;
-  final VoidCallback hintOnTap;
-  final VoidCallback mintButtonOnTap;
+  final Function() hintOnTap;
+  final Function() mintButtonOnTap;
 
   const _ProjectDetailsView({
     Key? key,
     required this.projectDetails,
-    required this.isMinting,
+    required this.mintStatus,
     required this.galleryOnTap,
     required this.brandOnTap,
     required this.hintOnTap,
@@ -140,16 +121,16 @@ class _ProjectDetailsView extends StatelessWidget {
         .paddingSymmetric(horizontal: 22, vertical: 14);
 
     final brand = GestureDetector(
-      onTap: () => brandOnTap(projectDetails.issuer.uid),
+      onTap: () => brandOnTap(projectDetails.issuer.id),
       child: Row(
         children: [
           CircleAvatar(
             radius: 16,
             backgroundImage: NetworkImage(
-              projectDetails.issuer.logo,
+              projectDetails.issuer.avatarUrl,
             ),
           ),
-          Text(projectDetails.issuer.title)
+          Text(projectDetails.issuer.name)
               .fontSize(14)
               .textColor(Colors.white)
               .paddingOnly(left: 10),
@@ -205,7 +186,10 @@ class _ProjectDetailsView extends StatelessWidget {
               ).paddingSymmetric(vertical: 14),
               Offstage(
                 offstage: index == projectDetails.items.length - 1,
-                child: const Divider(color: Color(0x1AFFFFFF)),
+                child: const Divider(
+                  color: Color(0x32FFFFFF),
+                  thickness: 1,
+                ),
               ),
             ],
           );
@@ -215,7 +199,7 @@ class _ProjectDetailsView extends StatelessWidget {
 
     final footer = ProjectDetailsFooterView(
       projectDetails: projectDetails,
-      isMinting: isMinting,
+      mintStatus: mintStatus,
       hintOnTap: hintOnTap,
       buttonOnTap: mintButtonOnTap,
     );
@@ -237,7 +221,7 @@ class _ProjectDetailsView extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: [
                           Color(0xFFB3BCC5),
-                          Color(0xFF3C63F8),
+                          AppThemeData.primaryColor,
                         ],
                       ),
                       borderRadius: BorderRadius.only(

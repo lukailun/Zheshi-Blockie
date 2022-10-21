@@ -29,7 +29,7 @@ class ProjectDetailsCoverView extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: CachedNetworkImage(
-                imageUrl: projectDetails.cover,
+                imageUrl: projectDetails.coverUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,7 +40,7 @@ class ProjectDetailsCoverView extends StatelessWidget {
                   height: 50,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: projectDetails.images.length,
+                    itemCount: projectDetails.imageUrls.length,
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     itemBuilder: (_, index) {
                       return GestureDetector(
@@ -58,7 +58,7 @@ class ProjectDetailsCoverView extends StatelessWidget {
                           width: 50,
                           height: 50,
                           child: CachedNetworkImage(
-                            imageUrl: projectDetails.images[index],
+                            imageUrl: projectDetails.imageUrls[index],
                             fit: BoxFit.cover,
                           ),
                         ),

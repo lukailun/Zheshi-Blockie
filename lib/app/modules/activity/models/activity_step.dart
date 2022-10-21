@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
@@ -20,7 +21,7 @@ class ActivityStep {
   @JsonKey(name: 'uid')
   final String ID;
   @JsonKey(name: 'activity_status')
-  final int? activityStatusValue;
+  final int? projectStatusValue;
   @JsonKey(name: 'content')
   final ActivityActionInfo actionInfo;
 
@@ -32,14 +33,14 @@ class ActivityStep {
     this.time,
     this.description,
     this.imagePath,
-    this.activityStatusValue,
+    this.projectStatusValue,
   });
 
   ActivityStepStatus get status =>
       ActivityStepStatus.values.firstWhere((it) => it.value == statusValue);
 
-  ProjectStatus get activityStatus => ProjectStatus.values
-      .firstWhere((it) => it.value == (activityStatusValue ?? 0));
+  ProjectStatus get projectStatus => ProjectStatus.values
+      .firstWhere((it) => it.value == (projectStatusValue ?? 0));
 
   String? get imageUrl => imagePath?.hostAdded;
 
@@ -56,16 +57,4 @@ enum ActivityStepStatus {
   const ActivityStepStatus(this.value);
 
   final int value;
-}
-
-enum ProjectStatus {
-  unknown(0, "未知"),
-  notStarted(1, "活动未开始"),
-  ongoing(2, "活动进行中"),
-  expired(3, "活动已结束");
-
-  const ProjectStatus(this.value, this.description);
-
-  final int value;
-  final String description;
 }

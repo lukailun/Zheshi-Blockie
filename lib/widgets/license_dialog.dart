@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:math';
+import 'dart:ui';
 
 // Flutter imports:
 import 'package:flutter/gestures.dart';
@@ -14,10 +15,10 @@ import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import '../models/app_theme_data.dart';
 
 class LicenseDialog extends StatelessWidget {
-  final void Function() onTermsOfServiceTap;
-  final void Function() onPrivacyPolicyTap;
-  final void Function() onPositiveButtonTap;
-  final void Function() onNegativeButtonTap;
+  final Function() onTermsOfServiceTap;
+  final Function() onPrivacyPolicyTap;
+  final Function() onPositiveButtonTap;
+  final Function() onNegativeButtonTap;
 
   const LicenseDialog({
     Key? key,
@@ -29,26 +30,25 @@ class LicenseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: min(Get.width - 75, 300),
-        height: 255,
-        decoration: BoxDecoration(
-          color: AppThemeData.primaryColor,
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            const Text('用户协议及隐私政策')
-                .withoutUnderLine()
-                .fontSize(18)
-                .textColor(Colors.white)
-                .fontWeight(FontWeightCompat.bold)
-                .paddingSymmetric(vertical: 20),
-            SizedBox(
-              height: 70,
-              child: Center(
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      child: Center(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: AppThemeData.primaryColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          width: min(Get.width - 75, 300),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('用户协议及隐私政策')
+                  .textColor(Colors.white)
+                  .fontSize(18)
+                  .paddingSymmetric(vertical: 10),
+              Center(
                 child: RichText(
                   text: TextSpan(children: [
                     TextSpan(
@@ -70,27 +70,27 @@ class LicenseDialog extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = onPrivacyPolicyTap),
                   ]),
-                ).paddingSymmetric(horizontal: 14),
-              ),
-            ).outlined(),
-            BasicElevatedButton(
-              title: '同意并注册/登录',
-              backgroundColor: Colors.white,
-              textColor: AppThemeData.primaryColor,
-              borderRadius: 8,
-              onTap: onPositiveButtonTap,
-            ).paddingOnly(top: 18),
-            BasicElevatedButton(
-              title: '不同意',
-              showsBorder: false,
-              showsShadow: false,
-              backgroundColor: Colors.transparent,
-              textColor: const Color(0x80FFFFFF),
-              borderRadius: 8,
-              onTap: onNegativeButtonTap,
-            ).paddingOnly(top: 8),
-          ],
-        ).paddingSymmetric(horizontal: 18),
+                ).paddingSymmetric(horizontal: 14, vertical: 19),
+              ).outlined(),
+              BasicElevatedButton(
+                title: '同意并注册/登录',
+                backgroundColor: Colors.white,
+                textColor: AppThemeData.primaryColor,
+                borderRadius: 8,
+                onTap: onPositiveButtonTap,
+              ).paddingOnly(top: 23),
+              BasicElevatedButton(
+                title: '不同意',
+                showsBorder: false,
+                showsShadow: false,
+                backgroundColor: Colors.transparent,
+                textColor: const Color(0x80FFFFFF),
+                borderRadius: 8,
+                onTap: onNegativeButtonTap,
+              ).paddingSymmetric(vertical: 10),
+            ],
+          ).paddingSymmetric(horizontal: 17),
+        ),
       ),
     );
   }

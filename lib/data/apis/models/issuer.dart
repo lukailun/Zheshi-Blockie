@@ -2,7 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/activity_step.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 
 part 'issuer.g.dart';
 
@@ -14,6 +14,8 @@ class Issuer {
   final String id;
   @JsonKey(name: 'logo')
   final String avatarPath;
+
+  String get avatarUrl => avatarPath.hostAdded;
 
   Issuer({
     required this.name,

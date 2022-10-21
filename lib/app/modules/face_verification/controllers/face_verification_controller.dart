@@ -17,8 +17,11 @@ class FaceVerificationController extends GetxController {
 
   FaceVerificationController({required this.repository});
 
+  final isTakingPhoto = false.obs;
+
   void uploadFacePhoto(List<int> bytes, String filename) async {
     final faceInfo = await repository.uploadFacePhoto(bytes, filename);
+    isTakingPhoto.value = false;
     if (faceInfo != null) {
       MessageToast.showMessage("上传成功");
       Get.back(result: true);

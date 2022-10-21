@@ -16,6 +16,7 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   _initServices();
   runApp(
     GetMaterialApp(

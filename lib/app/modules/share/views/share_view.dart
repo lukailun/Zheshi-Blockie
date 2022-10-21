@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -28,62 +29,71 @@ class ShareView extends GetView<ShareController> {
       },
     );
     final saveHintView = Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0x003C63F8),
-              Color(0xFF3C63F8),
-            ],
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-          color: AppThemeData.primaryColor,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0x003C63F8),
+            AppThemeData.primaryColor,
+          ],
         ),
-        width: double.infinity,
-        height: 76,
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: Center(
-              child: const Text('长按图片保存')
-                  .textColor(Colors.white)
-                  .fontSize(14)
-                  .fontWeight(FontWeightCompat.regular),
-            ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        color: AppThemeData.primaryColor,
+      ),
+      width: double.infinity,
+      height: 76,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Center(
+            child: const Text('长按图片保存')
+                .textColor(Colors.white)
+                .fontSize(14)
+                .fontWeight(FontWeightCompat.regular),
           ),
-        ));
-    final appBar = BasicAppBar();
+        ),
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
-      appBar: appBar,
+      appBar: BasicAppBar(),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: Colors.white,
         child: Obx(
-          () => Stack(
+          () => Column(
             children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: () {
-                        final imageUrl = controller.selectedIndex.value == 0
-                            ? controller.posterPath.value.hostAdded
-                            : controller.path.value.hostAdded;
-                        return HtmlImage(url: imageUrl).paddingAll(30);
-                      }(),
-                    ),
-                  ),
-                  saveHintView,
-                ],
+              segmentedControl,
+              Expanded(
+                child: Center(
+                  child: () {
+                    final imageUrl = controller.selectedIndex.value == 0
+                        ? controller.posterPath.value.hostAdded
+                        : controller.path.value.hostAdded;
+                    return Stack(
+                      children: [
+                        Center(
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.contain,
+                          ).paddingAll(30),
+                        ),
+                        Opacity(
+                          opacity: 0.01,
+                          alwaysIncludeSemantics: true,
+                          child: HtmlImage(url: imageUrl).paddingAll(30),
+                        ),
+                      ],
+                    );
+                  }(),
+                ),
               ),
-              segmentedControl.paddingOnly(top: appBar.toolbarHeight),
+              saveHintView,
             ],
           ),
         ),

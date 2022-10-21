@@ -33,7 +33,7 @@ class UpdateUsernameController extends GetxController {
     }
     initialName.value = userInfo.nickname;
     newName.value = userInfo.nickname;
-    AuthService.to.updateUserInfo(userInfo);
+    AuthService.to.userInfo.value = userInfo;
     MessageToast.showMessage('修改成功');
   }
 }

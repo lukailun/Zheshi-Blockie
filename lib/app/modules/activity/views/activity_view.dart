@@ -123,7 +123,7 @@ class _ActivityView extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: CachedNetworkImage(
-              imageUrl: activity.issuer.avatarPath.hostAdded,
+              imageUrl: activity.issuer.avatarUrl,
               width: 32,
               height: 32,
               fit: BoxFit.cover,

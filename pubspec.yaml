@@ -1,7 +1,7 @@
 name: blockie_app
-description: A new Flutter project.
+description: A Web3 sports life platform.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -15,9 +15,12 @@ dependencies:
   cached_network_image: ^3.2.2
   camera: ^0.10.0+1
   dio: ^4.0.6
-  fluttertoast: ^8.0.9
+  fluttertoast: ^8.1.1
   get: ^4.6.5
+  intl: ^0.17.0
+  js: ^0.6.4
   json_annotation: ^4.7.0
+  package_info_plus: ^3.0.1
   pointer_interceptor: ^0.9.3+3
   webview_flutter: ^3.0.4
 

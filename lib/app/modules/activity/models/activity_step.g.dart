@@ -15,7 +15,7 @@ ActivityStep _$ActivityStepFromJson(Map<String, dynamic> json) => ActivityStep(
       time: json['time'] as String?,
       description: json['description'] as String?,
       imagePath: json['image'] as String?,
-      activityStatusValue: json['activity_status'] as int?,
+      projectStatusValue: json['activity_status'] as int?,
     );
 
 Map<String, dynamic> _$ActivityStepToJson(ActivityStep instance) =>
@@ -26,6 +26,6 @@ Map<String, dynamic> _$ActivityStepToJson(ActivityStep instance) =>
       'time': instance.time,
       'image': instance.imagePath,
       'uid': instance.ID,
-      'activity_status': instance.activityStatusValue,
+      'activity_status': instance.projectStatusValue,
       'content': instance.actionInfo.toJson(),
     };

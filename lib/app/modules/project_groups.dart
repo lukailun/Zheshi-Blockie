@@ -1,6 +1,4 @@
 // Dart imports:
-import 'dart:html' as html;
-import 'dart:ui' as ui;
 import 'dart:ui';
 
 // Flutter imports:
@@ -10,9 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/apis/blockie_url_builder.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
@@ -21,7 +18,6 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:blockie_app/widgets/project_item.dart';
 
@@ -36,22 +32,10 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   final _projectGroups = <ProjectGroup>[];
   String? _nextPageUrl;
   UserInfo? _userInfo;
-  bool _showLoginPanel = false;
-
-  // late Future<ProjectLoadInfo> _futureProjects;
 
   @override
   void initState() {
     super.initState();
-    AnyWebService.to.accountsCode.listen((event) {
-      if (event.isSuccessful) {
-        _login(event.data as String);
-      } else {
-        setState(() {
-          _showLoginPanel = false;
-        });
-      }
-    });
     AnyWebService.to.logout.listen((_) {
       DataStorage.setToken('');
       _updateUser();
@@ -61,43 +45,14 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   }
 
   void _showLicenseDialog() {
-    Get.dialog(LicenseDialog(
-      onTermsOfServiceTap: () {
-        final parameters = {
-          WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
-        };
-        Get.toNamed(Routes.webView, parameters: parameters);
-      },
-      onPrivacyPolicyTap: () {
-        final parameters = {
-          WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
-        };
-        Get.toNamed(Routes.webView, parameters: parameters);
-      },
-      onPositiveButtonTap: () {
-        Get.back();
-        _switchLoginPanel(true);
-      },
-      onNegativeButtonTap: () => Get.back(),
-    ));
+    Get.licenseDialog(onLoginSuccess: () {
+      _updateUser();
+      MessageToast.showMessage("登录成功");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    //ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(AnyWebMethod.accounts.value,
-        (int viewId) {
-      return html.IFrameElement()
-        ..style.width = '100%'
-        ..style.height = '100%'
-        ..src =
-            'https://zheshi.tech/public/dist/?method=${AnyWebMethod.accounts.value}'
-        ..style.border = 'none';
-    });
-
-    final loginLoadingIndicator =
-        HtmlElementView(viewType: AnyWebMethod.accounts.value);
-
     final listView = ListView.builder(
         itemCount: _projectGroups.length + 1,
         shrinkWrap: true,
@@ -130,6 +85,10 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         });
     final avatar = GestureDetector(
       onTap: () {
+        // final location =
+        //     await LocationService(html.window.navigator).getLocation();
+        // MessageToast.showMessage(
+        //     'Location: ${location?.longitude ?? 0}, ${location?.latitude ?? 0}, ${location?.timestamp ?? 0}');
         if (_userInfo == null) {
           _showLicenseDialog();
         } else {
@@ -152,38 +111,25 @@ class _ProjectGroupsState extends State<ProjectGroups> {
     ).paddingOnly(right: 10);
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: !_showLoginPanel
-          ? BasicAppBar(
-              showsLogo: true,
-              avatar: avatar,
-            )
-          : null,
-      body: Stack(
-        children: [
-          Container(
-            child: listView,
-          ),
-          if (_showLoginPanel) loginLoadingIndicator
-        ],
+      appBar: BasicAppBar(
+        showsLogo: true,
+        avatar: avatar,
       ),
+      body: listView,
     );
-  }
-
-  void _switchLoginPanel(bool show) {
-    setState(() {
-      _showLoginPanel = show;
-    });
   }
 
   void _updateUser() async {
     if ((DataStorage.getToken() ?? "").isNotEmpty) {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-      AuthService.to.updateUserInfo(res);
+      AuthService.to.userInfo.value = res;
+      AuthService.to.login();
       setState(() {
         _userInfo = res;
       });
     } else {
-      AuthService.to.updateUserInfo(null);
+      AuthService.to.userInfo.value = null;
+      AuthService.to.logout();
       setState(() {
         _userInfo = null;
       });
@@ -200,31 +146,5 @@ class _ProjectGroupsState extends State<ProjectGroups> {
             _projectGroups.length, projectGroupLoadInfo.projectGroups);
       });
     });
-  }
-
-  void _login(String code) async {
-    try {
-      Map<String, dynamic> res = await HttpRequest.login(code);
-      String token = res['token'];
-      UserInfo userInfo = res['user'];
-      DataStorage.setToken(token);
-      DataStorage.setUserUid(userInfo.uid);
-      AuthService.to.updateUserInfo(userInfo);
-      setState(() {
-        _showLoginPanel = false;
-        _userInfo = userInfo;
-      });
-      MessageToast.showMessage("登录成功");
-    } catch (e) {
-      if (DataStorage.getToken() != null) {
-        UserInfo userInfo =
-            await HttpRequest.getUserInfo(DataStorage.getToken()!);
-        AuthService.to.updateUserInfo(userInfo);
-        setState(() {
-          _showLoginPanel = false;
-          _userInfo = userInfo;
-        });
-      }
-    }
   }
 }

@@ -15,14 +15,14 @@ import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
 class ProjectDetailsFooterView extends StatelessWidget {
   final ProjectDetails projectDetails;
-  final bool isMinting;
+  final MintStatus mintStatus;
   final VoidCallback hintOnTap;
   final VoidCallback buttonOnTap;
 
   const ProjectDetailsFooterView({
     Key? key,
     required this.projectDetails,
-    required this.isMinting,
+    required this.mintStatus,
     required this.hintOnTap,
     required this.buttonOnTap,
   }) : super(key: key);
@@ -30,16 +30,18 @@ class ProjectDetailsFooterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hintText = GestureDetector(
-      onTap:
-          projectDetails.mintStatus != MintStatus.notLogin ? hintOnTap : null,
+      onTap: mintStatus.showsHint ? hintOnTap : null,
       child: SizedBox(
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(projectDetails.mintHint).textColor(Colors.white).fontSize(17),
+            Text(mintStatus.hint(
+              mintedAmount: projectDetails.mintedAmount,
+              mintChances: projectDetails.mintChances,
+            )).textColor(Colors.white).fontSize(17),
             Offstage(
-              offstage: projectDetails.mintStatus == MintStatus.notLogin,
+              offstage: !mintStatus.showsHint,
               child: Image.asset(
                 "images/project_details/hint.png",
                 width: 20,
@@ -52,13 +54,13 @@ class ProjectDetailsFooterView extends StatelessWidget {
     );
 
     final mintButton = BasicElevatedButton(
-      title: projectDetails.mintStatus(isMinting: isMinting).title,
+      title: mintStatus.title(projectDetails.startedTime),
       borderRadius: 12,
-      backgroundColor:
-          Color(projectDetails.mintStatus(isMinting: isMinting).colorValue),
+      backgroundColor: Color(mintStatus.colorValue),
       textColor: Colors.black,
       textFontSize: 20,
-      onTap: buttonOnTap,
+      isLoading: mintStatus == MintStatus.minting,
+      onTap: mintStatus.enabled ? buttonOnTap : null,
     );
 
     return Container(
