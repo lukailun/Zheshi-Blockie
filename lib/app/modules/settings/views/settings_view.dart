@@ -3,19 +3,15 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/settings/controllers/settings_controller.dart';
 import 'package:blockie_app/app/modules/settings/models/settings_item_groups.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_item_group_tile.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_dialog.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/loading_indicator.dart';
-import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
@@ -36,14 +32,7 @@ class SettingsView extends GetView<SettingsController> {
           height: 36,
           child: BasicElevatedButton(
             title: '退出登录',
-            onTap: () {
-              Get.dialog(BasicDialog(
-                title: '提示',
-                message: '确定登出吗？',
-                onPositiveButtonTap: controller.openLogoutDialog,
-                onNegativeButtonTap: () => Get.back(),
-              ));
-            },
+            onTap: controller.openConfirmToLogoutDialog,
           ),
         ),
       ),
@@ -75,9 +64,9 @@ class SettingsView extends GetView<SettingsController> {
       phoneNumber:
           controller.displayPhoneNumber(controller.initialPhoneNumber.value),
       version: version,
-      termsOfServiceOnTap: () => controller.goToTermsOfService(),
-      privacyPolicyOnTap: () => controller.goToPrivacyPolicy(),
-      activityManagementOnTap: () => controller.goToActivityManagement(),
+      termsOfServiceOnTap: controller.goToTermsOfService,
+      privacyPolicyOnTap: controller.goToPrivacyPolicy,
+      activityManagementOnTap: controller.goToProjectManagement,
     );
     final List<Widget> itemGroupTiles =
         groups.map((group) => SettingsItemGroupTile(group: group)).toList();

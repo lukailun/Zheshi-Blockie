@@ -26,11 +26,21 @@ class QrCodeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Center(
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          GestureDetector(
+            onTap: () => Get.back(),
+            child: Image.asset(
+              "images/common/close_flat.png",
+              width: 34,
+              height: 34,
+            ),
+          ).paddingOnly(top: 22, right: 22),
+          const Expanded(child: SizedBox()),
+          Center(
             child: Container(
               decoration: const BoxDecoration(
                 color: AppThemeData.primaryColor,
@@ -74,22 +84,9 @@ class QrCodeDialog extends StatelessWidget {
               ).paddingAll(17),
             ),
           ),
-        ),
-        Positioned(
-          top: 22,
-          right: 22,
-          child: GestureDetector(
-            onTap: () => Get.back(),
-            child: Positioned(
-              child: Image.asset(
-                "images/common/close_flat.png",
-                width: 34,
-                height: 34,
-              ),
-            ),
-          ),
-        ),
-      ],
+          const Expanded(child: SizedBox()),
+        ],
+      ),
     );
   }
 }

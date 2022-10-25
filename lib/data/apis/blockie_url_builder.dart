@@ -14,7 +14,7 @@ class BlockieUrlBuilder {
   static String buildPrivacyPolicyUrl() =>
       'https://blockie.fun/public/blockie_privacy.html';
 
-  static String buildAppIconUrl() => '${Global.assetHost}/app_icon.png';
+  static String buildAppIconUrl() => '${Global.assetHost}/assets/flt/app_icon.png';
 
   String buildLoginUrl() => '$_baseUrl/login';
 

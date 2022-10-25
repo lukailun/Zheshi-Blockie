@@ -6,7 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../models/allowed_uri_policy.dart';
+import '../data/apis/models/allowed_uri_policy.dart';
 
 class HtmlImage extends StatelessWidget {
   final String url;

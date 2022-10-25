@@ -24,12 +24,12 @@ extension WechatShareSourceExtension on WechatShareSource {
       case WechatShareSource.nft:
         return '来看这枚 NFT！${extraInfo ?? ''}';
       case WechatShareSource.defaults:
-        return 'Blockie | 国内首个 Web3 运动生活平台';
+        return 'Blockie | 国内首个 Web3 运动数字身份平台';
     }
   }
 
   String getDescription({String? extraInfo}) {
-    const defaultDescription = '带你体验 Web3 运动生活新方式，稀有 NFT 等你来探索。';
+    const defaultDescription = '打造每个运动者自己的去中心化数字身份';
     switch (this) {
       case WechatShareSource.activity:
         return extraInfo ?? defaultDescription;
@@ -54,13 +54,14 @@ extension WechatShareSourceExtension on WechatShareSource {
 
   String getImageUrl({String? extraInfo}) {
     final defaultImageUrl = BlockieUrlBuilder.buildAppIconUrl();
+    final imageUrl = extraInfo ?? '';
     switch (this) {
       case WechatShareSource.activity:
-        return extraInfo ?? defaultImageUrl;
+        return imageUrl.isNotEmpty ? imageUrl : defaultImageUrl;
       case WechatShareSource.project:
-        return extraInfo ?? defaultImageUrl;
+        return imageUrl.isNotEmpty ? imageUrl : defaultImageUrl;
       case WechatShareSource.nft:
-        return extraInfo ?? defaultImageUrl;
+        return imageUrl.isNotEmpty ? imageUrl : defaultImageUrl;
       case WechatShareSource.defaults:
         return defaultImageUrl;
     }

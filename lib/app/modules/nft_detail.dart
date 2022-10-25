@@ -14,11 +14,13 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
@@ -37,6 +39,9 @@ class NftPage extends StatefulWidget {
 class _NftPageState extends State<NftPage> {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
+  bool _goneToShare = false;
+  final _uid = Get.parameters["uid"] as String;
+  StreamSubscription<html.MessageEvent>? _scription;
 
   @override
   void initState() {
@@ -48,17 +53,6 @@ class _NftPageState extends State<NftPage> {
         ..style.width = '100%'
         ..style.height = '100%'
         ..style.border = 'none';
-      // ..onLoad.listen((event) async {
-      //   html.window.onMessage.listen((html.MessageEvent messageEvent) {
-      //     final data = messageEvent.data;
-      //     final event = jsonDecode(data);
-      //     final status = event['status'];
-      //     final method = event['method'];
-      //     if (status == 'ok' && method == 'download') {
-      //       goToShare();
-      //     }
-      //   });
-      // });
     });
     if (_nftInfo == null) {
       Future.delayed(Duration.zero, () async {
@@ -66,9 +60,18 @@ class _NftPageState extends State<NftPage> {
             await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
         setState(() {
           _nftInfo = nftInfo;
+          _updateShareConfig(isDefaultConfig: false);
         });
       });
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _updateShareConfig(isDefaultConfig: true);
+    _scription?.cancel();
+    _scription = null;
   }
 
   String getNftSceneUrl(NftInfo nftInfo) {
@@ -78,7 +81,7 @@ class _NftPageState extends State<NftPage> {
       case 3:
         return 'https://sandbox.blockie.zheshi.tech?type=card&image1=${nftInfo.textures['part0'] ?? ''}&image2=${nftInfo.textures['part1'] ?? ''}';
       case 4:
-        return 'https://sandbox.blockie.zheshi.tech?type=kettlebell&model=${nftInfo.model}';
+        return 'https://sandbox.blockie.zheshi.tech?type=model&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
       default:
         return '';
     }
@@ -100,6 +103,23 @@ class _NftPageState extends State<NftPage> {
               html.document.getElementById('iframe') as html.IFrameElement?;
           if (element != null) {
             element.src = getNftSceneUrl(_nftInfo!);
+            element.onLoad.listen((event) async {
+              _scription?.cancel();
+              _scription = html.window.onMessage
+                  .listen((html.MessageEvent messageEvent) {
+                final data = messageEvent.data;
+                final event = jsonDecode(data);
+                final status = event['status'];
+                final method = event['method'];
+                if (status == 'ok' && method == 'download') {
+                  if (_goneToShare) {
+                    return;
+                  }
+                  _goneToShare = true;
+                  goToShare();
+                }
+              });
+            });
             updatedNftUrl = true;
           }
         });
@@ -322,24 +342,52 @@ class _NftPageState extends State<NftPage> {
               ),
               Column(
                 children: [
-                  // brand,
                   projectTitle,
                   brandInfo,
                   nftDetail,
                 ],
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
-  void goToShare() {
+  void goToShare() async {
     final parameters = {
-      ShareParameter.id: _nftInfo?.uid ?? "",
+      ShareParameter.id: _uid,
       ShareParameter.isNFT: 'true',
     };
-    Get.toNamed(Routes.share, parameters: parameters);
+    await Get.toNamed(Routes.share, parameters: parameters);
+    _goneToShare = false;
+  }
+
+  void _updateShareConfig({required bool isDefaultConfig}) {
+    final nftValue = _nftInfo;
+    if (nftValue == null) {
+      return;
+    }
+    final title = isDefaultConfig
+        ? WechatShareSource.defaults.getTitle()
+        : WechatShareSource.nft.getTitle(extraInfo: nftValue.projectName);
+    final description = isDefaultConfig
+        ? WechatShareSource.defaults.getDescription()
+        : WechatShareSource.nft
+            .getDescription(extraInfo: nftValue.projectSummary);
+    final link = isDefaultConfig
+        ? WechatShareSource.defaults.getLink()
+        : WechatShareSource.nft.getLink();
+    final imageUrl = isDefaultConfig
+        ? WechatShareSource.defaults.getImageUrl()
+        : WechatShareSource.nft.getImageUrl(
+            extraInfo: nftValue.cover,
+          );
+    WechatService.to.updateShareConfig(
+      title: title,
+      description: description,
+      link: link,
+      imageUrl: imageUrl,
+    );
   }
 }

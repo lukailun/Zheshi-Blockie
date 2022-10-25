@@ -14,4 +14,4 @@ sed -i "s/pushState/replaceState/g" ./build/web/main.dart.js
 
 scp -r ./build/web/* root@122.112.231.151:/apps/blockie_app/
 
-curl -X POST -H "Content-Type: application/json" -d '{"msg_type":"post","content":{"post":{"zh_cn":{"title":"New Update","content":[[{"tag":"a","text":"Blockie","href":"https://s.blockie.zheshi.tech/app/"},{"tag":"text","text":" has been updated.\nbranch: '$gitBranch'\ncommit SHA: '$gitCommitId'"}]]}}}}' $webhookUrl
+#curl -X POST -H "Content-Type: application/json" -d '{"msg_type":"post","content":{"post":{"zh_cn":{"title":"New Update","content":[[{"tag":"a","text":"Blockie","href":"https://s.blockie.zheshi.tech/app/"},{"tag":"text","text":" has been updated.\nbranch: '$gitBranch'\ncommit SHA: '$gitCommitId'"}]]}}}}' $webhookUrl

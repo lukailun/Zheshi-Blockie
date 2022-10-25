@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/views/activity_step_button.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import '../models/activity_step.dart';
 

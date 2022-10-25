@@ -5,16 +5,19 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app//modules/project_management/bindings/project_management_binding.dart';
 import 'package:blockie_app/app/modules/activity/bindings/activity_binding.dart';
 import 'package:blockie_app/app/modules/activity/views/activity_view.dart';
 import 'package:blockie_app/app/modules/brand_detail.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
-import 'package:blockie_app/app/modules/image_view.dart';
+import 'package:blockie_app/app/modules/gallery/bindings/gallery_binding.dart';
+import 'package:blockie_app/app/modules/gallery/views/gallery_view.dart';
 import 'package:blockie_app/app/modules/nft_detail.dart';
 import 'package:blockie_app/app/modules/project_details/bindings/project_details_binding.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_view.dart';
 import 'package:blockie_app/app/modules/project_groups.dart';
+import 'package:blockie_app/app/modules/project_management/views/project_management_view.dart';
 import 'package:blockie_app/app/modules/registration_info/bindings/registration_info_binding.dart';
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
@@ -64,8 +67,9 @@ class AppPages {
       binding: ProjectDetailsBinding(projectRepository: _projectRepository),
     ),
     GetPage(
-      name: Routes.imageView,
-      page: () => const ImageView(),
+      name: Routes.gallery,
+      page: () => const GalleryView(),
+      binding: GalleryBinding(),
     ),
     GetPage(
       name: Routes.nft,
@@ -113,6 +117,11 @@ class AppPages {
       name: Routes.webView,
       page: () => const WebViewView(),
       binding: WebViewBinding(),
+    ),
+    GetPage(
+      name: Routes.projectManagement,
+      page: () => const ProjectManagementView(),
+      binding: ProjectManagementBinding(projectRepository: _projectRepository),
     ),
   ];
 }

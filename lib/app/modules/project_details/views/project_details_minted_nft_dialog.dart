@@ -77,7 +77,7 @@ class ProjectDetailsMintedNftDialog extends StatelessWidget {
                   style: TextStyle(color: Color(0x80FFFFFF), fontSize: 14),
                   children: [
                     TextSpan(
-                      text: "我的-我的 NFT",
+                      text: "我的 - 运动凭证",
                       style: TextStyle(color: Color(0xCCFFFFFF), fontSize: 14),
                     ),
                     TextSpan(

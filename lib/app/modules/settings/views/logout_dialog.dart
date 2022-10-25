@@ -5,12 +5,29 @@ import 'dart:ui' as ui;
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:get/get.dart';
+
 // Project imports:
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
+import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
-class LogoutDialog extends StatelessWidget {
-  const LogoutDialog({super.key});
+extension GetDialogExtension on GetInterface {
+  void logoutDialog({
+    required VoidCallback onLogoutSuccess,
+  }) {
+    AuthService.to.listenLogout(onLogoutSuccess: onLogoutSuccess);
+    Get.dialog(
+      const _LogoutDialog(),
+      barrierColor: AppThemeData.barrierColor,
+    );
+  }
+}
+
+class _LogoutDialog extends StatelessWidget {
+  const _LogoutDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

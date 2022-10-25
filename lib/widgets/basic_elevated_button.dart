@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,6 +7,7 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/loading_indicator.dart';
 import '../models/app_theme_data.dart';
 
 class BasicElevatedButton extends StatelessWidget {

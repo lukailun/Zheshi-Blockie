@@ -1,9 +1,9 @@
 // Package imports:
-import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/activity_action_info.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 
 part 'activity_step.g.dart';

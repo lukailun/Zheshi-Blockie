@@ -32,7 +32,7 @@ extension MintStatusExtension on MintStatus {
   }
 
   String hint({
-    required int mintedAmount,
+    required int userMintedAmount,
     required int? mintChances,
   }) {
     switch (this) {
@@ -46,9 +46,9 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.mintable:
       case MintStatus.runOut:
       case MintStatus.minting:
-        return '您当前持有 $mintedAmount 个，还有 ${mintChances ?? 0} 次铸造机会';
+        return '您当前持有 $userMintedAmount 个，还有 ${mintChances ?? 0} 次铸造机会';
       case MintStatus.expired:
-        return '您当前持有 $mintedAmount 个';
+        return '您当前持有 $userMintedAmount 个';
     }
   }
 

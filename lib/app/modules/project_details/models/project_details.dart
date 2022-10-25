@@ -1,14 +1,14 @@
 // Package imports:
-import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
-import 'package:blockie_app/utils/date_time_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
+import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_details_extra_info.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_item.dart';
+import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/data/apis/models/issuer.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project_details.g.dart';
 
@@ -52,6 +52,8 @@ class ProjectDetails {
   final String id;
   @JsonKey(name: 'issuer')
   final Issuer issuer;
+  @JsonKey(name: 'content')
+  final ProjectDetailsExtraInfo extraInfo;
 
   const ProjectDetails({
     required this.name,
@@ -73,9 +75,12 @@ class ProjectDetails {
     required this.userMintedAmount,
     required this.id,
     required this.issuer,
+    required this.extraInfo,
   });
 
   String get coverUrl => coverPath.hostAdded;
+
+  List<String> get imageUrls => imagePaths.map((it) => it.hostAdded).toList();
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {
@@ -105,7 +110,19 @@ class ProjectDetails {
         return ProjectStatus.unknown;
       }();
 
-  List<String> get imageUrls => imagePaths.map((it) => it.hostAdded).toList();
+  MintRule? get mintRule => () {
+        final ruleInfo = extraInfo.ruleInfo;
+        if (ruleInfo == null) {
+          return null;
+        }
+        if (ruleInfo.geometry != null) {
+          return MintRule.distance;
+        }
+        if (ruleInfo.checkCode != null) {
+          return MintRule.checkCode;
+        }
+        return null;
+      }();
 
   factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
       _$ProjectDetailsFromJson(json);
@@ -124,33 +141,4 @@ extension ProjectDetailsExtension on ProjectDetails {
         ProjectDetailsItem(
             title: '合约地址', content: contract, ellipsized: true, copyable: true),
       ];
-
-  MintStatus mintStatus({required bool isMinting}) {
-    if (!AuthService.to.isLoggedIn) {
-      return MintStatus.notLogin;
-    }
-    if (isMinting) {
-      return MintStatus.minting;
-    }
-    if (!(isQualified ?? false)) {
-      return MintStatus.unqualified;
-    }
-    if ((mintChances ?? 0) <= 0) {
-      return MintStatus.unqualified;
-    }
-    return MintStatus.mintable;
-  }
-
-  String mintHint({required bool isMinting}) {
-    if (mintStatus(isMinting: isMinting) == MintStatus.notLogin) {
-      return '请登录以获取你的铸造资格';
-    }
-    if (mintStatus(isMinting: isMinting) == MintStatus.unqualified) {
-      return '未获得铸造资格';
-    }
-    if (userMintedAmount == 0) {
-      return '剩余 $mintChances 次铸造机会';
-    }
-    return '已铸造 $userMintedAmount 次，剩余 $mintChances 次铸造机会';
-  }
 }

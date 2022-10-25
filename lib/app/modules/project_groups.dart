@@ -85,10 +85,6 @@ class _ProjectGroupsState extends State<ProjectGroups> {
         });
     final avatar = GestureDetector(
       onTap: () {
-        // final location =
-        //     await LocationService(html.window.navigator).getLocation();
-        // MessageToast.showMessage(
-        //     'Location: ${location?.longitude ?? 0}, ${location?.latitude ?? 0}, ${location?.timestamp ?? 0}');
         if (_userInfo == null) {
           _showLicenseDialog();
         } else {

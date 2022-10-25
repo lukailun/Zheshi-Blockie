@@ -223,7 +223,7 @@ class _UserPageState extends State<UserPage> {
           ),
           const Expanded(
               child: Text(
-            "我的NFT",
+            "运动凭证",
             style: TextStyle(fontSize: 15, color: Color(0xffffffff)),
           )),
           Text(

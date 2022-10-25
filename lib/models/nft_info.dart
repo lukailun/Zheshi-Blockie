@@ -10,6 +10,7 @@ class NftInfo {
   final String cover;
   final String? image;
   final Map<String, String> textures;
+  final List<Map<String, String>> modelImage;
   final String model;
   final String video;
   final int type;
@@ -27,6 +28,7 @@ class NftInfo {
       required this.cover,
       required this.image,
       required this.textures,
+      required this.modelImage,
       required this.model,
       required this.video,
       required this.type,
@@ -44,6 +46,7 @@ class NftInfo {
         cover: Global.assetHost + json['cover'],
         image: Global.assetHost + (json['image']['normal'] ?? ''),
         textures: Map.from(json['image']),
+        modelImage: json['model_image'] == null ? [] : (json['model_image'] as List).map((e) => Map<String, String>.from(e)).toList(),
         model: json['model'] ?? '',
         video: json['video'] ?? '',
         type: json['type'],

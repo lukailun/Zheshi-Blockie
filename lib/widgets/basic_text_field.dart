@@ -47,33 +47,34 @@ class _BasicTextFieldState extends State<BasicTextField> {
       ),
       cursorColor: Colors.white,
       decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: const TextStyle(
-            color: Color(0x80FFFFFF),
-            fontSize: 16,
-            fontWeight: FontWeightCompat.semiBold,
-          ),
-          border: widget.showsUnderline ? null : InputBorder.none,
-          enabledBorder: widget.showsUnderline
-              ? UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white.withOpacity(0.5)),
-                )
-              : null,
-          focusedBorder: widget.showsUnderline
-              ? const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                )
-              : null,
-          suffix: _controller.text.isNotEmpty
-              ? BasicIconButton(
-                  assetName: 'images/common/clear.png',
-                  size: 22,
-                  onTap: () {
-                    widget.onValueChanged("");
-                    _controller.text = "";
-                  },
-                )
-              : null),
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(
+          color: Color(0x80FFFFFF),
+          fontSize: 16,
+          fontWeight: FontWeightCompat.semiBold,
+        ),
+        border: widget.showsUnderline ? null : InputBorder.none,
+        enabledBorder: widget.showsUnderline
+            ? UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.5)),
+              )
+            : null,
+        focusedBorder: widget.showsUnderline
+            ? const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              )
+            : null,
+        // suffix: _controller.text.isNotEmpty
+        //     ? BasicIconButton(
+        //         assetName: 'images/common/clear.png',
+        //         size: 22,
+        //         onTap: () {
+        //           widget.onValueChanged("");
+        //           _controller.text = "";
+        //         },
+        //       )
+        //     : null,
+      ),
     );
   }
 }

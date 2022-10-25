@@ -66,8 +66,10 @@ class ActivityController extends GetxController {
   }
 
   void _updateShareConfig({required bool isDefaultConfig}) {
-    if (activity.value == null) return;
-    final activityValue = activity.value!;
+    final activityValue = activity.value;
+    if (activityValue == null) {
+      return;
+    }
     final title = isDefaultConfig
         ? WechatShareSource.defaults.getTitle()
         : WechatShareSource.activity.getTitle(extraInfo: activityValue.name);

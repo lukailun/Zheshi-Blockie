@@ -37,7 +37,7 @@ class ProjectDetailsFooterView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(mintStatus.hint(
-              mintedAmount: projectDetails.mintedAmount,
+              userMintedAmount: projectDetails.userMintedAmount ?? 0,
               mintChances: projectDetails.mintChances,
             )).textColor(Colors.white).fontSize(17),
             Offstage(

@@ -28,6 +28,8 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       userMintedAmount: json['user_minted_amount'] as int?,
       id: json['uid'] as String,
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
+      extraInfo: ProjectDetailsExtraInfo.fromJson(
+          json['content'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -51,4 +53,5 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'user_minted_amount': instance.userMintedAmount,
       'uid': instance.id,
       'issuer': instance.issuer.toJson(),
+      'content': instance.extraInfo.toJson(),
     };

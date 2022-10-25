@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +10,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
+import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_cover_view.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_footer_view.dart';
@@ -83,7 +83,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
               galleryOnTap: controller.goToGallery,
               brandOnTap: (id) => controller.goToBrand(id),
               hintOnTap: controller.openHintDialog,
-              mintButtonOnTap: () => controller.mint(projectDetails.id),
+              mintButtonOnTap: () => controller.prepareToMint(projectDetails.id),
             );
           }
         }(),

@@ -14,10 +14,11 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
 
   void goToGallery(int index) {
     final parameters = {
-      'index': '$index',
-      'projectUid': _id,
+      GalleryParameter.index: '$index',
+      GalleryParameter.imageUrls:
+          jsonEncode(projectDetails.value?.imageUrls ?? []),
     };
-    Get.toNamed(Routes.imageView, parameters: parameters);
+    Get.toNamed(Routes.gallery, parameters: parameters);
   }
 
   void goToBrand(String id) {
@@ -55,8 +56,14 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
     );
   }
 
-  void openMintCheckCodeDialog() {
-    Get.mintCheckCodeDialog(checkCode: '0000');
+  void openMintCheckCodeDialog({
+    required String id,
+    required String checkCode,
+  }) {
+    Get.mintCheckCodeDialog(
+      checkCode: checkCode,
+      onSuccess: () => _mint(id),
+    );
   }
 
   void openLicenseDialog() {
