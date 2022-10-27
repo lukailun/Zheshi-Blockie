@@ -47,9 +47,9 @@ class BasicPopupMenuItem extends StatelessWidget {
                       item.assetName,
                       width: 16,
                       height: 16,
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.contain,
                       color: AppThemeData.primaryColor,
-                    ).outlined(visible: false),
+                    ).paddingOnly(right: 5),
                     Text(item.title ?? '')
                         .fontSize(16)
                         .fontWeight(FontWeightCompat.regular)

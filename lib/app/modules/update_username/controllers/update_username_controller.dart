@@ -8,7 +8,7 @@ import 'package:blockie_app/widgets/message_toast.dart';
 
 class UpdateUsernameController extends GetxController {
   final AccountRepository repository;
-  final initialName = (AuthService.to.userInfo.value?.nickname ?? "").obs;
+  final initialName = (AuthService.to.user.value?.nickname ?? "").obs;
   final newName = ''.obs;
 
   UpdateUsernameController({required this.repository});
@@ -33,7 +33,7 @@ class UpdateUsernameController extends GetxController {
     }
     initialName.value = userInfo.nickname;
     newName.value = userInfo.nickname;
-    AuthService.to.userInfo.value = userInfo;
+    AuthService.to.user.value = userInfo;
     MessageToast.showMessage('修改成功');
   }
 }

@@ -38,7 +38,7 @@ class _UserPageState extends State<UserPage> {
   String _qrcode = '';
   bool _isLoading = false;
 
-  final _userInfo = AuthService.to.userInfo;
+  final _userInfo = AuthService.to.user;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _UserPageState extends State<UserPage> {
       if (DataStorage.getToken() != null) {
         userInfo = await HttpRequest.getUserInfo(DataStorage.getToken()!);
       }
-      AuthService.to.userInfo.value = userInfo;
+      AuthService.to.user.value = userInfo;
     } else {
       userInfo = await HttpRequest.getOtherUserInfo(uid);
     }
@@ -263,15 +263,15 @@ class _UserPageState extends State<UserPage> {
         backButtonOnTap: () => Get.offAllNamed(Routes.initial),
         actionItems: [
           AppBarButtonItem(
-            assetName: 'images/app_bar/qrcode.png',
+            assetName: 'images/app_bar/qr_code.png',
             onTap: () {
               if (_userInfo.value == null) {
                 return;
               }
-              Get.qrCodeDialog(
-                user: _userInfo.value!,
-                qrCode: _qrcode,
-              );
+              // Get.qrCodeDialog(
+              //   user: _userInfo.value!,
+              //   qrCode: _qrcode,
+              // );
             },
           ),
           AppBarButtonItem(

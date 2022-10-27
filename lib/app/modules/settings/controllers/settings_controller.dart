@@ -8,12 +8,13 @@ import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 
 class SettingsController extends GetxController {
   final AccountRepository repository;
-  final initialPhoneNumber = (AuthService.to.userInfo.value?.phone ?? "").obs;
+  final user = AuthService.to.user;
+  final initialPhoneNumber = (AuthService.to.user.value?.phone ?? "").obs;
   final version = ''.obs;
 
   SettingsController({required this.repository});
@@ -45,8 +46,8 @@ class SettingsController extends GetxController {
     Get.toNamed(Routes.webView, parameters: parameters);
   }
 
-  void goToProjectManagement() {
-    Get.toNamed(Routes.projectManagement);
+  void goToProjectsManagement() {
+    Get.toNamed(Routes.projectsManagement);
   }
 
   void openConfirmToLogoutDialog() {

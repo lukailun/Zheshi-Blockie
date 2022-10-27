@@ -14,7 +14,8 @@ class BlockieUrlBuilder {
   static String buildPrivacyPolicyUrl() =>
       'https://blockie.fun/public/blockie_privacy.html';
 
-  static String buildAppIconUrl() => '${Global.assetHost}/assets/flt/app_icon.png';
+  static String buildAppIconUrl() =>
+      '${Global.assetHost}assets/flt/share_icon.png';
 
   String buildLoginUrl() => '$_baseUrl/login';
 
@@ -55,4 +56,6 @@ class BlockieUrlBuilder {
   String buildGetNFTShareInfoUrl(String id) => '$_baseUrl/NFTs/$id/poster';
 
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
+
+  String buildGetProfileUrl() => '$_baseUrl/my/profile';
 }

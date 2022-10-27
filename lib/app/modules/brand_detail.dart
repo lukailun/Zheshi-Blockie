@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/issuer_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
@@ -55,7 +56,7 @@ class _BrandPageState extends State<BrandPage> {
   Widget build(BuildContext context) {
     if (_issuerInfo == null) {
       return const Material(
-        color: Color(0xff3C63F8),
+        color: AppThemeData.primaryColor,
         child: SizedBox(),
       );
     }

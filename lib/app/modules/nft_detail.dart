@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
@@ -293,9 +294,9 @@ class _NftPageState extends State<NftPage> {
         assetName: "images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            'uid': AuthService.to.userInfo.value?.uid ?? "",
+            ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
           };
-          Get.toNamed(Routes.user, parameters: parameters);
+          Get.toNamed(Routes.profile, parameters: parameters);
         },
       ),
     ];
@@ -329,8 +330,8 @@ class _NftPageState extends State<NftPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFFB3BCC5),
-                      Color(0xFF3C63F8),
+                      Color(0xFF696969),
+                      AppThemeData.primaryColor,
                     ],
                   ),
                   borderRadius: BorderRadius.only(

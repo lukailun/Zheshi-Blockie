@@ -103,36 +103,48 @@ class ProjectItem extends StatelessWidget {
                   }
                   return Container(
                     padding: const EdgeInsets.only(right: imageItemPadding),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          child: Image.network(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      child: Stack(
+                        children: [
+                          Image.network(
                             projectGroup!.projects[index - 1].cover,
                             width: groupImageWidth,
                             height: groupImageWidth,
                             fit: BoxFit.cover,
                           ),
-                        ),
-                        Image.asset(
-                          "images/cover_stack.png",
-                          width: groupImageWidth,
-                          height: groupImageWidth,
-                          fit: BoxFit.cover,
-                        ),
-                        Positioned(
-                            left: 21,
-                            bottom: 13,
-                            width: groupImageWidth - 30,
-                            child: Text(
-                              projectGroup!.projects[index - 1].name,
-                              style: const TextStyle(
-                                  color: Color(0xffffffff), fontSize: 20),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ))
-                      ],
+                          Column(
+                            children: [
+                              const Spacer(flex: 1),
+                              Container(
+                                width: groupImageWidth,
+                                height: groupImageWidth / 4,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0x00757575),
+                                      Color(0xFF404040),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                              left: 21,
+                              bottom: 13,
+                              width: groupImageWidth - 30,
+                              child: Text(
+                                projectGroup!.projects[index - 1].name,
+                                style: const TextStyle(
+                                    color: Color(0xffffffff), fontSize: 20),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ))
+                        ],
+                      ),
                     ),
                   );
                 }),

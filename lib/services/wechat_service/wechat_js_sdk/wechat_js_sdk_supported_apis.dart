@@ -1,13 +1,13 @@
 part of wechat_js_sdk;
 
-enum WechatSupportedAPIs {
+enum WechatSupportedApis {
   updateAppMessageShareData("updateAppMessageShareData"),
   updateTimelineShareData("updateTimelineShareData");
 
-  const WechatSupportedAPIs(this.value);
+  const WechatSupportedApis(this.value);
 
   final String value;
 }
 
-final wechatSupportedAPIs =
-WechatSupportedAPIs.values.map((it) => it.value).toList();
+final wechatSupportedApis =
+    WechatSupportedApis.values.map((it) => it.value).toList();

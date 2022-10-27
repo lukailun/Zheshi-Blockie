@@ -61,12 +61,14 @@ class SettingsView extends GetView<SettingsController> {
     required String version,
   }) {
     final groups = SettingsItemGroups.initial(
+      // isStaff: controller.user.value?.isStaff ?? false,
+      isStaff: true,
       phoneNumber:
           controller.displayPhoneNumber(controller.initialPhoneNumber.value),
       version: version,
       termsOfServiceOnTap: controller.goToTermsOfService,
       privacyPolicyOnTap: controller.goToPrivacyPolicy,
-      activityManagementOnTap: controller.goToProjectManagement,
+      activityManagementOnTap: controller.goToProjectsManagement,
     );
     final List<Widget> itemGroupTiles =
         groups.map((group) => SettingsItemGroupTile(group: group)).toList();

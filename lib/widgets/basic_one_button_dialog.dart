@@ -13,6 +13,25 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
+extension GetDialogExtension on GetInterface {
+  void oneButtonDialog({
+    required String title,
+    required String message,
+    required String buttonTitle,
+    required Function() buttonOnTap,
+  }) {
+    Get.dialog(
+      BasicOneButtonDialog(
+        title: title,
+        message: message,
+        buttonTitle: buttonTitle,
+        buttonOnTap: buttonOnTap,
+      ),
+      barrierColor: AppThemeData.barrierColor,
+    );
+  }
+}
+
 class BasicOneButtonDialog extends StatelessWidget {
   final String title;
   final String message;

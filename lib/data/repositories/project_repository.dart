@@ -1,6 +1,7 @@
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
+import 'package:blockie_app/app/modules/projects_management/models/paginated_projects.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/data/apis/blockie_api.dart';
@@ -12,6 +13,8 @@ class ProjectRepository {
   final BlockieApi remoteApi;
 
   ProjectRepository({required this.client, required this.remoteApi});
+
+  Future<PaginatedProjects?> getProjects() => remoteApi.getProjects();
 
   Future<Activity> getActivity(String id) => client.getActivity(id);
 

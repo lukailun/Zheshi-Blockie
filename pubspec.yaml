@@ -40,5 +40,8 @@ flutter:
     - images/activity/
     - images/app_bar/
     - images/common/
+    - images/profile/
+    - images/projects/
     - images/project_details/
+    - images/projects_management/
     - images/settings/

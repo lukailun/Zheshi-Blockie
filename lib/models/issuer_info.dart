@@ -15,9 +15,10 @@ class IssuerInfo {
 
   factory IssuerInfo.fromJson(Map<String, dynamic> json) {
     return IssuerInfo(
-        title: json['title'],
-        summary: json['summary'] ?? '',
-        logo: Global.assetHost + json['logo'],
-        uid: json['uid']);
+      title: json['title'],
+      summary: json['summary'] ?? '',
+      logo: Global.assetHost + json['logo'],
+      uid: json['uid'],
+    );
   }
 }

@@ -29,7 +29,7 @@ extension WechatShareSourceExtension on WechatShareSource {
   }
 
   String getDescription({String? extraInfo}) {
-    const defaultDescription = '打造每个运动者自己的去中心化数字身份';
+    const defaultDescription = '参与各类活动、收集凭证 NFT，记录运动表现，构建属于自己的运动数字身份';
     switch (this) {
       case WechatShareSource.activity:
         return extraInfo ?? defaultDescription;

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/update_avatar/controllers/update_avatar_controller.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 
@@ -16,12 +17,11 @@ class UpdateAvatarView extends GetView<UpdateAvatarController> {
   Widget build(BuildContext context) {
     final avatarImage = HtmlImage(url: controller.initialAvatar.value);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppThemeData.primaryColor,
       appBar: BasicAppBar(title: '我的头像'),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.black,
         child: Center(
           child: AspectRatio(
             aspectRatio: 1,

@@ -13,7 +13,7 @@ import '../models/activity_step.dart';
 class ActivityStepView extends StatelessWidget {
   final int index;
   final ActivityStep step;
-  final GestureTapCallback? onTap;
+  final Function()? onTap;
 
   const ActivityStepView({
     Key? key,
@@ -100,7 +100,7 @@ class ActivityStepView extends StatelessWidget {
         if (contents.length == 1) {
           return Column(
             children: contents,
-          ).paddingAll(8).paddingSymmetric(vertical: 20);
+          ).outlined(visible: false).paddingSymmetric(vertical: 20);
         } else {
           return Column(
             children: contents,

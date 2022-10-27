@@ -27,6 +27,7 @@ import 'package:blockie_app/services/location_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/utils/http_request.dart';
+import 'package:blockie_app/widgets/basic_one_button_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import '../../../../models/nft_info.dart';
 import '../views/project_details_minted_nft_dialog.dart';
@@ -176,11 +177,11 @@ class ProjectDetailsController extends GetxController {
   void _updateUser() async {
     if ((DataStorage.getToken() ?? "").isNotEmpty) {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-      AuthService.to.userInfo.value = res;
+      AuthService.to.user.value = res;
       AuthService.to.login();
       _getProjectDetails();
     } else {
-      AuthService.to.userInfo.value = null;
+      AuthService.to.user.value = null;
       AuthService.to.logout();
       _getProjectDetails();
     }

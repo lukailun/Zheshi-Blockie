@@ -1,10 +1,12 @@
 // Package imports:
+import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
+import 'package:blockie_app/app/modules/projects_management/models/paginated_projects.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 import 'package:blockie_app/data/apis/models/exceptions.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
@@ -32,6 +34,18 @@ class BlockieApi {
 
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
+
+  Future<PaginatedProjects?> getProjects() async {
+    final url = _urlBuilder.buildGetProjectsUrl();
+    final response = await _dio.get(url);
+    try {
+      final Map<String, dynamic> object = _getResponseData(response);
+      final paginatedProjects = PaginatedProjects.fromJson(object);
+      return paginatedProjects;
+    } catch (error) {
+      return null;
+    }
+  }
 
   Future<bool> logout() async {
     final url = _urlBuilder.buildLogoutUrl();
@@ -129,6 +143,29 @@ class BlockieApi {
       final Map<String, dynamic> object = _getResponseData(response);
       final nft = NftInfo.fromJson(object);
       return nft;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<String?> getQrCode() async {
+    final url = _urlBuilder.buildGetQrCodeUrl();
+    final response = await _dio.get(url);
+    try {
+      final String qrCode = _getResponseData(response);
+      return qrCode;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<Profile?> getProfile() async {
+    final url = _urlBuilder.buildGetProfileUrl();
+    final response = await _dio.get(url);
+    try {
+      final Map<String, dynamic> object = _getResponseData(response);
+      final profile = Profile.fromJson(object);
+      return profile;
     } catch (error) {
       return null;
     }

@@ -18,6 +18,32 @@ enum ButtonArrangementDirection {
   vertical,
 }
 
+extension GetDialogExtension on GetInterface {
+  void twoButtonDialog({
+    required String title,
+    required String message,
+    required String positiveButtonTitle,
+    required Function() positiveButtonOnTap,
+    required String negativeButtonTitle,
+    required Function() negativeButtonOnTap,
+    ButtonArrangementDirection direction =
+        ButtonArrangementDirection.horizontal,
+  }) {
+    Get.dialog(
+      BasicTwoButtonDialog(
+        title: title,
+        message: message,
+        positiveButtonTitle: positiveButtonTitle,
+        positiveButtonOnTap: positiveButtonOnTap,
+        negativeButtonTitle: negativeButtonTitle,
+        negativeButtonOnTap: negativeButtonOnTap,
+        direction: direction,
+      ),
+      barrierColor: AppThemeData.barrierColor,
+    );
+  }
+}
+
 class BasicTwoButtonDialog extends StatelessWidget {
   final String title;
   final String message;

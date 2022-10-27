@@ -5,18 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 extension WidgetOutlineExtension on Widget {
-  Widget outlined({bool visible = true}) => Container(
+  Widget outlined({
+    bool visible = true,
+  }) =>
+      Container(
         foregroundDecoration: visible
             ? const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("images/outline.png"),
-                  centerSlice: Rect.fromLTRB(24, 24, 26, 26),
+                  image: AssetImage("images/common/outline.png"),
+                  centerSlice: Rect.fromLTRB(26, 26, 28, 28),
                 ),
               )
             : null,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: paddingAll(8),
-        ),
+          child: this,
+        ).paddingAll(3),
       );
 }

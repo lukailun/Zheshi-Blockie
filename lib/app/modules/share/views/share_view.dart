@@ -34,7 +34,7 @@ class ShareView extends GetView<ShareController> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0x003C63F8),
+            Color(0x00202020),
             AppThemeData.primaryColor,
           ],
         ),

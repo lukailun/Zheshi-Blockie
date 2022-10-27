@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/project_group.dart';
@@ -89,9 +90,9 @@ class _ProjectGroupsState extends State<ProjectGroups> {
           _showLicenseDialog();
         } else {
           final parameters = {
-            'uid': _userInfo?.uid ?? "",
+            ProfileParameter.id: _userInfo?.uid ?? "",
           };
-          Get.toNamed(Routes.user, parameters: parameters);
+          Get.toNamed(Routes.profile, parameters: parameters);
         }
       }, // Image tapped
       child: CircleAvatar(
@@ -118,13 +119,14 @@ class _ProjectGroupsState extends State<ProjectGroups> {
   void _updateUser() async {
     if ((DataStorage.getToken() ?? "").isNotEmpty) {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-      AuthService.to.userInfo.value = res;
+      AuthService.to.user.value = res;
       AuthService.to.login();
+
       setState(() {
         _userInfo = res;
       });
     } else {
-      AuthService.to.userInfo.value = null;
+      AuthService.to.user.value = null;
       AuthService.to.logout();
       setState(() {
         _userInfo = null;

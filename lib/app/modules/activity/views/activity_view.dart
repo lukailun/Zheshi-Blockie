@@ -59,15 +59,15 @@ class ActivityContainerView extends GetView<ActivityController> {
               )
             : null,
         body: () {
+          final activityValue = controller.activity.value;
           if (controller.showsLogin.value) {
             return loginView;
           }
-          if (controller.activity.value == null) {
+          if (activityValue == null) {
             return const LoadingIndicator();
           } else {
-            final activity = controller.activity.value!;
             return _ActivityView(
-              activity: activity,
+              activity: activityValue,
               issuerOnTap: controller.goToBrand,
               stepOnTap: (step) {
                 switch (step.actionInfo.action) {
@@ -77,7 +77,7 @@ class ActivityContainerView extends GetView<ActivityController> {
                     }
                     break;
                   case ActivityAction.signUp:
-                    controller.goToRegistrationInfo(activity.id);
+                    controller.goToRegistrationInfo(activityValue.id);
                     break;
                   case ActivityAction.mint:
                     final id = step.actionInfo.id;
@@ -100,11 +100,10 @@ class _ActivityView extends StatelessWidget {
   final Function(ActivityStep) stepOnTap;
 
   const _ActivityView({
-    Key? key,
     required this.activity,
     required this.issuerOnTap,
     required this.stepOnTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

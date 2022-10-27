@@ -14,6 +14,8 @@ part 'wechat_js_sdk_error.dart';
 
 part 'wechat_js_sdk_ready.dart';
 
+part 'wechat_js_sdk_scan_qr_code.dart';
+
 part 'wechat_js_sdk_update_app_message_share_data.dart';
 
 part 'wechat_js_sdk_update_timeline_share_data.dart';

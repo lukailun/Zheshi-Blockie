@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
@@ -41,8 +42,10 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
         title: '我的',
         assetName: "images/app_bar/user.png",
         onTap: () {
-          final parameters = {"uid": AuthService.to.userInfo.value?.uid ?? ""};
-          Get.toNamed(Routes.user, parameters: parameters);
+          final parameters = {
+            ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
+          };
+          Get.toNamed(Routes.profile, parameters: parameters);
         },
       ),
     ];
@@ -83,7 +86,8 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
               galleryOnTap: controller.goToGallery,
               brandOnTap: (id) => controller.goToBrand(id),
               hintOnTap: controller.openHintDialog,
-              mintButtonOnTap: () => controller.prepareToMint(projectDetails.id),
+              mintButtonOnTap: () =>
+                  controller.prepareToMint(projectDetails.id),
             );
           }
         }(),
@@ -220,7 +224,7 @@ class _ProjectDetailsView extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0xFFB3BCC5),
+                          Color(0xFF696969),
                           AppThemeData.primaryColor,
                         ],
                       ),

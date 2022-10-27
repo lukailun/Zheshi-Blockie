@@ -17,7 +17,7 @@ class AuthService extends GetxService {
   StreamSubscription<AnyWebEvent>? _logoutStream;
 
   final _isLoggedIn = false.obs;
-  final userInfo = Rxn<UserInfo>();
+  final user = Rxn<UserInfo>();
 
   bool get isLoggedIn => _isLoggedIn.value;
 
@@ -71,18 +71,19 @@ class AuthService extends GetxService {
     try {
       Map<String, dynamic> res = await HttpRequest.login(code);
       String token = res['token'];
-      UserInfo user = res['user'];
+      UserInfo newUser = res['user'];
       DataStorage.setToken(token);
-      DataStorage.setUserUid(user.uid);
-      userInfo.value = user;
+      DataStorage.setUserUid(newUser.uid);
+      user.value = newUser;
       login();
       _closeLoginDialog();
       onLoginSuccess();
     } catch (e) {
       _closeLoginDialog();
       if (DataStorage.getToken() != null) {
-        UserInfo user = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-        userInfo.value = user;
+        UserInfo newUser =
+            await HttpRequest.getUserInfo(DataStorage.getToken()!);
+        user.value = newUser;
         login();
       }
     }
