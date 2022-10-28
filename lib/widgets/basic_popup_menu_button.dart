@@ -155,6 +155,8 @@ class BasicPopupMenuButtonState extends State<BasicPopupMenuButton> {
             // If tap position in menu
             if (_menuRect.contains(
                 Offset(offset.dx - widget.horizontalMargin, offset.dy))) {
+              Future.delayed(const Duration(milliseconds: 300))
+                  .then((_) => _controller?.hideMenu());
               return;
             }
             _controller?.hideMenu();

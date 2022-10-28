@@ -27,12 +27,12 @@ class SegmentedControlButton extends StatelessWidget {
                   ? AppThemeData.primaryColor
                   : const Color(0xFF8F8F8F))
               .fontSize(15)
-              .fontWeight(FontWeightCompat.regular),
+              .fontWeight(FontWeightCompat.semiBold),
           const Expanded(child: SizedBox()),
           Visibility(
             visible: isSelected,
-            child: Container(
-              color: AppThemeData.primaryColor,
+            child: Image.asset(
+              'images/common/segmented_control_selected.png',
               width: 20,
               height: 1,
             ),

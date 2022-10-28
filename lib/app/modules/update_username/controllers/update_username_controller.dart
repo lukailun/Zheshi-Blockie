@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/models/user_info.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -33,7 +34,16 @@ class UpdateUsernameController extends GetxController {
     }
     initialName.value = userInfo.nickname;
     newName.value = userInfo.nickname;
-    AuthService.to.user.value = userInfo;
+    final userValue = AuthService.to.user.value;
+    AuthService.to.user.value = UserInfo(
+      nickname: userInfo.nickname,
+      avatar: userInfo.avatar,
+      phone: userInfo.phone,
+      level: userInfo.level,
+      uid: userInfo.uid,
+      walletAddress: userValue?.walletAddress,
+      roles: userValue?.roles,
+    );
     MessageToast.showMessage('修改成功');
   }
 }

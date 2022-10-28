@@ -45,16 +45,16 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
           final parameters = {
             ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
           };
-          Get.toNamed(Routes.profile, parameters: parameters);
+          Get.offNamed(Routes.profile, parameters: parameters);
         },
       ),
     ];
-    final showsShare =
+    final showsRule =
         Get.parameters[ProjectDetailsParameter.showsRule] as String;
-    if (showsShare == 'true') {
+    if (showsRule == 'true') {
       menuItems.add(
         AppBarButtonItem(
-            title: '铸造规则',
+            title: '活动规则',
             assetName: "images/app_bar/info.png",
             onTap: () => controller.goToActivity()),
       );
@@ -67,7 +67,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
           actionItems: [
             AppBarButtonItem(
               assetName: "images/app_bar/share.png",
-              onTap: () => controller.goToShare(),
+              onTap: controller.goToShare,
             ),
             AppBarButtonItem(
               assetName: "images/app_bar/menu.png",

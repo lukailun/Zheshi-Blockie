@@ -87,22 +87,70 @@ class _ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatarAndHobbyView = Row(
-      children: [
-        GestureDetector(
-          onTap: avatarOnTap,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(40)),
-            child: CachedNetworkImage(
-              imageUrl: user.avatar,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-            ),
+    final List<Widget> avatar = [
+      GestureDetector(
+        onTap: avatarOnTap,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+          child: CachedNetworkImage(
+            imageUrl: user.avatar,
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
           ),
         ),
-      ],
-    ).paddingSymmetric(horizontal: 22);
+      ),
+      const Spacer(flex: 1),
+    ];
+    final List<Widget> tagsView = profile.tags.map((it) {
+      return Column(
+        children: [
+          const SizedBox(height: 20),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/profile/tag_background.png"),
+              ),
+            ),
+            child: Center(
+              child: CachedNetworkImage(
+                imageUrl: it.iconUrl,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+            child: Center(
+              child: Text(it.name).fontSize(10).textColor(Colors.white),
+            ),
+          ),
+        ],
+      ).paddingSymmetric(horizontal: 5.5);
+    }).toList();
+    while (tagsView.length < 3) {
+      tagsView.add(
+        Column(
+          children: [
+            const SizedBox(height: 20),
+            Image.asset(
+              'images/profile/tag_add.png',
+              width: 40,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 20),
+          ],
+        ).paddingSymmetric(horizontal: 5.5),
+      );
+    }
+    final avatarAndTagsView = Row(
+      children: avatar + tagsView,
+    ).paddingOnly(left: 22, right: 38.5);
     final name = Row(
       children: [
         GestureDetector(
@@ -196,7 +244,7 @@ class _ProfileView extends StatelessWidget {
         ),
         Column(
           children: [
-            avatarAndHobbyView,
+            avatarAndTagsView,
             name,
             contract,
             bio,
@@ -209,12 +257,14 @@ class _ProfileView extends StatelessWidget {
       title: '视频凭证',
       nfts: profile.nfts.videoNfts ?? [],
       defaultAssetName: 'images/profile/empty_video_nft.png',
+      isCircular: false,
       nftOnTap: nftOnTap,
     );
-    final imageNftsView = ProfileNftsView(
+    final sportNftsView = ProfileNftsView(
       title: '运动凭证',
-      nfts: profile.nfts.imageNfts ?? [],
-      defaultAssetName: 'images/profile/empty_image_nft.png',
+      nfts: profile.nfts.sportNfts ?? [],
+      defaultAssetName: 'images/profile/empty_sport_nft.png',
+      isCircular: true,
       nftOnTap: nftOnTap,
     );
     return SingleChildScrollView(
@@ -223,7 +273,7 @@ class _ProfileView extends StatelessWidget {
         children: [
           userInfoView,
           videoNftsView,
-          imageNftsView,
+          sportNftsView,
         ],
       ),
     );

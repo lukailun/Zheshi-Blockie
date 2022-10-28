@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 // Package imports:
+import 'package:blockie_app/app/modules/ticket_checking/controllers/ticket_checking_controller.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -26,12 +27,15 @@ class ActivityManagementController extends GetxController {
   void openProjectOperationDialog(Project project) {
     Get.projectOperationDialog(
       project: project,
-      ticketCheckingOnTap: _goToTicketChecking,
+      ticketCheckingOnTap: () => _goToTicketChecking(project),
     );
   }
 
-  void _goToTicketChecking() {
-    Get.toNamed(Routes.ticketChecking);
+  void _goToTicketChecking(Project project) {
+    final parameters = {
+      TicketCheckingParameter.id: project.id,
+    };
+    Get.toNamed(Routes.ticketChecking, parameters: parameters);
   }
 }
 

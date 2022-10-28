@@ -6,6 +6,7 @@ class ProfileNftView extends StatelessWidget {
   final ProfileNft? nft;
   final double size;
   final String defaultAssetName;
+  final bool isCircular;
   final Function(String) nftOnTap;
 
   const ProfileNftView({
@@ -13,6 +14,7 @@ class ProfileNftView extends StatelessWidget {
     required this.nft,
     required this.size,
     required this.defaultAssetName,
+    required this.isCircular,
     required this.nftOnTap,
   });
 
@@ -23,12 +25,11 @@ class ProfileNftView extends StatelessWidget {
         width: size,
         height: size,
         child: ClipRRect(
-          // borderRadius: BorderRadius.all(Radius.circular(size / 2)),
           child: Image.asset(
             defaultAssetName,
             width: size,
             height: size,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
         ),
       );
@@ -39,10 +40,11 @@ class ProfileNftView extends StatelessWidget {
         width: size,
         height: size,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(size / 2)),
+          borderRadius:
+              BorderRadius.all(Radius.circular(isCircular ? size / 2 : 0)),
           child: CachedNetworkImage(
             imageUrl: nft!.coverUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             width: size,
             height: size,
           ),

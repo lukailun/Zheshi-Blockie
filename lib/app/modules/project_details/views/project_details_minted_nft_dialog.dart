@@ -72,15 +72,17 @@ class ProjectDetailsMintedNftDialog extends StatelessWidget {
                 onTap: buttonOnTap,
               ),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: "您之后可以在 ",
-                  style: TextStyle(color: Color(0x80FFFFFF), fontSize: 14),
+                  style:
+                      const TextStyle(color: Color(0x80FFFFFF), fontSize: 14),
                   children: [
                     TextSpan(
-                      text: "我的 - 运动凭证",
-                      style: TextStyle(color: Color(0xCCFFFFFF), fontSize: 14),
+                      text: '我的 - ${nft.type == 2 ? '视频凭证' : '运动凭证'}',
+                      style: const TextStyle(
+                          color: Color(0xCCFFFFFF), fontSize: 14),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: " 查看",
                       style: TextStyle(color: Color(0x80FFFFFF), fontSize: 14),
                     ),

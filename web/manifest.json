@@ -1,11 +1,11 @@
 {
-    "name": "blockie_app",
-    "short_name": "blockie_app",
+    "name": "BLOCKIE",
+    "short_name": "BLOCKIE",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A Web3 sports life platform.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

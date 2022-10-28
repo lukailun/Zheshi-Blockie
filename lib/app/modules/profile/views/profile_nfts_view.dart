@@ -3,14 +3,15 @@ import 'dart:math';
 import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_nft_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ProfileNftsView extends StatelessWidget {
   final String title;
   final List<ProfileNft> nfts;
   final String defaultAssetName;
+  final bool isCircular;
   final Function(String) nftOnTap;
 
   const ProfileNftsView({
@@ -18,13 +19,15 @@ class ProfileNftsView extends StatelessWidget {
     required this.title,
     required this.nfts,
     required this.defaultAssetName,
+    required this.isCircular,
     required this.nftOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    const size = 80.0;
     const maxCount = 4;
+    final width = kIsWeb ? min(Get.width, 450) : Get.width;
+    final size = (width - 22 * maxCount) / 3.63;
     return Column(
       children: [
         Row(
@@ -35,10 +38,11 @@ class ProfileNftsView extends StatelessWidget {
                 .fontSize(15)
                 .textColor(const Color(0xCCFFFFFF)),
           ],
-        ),
+        ).paddingSymmetric(horizontal: 22),
         SizedBox(
           height: size,
           child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final nft = index < nfts.length ? nfts[index] : null;
@@ -46,14 +50,15 @@ class ProfileNftsView extends StatelessWidget {
                 nft: nft,
                 size: size,
                 nftOnTap: nftOnTap,
+                isCircular: isCircular,
                 defaultAssetName: defaultAssetName,
               );
             },
             separatorBuilder: (context, index) => const SizedBox(width: 22),
             itemCount: max(nfts.length, maxCount),
           ),
-        ).paddingOnly(top: 11, bottom: 63),
+        ).paddingOnly(top: 17, bottom: 58),
       ],
-    ).paddingSymmetric(horizontal: 22);
+    );
   }
 }

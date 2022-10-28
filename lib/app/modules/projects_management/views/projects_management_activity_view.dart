@@ -86,9 +86,9 @@ class ProjectsManagementActivityView extends StatelessWidget {
         .fontSize(21)
         .paddingOnly(left: 16, right: 16, bottom: 16);
     final summary = Visibility(
-      visible: projects.summary.isNotEmpty,
+      visible: (projects.summary ?? '').isNotEmpty,
       child: Text(
-        projects.summary,
+        projects.summary ?? '',
         maxLines: 3,
       )
           .textColor(const Color(0xB3FFFFFF))
@@ -104,12 +104,12 @@ class ProjectsManagementActivityView extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               child: CachedNetworkImage(
-                imageUrl: projects.issuer.avatarUrl,
+                imageUrl: projects.issuer?.avatarUrl ?? '',
                 width: 40,
                 height: 40,
               ),
             ),
-            Text(projects.issuer.name)
+            Text(projects.issuer?.name ?? '')
                 .fontSize(14)
                 .textColor(const Color(0xB3FFFFFF))
                 .paddingOnly(left: 7),

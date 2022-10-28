@@ -30,6 +30,7 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
       extraInfo: ProjectDetailsExtraInfo.fromJson(
           json['content'] as Map<String, dynamic>),
+      activityId: json['group_uid'] as String?,
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -54,4 +55,5 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'uid': instance.id,
       'issuer': instance.issuer.toJson(),
       'content': instance.extraInfo.toJson(),
+      'group_uid': instance.activityId,
     };

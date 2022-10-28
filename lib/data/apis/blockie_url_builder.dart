@@ -4,7 +4,7 @@ import 'package:blockie_app/models/global.dart';
 class BlockieUrlBuilder {
   const BlockieUrlBuilder({
     String? baseUrl,
-  }) : _baseUrl = baseUrl ?? 'https://s.blockie.zheshi.tech/api/v1';
+  }) : _baseUrl = baseUrl ?? Global.baseUrl;
 
   final String _baseUrl;
 
@@ -58,4 +58,11 @@ class BlockieUrlBuilder {
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
 
   String buildGetProfileUrl() => '$_baseUrl/my/profile';
+
+  String buildGetManagedProjectsUrl() => '$_baseUrl/staff/activities';
+
+  String buildGetManagedProjectNftsUrl(String id) =>
+      '$_baseUrl/staff/activities/$id/NFTs';
+
+  String buildCheckTicketUrl() => '$_baseUrl/staff/punch-tickets/souvenirs';
 }

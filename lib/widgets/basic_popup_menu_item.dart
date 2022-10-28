@@ -9,17 +9,14 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import '../models/app_bar_button_item.dart';
 import '../models/app_theme_data.dart';
-import 'basic_popup_menu_button.dart';
 
 class BasicPopupMenuItem extends StatelessWidget {
   final AppBarButtonItem item;
-  final BasicPopupMenuButtonController controller;
   final bool showsDivider;
 
   const BasicPopupMenuItem({
     Key? key,
     required this.item,
-    required this.controller,
     this.showsDivider = true,
   }) : super(key: key);
 
@@ -27,12 +24,7 @@ class BasicPopupMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return PointerInterceptor(
       child: GestureDetector(
-        onTap: () {
-          controller.hideMenu();
-          if (item.onTap != null) {
-            item.onTap!();
-          }
-        }, // Image tapped
+        onTap: () => item.onTap?.call(), // Image tapped
         child: Container(
           color: Colors.transparent,
           height: 40,

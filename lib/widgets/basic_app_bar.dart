@@ -11,8 +11,6 @@ import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_item.dart';
 
-final _popupMenuButtonController = BasicPopupMenuButtonController();
-
 class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final String? title;
   final bool showsBackButton;
@@ -43,14 +41,12 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
       return (item.items ?? []).isEmpty
           ? button.paddingOnly(right: 13)
           : BasicPopupMenuButton(
-              controller: _popupMenuButtonController,
               menuBuilder: () => Column(
                 children: (item.items ?? [])
                     .asMap()
                     .entries
                     .map((it) => BasicPopupMenuItem(
                           item: it.value,
-                          controller: _popupMenuButtonController,
                           showsDivider: it.key != (item.items ?? []).length - 1,
                         ))
                     .toList(),

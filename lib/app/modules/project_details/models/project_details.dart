@@ -54,6 +54,8 @@ class ProjectDetails {
   final Issuer issuer;
   @JsonKey(name: 'content')
   final ProjectDetailsExtraInfo extraInfo;
+  @JsonKey(name: 'group_uid')
+  final String? activityId;
 
   const ProjectDetails({
     required this.name,
@@ -76,6 +78,7 @@ class ProjectDetails {
     required this.id,
     required this.issuer,
     required this.extraInfo,
+    required this.activityId,
   });
 
   String get coverUrl => coverPath.hostAdded;

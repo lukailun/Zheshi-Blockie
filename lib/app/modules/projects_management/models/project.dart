@@ -11,17 +11,17 @@ class Project {
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'summary')
-  final String summary;
+  final String? summary;
   @JsonKey(name: 'description')
-  final String description;
+  final String? description;
   @JsonKey(name: 'uid')
   final String id;
   @JsonKey(name: 'cover')
   final String coverPath;
   @JsonKey(name: 'contract')
-  final String contract;
+  final String? contract;
   @JsonKey(name: 'total_amount')
-  final int totalAmount;
+  final int? totalAmount;
 
   Project({
     required this.name,

@@ -10,11 +10,24 @@ class WechatScanQrCodeParams {
 
   external String get scanType;
 
-  external Function(Map<String, dynamic>) get success;
+  external Function(WechatScanQrCodeResult) get success;
 
   external factory WechatScanQrCodeParams({
     int needResult,
     String scanType,
-    Function(Map<String, dynamic>) success,
+    Function(WechatScanQrCodeResult) success,
+  });
+}
+
+@JS()
+@anonymous
+class WechatScanQrCodeResult {
+  external String get resultStr;
+
+  external String get errMsg;
+
+  external factory WechatScanQrCodeResult({
+    String resultStr,
+    String errMsg,
   });
 }

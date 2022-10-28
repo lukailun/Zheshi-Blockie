@@ -7,12 +7,12 @@ part 'profile_nfts.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ProfileNfts {
   @JsonKey(name: 'not_blockie')
-  final List<ProfileNft>? imageNfts;
+  final List<ProfileNft>? sportNfts;
   @JsonKey(name: 'blockie')
   final List<ProfileNft>? videoNfts;
 
   ProfileNfts({
-    required this.imageNfts,
+    required this.sportNfts,
     required this.videoNfts,
   });
 

@@ -73,8 +73,9 @@ class ActivityStepButton extends StatelessWidget {
                   .paddingSymmetric(horizontal: 28),
               const Expanded(child: SizedBox()),
               Image.asset(
-                "images/activity/${hasDone ? "done" : "arrow"}.png",
-                color: hasDone ? null : AppThemeData.primaryColor,
+                hasDone
+                    ? 'images/activity/done.png'
+                    : 'images/activity/arrow.png',
                 width: 16,
                 height: 16,
               ),

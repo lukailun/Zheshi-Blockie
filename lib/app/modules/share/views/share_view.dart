@@ -27,7 +27,7 @@ class ShareView extends GetView<ShareController> {
       onSegmentSelected: (index) {
         controller.selectedIndex.value = index;
       },
-    );
+    ).paddingOnly(top: 22, left: 56, right: 56);
     final saveHintView = Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -60,40 +60,57 @@ class ShareView extends GetView<ShareController> {
     );
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BasicAppBar(),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: Colors.white,
         child: Obx(
-          () => Column(
+          () => Stack(
             children: [
-              segmentedControl,
-              Expanded(
-                child: Center(
-                  child: () {
-                    final imageUrl = controller.selectedIndex.value == 0
-                        ? controller.posterPath.value.hostAdded
-                        : controller.path.value.hostAdded;
-                    return Stack(
-                      children: [
-                        Center(
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            fit: BoxFit.contain,
-                          ).paddingAll(30),
-                        ),
-                        Opacity(
-                          opacity: 0.01,
-                          alwaysIncludeSemantics: true,
-                          child: HtmlImage(url: imageUrl).paddingAll(30),
-                        ),
-                      ],
-                    );
-                  }(),
-                ),
+              Column(
+                children: [
+                  segmentedControl,
+                  Expanded(
+                    child: Center(
+                      child: () {
+                        final imageUrl = controller.selectedIndex.value == 0
+                            ? controller.posterPath.value.hostAdded
+                            : controller.path.value.hostAdded;
+                        return Stack(
+                          children: [
+                            Center(
+                              child: CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                fit: BoxFit.contain,
+                              ).paddingAll(30),
+                            ),
+                            Opacity(
+                              opacity: 0.01,
+                              child: Opacity(
+                                opacity: 0.01,
+                                alwaysIncludeSemantics: true,
+                                child: HtmlImage(url: imageUrl).paddingAll(30),
+                              ),
+                            ),
+                          ],
+                        );
+                      }(),
+                    ),
+                  ),
+                  saveHintView,
+                ],
               ),
-              saveHintView,
+              Visibility(
+                visible: Get.routing.previous.isNotEmpty,
+                child: GestureDetector(
+                  onTap: Get.back,
+                  child: Image.asset(
+                    "images/app_bar/back.png",
+                    width: 34,
+                    height: 34,
+                  ),
+                ).paddingOnly(top: 22, left: 22),
+              ),
             ],
           ),
         ),

@@ -4,6 +4,8 @@ import 'dart:html' as html;
 import 'dart:ui';
 
 // Package imports:
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
+import 'package:blockie_app/app/modules/share/views/share_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -14,7 +16,6 @@ import 'package:blockie_app/app/modules/project_details/models/mint_status.dart'
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/app/modules/project_details/views/mint_check_code_dialog.dart';
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/location/location.dart';
@@ -130,14 +131,20 @@ class ProjectDetailsController extends GetxController {
       }
       switch (mintRule) {
         case MintRule.distance:
+          _updateMintStatus(
+              projectDetails: projectDetailsValue, isMinting: true);
           final location = await _getLocation();
           if (location == null) {
+            _updateMintStatus(
+                projectDetails: projectDetailsValue, isMinting: false);
             return MessageToast.showMessage('获得此凭证需要地理位置权限');
           }
           final isInArea = projectDetailsValue.extraInfo.ruleInfo?.geometry
                   ?.isInArea(location.latitude ?? 0, location.longitude ?? 0) ??
               false;
           if (!isInArea) {
+            _updateMintStatus(
+                projectDetails: projectDetailsValue, isMinting: false);
             return MessageToast.showMessage('地理位置不符合要求，请联系发行方');
           }
           return _mint(id);
@@ -164,7 +171,11 @@ class ProjectDetailsController extends GetxController {
   }
 
   void _mint(String id) async {
-    mintStatus.value = MintStatus.minting;
+    final details = projectDetails.value;
+    if (details == null) {
+      return;
+    }
+    _updateMintStatus(projectDetails: details, isMinting: true);
     mintedNft.value = await repository.mint(id);
     if (mintedNft.value != null) {
       _getProjectDetails();

@@ -21,6 +21,8 @@ import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
+import '../../../../models/global.dart';
+
 class ActivityContainerView extends GetView<ActivityController> {
   const ActivityContainerView({super.key});
 
@@ -33,7 +35,7 @@ class ActivityContainerView extends GetView<ActivityController> {
         ..style.width = '100%'
         ..style.height = '100%'
         ..src =
-            'https://zheshi.tech/public/dist/?method=${AnyWebMethod.accounts.value}'
+            '${Global.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
         ..style.border = 'none';
     });
 

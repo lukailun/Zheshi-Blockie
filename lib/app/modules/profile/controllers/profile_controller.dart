@@ -95,5 +95,5 @@ class ProfileController extends GetxController {
 }
 
 class ProfileParameter {
-  static const id = "id";
+  static const id = 'id';
 }

@@ -61,8 +61,7 @@ class SettingsView extends GetView<SettingsController> {
     required String version,
   }) {
     final groups = SettingsItemGroups.initial(
-      // isStaff: controller.user.value?.isStaff ?? false,
-      isStaff: true,
+      isStaff: controller.user.value?.isStaff ?? false,
       phoneNumber:
           controller.displayPhoneNumber(controller.initialPhoneNumber.value),
       version: version,

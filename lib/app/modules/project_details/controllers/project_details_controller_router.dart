@@ -6,7 +6,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
       Get.back();
     } else {
       final parameters = {
-        ActivityParameter.id: _id,
+        ActivityParameter.id: projectDetails.value?.activityId ?? '',
       };
       Get.toNamed(Routes.activity, parameters: parameters);
     }

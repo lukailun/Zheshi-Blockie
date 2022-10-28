@@ -1,4 +1,6 @@
 // Package imports:
+import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
+import 'package:blockie_app/app/modules/share/views/share_view.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -23,15 +25,12 @@ import 'package:blockie_app/app/modules/registration_info/bindings/registration_
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
-import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
-import 'package:blockie_app/app/modules/share/views/share_view.dart';
 import 'package:blockie_app/app/modules/ticket_checking/bindings/ticket_checking_binding.dart';
 import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_view.dart';
 import 'package:blockie_app/app/modules/update_avatar/bindings/update_avatar_binding.dart';
 import 'package:blockie_app/app/modules/update_avatar/views/update_avatar_view.dart';
 import 'package:blockie_app/app/modules/update_username/bindings/update_username_binding.dart';
 import 'package:blockie_app/app/modules/update_username/views/update_username_view.dart';
-import 'package:blockie_app/app/modules/user.dart';
 import 'package:blockie_app/app/modules/web_view/bindings/web_view_binding.dart';
 import 'package:blockie_app/app/modules/web_view/views/web_view_view.dart';
 import 'package:blockie_app/data/apis/blockie_api.dart';
@@ -108,11 +107,6 @@ class AppPages {
       binding: ActivityBinding(projectRepository: _projectRepository),
     ),
     GetPage(
-      name: Routes.share,
-      page: () => const ShareView(),
-      binding: ShareBinding(projectRepository: _projectRepository),
-    ),
-    GetPage(
       name: Routes.webView,
       page: () => const WebViewView(),
       binding: WebViewBinding(),
@@ -129,13 +123,18 @@ class AppPages {
     ),
     GetPage(
       name: Routes.ticketChecking,
-      page: () => const TicketCheckingView(),
-      binding: TicketCheckingBinding(),
+      page: () => const TicketCheckingContainerView(),
+      binding: TicketCheckingBinding(projectRepository: _projectRepository),
     ),
     GetPage(
       name: Routes.profile,
       page: () => const ProfileContainerView(),
       binding: ProfileBinding(accountRepository: _accountRepository),
+    ),
+    GetPage(
+      name: Routes.share,
+      page: () => const ShareView(),
+      binding: ShareBinding(projectRepository: _projectRepository),
     ),
   ];
 }

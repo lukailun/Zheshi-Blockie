@@ -12,7 +12,7 @@ class ShareController extends GetxController {
   ShareController({required this.repository});
 
   List<SegmentedControlButtonItem> segmentedControlItems =
-      <SegmentedControlButtonItem>[];
+  <SegmentedControlButtonItem>[];
   final selectedIndex = 0.obs;
   final posterPath = "".obs;
   final path = "".obs;

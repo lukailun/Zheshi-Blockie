@@ -24,7 +24,7 @@ import '../app/modules/activity/models/activity.dart';
 import 'data_storage.dart';
 
 const scheme = "https";
-const serverHost = "s.blockie.zheshi.tech";
+const serverHost = Global.serverHost;
 const commandPath = "/api/v1";
 const loginCommand = "/login";
 const getUserInfoCommand = "/user";

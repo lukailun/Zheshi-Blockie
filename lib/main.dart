@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Project imports:
 import 'package:blockie_app/app/routes/app_pages.dart';
@@ -15,7 +16,8 @@ import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
-void main() {
+void main() async {
+  // await dotenv.load(fileName: 'dev.env');
   WidgetsFlutterBinding.ensureInitialized();
   _initServices();
   runApp(

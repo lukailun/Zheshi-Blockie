@@ -14,6 +14,8 @@ import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
+import '../../../../models/global.dart';
+
 extension GetDialogExtension on GetInterface {
   void logoutDialog({
     required VoidCallback onLogoutSuccess,
@@ -37,8 +39,7 @@ class _LogoutDialog extends StatelessWidget {
       return html.IFrameElement()
         ..style.width = '100%'
         ..style.height = '100%'
-        ..src =
-            'https://zheshi.tech/public/dist/?method=${AnyWebMethod.logout.value}'
+        ..src = '${Global.anyWebUrl}?method=${AnyWebMethod.logout.value}'
         ..style.border = 'none';
     });
 

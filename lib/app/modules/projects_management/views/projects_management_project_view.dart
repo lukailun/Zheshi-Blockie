@@ -48,9 +48,9 @@ class ProjectsManagementProjectView extends StatelessWidget {
         .fontSize(21)
         .paddingOnly(left: 16, right: 16, bottom: 16);
     final summary = Visibility(
-      visible: project.summary.isNotEmpty,
+      visible: (project.summary ?? '').isNotEmpty,
       child: Text(
-        project.summary,
+        project.summary ?? '',
         maxLines: 2,
       )
           .textColor(const Color(0xB3FFFFFF))

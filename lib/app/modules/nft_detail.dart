@@ -5,6 +5,8 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +15,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
@@ -129,7 +130,7 @@ class _NftPageState extends State<NftPage> {
 
     Widget webView = SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.9,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: const IgnorePointer(
           child: HtmlElementView(viewType: 'blockie_moment')),
     );
@@ -296,30 +297,45 @@ class _NftPageState extends State<NftPage> {
           final parameters = {
             ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
           };
-          Get.toNamed(Routes.profile, parameters: parameters);
+          Get.offNamed(Routes.profile, parameters: parameters);
         },
       ),
     ];
+    final appBar = BasicAppBar(
+      actionItems: [
+        AppBarButtonItem(
+          assetName: "images/app_bar/share.png",
+          onTap: goToShare,
+        ),
+        AppBarButtonItem(
+          assetName: "images/app_bar/menu.png",
+          items: menuItems,
+        ),
+      ],
+    );
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
-      appBar: BasicAppBar(
-        title: "${_nftInfo?.projectName ?? ""} ${_nftInfo?.tokenId ?? ""}",
-        actionItems: [
-          AppBarButtonItem(
-            assetName: "images/app_bar/share.png",
-            onTap: goToShare,
-          ),
-          AppBarButtonItem(
-            assetName: "images/app_bar/menu.png",
-            items: menuItems,
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: ListView(
         padding: const EdgeInsets.only(top: 0),
         children: [
-          webPanel,
+          Stack(
+            children: [
+              webPanel,
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  "${_nftInfo?.projectName ?? ""} ${_nftInfo?.tokenId ?? ""}",
+                  maxLines: 2,
+                )
+                    .textAlignment(TextAlign.center)
+                    .textColor(const Color(0xFF666666))
+                    .fontSize(19)
+                    .paddingOnly(top: appBar.toolbarHeight),
+              ).paddingSymmetric(horizontal: 22),
+            ],
+          ),
           Stack(
             children: [
               Container(

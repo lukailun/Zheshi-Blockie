@@ -71,7 +71,7 @@ class ActivityStepView extends StatelessWidget {
                   .fontSize(16)
                   .fontWeight(FontWeightCompat.regular)
                   .textAlignment(TextAlign.end)
-                  .textColor(const Color(0xFF07DFAB))
+                  .textColor(Color(projectStatus.colorValue))
                   .paddingSymmetric(horizontal: 10),
             ],
           ).paddingSymmetric(horizontal: 12),

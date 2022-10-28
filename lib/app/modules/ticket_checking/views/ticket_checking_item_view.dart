@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/ticket_checking/models/nft.dart';
+import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,9 +10,21 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 
-class TicketCheckingItemView extends StatelessWidget {
-  const TicketCheckingItemView({super.key});
+class TicketCheckingItemView extends StatefulWidget {
+  final Nft nft;
+  final Function(int, Souvenir) souvenirOnTap;
 
+  const TicketCheckingItemView({
+    super.key,
+    required this.nft,
+    required this.souvenirOnTap,
+  });
+
+  @override
+  State<TicketCheckingItemView> createState() => _TicketCheckingItemViewState();
+}
+
+class _TicketCheckingItemViewState extends State<TicketCheckingItemView> {
   @override
   Widget build(BuildContext context) {
     final header = Row(
@@ -19,15 +33,19 @@ class TicketCheckingItemView extends StatelessWidget {
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: CachedNetworkImage(
-            imageUrl: '',
+            imageUrl: widget.nft.project.coverUrl,
             width: 80,
             height: 80,
             fit: BoxFit.cover,
           ),
         ),
-        Text('xxxxx').textColor(Colors.black).fontSize(16).paddingAll(13),
+        Text(widget.nft.project.name)
+            .textColor(Colors.white)
+            .fontSize(16)
+            .paddingAll(13),
       ],
     );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -37,12 +55,13 @@ class TicketCheckingItemView extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          itemBuilder: (context, index) {
-            return TicketCheckingItemPrizeView();
-          },
+          itemBuilder: (context, index) => TicketCheckingItemPrizeView(
+            souvenir: widget.nft.souvenirs[index],
+            souvenirOnTap: (souvenir) => widget.souvenirOnTap(index, souvenir),
+          ),
           separatorBuilder: (context, index) =>
               const Divider(color: Color(0x1AFFFFFF), thickness: 1),
-          itemCount: 10,
+          itemCount: widget.nft.souvenirs.length,
         ),
       ],
     ).outlined();
@@ -50,40 +69,61 @@ class TicketCheckingItemView extends StatelessWidget {
 }
 
 class TicketCheckingItemPrizeView extends StatelessWidget {
-  const TicketCheckingItemPrizeView({super.key});
+  final Souvenir souvenir;
+  final Function(Souvenir) souvenirOnTap;
+
+  const TicketCheckingItemPrizeView({
+    super.key,
+    required this.souvenir,
+    required this.souvenirOnTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 34,
-      child: Row(
-        children: [
-          Expanded(
-            child: Text('纪念水').textColor(Colors.black).fontSize(14),
-          ),
-          Expanded(
-            child: Text(
-              '52/100',
-              textAlign: TextAlign.center,
-            ).textColor(Colors.black).fontSize(14),
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                const Spacer(flex: 1),
-                const Text('未核销')
-                    .fontSize(14)
-                    .textColor(const Color(0xFFFF8F1F)),
-                Image.asset(
-                  'images/projects_management/unselected.png',
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.contain,
-                ).paddingOnly(left: 5),
-              ],
+    return GestureDetector(
+      onTap: souvenir.isPunched ? null : () => souvenirOnTap(souvenir),
+      behavior: HitTestBehavior.translucent,
+      child: SizedBox(
+        height: 34,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(souvenir.name).textColor(Colors.white).fontSize(14),
             ),
-          ),
-        ],
+            Expanded(
+              child: Text(
+                '剩余 ${souvenir.totalAmount - souvenir.punchedAmount}/${souvenir.totalAmount}',
+                textAlign: TextAlign.center,
+              ).textColor(Colors.white).fontSize(14),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Text(souvenir.isPunched ? '已核销' : '未核销')
+                      .fontSize(14)
+                      .textColor(
+                        souvenir.isPunched
+                            ? const Color(0xFFAAAAAA)
+                            : const Color(0xFFFF8F1F),
+                      ),
+                  Opacity(
+                    opacity: souvenir.isPunched ? 0 : 1,
+                    child: Image.asset(
+                      souvenir.isSelected
+                          ? 'images/projects_management/selected.png'
+                          : 'images/projects_management/unselected.png',
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    ),
+                  ).paddingOnly(left: 5),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -15,15 +15,15 @@ class Projects {
   @JsonKey(name: 'name')
   String name;
   @JsonKey(name: 'summary')
-  String summary;
+  String? summary;
   @JsonKey(name: 'description')
-  String description;
+  String? description;
   @JsonKey(name: 'type')
   int typeValue;
   @JsonKey(name: 'activities')
   List<Project> projects;
   @JsonKey(name: 'issuer')
-  Issuer issuer;
+  Issuer? issuer;
 
   Projects({
     required this.id,

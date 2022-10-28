@@ -21,11 +21,11 @@ class ProjectsManagementController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _getProjectsList();
+    _getManagedProjectsList();
   }
 
-  void _getProjectsList() async {
-    final paginatedProjects = await repository.getProjects();
+  void _getManagedProjectsList() async {
+    final paginatedProjects = await repository.getManagedProjects();
     projects.value = paginatedProjects;
   }
 
