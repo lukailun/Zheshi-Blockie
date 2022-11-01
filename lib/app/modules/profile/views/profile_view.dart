@@ -270,6 +270,14 @@ class _ProfileView extends StatelessWidget {
       isCircular: true,
       nftOnTap: nftOnTap,
     );
+    final labelsView = Column(
+      children: [
+        const Text('个人标签')
+            .fontSize(15)
+            .textColor(const Color(0xCCFFFFFF))
+            .paddingSymmetric(horizontal: 22),
+      ],
+    );
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,6 +285,7 @@ class _ProfileView extends StatelessWidget {
           userInfoView,
           videoNftsView,
           sportNftsView,
+          labelsView,
         ],
       ),
     );
