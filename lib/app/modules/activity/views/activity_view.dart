@@ -42,7 +42,7 @@ class ActivityContainerView extends GetView<ActivityController> {
     if (Get.routing.previous.isNotEmpty) {
       actionItems.add(
         AppBarButtonItem(
-          assetName: "images/app_bar/close.png",
+          assetName: "assets/images/app_bar/close.png",
           onTap: () {
             Get.back();
           },

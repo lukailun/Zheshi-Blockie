@@ -210,7 +210,7 @@ class _NftPageState extends State<NftPage> {
         const TextStyle(color: Color(0xffffffff), fontSize: 14);
 
     Widget copyButton = BasicIconButton(
-      assetName: "images/common/copy.png",
+      assetName: "assets/images/common/copy.png",
       size: 23,
       onTap: () {
         try {
@@ -287,12 +287,12 @@ class _NftPageState extends State<NftPage> {
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
-        assetName: "images/app_bar/home.png",
+        assetName: "assets/images/app_bar/home.png",
         onTap: () => Get.offAllNamed(Routes.initial),
       ),
       AppBarButtonItem(
         title: '我的',
-        assetName: "images/app_bar/user.png",
+        assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
             ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
@@ -304,11 +304,11 @@ class _NftPageState extends State<NftPage> {
     final appBar = BasicAppBar(
       actionItems: [
         AppBarButtonItem(
-          assetName: "images/app_bar/share.png",
+          assetName: "assets/images/app_bar/share.png",
           onTap: goToShare,
         ),
         AppBarButtonItem(
-          assetName: "images/app_bar/menu.png",
+          assetName: "assets/images/app_bar/menu.png",
           items: menuItems,
         ),
       ],

@@ -74,8 +74,8 @@ class ActivityStepButton extends StatelessWidget {
               const Expanded(child: SizedBox()),
               Image.asset(
                 hasDone
-                    ? 'images/activity/done.png'
-                    : 'images/activity/arrow.png',
+                    ? 'assets/images/activity/done.png'
+                    : 'assets/images/activity/arrow.png',
                 width: 16,
                 height: 16,
               ),

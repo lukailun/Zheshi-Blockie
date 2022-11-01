@@ -35,12 +35,12 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
-        assetName: "images/app_bar/home.png",
+        assetName: "assets/images/app_bar/home.png",
         onTap: () => Get.offAllNamed(Routes.initial),
       ),
       AppBarButtonItem(
         title: '我的',
-        assetName: "images/app_bar/user.png",
+        assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
             ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
@@ -55,7 +55,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
       menuItems.add(
         AppBarButtonItem(
           title: '活动规则',
-          assetName: "images/app_bar/info.png",
+          assetName: "assets/images/app_bar/info.png",
           onTap: controller.goToActivity,
         ),
       );
@@ -67,11 +67,11 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
         appBar: BasicAppBar(
           actionItems: [
             AppBarButtonItem(
-              assetName: "images/app_bar/share.png",
+              assetName: "assets/images/app_bar/share.png",
               onTap: controller.goToShare,
             ),
             AppBarButtonItem(
-              assetName: "images/app_bar/menu.png",
+              assetName: "assets/images/app_bar/menu.png",
               items: menuItems,
             ),
           ],
@@ -179,7 +179,7 @@ class _ProjectDetailsView extends StatelessWidget {
                   Offstage(
                     offstage: !item.copyable,
                     child: BasicIconButton(
-                      assetName: "images/common/copy.png",
+                      assetName: "assets/images/common/copy.png",
                       size: 24,
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: item.content));

@@ -105,7 +105,7 @@ class ShareView extends GetView<ShareController> {
                 child: GestureDetector(
                   onTap: Get.back,
                   child: Image.asset(
-                    "images/app_bar/back.png",
+                    "assets/images/app_bar/back.png",
                     width: 34,
                     height: 34,
                   ),

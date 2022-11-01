@@ -59,7 +59,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
       onTap: () => controller.goToFaceVerification(),
       child: Center(
         child: Image.asset(
-          'images/common/add.png',
+          'assets/images/common/add.png',
           width: 15,
           height: 15,
         ),
@@ -96,7 +96,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
                             right: 5,
                             top: 5,
                             child: BasicIconButton(
-                              assetName: "images/common/clear.png",
+                              assetName: "assets/images/common/clear.png",
                               size: 23,
                               onTap: () {
                                 final faceID = it.ID;

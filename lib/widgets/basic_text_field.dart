@@ -66,7 +66,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
             : null,
         // suffix: _controller.text.isNotEmpty
         //     ? BasicIconButton(
-        //         assetName: 'images/common/clear.png',
+        //         assetName: 'assets/images/common/clear.png',
         //         size: 22,
         //         onTap: () {
         //           widget.onValueChanged("");

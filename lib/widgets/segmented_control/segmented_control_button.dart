@@ -32,7 +32,7 @@ class SegmentedControlButton extends StatelessWidget {
           Visibility(
             visible: isSelected,
             child: Image.asset(
-              'images/common/segmented_control_selected.png',
+              'assets/images/common/segmented_control_selected.png',
               width: 20,
               height: 1,
             ),

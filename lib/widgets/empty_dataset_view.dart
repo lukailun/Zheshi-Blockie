@@ -12,7 +12,7 @@ class EmptyDatasetView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Image.asset(
-            'images/empty_dataset.png',
+            'assets/images/empty_dataset.png',
             width: 180,
             height: 100,
           ),

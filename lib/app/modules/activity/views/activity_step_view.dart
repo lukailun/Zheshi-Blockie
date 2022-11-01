@@ -56,7 +56,7 @@ class ActivityStepView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
-                "images/activity/time.png",
+                "assets/images/activity/time.png",
                 width: 18,
                 height: 18,
               ),

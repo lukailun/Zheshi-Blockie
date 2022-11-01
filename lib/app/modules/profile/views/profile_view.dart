@@ -35,11 +35,11 @@ class ProfileContainerView extends GetView<ProfileController> {
           backButtonOnTap: controller.goToProjects,
           actionItems: [
             AppBarButtonItem(
-              assetName: 'images/app_bar/qr_code.png',
+              assetName: 'assets/images/app_bar/qr_code.png',
               onTap: controller.openQrCodeDialog,
             ),
             AppBarButtonItem(
-              assetName: 'images/app_bar/settings.png',
+              assetName: 'assets/images/app_bar/settings.png',
               onTap: controller.goToSettings,
             ),
           ],
@@ -111,7 +111,7 @@ class _ProfileView extends StatelessWidget {
             height: 40,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/profile/tag_background.png"),
+                image: AssetImage("assets/images/profile/tag_background.png"),
               ),
             ),
             child: Center(
@@ -138,7 +138,7 @@ class _ProfileView extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Image.asset(
-              'images/profile/tag_add.png',
+              'assets/images/profile/tag_add.png',
               width: 40,
               height: 40,
               fit: BoxFit.contain,
@@ -158,7 +158,7 @@ class _ProfileView extends StatelessWidget {
             .fontSize(20)
             .paddingOnly(left: 22, top: 12, bottom: 12),
         BasicIconButton(
-          assetName: 'images/common/edit.png',
+          assetName: 'assets/images/common/edit.png',
           size: 20,
           onTap: nameOnTap,
         ).paddingOnly(left: 9),
@@ -179,7 +179,7 @@ class _ProfileView extends StatelessWidget {
           ),
         ),
         BasicIconButton(
-          assetName: 'images/common/copy.png',
+          assetName: 'assets/images/common/copy.png',
           size: 20,
           onTap: () => walletAddressOnTap(user.walletAddress ?? ''),
         ).paddingOnly(left: 9),
@@ -195,7 +195,7 @@ class _ProfileView extends StatelessWidget {
               .fontSize(15)
               .paddingOnly(left: 22, top: 7, bottom: 7),
           BasicIconButton(
-            assetName: 'images/common/edit.png',
+            assetName: 'assets/images/common/edit.png',
             size: 20,
             onTap: bioOnTap,
           ).paddingOnly(left: 9),
@@ -259,14 +259,14 @@ class _ProfileView extends StatelessWidget {
     final videoNftsView = ProfileNftsView(
       title: '视频凭证',
       nfts: profile.nfts.videoNfts ?? [],
-      defaultAssetName: 'images/profile/empty_video_nft.png',
+      defaultAssetName: 'assets/images/profile/empty_video_nft.png',
       isCircular: false,
       nftOnTap: nftOnTap,
     );
     final sportNftsView = ProfileNftsView(
       title: '运动凭证',
       nfts: profile.nfts.sportNfts ?? [],
-      defaultAssetName: 'images/profile/empty_sport_nft.png',
+      defaultAssetName: 'assets/images/profile/empty_sport_nft.png',
       isCircular: true,
       nftOnTap: nftOnTap,
     );

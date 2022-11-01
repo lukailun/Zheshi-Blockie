@@ -58,7 +58,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     final backButton = Visibility(
       visible: showsBackButton && Get.routing.previous.isNotEmpty,
       child: BasicIconButton(
-        assetName: "images/app_bar/back.png",
+        assetName: "assets/images/app_bar/back.png",
         size: 34,
         onTap: () {
           if (backButtonOnTap != null) {
@@ -72,7 +72,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     final logo = Visibility(
       visible: showsLogo,
       child: Image.asset(
-        "images/app_bar/logo.png",
+        "assets/images/app_bar/logo.png",
       ).paddingOnly(left: 22),
     );
     return AppBar(

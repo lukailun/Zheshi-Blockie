@@ -81,7 +81,7 @@ class ProjectManagementDialog extends StatelessWidget {
                             child: _ProjectOperationButton(
                               title: '空投 NFT',
                               assetName:
-                                  'images/projects_management/airdrop_nft.png',
+                                  'assets/images/projects_management/airdrop_nft.png',
                               onTap: () {
                                 Get.back();
                                 airdropNftOnTap();
@@ -92,7 +92,7 @@ class ProjectManagementDialog extends StatelessWidget {
                             child: _ProjectOperationButton(
                               title: '验票核销',
                               assetName:
-                                  'images/projects_management/ticket_checking.png',
+                                  'assets/images/projects_management/ticket_checking.png',
                               onTap: () {
                                 Get.back();
                                 ticketCheckingOnTap();
@@ -103,7 +103,7 @@ class ProjectManagementDialog extends StatelessWidget {
                             child: _ProjectOperationButton(
                               title: '持有验证',
                               assetName:
-                                  'images/projects_management/hold_verification.png',
+                                  'assets/images/projects_management/hold_verification.png',
                               onTap: () {
                                 Get.back();
                                 holdVerificationOnTap();
@@ -114,7 +114,7 @@ class ProjectManagementDialog extends StatelessWidget {
                             child: _ProjectOperationButton(
                               title: '加白名单',
                               assetName:
-                                  'images/projects_management/add_whitelist.png',
+                                  'assets/images/projects_management/add_whitelist.png',
                               onTap: () {
                                 Get.back();
                                 addWhitelistOnTap();

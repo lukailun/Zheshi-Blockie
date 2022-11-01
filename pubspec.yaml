@@ -38,13 +38,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/activity/
-    - images/app_bar/
-    - images/common/
-    - images/profile/
-    - images/projects/
-    - images/project_details/
-    - images/projects_management/
-    - images/settings/
-    - .env.development
-    - .env.production
+    - assets/images/activity/
+    - assets/images/app_bar/
+    - assets/images/common/
+    - assets/images/profile/
+    - assets/images/projects/
+    - assets/images/project_details/
+    - assets/images/projects_management/
+    - assets/images/settings/
+    - env/.env.development
+    - env/.env.production

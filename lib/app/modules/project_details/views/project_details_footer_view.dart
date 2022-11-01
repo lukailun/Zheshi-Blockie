@@ -43,7 +43,7 @@ class ProjectDetailsFooterView extends StatelessWidget {
             Offstage(
               offstage: !mintStatus.showsHint,
               child: Image.asset(
-                "images/project_details/hint.png",
+                "assets/images/project_details/hint.png",
                 width: 20,
                 height: 20,
               ).paddingOnly(left: 5),

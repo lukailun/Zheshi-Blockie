@@ -112,8 +112,8 @@ class TicketCheckingItemPrizeView extends StatelessWidget {
                     opacity: souvenir.isPunched ? 0 : 1,
                     child: Image.asset(
                       souvenir.isSelected
-                          ? 'images/projects_management/selected.png'
-                          : 'images/projects_management/unselected.png',
+                          ? 'assets/images/projects_management/selected.png'
+                          : 'assets/images/projects_management/unselected.png',
                       width: 20,
                       height: 20,
                       fit: BoxFit.contain,

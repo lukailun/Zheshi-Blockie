@@ -49,7 +49,7 @@ class QrCodeDialog extends StatelessWidget {
           GestureDetector(
             onTap: () => Get.back(),
             child: Image.asset(
-              "images/app_bar/close.png",
+              "assets/images/app_bar/close.png",
               width: 34,
               height: 34,
             ),
@@ -90,7 +90,7 @@ class QrCodeDialog extends StatelessWidget {
                     ),
                   ).paddingSymmetric(horizontal: 8, vertical: 25),
                   Image.asset(
-                    'images/app_bar/logo.png',
+                    'assets/images/app_bar/logo.png',
                     width: 151,
                     height: 25,
                     fit: BoxFit.contain,

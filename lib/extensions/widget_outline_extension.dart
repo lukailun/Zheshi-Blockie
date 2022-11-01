@@ -12,7 +12,7 @@ extension WidgetOutlineExtension on Widget {
         foregroundDecoration: visible
             ? const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("images/common/outline.png"),
+                  image: AssetImage("assets/images/common/outline.png"),
                   centerSlice: Rect.fromLTRB(26, 26, 28, 28),
                 ),
               )

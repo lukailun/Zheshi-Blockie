@@ -12,7 +12,7 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
 void main() async {
-  await dotenv.load(fileName: '.env.development');
+  await dotenv.load(fileName: 'env/.env.development');
   WidgetsFlutterBinding.ensureInitialized();
   _initServices();
   runApp(const BlockieApp());

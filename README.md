@@ -59,11 +59,11 @@ BasicAppBar()
 BasicAppBar(
     actionItems: [
         AppBarButtonItem(
-            assetName: "images/app_bar/share.png",
+            assetName: "assets/images/app_bar/share.png",
             onTap: () {},
         ),
         AppBarButtonItem(
-            assetName: "images/app_bar/menu.png",
+            assetName: "assets/images/app_bar/menu.png",
             onTap: () {},
         ),
     ],
@@ -80,11 +80,11 @@ BasicAppBar(
     buttonStyle: AppBarButtonStyle.flat,
     actionItems: [
         AppBarButtonItem(
-            assetName: "images/app_bar/share.png",
+            assetName: "assets/images/app_bar/share.png",
             onTap: () {},
         ),
         AppBarButtonItem(
-            assetName: "images/app_bar/menu.png",
+            assetName: "assets/images/app_bar/menu.png",
             onTap: () {},
         ),
     ],
@@ -100,25 +100,25 @@ BasicAppBar(
     buttonStyle: AppBarButtonStyle.flat,
     actionItems: [
         AppBarButtonItem(
-            assetName: "images/app_bar/share.png",
+            assetName: "assets/images/app_bar/share.png",
             onTap: () {},
         ),
         AppBarButtonItem(
-            assetName: "images/app_bar/menu.png",
+            assetName: "assets/images/app_bar/menu.png",
             items: [
                 AppBarButtonItem(
                     title: '首页',
-                    assetName: "images/app_bar/home.png",
+                    assetName: "assets/images/app_bar/home.png",
                     onTap: () {},
                 ),
                 AppBarButtonItem(
                     title: '我的',
-                    assetName: "images/app_bar/user.png",
+                    assetName: "assets/images/app_bar/user.png",
                     onTap: () {},
                 ),
                 AppBarButtonItem(
                     title: '铸造规则',
-                    assetName: "images/app_bar/info.png",
+                    assetName: "assets/images/app_bar/info.png",
                     onTap: () {},
                 ),
             ],

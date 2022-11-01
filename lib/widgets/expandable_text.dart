@@ -42,8 +42,8 @@ class _ExpandableTextState extends State<ExpandableText> {
             }, // Image tapped
             child: Image.asset(
               _isExpanded
-                  ? "images/common/collapse.png"
-                  : "images/common/expand.png",
+                  ? "assets/images/common/collapse.png"
+                  : "assets/images/common/expand.png",
               width: 24,
               height: 24,
             ),
