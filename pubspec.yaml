@@ -46,5 +46,4 @@ flutter:
     - assets/images/project_details/
     - assets/images/projects_management/
     - assets/images/settings/
-    - env/development.env
-    - env/production.env
+    - env/

@@ -12,7 +12,7 @@ if [ "$1" == "production" ]; then
   appName="BLOCKIE"
   url="https://app.blockie.fun/"
 fi
-flutter build web --web-renderer html --dart-define ENV_FILE_NAME=.env.$env
+flutter build web --web-renderer html --dart-define ENV_FILE_NAME=env/$env.env
 if [ $env != "production" ]; then
   sed -i "s/<base href=\"\/\">/<base href=\"\/app\/\">/g" ./build/web/index.html
 fi
