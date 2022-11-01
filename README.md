@@ -24,6 +24,18 @@ $ flutter pub run import_sorter:main
 $ flutter pub run build_runner build
 ```
 
+## How to deploy
+* Development
+```
+$ sh deploy.sh
+```
+> Running `sh deploy.sh` with no parameters will run `sh deploy.sh development`.
+
+* Production
+```
+$ sh deploy.sh production
+```
+
 ## How to generate module structure files
 
 <details>
