@@ -16,7 +16,7 @@ jobs:
           channel: "stable"
       - run: flutter config --enable-web
       - run: flutter pub get
-      - run: flutter build web --release --base-href '/Zheshi-Blockie/' --dart-define ENV_FILE_NAME=.env.development
+      - run: flutter build web --release --base-href '/Zheshi-Blockie/' --dart-define ENV_FILE_NAME=env/.env.development
       - run: |
           cd build/web
           git init
