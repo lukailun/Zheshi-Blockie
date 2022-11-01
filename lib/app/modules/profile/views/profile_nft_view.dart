@@ -1,6 +1,11 @@
-import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 
 class ProfileNftView extends StatelessWidget {
   final ProfileNft? nft;

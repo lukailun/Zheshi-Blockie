@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/ticket_checking/models/nft.dart';
-import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,6 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/ticket_checking/models/nft.dart';
+import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 
 class TicketCheckingItemView extends StatefulWidget {

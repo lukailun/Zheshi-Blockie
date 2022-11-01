@@ -2,8 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/app/modules/profile/models/profile.dart';
-import 'package:blockie_app/app/modules/profile/views/profile_nfts_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,6 +11,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/modules/profile/models/profile.dart';
+import 'package:blockie_app/app/modules/profile/views/profile_nfts_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
@@ -153,13 +153,16 @@ class _ProfileView extends StatelessWidget {
     ).paddingOnly(left: 22, right: 38.5);
     final name = Row(
       children: [
-        GestureDetector(
+        Text(user.nickname)
+            .textColor(Colors.white)
+            .fontSize(20)
+            .paddingOnly(left: 22, top: 12, bottom: 12),
+        BasicIconButton(
+          assetName: 'images/common/edit.png',
+          size: 20,
           onTap: nameOnTap,
-          child: Text(user.nickname)
-              .textColor(Colors.white)
-              .fontSize(20)
-              .paddingSymmetric(horizontal: 22, vertical: 12),
-        ),
+        ).paddingOnly(left: 9),
+        const Spacer(flex: 1),
       ],
     );
     final contract = Row(
@@ -177,7 +180,7 @@ class _ProfileView extends StatelessWidget {
         ),
         BasicIconButton(
           assetName: 'images/common/copy.png',
-          size: 34,
+          size: 20,
           onTap: () => walletAddressOnTap(user.walletAddress ?? ''),
         ).paddingOnly(left: 9),
         const Spacer(flex: 1),
@@ -193,7 +196,7 @@ class _ProfileView extends StatelessWidget {
               .paddingOnly(left: 22, top: 7, bottom: 7),
           BasicIconButton(
             assetName: 'images/common/edit.png',
-            size: 34,
+            size: 20,
             onTap: bioOnTap,
           ).paddingOnly(left: 9),
           const Spacer(flex: 1),

@@ -6,9 +6,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
-
-import '../models/global.dart';
 
 class LoginDialog extends StatelessWidget {
   const LoginDialog({super.key});
@@ -21,7 +20,7 @@ class LoginDialog extends StatelessWidget {
       return html.IFrameElement()
         ..style.width = '100%'
         ..style.height = '100%'
-        ..src = '${Global.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
+        ..src = '${Environment.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
         ..style.border = 'none';
     });
     return HtmlElementView(viewType: AnyWebMethod.accounts.value);

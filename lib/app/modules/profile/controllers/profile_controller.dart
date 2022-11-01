@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';

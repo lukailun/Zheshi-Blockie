@@ -12,7 +12,7 @@ class ShareController extends GetxController {
   ShareController({required this.repository});
 
   List<SegmentedControlButtonItem> segmentedControlItems =
-  <SegmentedControlButtonItem>[];
+      <SegmentedControlButtonItem>[];
   final selectedIndex = 0.obs;
   final posterPath = "".obs;
   final path = "".obs;
@@ -50,14 +50,14 @@ class ShareController extends GetxController {
 
   void _getProjectDetailsShareInfo() async {
     final shareInfo = await repository.getProjectDetailsShareInfo(_id);
-    posterPath.value = shareInfo.posterPath;
-    path.value = shareInfo.path;
+    posterPath.value = shareInfo?.posterPath ?? '';
+    path.value = shareInfo?.path ?? '';
   }
 
   void _getNFTDetailsShareInfo() async {
     final shareInfo = await repository.getNFTDetailsShareInfo(_id);
-    posterPath.value = shareInfo.posterPath;
-    path.value = shareInfo.path;
+    posterPath.value = shareInfo?.posterPath ?? '';
+    path.value = shareInfo?.path ?? '';
   }
 }
 

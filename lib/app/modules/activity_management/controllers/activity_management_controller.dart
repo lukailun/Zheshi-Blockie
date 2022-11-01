@@ -2,13 +2,15 @@
 import 'dart:convert';
 
 // Package imports:
-import 'package:blockie_app/app/modules/ticket_checking/controllers/ticket_checking_controller.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/add_whitelist/controllers/add_whitelist_controller.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/controllers/airdrop_nft_controller.dart';
 import 'package:blockie_app/app/modules/projects_management/models/project.dart';
+import 'package:blockie_app/app/modules/ticket_checking/controllers/ticket_checking_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/widgets/project_operation_dialog.dart';
+import 'package:blockie_app/widgets/project_management_dialog.dart';
 
 class ActivityManagementController extends GetxController {
   final _projects =
@@ -25,9 +27,12 @@ class ActivityManagementController extends GetxController {
   }
 
   void openProjectOperationDialog(Project project) {
-    Get.projectOperationDialog(
+    Get.projectManagementDialog(
       project: project,
       ticketCheckingOnTap: () => _goToTicketChecking(project),
+      addWhitelistOnTap: () => _goToAddWhitelist(project),
+      airdropNftOnTap: () => _goToAirdropNft(project),
+      holdVerificationOnTap: () => _goToHoldVerification(project),
     );
   }
 
@@ -36,6 +41,27 @@ class ActivityManagementController extends GetxController {
       TicketCheckingParameter.id: project.id,
     };
     Get.toNamed(Routes.ticketChecking, parameters: parameters);
+  }
+
+  void _goToAddWhitelist(Project project) {
+    final parameters = {
+      AddWhitelistParameter.id: project.id,
+    };
+    Get.toNamed(Routes.addWhitelist, parameters: parameters);
+  }
+
+  void _goToAirdropNft(Project project) {
+    final parameters = {
+      AirdropNftParameter.id: project.id,
+    };
+    Get.toNamed(Routes.airdropNft, parameters: parameters);
+  }
+
+  void _goToHoldVerification(Project project) {
+    final parameters = {
+      AirdropNftParameter.id: project.id,
+    };
+    Get.toNamed(Routes.holdVerification, parameters: parameters);
   }
 }
 

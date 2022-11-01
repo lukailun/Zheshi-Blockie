@@ -1,22 +1,14 @@
-enum Environment {
-  dev(
-    title: 'BLOCKIE-DEV',
-    baseUrl: 'https://s.blockie.zheshi.tech/api/v1',
-    anyWebUrl: 'https://zheshi.tech/public/dist/',
-  ),
-  prod(
-    title: 'BLOCKIE',
-    baseUrl: 'https://api.blockie.fun/api/v1',
-    anyWebUrl: 'https://app.blockie.fun/anyweblogin/v2210/index.html',
-  );
+// Package imports:
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-  const Environment({
-    required this.title,
-    required this.baseUrl,
-    required this.anyWebUrl,
-  });
+class Environment {
+  static String get environment => dotenv.env['ENVIRONMENT'] ?? '';
 
-  final String title;
-  final String baseUrl;
-  final String anyWebUrl;
+  static String get appTitle => dotenv.env['APP_TITLE'] ?? '';
+
+  static String get blockieUrl => dotenv.env['BLOCKIE_URL'] ?? '';
+
+  static String get anyWebUrl => dotenv.env['ANY_WEB_URL'] ?? '';
+
+  static String get serverHost => dotenv.env['SERVER_HOST'] ?? '';
 }

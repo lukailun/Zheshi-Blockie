@@ -17,11 +17,10 @@ import 'package:blockie_app/app/modules/activity/models/activity_step.dart';
 import 'package:blockie_app/app/modules/activity/views/activity_step_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
+import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-
-import '../../../../models/global.dart';
 
 class ActivityContainerView extends GetView<ActivityController> {
   const ActivityContainerView({super.key});
@@ -34,8 +33,7 @@ class ActivityContainerView extends GetView<ActivityController> {
       return html.IFrameElement()
         ..style.width = '100%'
         ..style.height = '100%'
-        ..src =
-            '${Global.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
+        ..src = '${Environment.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
         ..style.border = 'none';
     });
 

@@ -1,7 +1,9 @@
 // Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/ticket_checking/models/project.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'nft.g.dart';
 

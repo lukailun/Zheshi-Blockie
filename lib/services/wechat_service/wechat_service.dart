@@ -6,7 +6,7 @@ import 'dart:js' as js;
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/data/apis/blockie_api.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';

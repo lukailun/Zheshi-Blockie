@@ -54,9 +54,10 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
     if (showsRule == 'true') {
       menuItems.add(
         AppBarButtonItem(
-            title: '活动规则',
-            assetName: "images/app_bar/info.png",
-            onTap: () => controller.goToActivity()),
+          title: '活动规则',
+          assetName: "images/app_bar/info.png",
+          onTap: controller.goToActivity,
+        ),
       );
     }
     return Obx(

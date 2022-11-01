@@ -1,6 +1,8 @@
 // Package imports:
-import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 
 part 'profile_nfts.g.dart';
 

@@ -1,6 +1,4 @@
 // Package imports:
-import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
-import 'package:blockie_app/app/modules/share/views/share_view.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -9,11 +7,17 @@ import 'package:blockie_app/app/modules/activity/bindings/activity_binding.dart'
 import 'package:blockie_app/app/modules/activity/views/activity_view.dart';
 import 'package:blockie_app/app/modules/activity_management/bindings/activity_management_binding.dart';
 import 'package:blockie_app/app/modules/activity_management/views/activity_management_view.dart';
+import 'package:blockie_app/app/modules/add_whitelist/bindings/add_whitelist_binding.dart';
+import 'package:blockie_app/app/modules/add_whitelist/views/add_whitelist_view.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/bindings/airdrop_nft_binding.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/views/airdrop_nft_view.dart';
 import 'package:blockie_app/app/modules/brand_detail.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
 import 'package:blockie_app/app/modules/gallery/bindings/gallery_binding.dart';
 import 'package:blockie_app/app/modules/gallery/views/gallery_view.dart';
+import 'package:blockie_app/app/modules/hold_verification/bindings/hold_verification_binding.dart';
+import 'package:blockie_app/app/modules/hold_verification/views/hold_verification_view.dart';
 import 'package:blockie_app/app/modules/nft_detail.dart';
 import 'package:blockie_app/app/modules/profile/bindings/profile_binding.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_view.dart';
@@ -25,6 +29,8 @@ import 'package:blockie_app/app/modules/registration_info/bindings/registration_
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
+import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
+import 'package:blockie_app/app/modules/share/views/share_view.dart';
 import 'package:blockie_app/app/modules/ticket_checking/bindings/ticket_checking_binding.dart';
 import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_view.dart';
 import 'package:blockie_app/app/modules/update_avatar/bindings/update_avatar_binding.dart';
@@ -33,10 +39,10 @@ import 'package:blockie_app/app/modules/update_username/bindings/update_username
 import 'package:blockie_app/app/modules/update_username/views/update_username_view.dart';
 import 'package:blockie_app/app/modules/web_view/bindings/web_view_binding.dart';
 import 'package:blockie_app/app/modules/web_view/views/web_view_view.dart';
-import 'package:blockie_app/data/apis/blockie_api.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/project_management_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/utils/http_request.dart';
 import '../../utils/data_storage.dart';
 
 part 'app_routes.dart';
@@ -47,8 +53,9 @@ class AppPages {
     userTokenSupplier: () => DataStorage.getToken(),
   );
   static final _accountRepository = AccountRepository(remoteApi: remoteApi);
-  static final _projectRepository =
-      ProjectRepository(client: HttpRequest(), remoteApi: remoteApi);
+  static final _projectRepository = ProjectRepository(remoteApi: remoteApi);
+  static final _projectManagementRepository =
+      ProjectManagementRepository(remoteApi: remoteApi);
 
   static final routes = [
     GetPage(
@@ -114,7 +121,8 @@ class AppPages {
     GetPage(
       name: Routes.projectsManagement,
       page: () => const ProjectsManagementContainerView(),
-      binding: ProjectsManagementBinding(projectRepository: _projectRepository),
+      binding: ProjectsManagementBinding(
+          projectManagementRepository: _projectManagementRepository),
     ),
     GetPage(
       name: Routes.activityManagement,
@@ -124,7 +132,26 @@ class AppPages {
     GetPage(
       name: Routes.ticketChecking,
       page: () => const TicketCheckingContainerView(),
-      binding: TicketCheckingBinding(projectRepository: _projectRepository),
+      binding: TicketCheckingBinding(
+          projectManagementRepository: _projectManagementRepository),
+    ),
+    GetPage(
+      name: Routes.addWhitelist,
+      page: () => const AddWhitelistContainerView(),
+      binding: AddWhitelistBinding(
+          projectManagementRepository: _projectManagementRepository),
+    ),
+    GetPage(
+      name: Routes.airdropNft,
+      page: () => const AirdropNftContainerView(),
+      binding: AirdropNftBinding(
+          projectManagementRepository: _projectManagementRepository),
+    ),
+    GetPage(
+      name: Routes.holdVerification,
+      page: () => const HoldVerificationContainerView(),
+      binding: HoldVerificationBinding(
+          projectManagementRepository: _projectManagementRepository),
     ),
     GetPage(
       name: Routes.profile,

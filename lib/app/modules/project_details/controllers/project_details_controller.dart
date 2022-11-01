@@ -4,8 +4,6 @@ import 'dart:html' as html;
 import 'dart:ui';
 
 // Package imports:
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
-import 'package:blockie_app/app/modules/share/views/share_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -16,6 +14,7 @@ import 'package:blockie_app/app/modules/project_details/models/mint_status.dart'
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/app/modules/project_details/views/mint_check_code_dialog.dart';
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/location/location.dart';

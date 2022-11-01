@@ -54,6 +54,9 @@ class RegistrationInfoController extends GetxController {
 
   void _getRegistrationInfo() async {
     final registrationInfo = await projectRepository.getRegistrationInfo(_id);
+    if (registrationInfo == null) {
+      return;
+    }
     initialEntryNumber.value = registrationInfo.entryNumber;
     faceInfos.value = registrationInfo.faceInfos;
     isUpdate = registrationInfo.hasSigned;

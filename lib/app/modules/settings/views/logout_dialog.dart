@@ -10,10 +10,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-
 import '../../../../models/global.dart';
 
 extension GetDialogExtension on GetInterface {
@@ -39,7 +39,7 @@ class _LogoutDialog extends StatelessWidget {
       return html.IFrameElement()
         ..style.width = '100%'
         ..style.height = '100%'
-        ..src = '${Global.anyWebUrl}?method=${AnyWebMethod.logout.value}'
+        ..src = '${Environment.anyWebUrl}?method=${AnyWebMethod.logout.value}'
         ..style.border = 'none';
     });
 

@@ -5,12 +5,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:dio_log/overlay_draggable_button.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
@@ -43,6 +45,9 @@ class _ProjectGroupsState extends State<ProjectGroups> {
     });
     _updateUser();
     _addProjects();
+    if (Environment.environment == "DEVELOPMENT") {
+      showDebugBtn(context);
+    }
   }
 
   void _showLicenseDialog() {

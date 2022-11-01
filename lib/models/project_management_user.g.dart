@@ -1,12 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user.dart';
+part of 'project_management_user.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+ProjectManagementUser _$ProjectManagementUserFromJson(
+        Map<String, dynamic> json) =>
+    ProjectManagementUser(
       phoneNumber: json['phone'] as String,
       isQualified: json['in_whitelist'] as bool,
       wallet: (json['wallets'] as List<dynamic>)
@@ -14,7 +16,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           .toList(),
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$ProjectManagementUserToJson(
+        ProjectManagementUser instance) =>
+    <String, dynamic>{
       'phone': instance.phoneNumber,
       'in_whitelist': instance.isQualified,
       'wallets': instance.wallet.map((e) => e.toJson()).toList(),

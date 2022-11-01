@@ -13,6 +13,9 @@ abstract class Routes {
   static const registrationInfo = '/registration_info';
   static const settings = '/settings';
   static const ticketChecking = '/ticket_checking';
+  static const addWhitelist = '/add_whitelist';
+  static const airdropNft = '/airdrop_nft';
+  static const holdVerification = '/hold_verification';
   static const updateAvatar = '/update_avatar';
   static const updateName = '/update_name';
   static const webView = '/web_view';

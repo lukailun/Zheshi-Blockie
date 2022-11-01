@@ -3,13 +3,12 @@ part of 'project_details_controller.dart';
 extension ProjectDetailsControllerRouter on ProjectDetailsController {
   void goToActivity() {
     if (Get.routing.previous.contains(Routes.activity)) {
-      Get.back();
-    } else {
-      final parameters = {
-        ActivityParameter.id: projectDetails.value?.activityId ?? '',
-      };
-      Get.toNamed(Routes.activity, parameters: parameters);
+      return Get.back();
     }
+    final parameters = {
+      ActivityParameter.id: projectDetails.value?.activityId ?? '',
+    };
+    Get.offAndToNamed(Routes.activity, parameters: parameters);
   }
 
   void goToGallery(int index) {

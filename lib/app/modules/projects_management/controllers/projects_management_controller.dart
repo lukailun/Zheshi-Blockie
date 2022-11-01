@@ -9,10 +9,10 @@ import 'package:blockie_app/app/modules/activity_management/controllers/activity
 import 'package:blockie_app/app/modules/projects_management/models/paginated_projects.dart';
 import 'package:blockie_app/app/modules/projects_management/models/project.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/data/repositories/project_management_repository.dart';
 
 class ProjectsManagementController extends GetxController {
-  final ProjectRepository repository;
+  final ProjectManagementRepository repository;
 
   ProjectsManagementController({required this.repository});
 

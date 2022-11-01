@@ -5,8 +5,6 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,8 +13,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/global.dart';

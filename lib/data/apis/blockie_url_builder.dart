@@ -1,10 +1,11 @@
 // Project imports:
+import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/models/global.dart';
 
 class BlockieUrlBuilder {
-  const BlockieUrlBuilder({
+  BlockieUrlBuilder({
     String? baseUrl,
-  }) : _baseUrl = baseUrl ?? Global.baseUrl;
+  }) : _baseUrl = baseUrl ?? Environment.blockieUrl;
 
   final String _baseUrl;
 
@@ -51,9 +52,11 @@ class BlockieUrlBuilder {
   String buildUpdateRegistrationInfoUrl(String id) =>
       '$_baseUrl/groups/$id/workout';
 
-  String buildGetShareInfoUrl(String id) => '$_baseUrl/activities/$id/poster';
+  String buildGetProjectDetailsShareInfoUrl(String id) =>
+      '$_baseUrl/activities/$id/poster';
 
-  String buildGetNFTShareInfoUrl(String id) => '$_baseUrl/NFTs/$id/poster';
+  String buildGetNftDetailsShareInfoUrl(String id) =>
+      '$_baseUrl/NFTs/$id/poster';
 
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
 

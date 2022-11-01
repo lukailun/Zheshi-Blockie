@@ -1,7 +1,7 @@
 // Project imports:
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
-import 'package:blockie_app/data/apis/blockie_api.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/models/user_info.dart';
 

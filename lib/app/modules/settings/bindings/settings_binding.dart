@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/utils/http_request.dart';
-import '../../../../data/apis/blockie_api.dart';
+import '../../../../data/apis/blockie_api/blockie_api.dart';
 import '../../../../utils/data_storage.dart';
 import '../controllers/settings_controller.dart';
 

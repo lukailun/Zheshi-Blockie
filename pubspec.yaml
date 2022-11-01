@@ -15,14 +15,16 @@ dependencies:
   cached_network_image: ^3.2.2
   camera: ^0.10.0+1
   dio: ^4.0.6
+  dio_log: ^2.0.4
   fluttertoast: ^8.1.1
   flutter_dotenv: ^5.0.2
+  flutter_html: ^2.2.1
   get: ^4.6.5
   intl: ^0.17.0
   js: ^0.6.4
   json_annotation: ^4.7.0
   pointer_interceptor: ^0.9.3+3
-  webview_flutter: ^3.0.4
+  webview_flutter: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -36,7 +38,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/
     - images/activity/
     - images/app_bar/
     - images/common/
@@ -45,5 +46,5 @@ flutter:
     - images/project_details/
     - images/projects_management/
     - images/settings/
-    - env/dev.env
-    - env/prod.env
+    - .env.development
+    - .env.production
