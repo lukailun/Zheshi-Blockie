@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/settings/views/logout_dialog.dart';
@@ -70,7 +71,8 @@ class SettingsController extends GetxController {
     });
   }
 
-  void _getVersion() {
-    version.value = '1.0.0';
+  void _getVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    version.value = packageInfo.version;
   }
 }

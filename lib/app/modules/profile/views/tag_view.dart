@@ -28,6 +28,20 @@ class TagView extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.all(Radius.circular(13.5)),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x1AFFFFFF),
+            spreadRadius: 0,
+            blurRadius: 1,
+            offset: Offset(1, 1),
+          ),
+          BoxShadow(
+            color: Color(0xFF000000),
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: Offset(1, 1),
+          ),
+        ],
       ),
       child: Text(tag)
           .textColor(Colors.white)

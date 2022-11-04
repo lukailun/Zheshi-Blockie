@@ -64,6 +64,14 @@ class AuthService extends GetxService {
     _logoutStream = null;
   }
 
+  void updateUserInfo() async {
+    if (DataStorage.getToken() != null) {
+      UserInfo userInfo =
+          await HttpRequest.getUserInfo(DataStorage.getToken()!);
+      user.value = userInfo;
+    }
+  }
+
   void _login({
     required String code,
     required Function() onLoginSuccess,

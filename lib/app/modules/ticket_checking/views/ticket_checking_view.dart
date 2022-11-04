@@ -65,11 +65,11 @@ class TicketCheckingContainerView extends GetView<TicketCheckingController> {
 
 class _TicketCheckingView extends StatelessWidget {
   final TicketCheckingDetails ticketCheckingDetails;
-  final Function(int, int, Souvenir) souvenirOnTap;
+  final Function(int, int, Souvenir)? souvenirOnTap;
 
   const _TicketCheckingView({
     required this.ticketCheckingDetails,
-    required this.souvenirOnTap,
+    this.souvenirOnTap,
   });
 
   @override
@@ -87,7 +87,7 @@ class _TicketCheckingView extends StatelessWidget {
         return TicketCheckingItemView(
           nft: ticketCheckingDetails.nfts[index],
           souvenirOnTap: (souvenirIndex, souvenir) =>
-              souvenirOnTap(index, souvenirIndex, souvenir),
+              souvenirOnTap?.call(index, souvenirIndex, souvenir),
         );
       },
       separatorBuilder: (context, index) => const SizedBox(height: 22),

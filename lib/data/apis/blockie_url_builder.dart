@@ -64,10 +64,18 @@ class BlockieUrlBuilder {
   String buildGetManagedProjectNftsUrl(String id) =>
       '$_baseUrl/staff/activities/$id/NFTs';
 
+  String buildGetAirdropNftsUrl(String id) =>
+      '$_baseUrl/staff/activities/$id/mint-status';
+
+  String buildAirdropNftsUrl(String id) =>
+      '$_baseUrl/staff/activities/$id/mint';
+
   String buildCheckTicketUrl() => '$_baseUrl/staff/punch-tickets/souvenirs';
 
   String buildGetWhitelistStatusUrl(String id) =>
       '$_baseUrl/staff/activities/$id';
+
+  String buildAddWhitelistUrl(String id) => '$_baseUrl/staff/activities/$id';
 
   // Profile
   String buildGetProfileUrl() => '$_baseUrl/my/profile';

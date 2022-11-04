@@ -32,7 +32,8 @@ class ActivitiesManagementContainerView
           } else {
             return _ActivitiesManagementView(
               activities: activitiesValue,
-              itemOnTap: controller.goToProjectsManagement,
+              plainItemOnTap: controller.openProjectOperationDialog,
+              groupedItemOnTap: controller.goToProjectsManagement,
             );
           }
         }(),
@@ -43,11 +44,13 @@ class ActivitiesManagementContainerView
 
 class _ActivitiesManagementView extends StatelessWidget {
   final List<Activity> activities;
-  final Function(String, List<Project>)? itemOnTap;
+  final Function(Project)? plainItemOnTap;
+  final Function(String, List<Project>)? groupedItemOnTap;
 
   const _ActivitiesManagementView({
     required this.activities,
-    required this.itemOnTap,
+    this.plainItemOnTap,
+    this.groupedItemOnTap,
   });
 
   @override
@@ -62,15 +65,15 @@ class _ActivitiesManagementView extends StatelessWidget {
             return ProjectActivityItemView(
               activity: activities[index],
               issuer: activities[index].issuer,
-              onTap: () => itemOnTap?.call(
+              onTap: () => groupedItemOnTap?.call(
                   activities[index].name, activities[index].projects),
             );
           case ActivityType.plain:
             return ProjectItemView(
               project: activities[index].projects.first,
               issuer: activities[index].issuer,
-              onTap: () => itemOnTap?.call(
-                  activities[index].name, activities[index].projects),
+              onTap: () =>
+                  plainItemOnTap?.call(activities[index].projects.first),
             );
         }
       },

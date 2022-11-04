@@ -7,7 +7,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
 import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
+import 'package:blockie_app/app/modules/hold_verification/models/hold_verification_details.dart';
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
@@ -44,8 +46,6 @@ class BlockieApi {
 
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
-
-
 
   Future<ProjectDetails?> getProjectDetails(String id) async {
     final url = _urlBuilder.buildGetProjectDetailsUrl(id);

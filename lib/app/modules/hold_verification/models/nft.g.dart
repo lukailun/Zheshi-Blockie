@@ -9,13 +9,9 @@ part of 'nft.dart';
 Nft _$NftFromJson(Map<String, dynamic> json) => Nft(
       id: json['uid'] as String,
       activity: Activity.fromJson(json['activity'] as Map<String, dynamic>),
-      souvenirs: (json['souvenirs'] as List<dynamic>)
-          .map((e) => Souvenir.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$NftToJson(Nft instance) => <String, dynamic>{
       'uid': instance.id,
       'activity': instance.activity.toJson(),
-      'souvenirs': instance.souvenirs.map((e) => e.toJson()).toList(),
     };

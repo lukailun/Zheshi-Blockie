@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:get/get.dart';
+
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 
@@ -34,21 +37,18 @@ class _ExpandableTextState extends State<ExpandableText> {
             overflow: TextOverflow.ellipsis,
           ).fontSize(14).textColor(const Color(0xCCFFFFFF)),
         ),
-        Container(
-          padding: const EdgeInsets.only(left: 7),
-          child: GestureDetector(
-            onTap: () {
-              setState(() => _isExpanded = !_isExpanded);
-            }, // Image tapped
-            child: Image.asset(
-              _isExpanded
-                  ? "assets/images/common/collapse.png"
-                  : "assets/images/common/expand.png",
-              width: 24,
-              height: 24,
-            ),
+        GestureDetector(
+          onTap: () {
+            setState(() => _isExpanded = !_isExpanded);
+          }, // Image tapped
+          child: Image.asset(
+            _isExpanded
+                ? "assets/images/common/collapse.png"
+                : "assets/images/common/expand.png",
+            width: 24,
+            height: 24,
           ),
-        )
+        ).paddingOnly(left: 7),
       ],
     );
   }

@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/airdrop_nft/controllers/airdrop_nft_controller.dart';
-import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
-import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_item_view.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/views/airdrop_nft_item_view.dart';
 import 'package:blockie_app/extensions/text_extension.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
@@ -25,25 +24,21 @@ class AirdropNftContainerView extends GetView<AirdropNftController> {
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(title: '空投 NFT'),
         body: () {
-          final ticketCheckingDetailsValue =
-              controller.ticketCheckingDetails.value;
+          final airdropNftDetailsValue = controller.airdropNftDetails.value;
           return Stack(
             children: [
               () {
-                if (ticketCheckingDetailsValue == null) {
+                if (airdropNftDetailsValue == null) {
                   return const SizedBox();
                 } else {
                   return _AirdropNftView(
-                    ticketCheckingDetails: ticketCheckingDetailsValue,
-                    souvenirOnTap: (projectIndex, souvenirIndex, souvenir) {
-                      final souvenir = ticketCheckingDetailsValue
-                          .nfts[projectIndex].souvenirs[souvenirIndex];
-                      ticketCheckingDetailsValue
-                              .nfts[projectIndex].souvenirs[souvenirIndex] =
-                          souvenir..isSelected = !souvenir.isSelected;
-                      controller.ticketCheckingDetails.value = null;
-                      controller.ticketCheckingDetails.value =
-                          ticketCheckingDetailsValue;
+                    airdropNftDetails: airdropNftDetailsValue,
+                    activityOnTap: () {
+                      airdropNftDetailsValue.activity.isSelected =
+                          !airdropNftDetailsValue.activity.isSelected;
+                      controller.airdropNftDetails.value = null;
+                      controller.airdropNftDetails.value =
+                          airdropNftDetailsValue;
                     },
                   ).paddingOnly(bottom: 182);
                 }
@@ -51,8 +46,8 @@ class AirdropNftContainerView extends GetView<AirdropNftController> {
               ProjectsManagementFooterView(
                 topButtonTitle: '空投所选 NFT',
                 bottomButtonTitle: '继续扫码',
-                topButtonIsEnabled: true,
-                topButtonOnTap: controller.checkTicket,
+                topButtonIsEnabled: controller.airdropNftButtonIsEnabled(),
+                topButtonOnTap: controller.airdropNft,
                 bottomButtonOnTap: controller.scanQrCode,
               ),
             ],
@@ -64,39 +59,31 @@ class AirdropNftContainerView extends GetView<AirdropNftController> {
 }
 
 class _AirdropNftView extends StatelessWidget {
-  final TicketCheckingDetails ticketCheckingDetails;
-  final Function(int, int, Souvenir) souvenirOnTap;
+  final AirdropNftDetails airdropNftDetails;
+  final Function()? activityOnTap;
 
   const _AirdropNftView({
-    required this.ticketCheckingDetails,
-    required this.souvenirOnTap,
+    required this.airdropNftDetails,
+    this.activityOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final userView =
-        ProjectsManagementUserView(user: ticketCheckingDetails.user);
+    final userView = ProjectsManagementUserView(user: airdropNftDetails.user);
     final title = SizedBox(
       width: double.infinity,
-      child: const Text('选择 NFT 权益').textColor(Colors.white).fontSize(18),
+      child: const Text('选择 NFT 款式').textColor(Colors.white).fontSize(18),
     ).paddingOnly(left: 22, right: 22, bottom: 22);
-    final items = ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 22),
-      itemCount: ticketCheckingDetails.nfts.length,
-      itemBuilder: (_, index) {
-        return TicketCheckingItemView(
-          nft: ticketCheckingDetails.nfts[index],
-          souvenirOnTap: (souvenirIndex, souvenir) =>
-              souvenirOnTap(index, souvenirIndex, souvenir),
-        );
-      },
-      separatorBuilder: (context, index) => const SizedBox(height: 22),
-    );
+    final activityView = AirdropNftItemView(
+      activity: airdropNftDetails.activity,
+      activityOnTap: activityOnTap,
+    ).paddingSymmetric(horizontal: 22);
     return Column(
       children: [
         userView,
         title,
-        Expanded(child: items),
+        activityView,
+        const Spacer(flex: 1),
       ],
     );
   }

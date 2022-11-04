@@ -23,7 +23,7 @@ class ActivitiesContainerView extends GetView<ActivitiesController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Environment.environment == 'DEVELOPMENT') {
+    if (Environment.isDevelopment) {
       showDebugBtn(context);
     }
     return Obx(

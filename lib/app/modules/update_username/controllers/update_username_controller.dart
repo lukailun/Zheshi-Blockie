@@ -34,17 +34,7 @@ class UpdateUsernameController extends GetxController {
     }
     initialName.value = userInfo.username;
     newName.value = userInfo.username;
-    final userValue = AuthService.to.user.value;
-    AuthService.to.user.value = UserInfo(
-      username: userInfo.username,
-      avatarPath: userInfo.avatarPath,
-      phoneNumber: userInfo.phoneNumber,
-      level: userInfo.level,
-      id: userInfo.id,
-      wallets: userValue?.wallets,
-      roles: userValue?.roles,
-      bio: userValue?.bio,
-    );
+    AuthService.to.updateUserInfo();
     MessageToast.showMessage('修改成功');
   }
 }

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activities/models/project.dart';
 import 'package:blockie_app/app/modules/add_whitelist/controllers/add_whitelist_controller.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/controllers/airdrop_nft_controller.dart';
+import 'package:blockie_app/app/modules/hold_verification/controllers/hold_verification_controller.dart';
 import 'package:blockie_app/app/modules/ticket_checking/controllers/ticket_checking_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/widgets/projects_management_dialog.dart';
@@ -59,7 +60,7 @@ class ProjectsManagementController extends GetxController {
 
   void _goToHoldVerification(Project project) {
     final parameters = {
-      AirdropNftParameter.id: project.id,
+      HoldVerificationParameter.id: project.id,
     };
     Get.toNamed(Routes.holdVerification, parameters: parameters);
   }

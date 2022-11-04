@@ -7,7 +7,7 @@ import 'dart:js' as js;
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
+import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
@@ -18,7 +18,7 @@ class AirdropNftController extends GetxController {
 
   final id = Get.parameters[AirdropNftParameter.id] ?? '';
 
-  final ticketCheckingDetails = Rxn<TicketCheckingDetails>();
+  final airdropNftDetails = Rxn<AirdropNftDetails>();
   final qrCode = Rxn<String>();
 
   @override
@@ -27,48 +27,46 @@ class AirdropNftController extends GetxController {
     scanQrCode();
   }
 
-  void checkTicket() async {
-    final List<Map<String, String>> souvenirsMapList = [];
-    final ticketCheckingDetailsValue = ticketCheckingDetails.value;
-    if (ticketCheckingDetailsValue == null) {
+  bool airdropNftButtonIsEnabled() {
+    final airdropNftDetailsValue = airdropNftDetails.value;
+    if (airdropNftDetailsValue == null) {
+      return false;
+    }
+    if (!airdropNftDetailsValue.user.isQualified) {
+      return false;
+    }
+    return airdropNftDetailsValue.activity.isSelected;
+  }
+
+  void airdropNft() async {
+    final airdropNftDetailsValue = airdropNftDetails.value;
+    if (airdropNftDetailsValue == null) {
       return;
     }
-    ticketCheckingDetailsValue.nfts.forEach((nft) {
-      nft.souvenirs.forEach((souvenir) {
-        if (souvenir.isSelected) {
-          souvenirsMapList.add(
-            {
-              'souvenir_uid': souvenir.id,
-              'nft_uid': nft.id,
-            },
-          );
-        }
-      });
-    });
-    ticketCheckingDetails.value = await repository.checkTickets(
-        souvenirsMapList: souvenirsMapList, qrCode: qrCode.value ?? '');
+    airdropNftDetails.value =
+        await repository.airdropNfts(id: id, qrCode: qrCode.value ?? '');
   }
 
   void scanQrCode() {
-    ticketCheckingDetails.value = null;
+    airdropNftDetails.value = null;
     qrCode.value = null;
     wechatScanQrCode(
       WechatScanQrCodeParams(
         needResult: 1,
         scanType: 'qrCode',
         success: js.allowInterop(
-              (result) {
+          (result) {
             qrCode.value = result.resultStr;
-            _getManagedProjectNfts();
+            _getAirdropNfts();
           },
         ),
       ),
     );
   }
 
-  void _getManagedProjectNfts() async {
-    ticketCheckingDetails.value = await repository.getManagedProjectNfts(
-        id: id, qrCode: qrCode.value ?? '');
+  void _getAirdropNfts() async {
+    airdropNftDetails.value =
+        await repository.getAirdropNfts(id: id, qrCode: qrCode.value ?? '');
   }
 }
 

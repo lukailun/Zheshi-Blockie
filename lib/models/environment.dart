@@ -2,6 +2,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Environment {
+  static bool get isDevelopment => environment == 'DEVELOPMENT';
+
   static String get environment => dotenv.env['ENVIRONMENT'] ?? '';
 
   static String get appTitle => dotenv.env['APP_TITLE'] ?? '';

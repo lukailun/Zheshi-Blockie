@@ -35,8 +35,8 @@ class TicketCheckingController extends GetxController {
     }
     final allSouvenirs =
         ticketCheckingDetailsValue.nfts.expand((it) => it.souvenirs).toList();
-    final hasSelected = allSouvenirs.where((it) => it.isSelected).isNotEmpty;
-    return hasSelected;
+    final isSelected = allSouvenirs.where((it) => it.isSelected).isNotEmpty;
+    return isSelected;
   }
 
   void checkTicket() async {
@@ -71,15 +71,15 @@ class TicketCheckingController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getManagedProjectNfts();
+            _getTicketCheckingDetails();
           },
         ),
       ),
     );
   }
 
-  void _getManagedProjectNfts() async {
-    ticketCheckingDetails.value = await repository.getManagedProjectNfts(
+  void _getTicketCheckingDetails() async {
+    ticketCheckingDetails.value = await repository.getTicketCheckingDetails(
         id: id, qrCode: qrCode.value ?? '');
   }
 }

@@ -21,9 +21,8 @@ class UpdateBioController extends GetxController {
   }
 
   bool saveButtonIsEnabled() {
-    final notEmpty = newBio.value.isNotEmpty;
     final notSame = newBio.value != initialBio.value;
-    return notEmpty && notSame;
+    return notSame;
   }
 
   void updateBio(String bio) async {
@@ -33,17 +32,7 @@ class UpdateBioController extends GetxController {
     }
     initialBio.value = userInfo.bio ?? '';
     newBio.value = userInfo.bio ?? '';
-    final userValue = AuthService.to.user.value;
-    AuthService.to.user.value = UserInfo(
-      username: userInfo.username,
-      avatarPath: userInfo.avatarPath,
-      phoneNumber: userInfo.phoneNumber,
-      level: userInfo.level,
-      id: userInfo.id,
-      wallets: userValue?.wallets,
-      roles: userValue?.roles,
-      bio: userValue?.bio,
-    );
+    AuthService.to.updateUserInfo();
     MessageToast.showMessage('修改成功');
   }
 }

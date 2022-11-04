@@ -1,11 +1,9 @@
-// Dart imports:
-import 'dart:ui';
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_wrap/extended_wrap.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -53,12 +51,14 @@ class ProfileContainerView extends GetView<ProfileController> {
             return _ProfileView(
               user: userValue,
               profile: profileValue,
+              isTagsExpanded: controller.isTagsExpanded.value,
               avatarOnTap: controller.goToUpdateAvatar,
               usernameOnTap: controller.goToUpdateUsername,
               walletAddressOnTap: controller.copyWalletAddress,
               bioOnTap: controller.goToUpdateBio,
               nftOnTap: controller.goToNftDetails,
               labelOnTap: controller.openUpdateLabelsDialog,
+              tagsExpandedOnTap: controller.toggleTags,
             );
           }
         }(),
@@ -70,22 +70,26 @@ class ProfileContainerView extends GetView<ProfileController> {
 class _ProfileView extends StatelessWidget {
   final UserInfo user;
   final Profile profile;
+  final bool isTagsExpanded;
   final Function()? avatarOnTap;
   final Function()? usernameOnTap;
   final Function()? bioOnTap;
   final Function(String)? walletAddressOnTap;
   final Function(String)? nftOnTap;
   final Function(int)? labelOnTap;
+  final Function()? tagsExpandedOnTap;
 
   const _ProfileView({
     required this.user,
     required this.profile,
+    required this.isTagsExpanded,
     this.avatarOnTap,
     this.usernameOnTap,
     this.bioOnTap,
     this.walletAddressOnTap,
     this.nftOnTap,
     this.labelOnTap,
+    this.tagsExpandedOnTap,
   });
 
   @override
@@ -140,7 +144,7 @@ class _ProfileView extends StatelessWidget {
         Text(user.username)
             .textColor(Colors.white)
             .fontSize(20)
-            .paddingOnly(left: 22, top: 12, bottom: 12),
+            .paddingSymmetric(vertical: 12),
         BasicIconButton(
           assetName: 'assets/images/common/edit.png',
           size: 20,
@@ -148,7 +152,7 @@ class _ProfileView extends StatelessWidget {
         ).paddingOnly(left: 9),
         const Spacer(flex: 1),
       ],
-    );
+    ).paddingSymmetric(horizontal: 22);
     final contract = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -172,18 +176,21 @@ class _ProfileView extends StatelessWidget {
     ).paddingSymmetric(horizontal: 22);
     final bio = Row(
       children: [
-        Text(user.bio ?? '用一句话介绍下自己吧~')
-            .textColor(Colors.white)
-            .fontSize(15)
-            .paddingOnly(left: 22, top: 7, bottom: 7),
+        Flexible(
+          child: Text(
+            (user.bio ?? '').isNotEmpty ? (user.bio ?? '') : '用一句话介绍下自己吧~',
+            maxLines: 100,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+          ).textColor(Colors.white).fontSize(15).paddingSymmetric(vertical: 7),
+        ),
         BasicIconButton(
           assetName: 'assets/images/common/edit.png',
           size: 20,
           onTap: bioOnTap,
         ).paddingOnly(left: 9),
-        const Spacer(flex: 1),
       ],
-    );
+    ).paddingSymmetric(horizontal: 22);
     final divider = Container(
       height: 2,
       decoration: const BoxDecoration(
@@ -251,13 +258,30 @@ class _ProfileView extends StatelessWidget {
       isCircular: true,
       nftOnTap: nftOnTap,
     );
+    final tagViews = profile.tags.map((it) => TagView(tag: it)).toList();
     final tagsView = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             const Text('个人标签').fontSize(15).textColor(const Color(0xCCFFFFFF)),
-            const Spacer(flex: 1)
+            const Spacer(flex: 1),
+            Container(
+              padding: const EdgeInsets.only(left: 7),
+              child: Visibility(
+                visible: profile.tags.isNotEmpty,
+                child: GestureDetector(
+                  onTap: tagsExpandedOnTap, // Image tapped
+                  child: Image.asset(
+                    isTagsExpanded
+                        ? 'assets/images/common/collapse.png'
+                        : 'assets/images/common/expand.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         Visibility(
@@ -270,11 +294,18 @@ class _ProfileView extends StatelessWidget {
           ),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Wrap(
-              spacing: 11,
-              runSpacing: 11,
-              children: profile.tags.map((it) => TagView(tag: it)).toList(),
-            ),
+            child: isTagsExpanded
+                ? Wrap(
+                    spacing: 11,
+                    runSpacing: 11,
+                    children: tagViews,
+                  )
+                : ExtendedWrap(
+                    maxLines: 3,
+                    spacing: 11,
+                    runSpacing: 11,
+                    children: tagViews,
+                  ),
           ),
         ).paddingOnly(top: 10, bottom: 90),
       ],

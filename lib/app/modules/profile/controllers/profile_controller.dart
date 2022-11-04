@@ -30,12 +30,17 @@ class ProfileController extends GetxController {
   final qrCode = Rxn<String>();
   final profile = Rxn<Profile>();
   final labels = Rxn<List<ProfileLabel>>();
+  final isTagsExpanded = false.obs;
   final user = AuthService.to.user;
 
   @override
   void onReady() {
     super.onReady();
     _updateUser();
+  }
+
+  void toggleTags() {
+    isTagsExpanded.value = !isTagsExpanded.value;
   }
 
   void _updateUser() async {

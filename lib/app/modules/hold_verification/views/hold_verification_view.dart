@@ -6,9 +6,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/hold_verification/controllers/hold_verification_controller.dart';
-import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
-import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_item_view.dart';
+import 'package:blockie_app/app/modules/hold_verification/models/hold_verification_details.dart';
+import 'package:blockie_app/app/modules/hold_verification/views/hold_verification_item_view.dart';
 import 'package:blockie_app/extensions/text_extension.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
@@ -26,26 +25,16 @@ class HoldVerificationContainerView
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(title: '持有验证'),
         body: () {
-          final ticketCheckingDetailsValue =
-              controller.ticketCheckingDetails.value;
+          final holdVerificationDetailsValue =
+              controller.holdVerificationDetails.value;
           return Stack(
             children: [
               () {
-                if (ticketCheckingDetailsValue == null) {
+                if (holdVerificationDetailsValue == null) {
                   return const SizedBox();
                 } else {
                   return _HoldVerificationView(
-                    ticketCheckingDetails: ticketCheckingDetailsValue,
-                    souvenirOnTap: (projectIndex, souvenirIndex, souvenir) {
-                      final souvenir = ticketCheckingDetailsValue
-                          .nfts[projectIndex].souvenirs[souvenirIndex];
-                      ticketCheckingDetailsValue
-                              .nfts[projectIndex].souvenirs[souvenirIndex] =
-                          souvenir..isSelected = !souvenir.isSelected;
-                      controller.ticketCheckingDetails.value = null;
-                      controller.ticketCheckingDetails.value =
-                          ticketCheckingDetailsValue;
-                    },
+                    holdVerificationDetails: holdVerificationDetailsValue,
                   ).paddingOnly(bottom: 112);
                 }
               }(),
@@ -65,31 +54,26 @@ class HoldVerificationContainerView
 }
 
 class _HoldVerificationView extends StatelessWidget {
-  final TicketCheckingDetails ticketCheckingDetails;
-  final Function(int, int, Souvenir) souvenirOnTap;
+  final HoldVerificationDetails holdVerificationDetails;
 
   const _HoldVerificationView({
-    required this.ticketCheckingDetails,
-    required this.souvenirOnTap,
+    required this.holdVerificationDetails,
   });
 
   @override
   Widget build(BuildContext context) {
     final userView =
-        ProjectsManagementUserView(user: ticketCheckingDetails.user);
+        ProjectsManagementUserView(user: holdVerificationDetails.user);
     final title = SizedBox(
       width: double.infinity,
-      child: const Text('选择 NFT 权益').textColor(Colors.white).fontSize(18),
+      child: const Text('选择 NFT 款式').textColor(Colors.white).fontSize(18),
     ).paddingOnly(left: 22, right: 22, bottom: 22);
     final items = ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 22),
-      itemCount: ticketCheckingDetails.nfts.length,
+      itemCount: holdVerificationDetails.nfts.length,
       itemBuilder: (_, index) {
-        return TicketCheckingItemView(
-          nft: ticketCheckingDetails.nfts[index],
-          souvenirOnTap: (souvenirIndex, souvenir) =>
-              souvenirOnTap(index, souvenirIndex, souvenir),
-        );
+        return HoldVerificationItemView(
+            nft: holdVerificationDetails.nfts[index]);
       },
       separatorBuilder: (context, index) => const SizedBox(height: 22),
     );

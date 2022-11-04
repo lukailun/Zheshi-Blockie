@@ -12,12 +12,12 @@ import 'package:blockie_app/extensions/extensions.dart';
 
 class TicketCheckingItemView extends StatefulWidget {
   final Nft nft;
-  final Function(int, Souvenir) souvenirOnTap;
+  final Function(int, Souvenir)? souvenirOnTap;
 
   const TicketCheckingItemView({
     super.key,
     required this.nft,
-    required this.souvenirOnTap,
+    this.souvenirOnTap,
   });
 
   @override
@@ -33,13 +33,13 @@ class _TicketCheckingItemViewState extends State<TicketCheckingItemView> {
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: CachedNetworkImage(
-            imageUrl: widget.nft.project.coverUrl,
+            imageUrl: widget.nft.activity.coverUrl,
             width: 80,
             height: 80,
             fit: BoxFit.cover,
           ),
         ),
-        Text(widget.nft.project.name)
+        Text(widget.nft.activity.name)
             .textColor(Colors.white)
             .fontSize(16)
             .paddingAll(13),
@@ -57,7 +57,8 @@ class _TicketCheckingItemViewState extends State<TicketCheckingItemView> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           itemBuilder: (context, index) => TicketCheckingItemPrizeView(
             souvenir: widget.nft.souvenirs[index],
-            souvenirOnTap: (souvenir) => widget.souvenirOnTap(index, souvenir),
+            souvenirOnTap: (souvenir) =>
+                widget.souvenirOnTap?.call(index, souvenir),
           ),
           separatorBuilder: (context, index) =>
               const Divider(color: Color(0x1AFFFFFF), thickness: 1),
@@ -70,18 +71,18 @@ class _TicketCheckingItemViewState extends State<TicketCheckingItemView> {
 
 class TicketCheckingItemPrizeView extends StatelessWidget {
   final Souvenir souvenir;
-  final Function(Souvenir) souvenirOnTap;
+  final Function(Souvenir)? souvenirOnTap;
 
   const TicketCheckingItemPrizeView({
     super.key,
     required this.souvenir,
-    required this.souvenirOnTap,
+    this.souvenirOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: souvenir.isPunched ? null : () => souvenirOnTap(souvenir),
+      onTap: souvenir.isPunched ? null : () => souvenirOnTap?.call(souvenir),
       behavior: HitTestBehavior.translucent,
       child: SizedBox(
         height: 34,

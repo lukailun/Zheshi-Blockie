@@ -5,7 +5,7 @@ import 'dart:js' as js;
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
+import 'package:blockie_app/app/modules/hold_verification/models/hold_verification_details.dart';
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
@@ -16,7 +16,7 @@ class HoldVerificationController extends GetxController {
 
   final id = Get.parameters[HoldVerificationParameter.id] ?? '';
 
-  final ticketCheckingDetails = Rxn<TicketCheckingDetails>();
+  final holdVerificationDetails = Rxn<HoldVerificationDetails>();
   final qrCode = Rxn<String>();
 
   @override
@@ -25,30 +25,8 @@ class HoldVerificationController extends GetxController {
     scanQrCode();
   }
 
-  void checkTicket() async {
-    final List<Map<String, String>> souvenirsMapList = [];
-    final ticketCheckingDetailsValue = ticketCheckingDetails.value;
-    if (ticketCheckingDetailsValue == null) {
-      return;
-    }
-    ticketCheckingDetailsValue.nfts.forEach((nft) {
-      nft.souvenirs.forEach((souvenir) {
-        if (souvenir.isSelected) {
-          souvenirsMapList.add(
-            {
-              'souvenir_uid': souvenir.id,
-              'nft_uid': nft.id,
-            },
-          );
-        }
-      });
-    });
-    ticketCheckingDetails.value = await repository.checkTickets(
-        souvenirsMapList: souvenirsMapList, qrCode: qrCode.value ?? '');
-  }
-
   void scanQrCode() {
-    ticketCheckingDetails.value = null;
+    holdVerificationDetails.value = null;
     qrCode.value = null;
     wechatScanQrCode(
       WechatScanQrCodeParams(
@@ -57,15 +35,15 @@ class HoldVerificationController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getManagedProjectNfts();
+            _getHoldVerificationDetails();
           },
         ),
       ),
     );
   }
 
-  void _getManagedProjectNfts() async {
-    ticketCheckingDetails.value = await repository.getManagedProjectNfts(
+  void _getHoldVerificationDetails() async {
+    holdVerificationDetails.value = await repository.getHoldVerificationDetails(
         id: id, qrCode: qrCode.value ?? '');
   }
 }

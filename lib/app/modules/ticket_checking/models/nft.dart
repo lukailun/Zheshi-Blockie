@@ -2,7 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/ticket_checking/models/project.dart';
+import 'package:blockie_app/app/modules/ticket_checking/models/activity.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
 
 part 'nft.g.dart';
@@ -12,13 +12,13 @@ class Nft {
   @JsonKey(name: 'uid')
   String id;
   @JsonKey(name: 'activity')
-  Project project;
+  Activity activity;
   @JsonKey(name: 'souvenirs')
   List<Souvenir> souvenirs;
 
   Nft({
     required this.id,
-    required this.project,
+    required this.activity,
     required this.souvenirs,
   });
 
