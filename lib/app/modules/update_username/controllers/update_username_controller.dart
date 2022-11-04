@@ -2,14 +2,14 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/profile_repository.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class UpdateUsernameController extends GetxController {
-  final AccountRepository repository;
-  final initialName = (AuthService.to.user.value?.nickname ?? "").obs;
+  final ProfileRepository repository;
+  final initialName = (AuthService.to.user.value?.username ?? "").obs;
   final newName = ''.obs;
 
   UpdateUsernameController({required this.repository});
@@ -32,17 +32,18 @@ class UpdateUsernameController extends GetxController {
     if (userInfo == null) {
       return;
     }
-    initialName.value = userInfo.nickname;
-    newName.value = userInfo.nickname;
+    initialName.value = userInfo.username;
+    newName.value = userInfo.username;
     final userValue = AuthService.to.user.value;
     AuthService.to.user.value = UserInfo(
-      nickname: userInfo.nickname,
-      avatar: userInfo.avatar,
-      phone: userInfo.phone,
+      username: userInfo.username,
+      avatarPath: userInfo.avatarPath,
+      phoneNumber: userInfo.phoneNumber,
       level: userInfo.level,
-      uid: userInfo.uid,
-      walletAddress: userValue?.walletAddress,
+      id: userInfo.id,
+      wallets: userValue?.wallets,
       roles: userValue?.roles,
+      bio: userValue?.bio,
     );
     MessageToast.showMessage('修改成功');
   }

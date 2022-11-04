@@ -17,7 +17,7 @@ class UpdateUsernameView extends GetView<UpdateUsernameController> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget title = const Text('修改昵称')
+    final Widget title = const Text('编辑名字')
         .textColor(Colors.white)
         .fontSize(24)
         .fontWeight(FontWeightCompat.semiBold)

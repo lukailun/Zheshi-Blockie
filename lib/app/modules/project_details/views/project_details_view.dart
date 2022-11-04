@@ -36,14 +36,14 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
       AppBarButtonItem(
         title: '首页',
         assetName: "assets/images/app_bar/home.png",
-        onTap: () => Get.offAllNamed(Routes.initial),
+        onTap: () => Get.offAllNamed(Routes.activities),
       ),
       AppBarButtonItem(
         title: '我的',
         assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
+            ProfileParameter.id: AuthService.to.user.value?.id ?? "",
           };
           Get.offNamed(Routes.profile, parameters: parameters);
         },

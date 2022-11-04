@@ -12,8 +12,8 @@ import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_it
 import 'package:blockie_app/extensions/text_extension.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/project_management_footer_view.dart';
-import 'package:blockie_app/widgets/project_management_user_view.dart';
+import 'package:blockie_app/widgets/projects_management_footer_view.dart';
+import 'package:blockie_app/widgets/projects_management_user_view.dart';
 
 class AirdropNftContainerView extends GetView<AirdropNftController> {
   const AirdropNftContainerView({super.key});
@@ -48,7 +48,7 @@ class AirdropNftContainerView extends GetView<AirdropNftController> {
                   ).paddingOnly(bottom: 182);
                 }
               }(),
-              ProjectManagementFooterView(
+              ProjectsManagementFooterView(
                 topButtonTitle: '空投所选 NFT',
                 bottomButtonTitle: '继续扫码',
                 topButtonIsEnabled: true,
@@ -75,7 +75,7 @@ class _AirdropNftView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userView =
-        ProjectManagementUserView(user: ticketCheckingDetails.user);
+        ProjectsManagementUserView(user: ticketCheckingDetails.user);
     final title = SizedBox(
       width: double.infinity,
       child: const Text('选择 NFT 权益').textColor(Colors.white).fontSize(18),

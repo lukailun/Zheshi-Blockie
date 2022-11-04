@@ -20,11 +20,11 @@ class BlockieUrlBuilder {
 
   String buildLoginUrl() => '$_baseUrl/login';
 
-  String buildGetUserInfoUrl() => '$_baseUrl/user';
+  String buildGetUserUrl() => '$_baseUrl/user';
 
   String buildGetOtherUserInfoUrl() => '$_baseUrl/users';
 
-  String buildGetProjectsUrl() => '$_baseUrl/activities';
+  String buildGetActivitiesUrl() => '$_baseUrl/activities';
 
   String buildGetProjectDetailsUrl(String id) => '$_baseUrl/activities/$id';
 
@@ -37,8 +37,6 @@ class BlockieUrlBuilder {
   String buildGetNftsUrl() => '$_baseUrl/NFTs';
 
   String buildLogoutUrl() => '$_baseUrl/logout';
-
-  String buildUpdateUserInfoUrl() => '$_baseUrl/user';
 
   String buildUploadFacePhotoUrl() => '$_baseUrl/face';
 
@@ -60,12 +58,23 @@ class BlockieUrlBuilder {
 
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
 
-  String buildGetProfileUrl() => '$_baseUrl/my/profile';
-
-  String buildGetManagedProjectsUrl() => '$_baseUrl/staff/activities';
+  // ProjectsManagement
+  String buildGetManagedActivitiesUrl() => '$_baseUrl/staff/activities';
 
   String buildGetManagedProjectNftsUrl(String id) =>
       '$_baseUrl/staff/activities/$id/NFTs';
 
   String buildCheckTicketUrl() => '$_baseUrl/staff/punch-tickets/souvenirs';
+
+  String buildGetWhitelistStatusUrl(String id) =>
+      '$_baseUrl/staff/activities/$id';
+
+  // Profile
+  String buildGetProfileUrl() => '$_baseUrl/my/profile';
+
+  String buildUpdateUserInfoUrl() => '$_baseUrl/user';
+
+  String buildGetAllLabelsUrl() => '$_baseUrl/labels';
+
+  String buildUpdateLabelsUrl() => '$_baseUrl/labels';
 }

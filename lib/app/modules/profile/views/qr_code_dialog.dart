@@ -72,10 +72,10 @@ class QrCodeDialog extends StatelessWidget {
                     height: 72,
                     child: CircleAvatar(
                       radius: 36,
-                      backgroundImage: NetworkImage(user.avatar),
+                      backgroundImage: NetworkImage(user.avatarUrl),
                     ),
                   ).paddingOnly(bottom: 7),
-                  Text(user.nickname).fontSize(18).textColor(Colors.white),
+                  Text(user.username).fontSize(18).textColor(Colors.white),
                   AspectRatio(
                     aspectRatio: 1,
                     child: Container(

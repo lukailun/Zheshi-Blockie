@@ -67,7 +67,7 @@ class SettingsView extends GetView<SettingsController> {
       version: version,
       termsOfServiceOnTap: controller.goToTermsOfService,
       privacyPolicyOnTap: controller.goToPrivacyPolicy,
-      activityManagementOnTap: controller.goToProjectsManagement,
+      activitiesManagementOnTap: controller.goToActivitiesManagement,
     );
     final List<Widget> itemGroupTiles =
         groups.map((group) => SettingsItemGroupTile(group: group)).toList();

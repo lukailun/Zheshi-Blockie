@@ -8,12 +8,14 @@ part of 'profile.dart';
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) => Profile(
       nfts: ProfileNfts.fromJson(json['nfts'] as Map<String, dynamic>),
-      tags: (json['tags'] as List<dynamic>)
-          .map((e) => ProfileTag.fromJson(e as Map<String, dynamic>))
+      labels: (json['labels'] as List<dynamic>)
+          .map((e) => ProfileLabel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'nfts': instance.nfts.toJson(),
-      'tags': instance.tags.map((e) => e.toJson()).toList(),
+      'labels': instance.labels.map((e) => e.toJson()).toList(),
+      'tags': instance.tags,
     };

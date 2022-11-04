@@ -1,4 +1,0 @@
-enum ProjectsType {
-  project,
-  activity,
-}

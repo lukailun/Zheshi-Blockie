@@ -7,19 +7,21 @@ import 'dart:js' as js;
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/data/repositories/project_management_repository.dart';
-import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
+import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 
 class AddWhitelistController extends GetxController {
-  final ProjectManagementRepository repository;
+  final ProjectsManagementRepository repository;
 
   AddWhitelistController({required this.repository});
 
   final id = Get.parameters[AddWhitelistParameter.id] ?? '';
 
-  final ticketCheckingDetails = Rxn<TicketCheckingDetails>();
+  final addWhitelistDetails = Rxn<AddWhitelistDetails>();
   final qrCode = Rxn<String>();
+
+  final q =
+      '{"data":{"user_uid":"Y8jy6jyWe9","timestamp":1667464059,"expired":1667467659},"signature":"97a60272450e933287a549686cf25739"}';
 
   @override
   void onReady() {
@@ -27,48 +29,38 @@ class AddWhitelistController extends GetxController {
     scanQrCode();
   }
 
-  void checkTicket() async {
-    final List<Map<String, String>> souvenirsMapList = [];
-    final ticketCheckingDetailsValue = ticketCheckingDetails.value;
-    if (ticketCheckingDetailsValue == null) {
-      return;
+  bool addWhitelistButtonIsEnabled() {
+    final addWhitelistDetailsValue = addWhitelistDetails.value;
+    if (addWhitelistDetailsValue == null) {
+      return false;
     }
-    ticketCheckingDetailsValue.nfts.forEach((nft) {
-      nft.souvenirs.forEach((souvenir) {
-        if (souvenir.isSelected) {
-          souvenirsMapList.add(
-            {
-              'souvenir_uid': souvenir.id,
-              'nft_uid': nft.id,
-            },
-          );
-        }
-      });
-    });
-    ticketCheckingDetails.value = await repository.checkTickets(
-        souvenirsMapList: souvenirsMapList, qrCode: qrCode.value ?? '');
+    return !addWhitelistDetailsValue.user.isQualified;
   }
+
+  void addWhitelist() async {}
 
   void scanQrCode() {
-    ticketCheckingDetails.value = null;
+    addWhitelistDetails.value = null;
     qrCode.value = null;
-    wechatScanQrCode(
-      WechatScanQrCodeParams(
-        needResult: 1,
-        scanType: 'qrCode',
-        success: js.allowInterop(
-          (result) {
-            qrCode.value = result.resultStr;
-            _getManagedProjectNfts();
-          },
-        ),
-      ),
-    );
+    // wechatScanQrCode(
+    //   WechatScanQrCodeParams(
+    //     needResult: 1,
+    //     scanType: 'qrCode',
+    //     success: js.allowInterop(
+    //       (result) {
+    //         qrCode.value = result.resultStr;
+    //         _getWhitelistStatus();
+    //       },
+    //     ),
+    //   ),
+    // );
+    qrCode.value = q;
+    _getWhitelistStatus();
   }
 
-  void _getManagedProjectNfts() async {
-    ticketCheckingDetails.value = await repository.getManagedProjectNfts(
-        id: id, qrCode: qrCode.value ?? '');
+  void _getWhitelistStatus() async {
+    addWhitelistDetails.value =
+        await repository.getWhitelistStatus(id: id, qrCode: qrCode.value ?? '');
   }
 }
 

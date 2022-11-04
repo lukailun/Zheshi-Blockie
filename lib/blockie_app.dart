@@ -22,6 +22,7 @@ class BlockieApp extends StatelessWidget {
       title: Environment.appTitle,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
+      initialRoute: Routes.activities,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(elevation: 0),
         fontFamily: "--apple-system",

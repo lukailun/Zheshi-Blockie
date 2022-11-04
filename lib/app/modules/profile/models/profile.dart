@@ -2,8 +2,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_nfts.dart';
-import 'package:blockie_app/app/modules/profile/models/profile_tag.dart';
 
 part 'profile.g.dart';
 
@@ -11,11 +11,14 @@ part 'profile.g.dart';
 class Profile {
   @JsonKey(name: 'nfts')
   final ProfileNfts nfts;
+  @JsonKey(name: 'labels')
+  final List<ProfileLabel> labels;
   @JsonKey(name: 'tags')
-  final List<ProfileTag> tags;
+  final List<String> tags;
 
   Profile({
     required this.nfts,
+    required this.labels,
     required this.tags,
   });
 

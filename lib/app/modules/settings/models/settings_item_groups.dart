@@ -18,7 +18,7 @@ class SettingsItemGroups {
     required String version,
     required Function() termsOfServiceOnTap,
     required Function() privacyPolicyOnTap,
-    required Function() activityManagementOnTap,
+    required Function() activitiesManagementOnTap,
   }) {
     final aboutUsItems = [
       SettingsItem(title: '当前版本', content: version, arrowIsVisible: false),
@@ -27,7 +27,7 @@ class SettingsItemGroups {
     ];
     if (isStaff) {
       aboutUsItems
-          .add(SettingsItem(title: '活动管理', onTap: activityManagementOnTap));
+          .add(SettingsItem(title: '活动管理', onTap: activitiesManagementOnTap));
     }
     return [
       SettingsItemGroup(

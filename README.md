@@ -21,7 +21,7 @@ $ flutter pub run import_sorter:main
 
 ## Generate Json Code
 ```
-$ flutter pub run build_runner build
+$ flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ## How to deploy

@@ -3,15 +3,16 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/add_whitelist/controllers/add_whitelist_controller.dart';
-import 'package:blockie_app/data/repositories/project_management_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 
 class AddWhitelistBinding implements Bindings {
-  final ProjectManagementRepository projectManagementRepository;
+  final ProjectsManagementRepository projectsManagementRepository;
 
-  AddWhitelistBinding({required this.projectManagementRepository});
+  AddWhitelistBinding({required this.projectsManagementRepository});
 
   @override
   void dependencies() {
-    Get.lazyPut(() => AddWhitelistController(repository: projectManagementRepository));
+    Get.lazyPut(
+        () => AddWhitelistController(repository: projectsManagementRepository));
   }
 }

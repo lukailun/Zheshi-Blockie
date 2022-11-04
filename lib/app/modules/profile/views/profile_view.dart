@@ -3,7 +3,6 @@ import 'dart:ui';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,13 +11,14 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
+import 'package:blockie_app/app/modules/profile/views/label_view.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_nfts_view.dart';
+import 'package:blockie_app/app/modules/profile/views/tag_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
@@ -54,10 +54,11 @@ class ProfileContainerView extends GetView<ProfileController> {
               user: userValue,
               profile: profileValue,
               avatarOnTap: controller.goToUpdateAvatar,
-              nameOnTap: controller.goToUpdateName,
+              usernameOnTap: controller.goToUpdateUsername,
               walletAddressOnTap: controller.copyWalletAddress,
               bioOnTap: controller.goToUpdateBio,
               nftOnTap: controller.goToNftDetails,
+              labelOnTap: controller.openUpdateLabelsDialog,
             );
           }
         }(),
@@ -69,20 +70,22 @@ class ProfileContainerView extends GetView<ProfileController> {
 class _ProfileView extends StatelessWidget {
   final UserInfo user;
   final Profile profile;
-  final Function() avatarOnTap;
-  final Function() nameOnTap;
-  final Function() bioOnTap;
-  final Function(String) walletAddressOnTap;
-  final Function(String) nftOnTap;
+  final Function()? avatarOnTap;
+  final Function()? usernameOnTap;
+  final Function()? bioOnTap;
+  final Function(String)? walletAddressOnTap;
+  final Function(String)? nftOnTap;
+  final Function(int)? labelOnTap;
 
   const _ProfileView({
     required this.user,
     required this.profile,
-    required this.avatarOnTap,
-    required this.nameOnTap,
-    required this.bioOnTap,
-    required this.walletAddressOnTap,
-    required this.nftOnTap,
+    this.avatarOnTap,
+    this.usernameOnTap,
+    this.bioOnTap,
+    this.walletAddressOnTap,
+    this.nftOnTap,
+    this.labelOnTap,
   });
 
   @override
@@ -93,7 +96,7 @@ class _ProfileView extends StatelessWidget {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(40)),
           child: CachedNetworkImage(
-            imageUrl: user.avatar,
+            imageUrl: user.avatarUrl,
             width: 80,
             height: 80,
             fit: BoxFit.cover,
@@ -102,38 +105,11 @@ class _ProfileView extends StatelessWidget {
       ),
       const Spacer(flex: 1),
     ];
-    final List<Widget> tagsView = profile.tags.map((it) {
-      return Column(
-        children: [
-          const SizedBox(height: 20),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/profile/tag_background.png"),
-              ),
-            ),
-            child: Center(
-              child: CachedNetworkImage(
-                imageUrl: it.iconUrl,
-                width: 20,
-                height: 20,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-            child: Center(
-              child: Text(it.name).fontSize(10).textColor(Colors.white),
-            ),
-          ),
-        ],
-      ).paddingSymmetric(horizontal: 5.5);
-    }).toList();
-    while (tagsView.length < 3) {
-      tagsView.add(
+    final List<Widget> labelsView = profile.labels
+        .map((it) => LabelView(label: it).paddingOnly(top: 20))
+        .toList();
+    while (labelsView.length < 3) {
+      labelsView.add(
         Column(
           children: [
             const SizedBox(height: 20),
@@ -148,19 +124,27 @@ class _ProfileView extends StatelessWidget {
         ).paddingSymmetric(horizontal: 5.5),
       );
     }
-    final avatarAndTagsView = Row(
-      children: avatar + tagsView,
+    final avatarAndLabelsView = Row(
+      children: avatar +
+          labelsView
+              .asMap()
+              .entries
+              .map((it) => GestureDetector(
+                    onTap: () => labelOnTap?.call(it.key),
+                    child: it.value,
+                  ))
+              .toList(),
     ).paddingOnly(left: 22, right: 38.5);
     final name = Row(
       children: [
-        Text(user.nickname)
+        Text(user.username)
             .textColor(Colors.white)
             .fontSize(20)
             .paddingOnly(left: 22, top: 12, bottom: 12),
         BasicIconButton(
           assetName: 'assets/images/common/edit.png',
           size: 20,
-          onTap: nameOnTap,
+          onTap: usernameOnTap,
         ).paddingOnly(left: 9),
         const Spacer(flex: 1),
       ],
@@ -181,27 +165,24 @@ class _ProfileView extends StatelessWidget {
         BasicIconButton(
           assetName: 'assets/images/common/copy.png',
           size: 20,
-          onTap: () => walletAddressOnTap(user.walletAddress ?? ''),
+          onTap: () => walletAddressOnTap?.call(user.walletAddress ?? ''),
         ).paddingOnly(left: 9),
         const Spacer(flex: 1),
       ],
     ).paddingSymmetric(horizontal: 22);
-    final bio = Opacity(
-      opacity: 0,
-      child: Row(
-        children: [
-          Text(user.nickname)
-              .textColor(Colors.white)
-              .fontSize(15)
-              .paddingOnly(left: 22, top: 7, bottom: 7),
-          BasicIconButton(
-            assetName: 'assets/images/common/edit.png',
-            size: 20,
-            onTap: bioOnTap,
-          ).paddingOnly(left: 9),
-          const Spacer(flex: 1),
-        ],
-      ),
+    final bio = Row(
+      children: [
+        Text(user.bio ?? '用一句话介绍下自己吧~')
+            .textColor(Colors.white)
+            .fontSize(15)
+            .paddingOnly(left: 22, top: 7, bottom: 7),
+        BasicIconButton(
+          assetName: 'assets/images/common/edit.png',
+          size: 20,
+          onTap: bioOnTap,
+        ).paddingOnly(left: 9),
+        const Spacer(flex: 1),
+      ],
     );
     final divider = Container(
       height: 2,
@@ -247,7 +228,7 @@ class _ProfileView extends StatelessWidget {
         ),
         Column(
           children: [
-            avatarAndTagsView,
+            avatarAndLabelsView,
             name,
             contract,
             bio,
@@ -270,14 +251,34 @@ class _ProfileView extends StatelessWidget {
       isCircular: true,
       nftOnTap: nftOnTap,
     );
-    final labelsView = Column(
+    final tagsView = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('个人标签')
-            .fontSize(15)
-            .textColor(const Color(0xCCFFFFFF))
-            .paddingSymmetric(horizontal: 22),
+        Row(
+          children: [
+            const Text('个人标签').fontSize(15).textColor(const Color(0xCCFFFFFF)),
+            const Spacer(flex: 1)
+          ],
+        ),
+        Visibility(
+          visible: profile.tags.isNotEmpty,
+          replacement: Image.asset(
+            'assets/images/profile/empty_tag.png',
+            width: 113,
+            height: 27,
+            fit: BoxFit.contain,
+          ),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Wrap(
+              spacing: 11,
+              runSpacing: 11,
+              children: profile.tags.map((it) => TagView(tag: it)).toList(),
+            ),
+          ),
+        ).paddingOnly(top: 10, bottom: 90),
       ],
-    );
+    ).paddingSymmetric(horizontal: 22);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,7 +286,7 @@ class _ProfileView extends StatelessWidget {
           userInfoView,
           videoNftsView,
           sportNftsView,
-          labelsView,
+          tagsView,
         ],
       ),
     );

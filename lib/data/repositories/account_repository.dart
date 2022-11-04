@@ -12,8 +12,7 @@ class AccountRepository {
 
   Future<bool> logout() => remoteApi.logout();
 
-  Future<UserInfo?> updateUsername(String username) =>
-      remoteApi.updateUsername(username);
+  Future<UserInfo?> getUser() => remoteApi.getUser();
 
   Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) =>
       remoteApi.uploadFacePhoto(bytes, filename);
@@ -26,6 +25,4 @@ class AccountRepository {
       remoteApi.getWechatConfig(supportedUrl, apis);
 
   Future<String?> getQrCode() => remoteApi.getQrCode();
-
-  Future<Profile?> getProfile() => remoteApi.getProfile();
 }

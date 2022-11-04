@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/data/repositories/project_management_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
 class HoldVerificationController extends GetxController {
-  final ProjectManagementRepository repository;
+  final ProjectsManagementRepository repository;
 
   HoldVerificationController({required this.repository});
 

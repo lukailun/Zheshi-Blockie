@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/data/repositories/project_management_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
 class TicketCheckingController extends GetxController {
-  final ProjectManagementRepository repository;
+  final ProjectsManagementRepository repository;
 
   TicketCheckingController({required this.repository});
 
@@ -23,6 +23,20 @@ class TicketCheckingController extends GetxController {
   void onReady() {
     super.onReady();
     scanQrCode();
+  }
+
+  bool ticketCheckingButtonIsEnabled() {
+    final ticketCheckingDetailsValue = ticketCheckingDetails.value;
+    if (ticketCheckingDetailsValue == null) {
+      return false;
+    }
+    if (!ticketCheckingDetailsValue.user.isQualified) {
+      return false;
+    }
+    final allSouvenirs =
+        ticketCheckingDetailsValue.nfts.expand((it) => it.souvenirs).toList();
+    final hasSelected = allSouvenirs.where((it) => it.isSelected).isNotEmpty;
+    return hasSelected;
   }
 
   void checkTicket() async {

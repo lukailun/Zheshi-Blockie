@@ -272,11 +272,11 @@ class _NftPageState extends State<NftPage> {
                 padding: const EdgeInsets.only(right: 3),
                 child: CircleAvatar(
                   radius: 11,
-                  backgroundImage: NetworkImage(_nftInfo!.user.avatar),
+                  backgroundImage: NetworkImage(_nftInfo!.user.avatarUrl),
                 ),
               ),
               Text(
-                _nftInfo!.user.nickname,
+                _nftInfo!.user.username,
                 style: itemValueStyle,
               )
             ],
@@ -288,14 +288,14 @@ class _NftPageState extends State<NftPage> {
       AppBarButtonItem(
         title: '首页',
         assetName: "assets/images/app_bar/home.png",
-        onTap: () => Get.offAllNamed(Routes.initial),
+        onTap: () => Get.offAllNamed(Routes.activities),
       ),
       AppBarButtonItem(
         title: '我的',
         assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            ProfileParameter.id: AuthService.to.user.value?.uid ?? "",
+            ProfileParameter.id: AuthService.to.user.value?.id ?? "",
           };
           Get.offNamed(Routes.profile, parameters: parameters);
         },

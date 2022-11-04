@@ -13,7 +13,7 @@ import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 class SettingsController extends GetxController {
   final AccountRepository repository;
   final user = AuthService.to.user;
-  final initialPhoneNumber = (AuthService.to.user.value?.phone ?? "").obs;
+  final initialPhoneNumber = (AuthService.to.user.value?.phoneNumber ?? "").obs;
   final version = ''.obs;
 
   SettingsController({required this.repository});
@@ -45,8 +45,8 @@ class SettingsController extends GetxController {
     Get.toNamed(Routes.webView, parameters: parameters);
   }
 
-  void goToProjectsManagement() {
-    Get.toNamed(Routes.projectsManagement);
+  void goToActivitiesManagement() {
+    Get.toNamed(Routes.activitiesManagement);
   }
 
   void openConfirmToLogoutDialog() {
@@ -66,7 +66,7 @@ class SettingsController extends GetxController {
   void _openLogoutDialog() {
     Get.logoutDialog(onLogoutSuccess: () async {
       await repository.logout();
-      Get.offAllNamed(Routes.initial);
+      Get.offAllNamed(Routes.activities);
     });
   }
 

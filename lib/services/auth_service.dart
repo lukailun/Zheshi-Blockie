@@ -73,7 +73,7 @@ class AuthService extends GetxService {
       String token = res['token'];
       UserInfo newUser = res['user'];
       DataStorage.setToken(token);
-      DataStorage.setUserUid(newUser.uid);
+      DataStorage.setUserUid(newUser.id);
       user.value = newUser;
       login();
       _closeLoginDialog();

@@ -18,7 +18,7 @@ class ProfileNftsView extends StatelessWidget {
   final List<ProfileNft> nfts;
   final String defaultAssetName;
   final bool isCircular;
-  final Function(String) nftOnTap;
+  final Function(String)? nftOnTap;
 
   const ProfileNftsView({
     super.key,
@@ -26,7 +26,7 @@ class ProfileNftsView extends StatelessWidget {
     required this.nfts,
     required this.defaultAssetName,
     required this.isCircular,
-    required this.nftOnTap,
+    this.nftOnTap,
   });
 
   @override

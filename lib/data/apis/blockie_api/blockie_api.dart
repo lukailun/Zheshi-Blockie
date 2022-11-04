@@ -4,11 +4,13 @@ import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
+import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
+import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
-import 'package:blockie_app/app/modules/projects_management/models/paginated_projects.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
@@ -23,7 +25,11 @@ import 'package:blockie_app/widgets/message_toast.dart';
 
 part 'blockie_api_account.dart';
 
-part 'blockie_api_project_management.dart';
+part 'blockie_api_profile.dart';
+
+part 'blockie_api_project.dart';
+
+part 'blockie_api_projects_management.dart';
 
 typedef UserTokenSupplier = String? Function();
 
@@ -39,50 +45,7 @@ class BlockieApi {
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
 
-  Future<PaginatedProjects?> getProjects() async {
-    final url = _urlBuilder.buildGetProjectsUrl();
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final paginatedProjects = PaginatedProjects.fromJson(object);
-      return paginatedProjects;
-    } catch (error) {
-      return null;
-    }
-  }
 
-  Future<UserInfo?> updateUsername(String username) async {
-    final url = _urlBuilder.buildUpdateUserInfoUrl();
-    final requestData = {
-      "nickname": username,
-    };
-    final response = await _dio.post(url, data: requestData);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final userInfo = UserInfo.fromJson(object);
-      Global.userInfo = userInfo;
-      return userInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<WechatConfig?> getWechatConfig(
-      String supportedUrl, List<String> apis) async {
-    final url = _urlBuilder.buildGetWechatConfigUrl();
-    final requestData = {
-      'url': supportedUrl,
-      'api_list': apis,
-    };
-    final response = await _dio.post(url, data: requestData);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final config = WechatConfig.fromJson(object);
-      return config;
-    } catch (error) {
-      return null;
-    }
-  }
 
   Future<ProjectDetails?> getProjectDetails(String id) async {
     final url = _urlBuilder.buildGetProjectDetailsUrl(id);
@@ -103,17 +66,6 @@ class BlockieApi {
       final Map<String, dynamic> object = _getResponseData(response);
       final nft = NftInfo.fromJson(object);
       return nft;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<String?> getQrCode() async {
-    final url = _urlBuilder.buildGetQrCodeUrl();
-    final response = await _dio.get(url);
-    try {
-      final String qrCode = _getResponseData(response);
-      return qrCode;
     } catch (error) {
       return null;
     }

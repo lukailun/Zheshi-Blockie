@@ -12,7 +12,7 @@ class ProfileNftView extends StatelessWidget {
   final double size;
   final String defaultAssetName;
   final bool isCircular;
-  final Function(String) nftOnTap;
+  final Function(String)? nftOnTap;
 
   const ProfileNftView({
     super.key,
@@ -20,7 +20,7 @@ class ProfileNftView extends StatelessWidget {
     required this.size,
     required this.defaultAssetName,
     required this.isCircular,
-    required this.nftOnTap,
+    this.nftOnTap,
   });
 
   @override
@@ -40,7 +40,7 @@ class ProfileNftView extends StatelessWidget {
       );
     }
     return GestureDetector(
-      onTap: () => nftOnTap(nft!.id),
+      onTap: () => nftOnTap?.call(nft!.id),
       child: SizedBox(
         width: size,
         height: size,

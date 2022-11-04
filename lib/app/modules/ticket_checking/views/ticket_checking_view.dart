@@ -12,8 +12,8 @@ import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_it
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/project_management_footer_view.dart';
-import 'package:blockie_app/widgets/project_management_user_view.dart';
+import 'package:blockie_app/widgets/projects_management_footer_view.dart';
+import 'package:blockie_app/widgets/projects_management_user_view.dart';
 
 class TicketCheckingContainerView extends GetView<TicketCheckingController> {
   const TicketCheckingContainerView({super.key});
@@ -48,23 +48,10 @@ class TicketCheckingContainerView extends GetView<TicketCheckingController> {
                   ).paddingOnly(bottom: 182);
                 }
               }(),
-              ProjectManagementFooterView(
+              ProjectsManagementFooterView(
                 topButtonTitle: '核销所选 NFT 权益',
                 bottomButtonTitle: '继续扫码',
-                topButtonIsEnabled: () {
-                  if (ticketCheckingDetailsValue == null) {
-                    return false;
-                  }
-                  if (!ticketCheckingDetailsValue.user.isQualified) {
-                    return false;
-                  }
-                  final allSouvenirs = ticketCheckingDetailsValue.nfts
-                      .expand((it) => it.souvenirs)
-                      .toList();
-                  final hasSelected =
-                      allSouvenirs.where((it) => it.isSelected).isNotEmpty;
-                  return hasSelected;
-                }(),
+                topButtonIsEnabled: controller.ticketCheckingButtonIsEnabled(),
                 topButtonOnTap: controller.checkTicket,
                 bottomButtonOnTap: controller.scanQrCode,
               ),
@@ -88,7 +75,7 @@ class _TicketCheckingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userView =
-        ProjectManagementUserView(user: ticketCheckingDetails.user);
+        ProjectsManagementUserView(user: ticketCheckingDetails.user);
     final title = SizedBox(
       width: double.infinity,
       child: const Text('选择 NFT 权益').textColor(Colors.white).fontSize(18),
