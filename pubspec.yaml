@@ -42,6 +42,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/activities/
     - assets/images/activity/
     - assets/images/app_bar/
     - assets/images/common/

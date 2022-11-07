@@ -18,7 +18,6 @@ import 'package:blockie_app/app/modules/activity/views/activity_step_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/environment.dart';
-import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
@@ -27,42 +26,15 @@ class ActivityContainerView extends GetView<ActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    //ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(AnyWebMethod.accounts.value,
-        (int viewId) {
-      return html.IFrameElement()
-        ..style.width = '100%'
-        ..style.height = '100%'
-        ..src = '${Environment.anyWebUrl}?method=${AnyWebMethod.accounts.value}'
-        ..style.border = 'none';
-    });
-
-    final loginView = HtmlElementView(viewType: AnyWebMethod.accounts.value);
-    final actionItems = <AppBarButtonItem>[];
-    if (Get.routing.previous.isNotEmpty) {
-      actionItems.add(
-        AppBarButtonItem(
-          assetName: "assets/images/app_bar/close.png",
-          onTap: () {
-            Get.back();
-          },
-        ),
-      );
-    }
+    final showsBack = Get.routing.previous.isNotEmpty;
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: !controller.showsLogin.value
-            ? BasicAppBar(
-                showsLogo: true,
-                actionItems: actionItems,
-              )
-            : null,
+        appBar: BasicAppBar(
+          showsLogo: !showsBack,
+        ),
         body: () {
           final activityValue = controller.activity.value;
-          if (controller.showsLogin.value) {
-            return loginView;
-          }
           if (activityValue == null) {
             return const LoadingIndicator();
           } else {
@@ -73,7 +45,7 @@ class ActivityContainerView extends GetView<ActivityController> {
                 switch (step.actionInfo.action) {
                   case ActivityAction.login:
                     if (step.status == ActivityStepStatus.toDo) {
-                      controller.prepareToLogin();
+                      controller.showLicenseDialog();
                     }
                     break;
                   case ActivityAction.signUp:

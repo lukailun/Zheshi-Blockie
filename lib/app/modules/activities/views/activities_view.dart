@@ -1,22 +1,20 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/activities/views/activity_item_view.dart';
+import 'package:blockie_app/models/environment.dart';
+import 'package:dio_log/overlay_draggable_button.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio_log/overlay_draggable_button.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities/controllers/activities_controller.dart';
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
-import 'package:blockie_app/app/modules/activities/models/activity_type.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:blockie_app/widgets/project_activity_item_view.dart';
-import 'package:blockie_app/widgets/project_item_view.dart';
 
 class ActivitiesContainerView extends GetView<ActivitiesController> {
   const ActivitiesContainerView({super.key});
@@ -106,29 +104,18 @@ class _ActivitiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: activities.length,
-      padding: const EdgeInsets.symmetric(horizontal: 22),
-      itemBuilder: (_, index) {
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      itemBuilder: (context, index) {
         final activity = activities[index];
-        switch (activity.type) {
-          case ActivityType.grouped:
-            return ProjectActivityItemView(
-              activity: activities[index],
-              issuer: activities[index].issuer,
-              onTap: () => itemOnTap?.call(activities[index].id),
-              issuerOnTap: () =>
-                  issuerOnTap?.call(activities[index].issuer?.id ?? ''),
-            );
-          case ActivityType.plain:
-            return ProjectItemView(
-              project: activities[index].projects.first,
-              issuer: activities[index].issuer,
-              onTap: () => itemOnTap?.call(activities[index].id),
-              issuerOnTap: () =>
-                  issuerOnTap?.call(activities[index].issuer?.id ?? ''),
-            );
-        }
+        return ActivityItemView(
+          activity: activity,
+          issuerOnTap: () =>
+              issuerOnTap?.call(activities[index].issuer?.id ?? ''),
+          onTap: () => itemOnTap?.call(activities[index].id),
+        );
       },
     );
   }

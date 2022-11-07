@@ -1,0 +1,1 @@
+cp -rf ./web_env/$1/* web/

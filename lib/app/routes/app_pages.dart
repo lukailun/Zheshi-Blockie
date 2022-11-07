@@ -125,7 +125,10 @@ class AppPages {
     GetPage(
       name: Routes.activity,
       page: () => const ActivityContainerView(),
-      binding: ActivityBinding(projectRepository: _projectRepository),
+      binding: ActivityBinding(
+        accountRepository: _accountRepository,
+        projectRepository: _projectRepository,
+      ),
     ),
     GetPage(
       name: Routes.webView,

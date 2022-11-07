@@ -22,7 +22,7 @@ build_web:
   only:
     - master
   script:
-    - flutter build web --web-renderer html
+    - flutter build web --web-renderer html --dart-define ENV_FILE_NAME=env/development.env
     - (Get-Content ./build/web/index.html) -Replace '<base href="/">', '<base href="/app/">' | Set-Content ./build/web/index.html
     - (Get-Content ./build/web/main.dart.js) -Replace 'pushState', 'replaceState' | Set-Content ./build/web/main.dart.js
   tags:
