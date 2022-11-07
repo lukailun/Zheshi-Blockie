@@ -1,11 +1,11 @@
-name: Deploy Web
+name: Build Web
 on:
   push:
     branches:
       - master
 jobs:
   build:
-    name: Deploy Web
+    name: Build Web
     env:
       my_secret: ${{secrets.commit_secret}}
     runs-on: ubuntu-latest
