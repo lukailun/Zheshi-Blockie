@@ -16,7 +16,7 @@ jobs:
           channel: "stable"
       - run: flutter config --enable-web
       - run: flutter pub get
-      - run: sh copy_web_env.sh development
+      - run: ./copy_web_env.sh development
       - run: flutter build web --release --base-href '/Zheshi-Blockie/' --dart-define ENV_FILE_NAME=env/development.env
       - run: |
           cd build/web
