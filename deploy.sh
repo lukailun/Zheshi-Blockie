@@ -1,7 +1,7 @@
 # sh deploy.sh
 
 env="development"
-appName="BLOCKIE_DEV"
+appName="[DEV] BLOCKIE"
 url="https://s.blockie.zheshi.tech/app/"
 webhookUrl="https://open.feishu.cn/open-apis/bot/v2/hook/5c52cf8b-633b-4e84-a472-d008f2571ed8"
 gitBranch=$(git symbolic-ref --short -q HEAD)

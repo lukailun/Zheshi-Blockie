@@ -8,7 +8,6 @@ before_script:
 
 stages:
   # - test
-  - build
   - deploy
 
 # test:
@@ -17,22 +16,11 @@ stages:
 #   tags:
 #     - flutter
 
-build_web:
+deploy:
   stage: build
   only:
     - master
   script:
-    - flutter build web --web-renderer html --dart-define ENV_FILE_NAME=env/development.env
-    - (Get-Content ./build/web/index.html) -Replace '<base href="/">', '<base href="/app/">' | Set-Content ./build/web/index.html
-    - (Get-Content ./build/web/main.dart.js) -Replace 'pushState', 'replaceState' | Set-Content ./build/web/main.dart.js
-  tags:
-    - flutter
-
-deploy_dev:
-  stage: deploy
-  only:
-    - master
-  script:
-    - scp -r ./build/web/* root@122.112.231.151:/apps/blockie_app/
+    - sh deploy.sh
   tags:
     - flutter
