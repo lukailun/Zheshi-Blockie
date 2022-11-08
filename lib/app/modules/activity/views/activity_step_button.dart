@@ -11,15 +11,13 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 
 class ActivityStepButton extends StatelessWidget {
-  final int index;
   final String title;
   final ActivityStepStatus status;
   final bool isEnabled;
-  final GestureTapCallback? onTap;
+  final Function()? onTap;
 
   const ActivityStepButton({
     Key? key,
-    required this.index,
     required this.title,
     required this.status,
     this.isEnabled = true,
@@ -60,27 +58,23 @@ class ActivityStepButton extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(index.toString())
-                  .withoutUnderLine()
-                  .textColor(AppThemeData.primaryColor)
-                  .fontWeight(FontWeightCompat.regular)
-                  .fontSize(16),
               Text(title)
                   .withoutUnderLine()
                   .textColor(AppThemeData.primaryColor)
                   .fontWeight(FontWeightCompat.regular)
                   .fontSize(16)
                   .paddingSymmetric(horizontal: 28),
-              const Expanded(child: SizedBox()),
-              Image.asset(
-                hasDone
-                    ? 'assets/images/activity/done.png'
-                    : 'assets/images/activity/arrow.png',
-                width: 16,
-                height: 16,
+              const Spacer(flex: 1),
+              Visibility(
+                visible: hasDone,
+                child: Image.asset(
+                  'assets/images/activity/done.png',
+                  width: 40,
+                  height: 40,
+                ),
               ),
             ],
-          ).paddingSymmetric(horizontal: 28),
+          ).paddingSymmetric(horizontal: 13),
         ),
       ),
     );

@@ -27,7 +27,6 @@ class ActivityStepView extends StatelessWidget {
     final List<Widget> contents = [];
     contents.add(
       ActivityStepButton(
-        index: index,
         title: step.title,
         status: step.status,
         onTap: onTap,

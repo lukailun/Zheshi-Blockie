@@ -6,6 +6,7 @@ url="https://s.blockie.zheshi.tech/app/"
 webhookUrl="https://open.feishu.cn/open-apis/bot/v2/hook/5c52cf8b-633b-4e84-a472-d008f2571ed8"
 gitBranch=$(git symbolic-ref --short -q HEAD)
 gitCommitId=$(git rev-parse --short HEAD)
+gitCommitMessage=$(git show --pretty=format:%s -s HEAD)
 
 if [ "$1" == "production" ]; then
   env=$1
@@ -23,4 +24,4 @@ if [ $env == "production" ]; then
 else
   scp -r ./build/web/* root@122.112.231.151:/apps/blockie_app/
 fi
-curl -X POST -H "Content-Type: application/json" -d '{"msg_type":"post","content":{"post":{"zh_cn":{"title":"New Update","content":[[{"tag":"a","text":"'$appName'","href":"'$url'"},{"tag":"text","text":" has been updated.\nbranch: '$gitBranch'\ncommit SHA: '$gitCommitId'"}]]}}}}' $webhookUrl
+curl -X POST -H "Content-Type: application/json" -d "{\"msg_type\":\"post\",\"content\":{\"post\":{\"zh_cn\":{\"title\":\"New Update\",\"content\":[[{\"tag\":\"a\",\"text\":\"$appName\",\"href\":\"$url\"},{\"tag\":\"text\",\"text\":\" has been updated.\nBranch: $gitBranch\nCommit ID: $gitCommitId\nCommit Message: $gitCommitMessage\"}]]}}}}" $webhookUrl

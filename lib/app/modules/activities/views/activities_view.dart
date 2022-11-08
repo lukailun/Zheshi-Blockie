@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/activities/views/activity_item_view.dart';
+import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
 import 'package:blockie_app/models/environment.dart';
 import 'package:dio_log/overlay_draggable_button.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ class _ActivitiesView extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
         final activity = activities[index];
-        return ActivityItemView(
+        return ActivitiesItemView(
           activity: activity,
           issuerOnTap: () =>
               issuerOnTap?.call(activities[index].issuer?.id ?? ''),

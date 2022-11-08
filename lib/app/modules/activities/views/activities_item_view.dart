@@ -10,12 +10,12 @@ import 'package:get/get.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 
-class ActivityItemView extends StatelessWidget {
+class ActivitiesItemView extends StatelessWidget {
   final Activity activity;
   final Function()? onTap;
   final Function()? issuerOnTap;
 
-  const ActivityItemView({
+  const ActivitiesItemView({
     super.key,
     required this.activity,
     this.onTap,

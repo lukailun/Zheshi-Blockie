@@ -4,6 +4,8 @@ import 'package:blockie_app/extensions/get_dialog_extension.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
+import 'package:blockie_app/widgets/segmented_control/segmented_control_button_item.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -15,18 +17,34 @@ import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
-class ActivityController extends GetxController {
+class ActivityController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final AccountRepository accountRepository;
   final ProjectRepository projectRepository;
   final activity = Rxn<Activity>();
-  final showsLogin = false.obs;
+  final selectedIndex = 0.obs;
 
   ActivityController({
     required this.accountRepository,
     required this.projectRepository,
   });
 
+  final List<SegmentedControlButtonItem> segmentedControlItems = [
+    SegmentedControlButtonItem(ID: 0, title: '球迷'),
+    SegmentedControlButtonItem(ID: 1, title: '完赛'),
+    SegmentedControlButtonItem(ID: 2, title: '获奖'),
+    SegmentedControlButtonItem(ID: 3, title: '观赛'),
+  ];
+  late TabController tabController;
+
   final _id = Get.parameters[ActivityParameter.id] as String;
+
+  @override
+  void onInit() {
+    super.onInit();
+    tabController =
+        TabController(length: segmentedControlItems.length, vsync: this);
+  }
 
   @override
   void onReady() {
