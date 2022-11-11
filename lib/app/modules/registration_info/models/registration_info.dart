@@ -14,11 +14,14 @@ class RegistrationInfo {
   bool hasSigned;
   @JsonKey(name: 'faces')
   List<FaceInfo> faceInfos;
+  @JsonKey(name: 'eg_number')
+  String exampleNumber;
 
   RegistrationInfo({
     required this.entryNumber,
     required this.faceInfos,
     required this.hasSigned,
+    required this.exampleNumber,
   });
 
   factory RegistrationInfo.fromJson(Map<String, dynamic> json) =>

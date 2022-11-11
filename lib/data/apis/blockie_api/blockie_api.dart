@@ -1,10 +1,14 @@
 // Package imports:
+import 'dart:convert';
+
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
+import 'package:blockie_app/app/modules/activities_management/models/paginated_managed_activities.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
 import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
@@ -47,18 +51,6 @@ class BlockieApi {
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
 
-  Future<ProjectDetails?> getProjectDetails(String id) async {
-    final url = _urlBuilder.buildGetProjectDetailsUrl(id);
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final projectDetails = ProjectDetails.fromJson(object);
-      return projectDetails;
-    } catch (error) {
-      return null;
-    }
-  }
-
   Future<NftInfo?> mint(String id) async {
     final url = _urlBuilder.buildMintUrl(id);
     final response = await _dio.post(url);
@@ -90,48 +82,6 @@ class BlockieApi {
       final Map<String, dynamic> object = _getResponseData(response);
       final shareInfo = ShareInfo.fromJson(object);
       return shareInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<RegistrationInfo?> getRegistrationInfo(String id) async {
-    final url = _urlBuilder.buildGetRegistrationInfoUrl(id);
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final registrationInfo = RegistrationInfo.fromJson(object);
-      return registrationInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<bool> updateRegistrationInfo(
-      String id, String number, bool isUpdate) async {
-    final url = _urlBuilder.buildUpdateRegistrationInfoUrl(id);
-
-    final requestData = {
-      'number': number,
-      'action': isUpdate ? 'update' : 'create',
-    };
-    final response = await _dio.post(url, data: requestData);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final registrationInfo = RegistrationInfo.fromJson(object);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  Future<Activity?> getActivity(String id) async {
-    final url = _urlBuilder.buildGetActivityUrl(id);
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final activity = Activity.fromJson(object);
-      return activity;
     } catch (error) {
       return null;
     }

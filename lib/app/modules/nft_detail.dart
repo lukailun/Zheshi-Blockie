@@ -168,18 +168,19 @@ class _NftPageState extends State<NftPage> {
     Widget brandInfo = Container(
       padding: const EdgeInsets.only(left: 22, right: 22, bottom: 13),
       child: GestureDetector(
-          onTap: () {
+          onTap: () async {
             final parameters = {
-              'issuerUid': _nftInfo!.issuer.uid,
+              'issuerUid': _nftInfo!.issuer.id,
             };
-            Get.toNamed(Routes.brand, parameters: parameters);
+            await Get.toNamed(Routes.brand, parameters: parameters);
+            _updateShareConfig(isDefaultConfig: false);
           },
           child: Row(
             children: [
               CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    _nftInfo!.issuer.logo,
+                    _nftInfo!.issuer.logoUrl ?? '',
                   )),
               Container(
                 padding: const EdgeInsets.only(left: 10),
@@ -374,9 +375,10 @@ class _NftPageState extends State<NftPage> {
   void goToShare() async {
     final parameters = {
       ShareParameter.id: _uid,
-      ShareParameter.isNFT: 'true',
+      ShareParameter.isNft: 'true',
     };
     await Get.toNamed(Routes.share, parameters: parameters);
+    _updateShareConfig(isDefaultConfig: false);
     _goneToShare = false;
   }
 

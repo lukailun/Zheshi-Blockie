@@ -24,29 +24,34 @@ class ActivitiesContainerView extends GetView<ActivitiesController> {
     if (Environment.isDevelopment) {
       showDebugBtn(context);
     }
-    return Obx(
-      () => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: BasicAppBar(
-          showsLogo: true,
-          avatar: _getAvatar(
-            user: controller.user.value,
-            avatarOnTap: controller.avatarOnTap,
+    return GetRouterOutlet.builder(
+      routerDelegate: Get.rootDelegate,
+      builder: (context, delegate, currentRoute) {
+        return Obx(
+          () => Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: BasicAppBar(
+              showsLogo: true,
+              avatar: _getAvatar(
+                user: controller.user.value,
+                avatarOnTap: controller.avatarOnTap,
+              ),
+            ),
+            body: () {
+              final activitiesValue = controller.activities.value;
+              if (activitiesValue == null) {
+                return const LoadingIndicator();
+              } else {
+                return _ActivitiesView(
+                  activities: activitiesValue,
+                  itemOnTap: (id) => controller.goToActivity(delegate, id),
+                  issuerOnTap: controller.goToBrand,
+                );
+              }
+            }(),
           ),
-        ),
-        body: () {
-          final activitiesValue = controller.activities.value;
-          if (activitiesValue == null) {
-            return const LoadingIndicator();
-          } else {
-            return _ActivitiesView(
-              activities: activitiesValue,
-              itemOnTap: controller.goToActivity,
-              issuerOnTap: controller.goToBrand,
-            );
-          }
-        }(),
-      ),
+        );
+      },
     );
   }
 

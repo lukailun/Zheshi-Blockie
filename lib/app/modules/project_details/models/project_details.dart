@@ -17,12 +17,12 @@ class ProjectDetails {
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'summary')
-  final String summary;
+  final String? summary;
   @JsonKey(name: 'description')
   final String description;
   @JsonKey(name: 'introduction')
   final String introduction;
-  @JsonKey(name: 'cover')
+  @JsonKey(name: 'cover_path')
   final String coverPath;
   @JsonKey(name: 'images')
   final List<String> imagePaths;
@@ -54,8 +54,8 @@ class ProjectDetails {
   final Issuer issuer;
   @JsonKey(name: 'content')
   final ProjectDetailsExtraInfo extraInfo;
-  @JsonKey(name: 'group_uid')
-  final String? activityId;
+  @JsonKey(name: 'activity_uid')
+  final String activityId;
 
   const ProjectDetails({
     required this.name,
@@ -89,14 +89,20 @@ class ProjectDetails {
         if (startedTimestamp <= 0) {
           return null;
         }
-        return DateTimeUtils.dateTimeStringFromTimestamp(startedTimestamp);
+        return DateTimeUtils.dateTimeStringFromTimestamp(
+          timestamp: startedTimestamp,
+          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM_SS,
+        );
       }();
 
   String? get endedTime => () {
         if (endedTimestamp <= 0) {
           return null;
         }
-        return DateTimeUtils.dateTimeStringFromTimestamp(endedTimestamp);
+        return DateTimeUtils.dateTimeStringFromTimestamp(
+          timestamp: endedTimestamp,
+          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM_SS,
+        );
       }();
 
   ProjectStatus get status => () {

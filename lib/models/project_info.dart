@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'global.dart';
 
 class ProjectInfo {
@@ -8,7 +8,7 @@ class ProjectInfo {
   final String summary;
   final int totalAmount;
   final String uid;
-  final IssuerInfo issuer;
+  final Issuer issuer;
 
   const ProjectInfo(
       {required this.cover,
@@ -25,6 +25,6 @@ class ProjectInfo {
         summary: json['summary'],
         totalAmount: json['total_amount'],
         uid: json['uid'],
-        issuer: IssuerInfo.fromJson(json['issuer']));
+        issuer: Issuer.fromJson(json['issuer']));
   }
 }

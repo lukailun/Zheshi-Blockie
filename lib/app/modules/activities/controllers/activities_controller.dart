@@ -37,7 +37,7 @@ class ActivitiesController extends GetxController {
     activities.value = paginatedActivities?.activities;
   }
 
-  void goToActivity(String id) {
+  void goToActivity(GetDelegate delegate, String id) {
     final parameters = {ActivityParameter.id: id};
     Get.toNamed(Routes.activity, parameters: parameters);
   }

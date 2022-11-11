@@ -32,7 +32,7 @@ class ActivitiesItemView extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: CachedNetworkImage(
-              imageUrl: activity.issuer?.avatarUrl ?? '',
+              imageUrl: activity.issuer.avatarUrl,
               width: 32,
               height: 32,
               fit: BoxFit.contain,
@@ -40,7 +40,7 @@ class ActivitiesItemView extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              activity.issuer?.name ?? '',
+              activity.issuer.name,
               maxLines: 2,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
@@ -57,6 +57,7 @@ class ActivitiesItemView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Visibility(
+          visible: !activity.isOnline && activity.location.isNotEmpty,
           child: Image.asset(
             'assets/images/activities/location.png',
             width: 10,
@@ -66,7 +67,7 @@ class ActivitiesItemView extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            '上海 ·徐汇',
+            activity.location,
             overflow: TextOverflow.ellipsis,
           )
               .fontSize(12)
@@ -81,7 +82,7 @@ class ActivitiesItemView extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            '9月30日 周六 18:00',
+            activity.startedTime ?? '',
             overflow: TextOverflow.ellipsis,
           )
               .fontSize(12)
@@ -94,87 +95,59 @@ class ActivitiesItemView extends StatelessWidget {
     final title = Text(
       activity.name,
       maxLines: 100,
+      style: const TextStyle(fontWeight: FontWeight.bold),
     ).fontSize(26).textColor(Colors.white).paddingSymmetric(vertical: 9);
-    final benefits = Wrap(
-      spacing: 11,
-      runSpacing: 11,
-      children: [
-        SizedBox(
-          height: 25,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                '可获权益',
-              ).fontSize(12).textColor(AppThemeData.secondaryColor),
-            ],
-          ),
-        ),
-        Container(
-          height: 25,
-          decoration: const BoxDecoration(
-              color: AppThemeData.secondaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(12.5))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'NFT',
-              )
-                  .fontSize(12)
-                  .fontWeight(FontWeightCompat.bold)
-                  .textColor(AppThemeData.primaryColor)
-                  .paddingSymmetric(horizontal: 10),
-            ],
-          ),
-        ),
-        Container(
-          height: 25,
-          decoration: const BoxDecoration(
-              color: AppThemeData.secondaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(12.5))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '500RMB',
-              )
-                  .fontSize(12)
-                  .fontWeight(FontWeightCompat.bold)
-                  .textColor(AppThemeData.primaryColor)
-                  .paddingSymmetric(horizontal: 10),
-            ],
-          ),
-        ),
-        Container(
-          height: 25,
-          decoration: const BoxDecoration(
-              color: AppThemeData.secondaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(12.5))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '实体礼品',
-              )
-                  .fontSize(12)
-                  .fontWeight(FontWeightCompat.bold)
-                  .textColor(AppThemeData.primaryColor)
-                  .paddingSymmetric(horizontal: 10),
-            ],
-          ),
-        ),
-      ],
-    ).paddingOnly(bottom: 34);
-    final cover = CachedNetworkImage(
-      imageUrl: activity.projects.first.coverUrl ?? '',
-      width: 150,
-      height: 150,
-      fit: BoxFit.cover,
+    final benefits = Visibility(
+      visible: activity.benefits.isNotEmpty,
+      child: Wrap(
+        spacing: 11,
+        runSpacing: 11,
+        children: [
+              Container(
+                height: 25,
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '可获权益',
+                    ).fontSize(12).textColor(AppThemeData.secondaryColor),
+                  ],
+                ),
+              ),
+            ] +
+            activity.benefits.map((it) {
+              return Container(
+                height: 25,
+                decoration: const BoxDecoration(
+                    color: AppThemeData.secondaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(12.5))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      it,
+                    )
+                        .fontSize(12)
+                        .fontWeight(FontWeightCompat.bold)
+                        .textColor(AppThemeData.primaryColor)
+                        .paddingSymmetric(horizontal: 10),
+                  ],
+                ),
+              );
+            }).toList(),
+      ).paddingOnly(bottom: 34),
+    );
+    final cover = Visibility(
+      visible: (activity.coverUrl ?? '').isNotEmpty,
+      child: CachedNetworkImage(
+        imageUrl: activity.coverUrl ?? '',
+        width: 150,
+        height: 150,
+        fit: BoxFit.cover,
+      ),
     );
     return GestureDetector(
       onTap: onTap,
@@ -190,7 +163,10 @@ class ActivitiesItemView extends StatelessWidget {
               title,
               benefits,
             ],
-          ).paddingSymmetric(horizontal: 20).outlined().paddingOnly(top: 47),
+          )
+              .paddingSymmetric(horizontal: 20)
+              .outlined()
+              .paddingOnly(top: (activity.coverUrl ?? '').isNotEmpty ? 47 : 0),
           Positioned(
             width: 150,
             height: 150,

@@ -15,14 +15,29 @@ import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
+extension GetDialogExtension on GetInterface {
+  void projectDetailsMintedNftDialog({
+    required NftInfo nft,
+    Function()? buttonOnTap,
+  }) {
+    Get.dialog(
+      ProjectDetailsMintedNftDialog(
+        nft: nft,
+        buttonOnTap: buttonOnTap,
+      ),
+      barrierColor: AppThemeData.barrierColor,
+    );
+  }
+}
+
 class ProjectDetailsMintedNftDialog extends StatelessWidget {
   final NftInfo nft;
-  final VoidCallback buttonOnTap;
+  final Function()? buttonOnTap;
 
   const ProjectDetailsMintedNftDialog({
     super.key,
     required this.nft,
-    required this.buttonOnTap,
+    this.buttonOnTap,
   });
 
   @override

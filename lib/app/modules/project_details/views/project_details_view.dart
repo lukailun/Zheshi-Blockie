@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
-import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
+import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_cover_view.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_footer_view.dart';
@@ -48,18 +48,12 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
           Get.offNamed(Routes.profile, parameters: parameters);
         },
       ),
+      AppBarButtonItem(
+        title: '活动规则',
+        assetName: "assets/images/app_bar/info.png",
+        onTap: controller.goToActivity,
+      ),
     ];
-    final showsRule =
-        Get.parameters[ProjectDetailsParameter.showsRule] as String;
-    if (showsRule == 'true') {
-      menuItems.add(
-        AppBarButtonItem(
-          title: '活动规则',
-          assetName: "assets/images/app_bar/info.png",
-          onTap: controller.goToActivity,
-        ),
-      );
-    }
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.transparent,

@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 
 class WebViewView extends GetView<WebViewController> {

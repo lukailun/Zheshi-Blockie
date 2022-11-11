@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activities/models/project.dart';
+import 'package:blockie_app/app/modules/activities_management/models/project.dart';
 import 'package:blockie_app/data/apis/models/issuer.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';

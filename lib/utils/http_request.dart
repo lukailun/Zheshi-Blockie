@@ -7,9 +7,8 @@ import 'package:dio/dio.dart';
 // Project imports:
 import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/models/nft_load_info.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/models/user_info.dart';
@@ -21,9 +20,7 @@ const commandPath = "/api/v1";
 const loginCommand = "/login";
 const getUserInfoCommand = "/user";
 const getOtherUserInfoCommand = "/users";
-const getProjectsCommand = "/activities";
 const getIssuerInfoCommand = "/issuers";
-const getUserQRCodeCommand = "/qrcode";
 const getUserNftListCommand = "/NFTs";
 
 class HttpRequest {
@@ -72,28 +69,13 @@ class HttpRequest {
     }
   }
 
-  static Future<UserInfo> getOtherUserInfo(String uid) async {
-    final url = Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: "$commandPath$getOtherUserInfoCommand/$uid");
-    final response = await dio.getUri(url);
-    if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      UserInfo userInfo = UserInfo.fromJson(res);
-      return userInfo;
-    } else {
-      throw Exception('Failed to get user info');
-    }
-  }
-
   static Future<ProjectGroupLoadInfo> loadBrandGroups(
       {String? pageUrl, String? issuerUid}) async {
     final url = pageUrl == null
         ? Uri(
             scheme: scheme,
             host: serverHost,
-            path: commandPath + getProjectsCommand,
+            path: '$commandPath/groups',
             queryParameters: {'issuer_uid': issuerUid})
         : Uri.parse(pageUrl);
     final response = await dio.getUri(url);
@@ -111,50 +93,7 @@ class HttpRequest {
     }
   }
 
-  static Future<ProjectGroupLoadInfo> loadProjectGroups(
-      {String? pageUrl}) async {
-    final url = pageUrl == null
-        ? Uri(
-            scheme: scheme,
-            host: serverHost,
-            path: commandPath + getProjectsCommand)
-        : Uri.parse(pageUrl);
-    final response = await dio.getUri(url);
-    if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      String? nextPageUrl = res['next_page_url'];
-      List<ProjectGroup> projectGroups = [];
-      for (final data in res['data']) {
-        projectGroups.add(ProjectGroup.fromJson(data));
-      }
-      return ProjectGroupLoadInfo(
-          nextPageUrl: nextPageUrl, projectGroups: projectGroups);
-    } else {
-      throw Exception('Failed to get project groups');
-    }
-  }
-
-  static Future<ProjectGroup> loadProjectGroup(
-      {required String groupUid}) async {
-    final url = Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + getProjectsCommand,
-        queryParameters: {'group_uid': groupUid});
-    final response = await dio.getUri(url);
-    if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      if (res['data'].length > 0) {
-        return ProjectGroup.fromJson(res['data'][0]);
-      } else {
-        throw Exception('Failed to get project group');
-      }
-    } else {
-      throw Exception('Failed to get project group');
-    }
-  }
-
-  static Future<IssuerInfo> loadIssuerDetail({required String uid}) async {
+  static Future<Issuer> loadIssuerDetail({required String uid}) async {
     final url = Uri(
         scheme: scheme,
         host: serverHost,
@@ -162,47 +101,9 @@ class HttpRequest {
     final response = await dio.getUri(url);
     if (response.statusCode == 200) {
       final res = HttpRequest._getResponseData(response);
-      return IssuerInfo.fromJson(res);
+      return Issuer.fromJson(res);
     } else {
       throw Exception('Failed to get issuer detail');
-    }
-  }
-
-  static Future<String> getUserQRCode(String token) async {
-    final url = Uri(
-        scheme: scheme,
-        host: serverHost,
-        path: commandPath + getUserQRCodeCommand);
-    final response = await dio.getUri(url,
-        options: Options(headers: {'Authorization': 'Bearer $token'}));
-    if (response.statusCode == 200) {
-      String qrcode = HttpRequest._getResponseData(response);
-      return qrcode;
-    } else {
-      throw Exception('Failed to get qrcode');
-    }
-  }
-
-  static Future<NftLoadInfo> loadUserNfts(
-      {String? userUid, String? pageUrl}) async {
-    final url = pageUrl == null
-        ? Uri(
-            scheme: scheme,
-            host: serverHost,
-            path: commandPath + getUserNftListCommand,
-            queryParameters: userUid == null ? null : {'user_uid': userUid})
-        : Uri.parse(pageUrl);
-    final response = await dio.getUri(url);
-    if (response.statusCode == 200) {
-      final res = HttpRequest._getResponseData(response);
-      final String? nextPageUrl = res['next_page_url'];
-      List<NftInfo> nfts = [];
-      for (final data in res['data']) {
-        nfts.add(NftInfo.fromJson(data));
-      }
-      return NftLoadInfo(nextPageUrl: nextPageUrl, nfts: nfts);
-    } else {
-      throw Exception('Failed to get NFT list');
     }
   }
 

@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activities/models/activity.dart';
-import 'package:blockie_app/app/modules/activities/models/project.dart';
+import 'package:blockie_app/app/modules/activities_management/models/activity.dart';
+import 'package:blockie_app/app/modules/activities_management/models/project.dart';
 import 'package:blockie_app/app/modules/add_whitelist/controllers/add_whitelist_controller.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/controllers/airdrop_nft_controller.dart';
 import 'package:blockie_app/app/modules/hold_verification/controllers/hold_verification_controller.dart';

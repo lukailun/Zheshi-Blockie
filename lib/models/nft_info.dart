@@ -1,6 +1,6 @@
 // Project imports:
 import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/user_info.dart';
 
 class NftInfo {
@@ -18,7 +18,7 @@ class NftInfo {
   final String projectName;
   final String projectSummary;
   final int projectAmount;
-  final IssuerInfo issuer;
+  final Issuer issuer;
   final UserInfo user;
 
   NftInfo(
@@ -55,7 +55,7 @@ class NftInfo {
         projectSummary: json['activity']['summary'],
         projectContract: json['activity']['contract'],
         projectAmount: json['activity']['total_amount'],
-        issuer: IssuerInfo.fromJson(json['issuer']),
+        issuer: Issuer.fromJson(json['issuer']),
         user: UserInfo.fromJson(json['user']));
   }
 }

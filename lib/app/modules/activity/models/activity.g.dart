@@ -8,20 +8,21 @@ part of 'activity.dart';
 
 Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       name: json['name'] as String,
-      summary: json['summary'] as String,
-      description: json['description'] as String,
       id: json['uid'] as String,
-      steps: (json['poster_components'] as List<dynamic>)
-          .map((e) => ActivityStep.fromJson(e as Map<String, dynamic>))
+      subactivityPreviews: (json['activities'] as List<dynamic>)
+          .map((e) => SubactivityPreview.fromJson(e as Map<String, dynamic>))
           .toList(),
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
+      coverPath: json['cover_path'] as String,
+      summary: json['summary'] as String,
     );
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'name': instance.name,
-      'summary': instance.summary,
-      'description': instance.description,
       'uid': instance.id,
-      'poster_components': instance.steps.map((e) => e.toJson()).toList(),
+      'activities':
+          instance.subactivityPreviews.map((e) => e.toJson()).toList(),
       'issuer': instance.issuer.toJson(),
+      'cover_path': instance.coverPath,
+      'summary': instance.summary,
     };

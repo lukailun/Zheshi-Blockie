@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -51,18 +52,27 @@ class UpdateLabelsDialog extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
                   color: const Color(0x4DFFFFFF),
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                        top: 20, bottom: 10, left: 10, right: 10),
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 5,
-                    children: labels
-                        .map((it) => GestureDetector(
-                              onTap: () => labelOnTap?.call(it.id),
-                              child: LabelView(label: it),
-                            ))
-                        .toList(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('选择你感兴趣的项目')
+                          .fontSize(10)
+                          .textColor(Colors.black)
+                          .paddingOnly(left: 22, right: 22, top: 22),
+                      GridView.count(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(
+                            top: 20, bottom: 10, left: 10, right: 10),
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 5,
+                        children: labels
+                            .map((it) => GestureDetector(
+                                  onTap: () => labelOnTap?.call(it.id),
+                                  child: LabelView(label: it),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                   ),
                 ),
               ),

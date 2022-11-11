@@ -1,6 +1,7 @@
 // Project imports:
 import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
@@ -16,7 +17,13 @@ class ProjectRepository {
 
   Future<PaginatedActivities?> getActivities() => remoteApi.getActivities();
 
+  Future<PaginatedActivities?> getBrandActivities(String id) =>
+      remoteApi.getBrandActivities(id);
+
   Future<Activity?> getActivity(String id) => remoteApi.getActivity(id);
+
+  Future<Subactivity?> getSubactivity(String id) =>
+      remoteApi.getSubactivity(id);
 
   Future<RegistrationInfo?> getRegistrationInfo(String id) =>
       remoteApi.getRegistrationInfo(id);

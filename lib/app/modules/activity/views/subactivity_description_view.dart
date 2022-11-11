@@ -8,11 +8,11 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 
-class ActivityDescriptionView extends StatelessWidget {
+class SubactivityDescriptionView extends StatelessWidget {
   final String title;
   final String description;
 
-  const ActivityDescriptionView({
+  const SubactivityDescriptionView({
     super.key,
     required this.title,
     required this.description,
@@ -30,9 +30,15 @@ class ActivityDescriptionView extends StatelessWidget {
               .fontSize(18)
               .fontWeight(FontWeightCompat.bold)
               .paddingOnly(bottom: 11),
-          Text(description.formatted)
-              .textColor(const Color(0xFFF1F1F1))
-              .fontSize(12),
+          Text(
+              description.formatted,
+              style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.7,
+                  color: Color(0xFFF1F1F1)
+              )
+          )
+
         ],
       ),
     )

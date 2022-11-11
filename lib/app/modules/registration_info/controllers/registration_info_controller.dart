@@ -16,6 +16,7 @@ class RegistrationInfoController extends GetxController {
   final newEntryNumber = ''.obs;
   bool isUpdate = false;
   final faceInfos = <FaceInfo>[].obs;
+  final exampleNumber = ''.obs;
 
   final _id = Get.parameters[RegistrationInfoParameter.id] as String;
 
@@ -59,6 +60,7 @@ class RegistrationInfoController extends GetxController {
     }
     initialEntryNumber.value = registrationInfo.entryNumber;
     faceInfos.value = registrationInfo.faceInfos;
+    exampleNumber.value = registrationInfo.exampleNumber;
     isUpdate = registrationInfo.hasSigned;
   }
 

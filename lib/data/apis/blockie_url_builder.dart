@@ -24,11 +24,13 @@ class BlockieUrlBuilder {
 
   String buildGetOtherUserInfoUrl() => '$_baseUrl/users';
 
-  String buildGetActivitiesUrl() => '$_baseUrl/activities';
+  String buildGetActivitiesUrl() => '$_baseUrl/groups';
 
-  String buildGetProjectDetailsUrl(String id) => '$_baseUrl/activities/$id';
+  String buildGetBrandActivitiesUrl(String id) => '$_baseUrl/groups/$id';
 
-  String buildMintUrl(String id) => '$_baseUrl/activities/$id/mint';
+  String buildGetProjectDetailsUrl(String id) => '$_baseUrl/rights/$id';
+
+  String buildMintUrl(String id) => '$_baseUrl/rights/$id/mint';
 
   String buildGetIssuerInfoUrl() => '$_baseUrl/issuers';
 
@@ -42,16 +44,19 @@ class BlockieUrlBuilder {
 
   String buildDeleteFacePhotoUrl(String faceID) => '$_baseUrl/faces/$faceID';
 
-  String buildGetActivityUrl(String id) => '$_baseUrl/groups/$id/poster';
+  String buildGetActivityUrl(String id) => '$_baseUrl/groups/$id/activities';
+
+  String buildGetSubactivityUrl(String id) =>
+      '$_baseUrl/activities/$id/tutorial';
 
   String buildGetRegistrationInfoUrl(String id) =>
-      '$_baseUrl/groups/$id/workout';
+      '$_baseUrl/activity/$id/workout';
 
   String buildUpdateRegistrationInfoUrl(String id) =>
-      '$_baseUrl/groups/$id/workout';
+      '$_baseUrl/activity/$id/workout';
 
   String buildGetProjectDetailsShareInfoUrl(String id) =>
-      '$_baseUrl/activities/$id/poster';
+      '$_baseUrl/rights/$id/poster';
 
   String buildGetNftDetailsShareInfoUrl(String id) =>
       '$_baseUrl/NFTs/$id/poster';

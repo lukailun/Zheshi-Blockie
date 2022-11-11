@@ -16,9 +16,10 @@ class ShareController extends GetxController {
   final selectedIndex = 0.obs;
   final posterPath = "".obs;
   final path = "".obs;
+  String videoPath = '';
 
-  final _id = Get.parameters[ShareParameter.id] ?? '';
-  final _isNFT = Get.parameters[ShareParameter.isNFT] ?? '';
+  final id = Get.parameters[ShareParameter.id] ?? '';
+  final isNft = Get.parameters[ShareParameter.isNft] ?? '';
 
   @override
   void onInit() {
@@ -26,7 +27,7 @@ class ShareController extends GetxController {
     const info = ShareType.info;
     const image = ShareType.image;
     const poster = ShareType.poster;
-    if (_isNFT == 'true') {
+    if (isNft == 'true') {
       segmentedControlItems = [
         SegmentedControlButtonItem(ID: info.ID, title: info.title),
         SegmentedControlButtonItem(ID: image.ID, title: image.title),
@@ -41,7 +42,7 @@ class ShareController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    if (_isNFT == 'true') {
+    if (isNft == 'true') {
       _getNFTDetailsShareInfo();
     } else {
       _getProjectDetailsShareInfo();
@@ -49,19 +50,25 @@ class ShareController extends GetxController {
   }
 
   void _getProjectDetailsShareInfo() async {
-    final shareInfo = await repository.getProjectDetailsShareInfo(_id);
+    final shareInfo = await repository.getProjectDetailsShareInfo(id);
     posterPath.value = shareInfo?.posterPath ?? '';
     path.value = shareInfo?.path ?? '';
   }
 
   void _getNFTDetailsShareInfo() async {
-    final shareInfo = await repository.getNFTDetailsShareInfo(_id);
+    final shareInfo = await repository.getNFTDetailsShareInfo(id);
     posterPath.value = shareInfo?.posterPath ?? '';
     path.value = shareInfo?.path ?? '';
+    if ((shareInfo?.videoPath ?? '').isNotEmpty) {
+      videoPath = shareInfo?.videoPath ?? '';
+      const video = ShareType.video;
+      segmentedControlItems.insert(
+          0, SegmentedControlButtonItem(ID: video.ID, title: video.title));
+    }
   }
 }
 
 class ShareParameter {
   static const id = "id";
-  static const isNFT = "isNFT";
+  static const isNft = "isNft";
 }

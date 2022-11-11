@@ -9,10 +9,13 @@ class ShareInfo {
   String posterPath;
   @JsonKey(name: 'raw_path')
   String path;
+  @JsonKey(name: 'video_path')
+  String? videoPath;
 
   ShareInfo({
     required this.posterPath,
     required this.path,
+    this.videoPath,
   });
 
   factory ShareInfo.fromJson(Map<String, dynamic> json) =>

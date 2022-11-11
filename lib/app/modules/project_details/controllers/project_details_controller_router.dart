@@ -29,8 +29,8 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
 
   void goToShare() {
     final parameters = {
-      ShareParameter.id: _id,
-      ShareParameter.isNFT: 'false',
+      ShareParameter.id: id,
+      ShareParameter.isNft: 'false',
     };
     Get.toNamed(Routes.share, parameters: parameters);
   }
@@ -77,18 +77,13 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
     if (nft == null) {
       return;
     }
-    Get.dialog(
-      ProjectDetailsMintedNftDialog(
-        nft: nft,
-        buttonOnTap: () {
-          Get.back();
-          final parameters = {
-            "uid": nft.uid,
-          };
-          Get.toNamed(Routes.nft, parameters: parameters);
-        },
-      ),
-      barrierColor: const Color(0x80FFFFFF),
+    Get.projectDetailsMintedNftDialog(
+      nft: nft,
+      buttonOnTap: () {
+        Get.back();
+        final parameters = {"uid": nft.uid};
+        Get.toNamed(Routes.nft, parameters: parameters);
+      },
     );
   }
 }

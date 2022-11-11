@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
+import 'package:blockie_app/app/modules/activities_management/models/paginated_managed_activities.dart';
 import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/app/modules/hold_verification/models/hold_verification_details.dart';
@@ -13,7 +13,7 @@ class ProjectsManagementRepository {
     required this.remoteApi,
   });
 
-  Future<PaginatedActivities?> getManagedActivities() =>
+  Future<PaginatedManagedActivities?> getManagedActivities() =>
       remoteApi.getManagedActivities();
 
   Future<TicketCheckingDetails?> getTicketCheckingDetails({

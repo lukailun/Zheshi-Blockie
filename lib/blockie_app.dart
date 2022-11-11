@@ -28,6 +28,7 @@ class BlockieApp extends StatelessWidget {
         getPages: AppPages.routes,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.activities,
+        defaultTransition: Transition.cupertino,
         theme: ThemeData(
           appBarTheme: const AppBarTheme(elevation: 0),
           fontFamily: "--apple-system",

@@ -13,6 +13,7 @@ RegistrationInfo _$RegistrationInfoFromJson(Map<String, dynamic> json) =>
           .map((e) => FaceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       hasSigned: json['is_signed'] as bool,
+      exampleNumber: json['eg_number'] as String,
     );
 
 Map<String, dynamic> _$RegistrationInfoToJson(RegistrationInfo instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$RegistrationInfoToJson(RegistrationInfo instance) =>
       'number': instance.entryNumber,
       'is_signed': instance.hasSigned,
       'faces': instance.faceInfos.map((e) => e.toJson()).toList(),
+      'eg_number': instance.exampleNumber,
     };

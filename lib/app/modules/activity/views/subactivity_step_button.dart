@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -6,27 +7,27 @@ import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/activity_step.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 
-class ActivityStepButton extends StatelessWidget {
+class SubactivityStepButton extends StatelessWidget {
   final String title;
-  final ActivityStepStatus status;
+  final String? iconUrl;
+  final bool isCompleted;
   final bool isEnabled;
   final Function()? onTap;
 
-  const ActivityStepButton({
+  const SubactivityStepButton({
     Key? key,
     required this.title,
-    required this.status,
+    required this.iconUrl,
+    required this.isCompleted,
     this.isEnabled = true,
     this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final hasDone = status == ActivityStepStatus.done;
     return PointerInterceptor(
       child: GestureDetector(
         onTap: isEnabled ? onTap : null,
@@ -58,15 +59,23 @@ class ActivityStepButton extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Opacity(
+                opacity: (iconUrl ?? '').isNotEmpty ? 1 : 0,
+                child: CachedNetworkImage(
+                  imageUrl: iconUrl ?? '',
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                ),
+              ),
               Text(title)
-                  .withoutUnderLine()
                   .textColor(AppThemeData.primaryColor)
                   .fontWeight(FontWeightCompat.regular)
                   .fontSize(16)
-                  .paddingSymmetric(horizontal: 28),
+                  .paddingSymmetric(horizontal: 12),
               const Spacer(flex: 1),
               Visibility(
-                visible: hasDone,
+                visible: isCompleted,
                 child: Image.asset(
                   'assets/images/activity/done.png',
                   width: 40,
@@ -74,7 +83,7 @@ class ActivityStepButton extends StatelessWidget {
                 ),
               ),
             ],
-          ).paddingSymmetric(horizontal: 13),
+          ).paddingSymmetric(horizontal: 12),
         ),
       ),
     );

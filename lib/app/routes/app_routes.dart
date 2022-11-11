@@ -1,6 +1,7 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
+  static const initial = '/';
   static const activities = '/activities';
   static const activity = '/activity';
   static const brand = '/brand';
@@ -22,4 +23,5 @@ abstract class Routes {
   static const webView = '/web_view';
   static const profile = '/profile';
   static const share = '/share';
+  static const previewVideo = '/preview_video';
 }

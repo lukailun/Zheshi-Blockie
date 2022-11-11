@@ -1,13 +1,13 @@
 part of 'blockie_api.dart';
 
 extension BlockieApiProjectsManagement on BlockieApi {
-  Future<PaginatedActivities?> getManagedActivities() async {
+  Future<PaginatedManagedActivities?> getManagedActivities() async {
     final url = _urlBuilder.buildGetManagedActivitiesUrl();
     final response = await _dio.get(url);
     try {
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final paginatedActivities = PaginatedActivities.fromJson(object);
-      return paginatedActivities;
+      final paginatedManagedActivities = PaginatedManagedActivities.fromJson(object);
+      return paginatedManagedActivities;
     } catch (error) {
       return null;
     }

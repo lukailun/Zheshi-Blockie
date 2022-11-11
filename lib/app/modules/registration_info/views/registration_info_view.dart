@@ -47,7 +47,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
         child: Obx(
           () => BasicTextField(
             autofocus: false,
-            hintText: "如：K9901",
+            hintText: '如：${controller.exampleNumber.value}',
             showsUnderline: true,
             text: controller.initialEntryNumber.value,
             onValueChanged: (text) => controller.newEntryNumber.value = text,

@@ -12,7 +12,7 @@ import 'package:blockie_app/app/modules/activity/controllers/activity_controller
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_info.dart';
 
@@ -47,10 +47,7 @@ Widget createProjectItemSingle(ProjectInfo info,
     {Function? whenBack, bool showBrand = true}) {
   return GestureDetector(
       onTap: () {
-        final parameters = {
-          ProjectDetailsParameter.id: info.uid,
-          ProjectDetailsParameter.showsRule: 'false',
-        };
+        final parameters = {ProjectDetailsParameter.id: info.uid};
         Get.toNamed(Routes.projectDetails, parameters: parameters)?.then((_) {
           whenBack?.call();
         });
@@ -80,7 +77,7 @@ class ProjectItem extends StatelessWidget {
     }
 
     bool isGroup = projectGroup != null;
-    IssuerInfo issuer =
+    Issuer issuer =
         isGroup ? projectGroup!.projects[0].issuer : projectInfo!.issuer;
     String name = isGroup ? projectGroup!.name : projectInfo!.name;
     String summary = isGroup ? projectGroup!.summary : projectInfo!.summary;
@@ -204,7 +201,7 @@ class ProjectItem extends StatelessWidget {
             ? GestureDetector(
                 onTap: () {
                   final parameters = {
-                    'issuerUid': issuer.uid,
+                    'issuerUid': issuer.id,
                   };
                   Get.toNamed(Routes.brand, parameters: parameters);
                 },
@@ -212,7 +209,7 @@ class ProjectItem extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: NetworkImage(issuer.logo),
+                      backgroundImage: NetworkImage(issuer.logoUrl ?? ''),
                     ),
                     const SizedBox(
                       width: 7,

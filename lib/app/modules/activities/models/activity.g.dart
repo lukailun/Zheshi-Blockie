@@ -9,23 +9,22 @@ part of 'activity.dart';
 Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       id: json['uid'] as String,
       name: json['name'] as String,
-      summary: json['summary'] as String?,
-      description: json['description'] as String?,
-      projects: (json['activities'] as List<dynamic>)
-          .map((e) => Project.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      issuer: json['issuer'] == null
-          ? null
-          : Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
-      typeValue: json['type'] as int,
+      location: json['address'] as String,
+      isOnline: json['is_online'] as bool,
+      coverPath: json['cover_path'] as String,
+      benefits:
+          (json['rights'] as List<dynamic>).map((e) => e as String).toList(),
+      issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
+      startedTimestamp: json['started_at'] as int,
     );
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'uid': instance.id,
       'name': instance.name,
-      'summary': instance.summary,
-      'description': instance.description,
-      'activities': instance.projects.map((e) => e.toJson()).toList(),
-      'issuer': instance.issuer?.toJson(),
-      'type': instance.typeValue,
+      'address': instance.location,
+      'is_online': instance.isOnline,
+      'cover_path': instance.coverPath,
+      'rights': instance.benefits,
+      'issuer': instance.issuer.toJson(),
+      'started_at': instance.startedTimestamp,
     };

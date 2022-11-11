@@ -9,10 +9,10 @@ part of 'project_details.dart';
 ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
     ProjectDetails(
       name: json['name'] as String,
-      summary: json['summary'] as String,
+      summary: json['summary'] as String?,
       description: json['description'] as String,
       introduction: json['introduction'] as String,
-      coverPath: json['cover'] as String,
+      coverPath: json['cover_path'] as String,
       imagePaths:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
       totalAmount: json['total_amount'] as int,
@@ -30,7 +30,7 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
       extraInfo: ProjectDetailsExtraInfo.fromJson(
           json['content'] as Map<String, dynamic>),
-      activityId: json['group_uid'] as String?,
+      activityId: json['activity_uid'] as String,
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -39,7 +39,7 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'summary': instance.summary,
       'description': instance.description,
       'introduction': instance.introduction,
-      'cover': instance.coverPath,
+      'cover_path': instance.coverPath,
       'images': instance.imagePaths,
       'total_amount': instance.totalAmount,
       'started_at': instance.startedTimestamp,
@@ -55,5 +55,5 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'uid': instance.id,
       'issuer': instance.issuer.toJson(),
       'content': instance.extraInfo.toJson(),
-      'group_uid': instance.activityId,
+      'activity_uid': instance.activityId,
     };

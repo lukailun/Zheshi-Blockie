@@ -47,7 +47,7 @@ class LicenseDialog extends StatelessWidget {
               const Text('用户协议及隐私政策')
                   .textColor(Colors.white)
                   .fontSize(18)
-                  .paddingSymmetric(vertical: 10),
+                  .paddingSymmetric(vertical: 15),
               Center(
                 child: RichText(
                   text: TextSpan(children: [
@@ -72,13 +72,18 @@ class LicenseDialog extends StatelessWidget {
                   ]),
                 ).paddingSymmetric(horizontal: 14, vertical: 19),
               ).outlined(),
-              BasicElevatedButton(
-                title: '同意并注册/登录',
-                backgroundColor: Colors.white,
-                textColor: AppThemeData.primaryColor,
-                borderRadius: 8,
-                onTap: onPositiveButtonTap,
-              ).paddingOnly(top: 23),
+              SizedBox(
+                height: 70,
+                child: BasicElevatedButton(
+                  title: '同意并注册/登录',
+                  backgroundColor: Colors.white,
+                  textColor: AppThemeData.primaryColor,
+                  textFontSize: 17,
+                  borderRadius: 8,
+                  onTap: onPositiveButtonTap,
+                ).paddingOnly(top: 23),
+              ),
+
               BasicElevatedButton(
                 title: '不同意',
                 showsBorder: false,

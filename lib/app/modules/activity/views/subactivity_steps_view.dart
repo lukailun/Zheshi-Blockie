@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
+import 'package:blockie_app/app/modules/activity/models/subactivity_step.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -6,43 +8,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/views/activity_step_button.dart';
+import 'package:blockie_app/app/modules/activity/views/subactivity_step_button.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import '../models/activity_step.dart';
 
-class ActivityStepsView extends StatelessWidget {
-  final String title;
-  final List<ActivityStep> steps;
-  final Function(ActivityStep)? onTap;
+class SubactivityStepsView extends StatelessWidget {
+  final Subactivity subactivity;
+  final Function(SubactivityStep)? stepOnTap;
 
-  const ActivityStepsView({
+  const SubactivityStepsView({
     super.key,
-    required this.title,
-    required this.steps,
-    this.onTap,
+    required this.subactivity,
+    this.stepOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final stepButton = steps
+    final stepButtons = subactivity.steps
         .map(
-          (it) => ActivityStepButton(
+          (it) => SubactivityStepButton(
             title: it.title,
-            status: it.status,
-            onTap: () => onTap?.call(it),
+            iconUrl: it.iconUrl,
+            isCompleted: it.isCompleted,
+            isEnabled: !it.isCompleted,
+            onTap: () => stepOnTap?.call(it),
           ).paddingSymmetric(vertical: 8),
         )
         .toList();
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('未开始')
+            Text(subactivity.status.description)
                 .fontSize(10)
-                .textColor(const Color(0xB2FFFFFF))
+                .textColor(Color(subactivity.status.colorValue))
                 .paddingSymmetric(horizontal: 7),
             const Spacer(flex: 1),
-            const Text('2022-10-27 12：00 ~ 2022-11-07 17：00')
+            Text('${subactivity.startedTime ?? ''} ~ ${subactivity.endedTime ?? ''}')
                 .fontSize(10)
                 .textColor(const Color(0xB2FFFFFF))
                 .paddingSymmetric(horizontal: 7),
@@ -51,13 +53,13 @@ class ActivityStepsView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-                Text(title)
+                Text(subactivity.steps.first.category)
                     .textColor(AppThemeData.secondaryColor)
                     .fontSize(18)
                     .fontWeight(FontWeightCompat.bold)
                     .paddingOnly(bottom: 8)
               ] +
-              stepButton,
+              stepButtons,
         ).paddingOnly(top: 11, bottom: 24, left: 10, right: 10).outlined(),
       ],
     ).paddingSymmetric(vertical: 14);

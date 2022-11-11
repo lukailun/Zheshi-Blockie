@@ -1,10 +1,10 @@
 // Package imports:
+import 'package:blockie_app/app/modules/activity/bindings/subactivity_binding.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/extensions/get_dialog_extension.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
-import 'package:blockie_app/widgets/segmented_control/segmented_control_button_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,22 +29,9 @@ class ActivityController extends GetxController
     required this.projectRepository,
   });
 
-  final List<SegmentedControlButtonItem> segmentedControlItems = [
-    SegmentedControlButtonItem(ID: 0, title: '球迷'),
-    SegmentedControlButtonItem(ID: 1, title: '完赛'),
-    SegmentedControlButtonItem(ID: 2, title: '获奖'),
-    SegmentedControlButtonItem(ID: 3, title: '观赛'),
-  ];
-  late TabController tabController;
+  TabController? tabController;
 
-  final _id = Get.parameters[ActivityParameter.id] as String;
-
-  @override
-  void onInit() {
-    super.onInit();
-    tabController =
-        TabController(length: segmentedControlItems.length, vsync: this);
-  }
+  final id = Get.parameters[ActivityParameter.id] as String;
 
   @override
   void onReady() {
@@ -85,10 +72,7 @@ class ActivityController extends GetxController
   }
 
   void goToProjectDetails(String id) async {
-    final parameters = {
-      ProjectDetailsParameter.id: id,
-      ProjectDetailsParameter.showsRule: "true",
-    };
+    final parameters = {ProjectDetailsParameter.id: id};
     await Get.toNamed(Routes.projectDetails, parameters: parameters);
     _getActivity();
   }
@@ -102,7 +86,20 @@ class ActivityController extends GetxController
   }
 
   void _getActivity() async {
-    activity.value = await projectRepository.getActivity(_id);
+    activity.value = await projectRepository.getActivity(id);
+    final activityValue = activity.value;
+    if (activityValue == null || activityValue.subactivityPreviews.isEmpty) {
+      return;
+    }
+    tabController = TabController(
+        length: activityValue.subactivityPreviews.length, vsync: this);
+    activityValue.subactivityPreviews.forEach((it) {
+      SubactivityBinding(
+              accountRepository: accountRepository,
+              projectRepository: projectRepository,
+              preview: it)
+          .dependencies();
+    });
     _updateShareConfig(isDefaultConfig: false);
   }
 
@@ -124,9 +121,7 @@ class ActivityController extends GetxController
     final imageUrl = isDefaultConfig
         ? WechatShareSource.defaults.getImageUrl()
         : WechatShareSource.activity.getImageUrl(
-            extraInfo: activityValue.steps
-                .firstWhere((it) => (it.imagePath ?? '').isNotEmpty)
-                .imageUrl,
+            extraInfo: activityValue.coverUrl,
           );
     WechatService.to.updateShareConfig(
       title: title,

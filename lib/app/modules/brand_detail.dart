@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/issuer_info.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/project_group.dart';
 import 'package:blockie_app/models/project_group_load_info.dart';
 import 'package:blockie_app/utils/http_request.dart';
@@ -22,18 +22,18 @@ class BrandPage extends StatefulWidget {
 }
 
 class _BrandPageState extends State<BrandPage> {
-  IssuerInfo? _issuerInfo;
+  Issuer? _issuerInfo;
   String? _nextPageUrl;
   final _projectGroups = <ProjectGroup>[];
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      IssuerInfo issuerInfo =
+      Issuer issuerInfo =
           await HttpRequest.loadIssuerDetail(uid: Get.parameters["issuerUid"]!);
       setState(() {
         _issuerInfo = issuerInfo;
-        _addProjects(uid: _issuerInfo!.uid);
+        _addProjects(uid: _issuerInfo!.id);
       });
     });
     super.initState();
@@ -65,8 +65,8 @@ class _BrandPageState extends State<BrandPage> {
       children: [
         CircleAvatar(
           radius: 36,
-          backgroundImage:
-              NetworkImage(_issuerInfo == null ? '' : _issuerInfo!.logo),
+          backgroundImage: NetworkImage(
+              _issuerInfo == null ? '' : _issuerInfo!.logoUrl ?? ''),
         ),
         Container(
           padding: const EdgeInsets.only(top: 7, bottom: 11),
@@ -80,7 +80,7 @@ class _BrandPageState extends State<BrandPage> {
 
     Widget brandIntro = Center(
       child: Text(
-        _issuerInfo!.summary,
+        _issuerInfo!.summary ?? '',
         textAlign: TextAlign.center,
         style: const TextStyle(color: Color(0xccffffff), fontSize: 14),
       ),

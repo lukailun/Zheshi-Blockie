@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class ActivityParticipantsView extends StatelessWidget {
+class SubactivityParticipantsView extends StatelessWidget {
   final String title;
   final List<String> avatarUrls;
 
-  const ActivityParticipantsView({
+  const SubactivityParticipantsView({
     super.key,
     required this.title,
     required this.avatarUrls,
@@ -51,12 +51,12 @@ class ActivityParticipantsView extends StatelessWidget {
                       imageUrl: it,
                       fit: BoxFit.cover,
                     ),
-                  ),
+                  ).paddingAll(5),
                 )
                 .toList(),
           ),
         ],
       ),
-    ).paddingOnly(top: 11, bottom: 24, left: 10, right: 10);
+    ).paddingOnly(top: 11, bottom: 14, left: 10, right: 10);
   }
 }

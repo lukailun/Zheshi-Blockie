@@ -47,7 +47,6 @@ flutter:
     - assets/images/app_bar/
     - assets/images/common/
     - assets/images/profile/
-    - assets/images/projects/
     - assets/images/project_details/
     - assets/images/projects_management/
     - assets/images/settings/

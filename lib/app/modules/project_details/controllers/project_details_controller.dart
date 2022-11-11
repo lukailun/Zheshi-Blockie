@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/modules/gallery/controllers/gallery_controller.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
-import 'package:blockie_app/app/modules/project_details/models/mint_status.dart';
+import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/app/modules/project_details/views/mint_check_code_dialog.dart';
@@ -37,9 +37,7 @@ part 'project_details_controller_router.dart';
 class ProjectDetailsController extends GetxController {
   final mintedNft = Rxn<NftInfo>();
   final projectDetails = Rxn<ProjectDetails>();
-  final _id = Get.parameters[ProjectDetailsParameter.id] as String;
-  final _showsRule =
-      Get.parameters[ProjectDetailsParameter.showsRule] as String;
+  final id = Get.parameters[ProjectDetailsParameter.id] as String;
 
   final mintStatus = MintStatus.notLogin.obs;
 
@@ -60,7 +58,7 @@ class ProjectDetailsController extends GetxController {
   }
 
   void _getProjectDetails() async {
-    projectDetails.value = await repository.getProjectDetails(_id);
+    projectDetails.value = await repository.getProjectDetails(id);
     final details = projectDetails.value;
     if (details == null) {
       return;
@@ -229,5 +227,4 @@ class ProjectDetailsController extends GetxController {
 
 class ProjectDetailsParameter {
   static const id = "id";
-  static const showsRule = "showsRule";
 }
