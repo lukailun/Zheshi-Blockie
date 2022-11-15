@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/models/issuer.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -7,7 +8,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities_management/models/activity.dart';
-import 'package:blockie_app/data/apis/models/issuer.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 
 class ProjectActivityItemView extends StatelessWidget {
@@ -105,12 +105,12 @@ class ProjectActivityItemView extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               child: CachedNetworkImage(
-                imageUrl: issuer?.avatarUrl ?? '',
+                imageUrl: issuer?.logoUrl ?? '',
                 width: 40,
                 height: 40,
               ),
             ),
-            Text(issuer?.name ?? '')
+            Text(issuer?.title ?? '')
                 .fontSize(14)
                 .textColor(const Color(0xB3FFFFFF))
                 .paddingOnly(left: 7),

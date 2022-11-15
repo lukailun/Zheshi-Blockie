@@ -13,25 +13,29 @@ import 'package:blockie_app/widgets/basic_popup_menu_item.dart';
 
 class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final String? title;
+  final Widget? titleView;
   final bool showsBackButton;
   final VoidCallback? backButtonOnTap;
   final Widget? avatar;
   final bool showsLogo;
+  final double? paddingTop;
   final List<AppBarButtonItem>? actionItems;
 
   BasicAppBar({
     Key? key,
     this.title,
+    this.titleView,
     this.showsBackButton = true,
     this.backButtonOnTap,
     this.showsLogo = false,
     this.actionItems,
     this.avatar,
+    this.paddingTop,
   }) : super(key: key);
 
-  double get toolbarHeight => showsLogo ? 120 : 80;
+  double get toolbarHeight => _paddingTop + 80;
 
-  double get paddingTop => showsLogo ? 30 : 0;
+  double get _paddingTop => paddingTop ?? (showsLogo ? 30 : 0);
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +87,17 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       toolbarHeight: toolbarHeight,
-      title: Text(
-        title ?? '',
-        maxLines: 2,
-        textAlign: TextAlign.center,
-      ).textColor(Colors.white).fontSize(20).fontWeight(FontWeightCompat.bold),
-    ).paddingOnly(top: paddingTop);
+      title: titleView ??
+          Text(
+            title ?? '',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          )
+              .textColor(Colors.white)
+              .textAlignment(TextAlign.center)
+              .fontSize(20)
+              .fontWeight(FontWeightCompat.bold),
+    ).paddingOnly(top: _paddingTop);
   }
 
   @override

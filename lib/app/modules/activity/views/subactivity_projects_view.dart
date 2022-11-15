@@ -3,6 +3,7 @@ import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/mint_status.dart';
+import 'package:blockie_app/models/platform_info.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/html_video.dart';
@@ -19,8 +20,9 @@ class SubactivityProjectsView extends StatelessWidget {
   final List<Project> projects;
   final List<MintStatus> mintStatuses;
   final Function(String)? detailsOnTap;
-  final Function(String, String)? previewOnTap;
+  final Function(Project, MintStatus)? previewOnTap;
   final Function(Project, MintStatus)? mintOnTap;
+  final bool isScrolling;
 
   const SubactivityProjectsView({
     super.key,
@@ -29,6 +31,7 @@ class SubactivityProjectsView extends StatelessWidget {
     this.detailsOnTap,
     this.previewOnTap,
     this.mintOnTap,
+    required this.isScrolling,
   });
 
   @override
@@ -88,16 +91,33 @@ class SubactivityProjectsView extends StatelessWidget {
           ],
         ).paddingOnly(top: 27, bottom: 27),
         Visibility(
-          visible: (project.videoUrl ?? '').isNotEmpty ||
+          visible: ((project.previewVideoUrl ?? '').isNotEmpty) ||
               (project.coverUrl ?? '').isNotEmpty,
           child: AspectRatio(
             aspectRatio: 16.0 / 9.0,
-            child: (project.videoUrl ?? '').isNotEmpty
-                ? HtmlVideo(
-                    url: project.videoUrl ?? '',
-                    posterUrl: project.coverUrl,
-                    autoplay: false,
-                    muted: false,
+            child: (project.previewVideoUrl ?? '').isNotEmpty
+                ? Stack(
+                    children: [
+                      Visibility(
+                        visible: isScrolling && PlatformInfo.isApple,
+                        child: HtmlVideo(
+                          url: '',
+                          posterUrl: project.coverUrl,
+                          autoplay: false,
+                          muted: false,
+                          controls: false,
+                        ),
+                      ),
+                      Opacity(
+                        opacity: isScrolling && PlatformInfo.isApple ? 0 : 1,
+                        child: HtmlVideo(
+                          url: project.previewVideoUrl ?? '',
+                          posterUrl: project.coverUrl,
+                          autoplay: false,
+                          muted: false,
+                        ),
+                      ),
+                    ],
                   )
                 : CachedNetworkImage(
                     imageUrl: project.coverUrl ?? '',
@@ -130,8 +150,7 @@ class SubactivityProjectsView extends StatelessWidget {
                     textFontSize: 18,
                     // isEnabled: mintStatus.previewEnabled, // fix disable bg color
                     onTap: mintStatus.previewEnabled
-                        ? () => previewOnTap?.call(
-                            project.videoUrl ?? '', project.coverUrl ?? '')
+                        ? () => previewOnTap?.call(project, mintStatus)
                         : null,
                   ),
                 ),

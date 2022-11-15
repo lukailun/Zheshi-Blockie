@@ -19,6 +19,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       isQualified: json['is_open'] as bool?,
       mintChances: json['mint_chances'] as int?,
       videoPath: json['video_path'] as String?,
+      previewVideoPath: json['preview_video_path'] as String?,
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
@@ -34,4 +35,5 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'is_open': instance.isQualified,
       'mint_chances': instance.mintChances,
       'video_path': instance.videoPath,
+      'preview_video_path': instance.previewVideoPath,
     };

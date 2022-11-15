@@ -14,11 +14,13 @@ import 'package:blockie_app/extensions/extensions.dart';
 class SubactivityStepsView extends StatelessWidget {
   final Subactivity subactivity;
   final Function(SubactivityStep)? stepOnTap;
+  final Function()? contactUsOnTap;
 
   const SubactivityStepsView({
     super.key,
     required this.subactivity,
     this.stepOnTap,
+    this.contactUsOnTap,
   });
 
   @override
@@ -34,6 +36,29 @@ class SubactivityStepsView extends StatelessWidget {
           ).paddingSymmetric(vertical: 8),
         )
         .toList();
+    final children = [
+          Text(subactivity.steps.first.category)
+              .textColor(AppThemeData.secondaryColor)
+              .fontSize(18)
+              .fontWeight(FontWeightCompat.bold)
+              .paddingOnly(bottom: 8)
+        ] +
+        stepButtons;
+    if (subactivity.staffQrCodeUrl != null) {
+      children.add(
+        SizedBox(
+          width: double.infinity,
+          child: GestureDetector(
+            onTap: contactUsOnTap,
+            child: const Text('有问题请联系客服')
+                .textColor(const Color(0x80FFFFFF))
+                .fontSize(12)
+                .withUnderLine()
+                .textAlignment(TextAlign.center),
+          ),
+        ),
+      );
+    }
     return Column(
       children: [
         Row(
@@ -52,14 +77,7 @@ class SubactivityStepsView extends StatelessWidget {
         ).paddingSymmetric(vertical: 6),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-                Text(subactivity.steps.first.category)
-                    .textColor(AppThemeData.secondaryColor)
-                    .fontSize(18)
-                    .fontWeight(FontWeightCompat.bold)
-                    .paddingOnly(bottom: 8)
-              ] +
-              stepButtons,
+          children: children,
         ).paddingOnly(top: 11, bottom: 24, left: 10, right: 10).outlined(),
       ],
     ).paddingSymmetric(vertical: 14);

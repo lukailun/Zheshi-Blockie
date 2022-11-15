@@ -45,7 +45,7 @@ class ActivitiesContainerView extends GetView<ActivitiesController> {
                 return _ActivitiesView(
                   activities: activitiesValue,
                   itemOnTap: (id) => controller.goToActivity(delegate, id),
-                  issuerOnTap: controller.goToBrand,
+                  issuerOnTap: controller.goToBrandDetails,
                 );
               }
             }(),

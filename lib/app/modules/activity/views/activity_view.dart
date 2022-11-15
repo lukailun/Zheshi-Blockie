@@ -47,6 +47,7 @@ class ActivityContainerView extends GetView<ActivityController> {
         backgroundColor: Colors.transparent,
         appBar: BasicAppBar(
           showsLogo: !showsBack,
+          paddingTop: 0,
           actionItems: [
             AppBarButtonItem(
               assetName: "assets/images/app_bar/menu.png",
@@ -62,7 +63,7 @@ class ActivityContainerView extends GetView<ActivityController> {
             return _ActivityView(
               activity: activityValue,
               controller: controller,
-              issuerOnTap: controller.goToBrand,
+              issuerOnTap: controller.goToBrandDetails,
             );
           }
         }(),
@@ -85,109 +86,127 @@ class _ActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = SizedBox(
-      width: double.infinity,
-      child: Text(
-        activity.name.formatted,
-        maxLines: 100,
-      )
-          .fontSize(32)
-          .fontWeight(FontWeightCompat.regular)
-          .textColor(Colors.white),
-    ).paddingSymmetric(horizontal: 22);
-    final issuer = GestureDetector(
-      onTap: () => issuerOnTap?.call(activity.issuer.id),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: CachedNetworkImage(
-              imageUrl: activity.issuer.avatarUrl,
-              width: 32,
-              height: 32,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Flexible(
-            child: Text(
-              activity.issuer.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            )
-                .textColor(Colors.white)
-                .fontWeight(FontWeightCompat.regular)
-                .fontSize(14)
-                .paddingSymmetric(horizontal: 10),
-          ),
-        ],
-      ),
-    ).paddingSymmetric(horizontal: 22, vertical: 16);
-
-    final tabBar = Theme(
-      data: ThemeData(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      ),
-      child: TabBar(
-        controller: controller.tabController,
-        indicatorSize: TabBarIndicatorSize.label,
-        indicatorPadding: const EdgeInsets.symmetric(vertical: 10),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: AppThemeData.secondaryColor),
-        labelColor: AppThemeData.primaryColor,
-        unselectedLabelColor: Colors.white,
-        tabs: activity.subactivityPreviews
-            .asMap()
-            .entries
-            .map(
-              (it) => Tab(
-                child: Text(it.value.name)
-                    .fontSize(17)
-                    .textAlignment(TextAlign.center)
+    return Obx(
+      () {
+        final title = SizedBox(
+          width: double.infinity,
+          child: Text(
+            activity.name.formatted,
+            maxLines: 100,
+          )
+              .fontSize(32)
+              .fontWeight(FontWeightCompat.regular)
+              .textColor(Colors.white),
+        ).paddingSymmetric(horizontal: 22);
+        final issuer = GestureDetector(
+          onTap: () => issuerOnTap?.call(activity.issuer.id),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: CachedNetworkImage(
+                  imageUrl: activity.issuer.logoUrl ?? '',
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  activity.issuer.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+                    .textColor(Colors.white)
+                    .fontWeight(FontWeightCompat.regular)
+                    .fontSize(14)
                     .paddingSymmetric(horizontal: 10),
               ),
-            )
-            .toList(),
-      ),
-    );
-    final divider = Container(
-      height: 2,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        shape: BoxShape.rectangle,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x4DFFFFFF),
-            spreadRadius: 0,
-            blurRadius: 2,
-            offset: Offset(-2, 1),
+            ],
           ),
-          BoxShadow(
-            color: Colors.black,
-            spreadRadius: 0,
-            blurRadius: 8,
-            offset: Offset(-1, -1),
-          ),
-        ],
-      ),
-    );
-    final tabBarView = TabBarView(
-      controller: controller.tabController,
-      children: activity.subactivityPreviews.map((it) {
-        return SubactivityView(id: it.id);
-      }).toList(),
-    );
+        ).paddingSymmetric(horizontal: 22, vertical: 16);
 
-    return Column(
-      children: [
-        title,
-        issuer,
-        tabBar,
-        divider,
-        Expanded(child: tabBarView),
-      ],
+        final tabBar = Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: TabBar(
+            controller: controller.tabController,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorPadding: const EdgeInsets.symmetric(vertical: 10),
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: AppThemeData.secondaryColor),
+            labelColor: AppThemeData.primaryColor,
+            unselectedLabelColor: Colors.white,
+            tabs: activity.subactivityPreviews
+                .map(
+                  (it) => Tab(
+                    child: Text(it.name)
+                        .fontSize(17)
+                        .textAlignment(TextAlign.center)
+                        .paddingSymmetric(horizontal: 10),
+                  ),
+                )
+                .toList(),
+          ),
+        );
+        final divider = Container(
+          height: 2,
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.rectangle,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x4DFFFFFF),
+                spreadRadius: 0,
+                blurRadius: 2,
+                offset: Offset(-2, 1),
+              ),
+              BoxShadow(
+                color: Colors.black,
+                spreadRadius: 0,
+                blurRadius: 8,
+                offset: Offset(-1, -1),
+              ),
+            ],
+          ),
+        );
+        final tabBarView = TabBarView(
+          controller: controller.tabController,
+          children: activity.subactivityPreviews.map((it) {
+            return SubactivityView(
+              id: it.id,
+              headerIsExpanded: controller.headerIsExpanded.value,
+              headerShouldExpandCallback: (shouldExpand) {
+                controller.headerIsExpanded.value = shouldExpand;
+              },
+            );
+          }).toList(),
+        );
+        return Column(
+          children: [
+            AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              child: controller.headerIsExpanded.value
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        title,
+                        issuer,
+                      ],
+                    )
+                  : const SizedBox(height: 0),
+            ),
+            tabBar,
+            divider,
+            Expanded(child: tabBarView),
+          ],
+        );
+      },
     );
   }
 }

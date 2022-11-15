@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -79,7 +80,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
               projectDetails: projectDetails,
               mintStatus: controller.mintStatus.value,
               galleryOnTap: controller.goToGallery,
-              brandOnTap: (id) => controller.goToBrand(id),
+              brandOnTap: controller.goToBrandDetails,
               hintOnTap: controller.openHintDialog,
               mintButtonOnTap: () =>
                   controller.prepareToMint(projectDetails.id),
@@ -126,10 +127,10 @@ class _ProjectDetailsView extends StatelessWidget {
           CircleAvatar(
             radius: 16,
             backgroundImage: NetworkImage(
-              projectDetails.issuer.avatarUrl,
+              projectDetails.issuer.logoUrl ?? '',
             ),
           ),
-          Text(projectDetails.issuer.name)
+          Text(projectDetails.issuer.title)
               .fontSize(14)
               .textColor(Colors.white)
               .paddingOnly(left: 10),
@@ -176,8 +177,9 @@ class _ProjectDetailsView extends StatelessWidget {
                       assetName: "assets/images/common/copy.png",
                       size: 24,
                       onTap: () {
-                        Clipboard.setData(ClipboardData(text: item.content));
-                        MessageToast.showMessage("复制成功");
+                        final copySuccess =
+                            ClipboardUtils.copyToClipboard(item.content);
+                        MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
                       },
                     ).paddingOnly(left: 10),
                   ),

@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
@@ -92,8 +93,8 @@ class ProfileController extends GetxController {
   }
 
   void copyWalletAddress(String walletAddress) {
-    Clipboard.setData(ClipboardData(text: walletAddress));
-    MessageToast.showMessage("复制成功");
+    final copySuccess = ClipboardUtils.copyToClipboard(walletAddress);
+    MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
   }
 
   void openQrCodeDialog() {

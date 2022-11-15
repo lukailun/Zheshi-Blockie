@@ -32,7 +32,7 @@ class ActivitiesItemView extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             child: CachedNetworkImage(
-              imageUrl: activity.issuer.avatarUrl,
+              imageUrl: activity.issuer.logoUrl ?? '',
               width: 32,
               height: 32,
               fit: BoxFit.contain,
@@ -40,7 +40,7 @@ class ActivitiesItemView extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              activity.issuer.name,
+              activity.issuer.title,
               maxLines: 2,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
@@ -111,7 +111,7 @@ class ActivitiesItemView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      '可获权益',
+                      '可获奖励',
                     ).fontSize(12).textColor(AppThemeData.secondaryColor),
                   ],
                 ),

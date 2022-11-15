@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
@@ -50,18 +51,6 @@ class BlockieApi {
 
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
-
-  Future<NftInfo?> mint(String id) async {
-    final url = _urlBuilder.buildMintUrl(id);
-    final response = await _dio.post(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final nft = NftInfo.fromJson(object);
-      return nft;
-    } catch (error) {
-      return null;
-    }
-  }
 
   Future<ShareInfo?> getNftDetailsShareInfo(String id) async {
     final url = _urlBuilder.buildGetNftDetailsShareInfoUrl(id);

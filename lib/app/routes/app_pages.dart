@@ -18,7 +18,6 @@ import 'package:blockie_app/app/modules/add_whitelist/bindings/add_whitelist_bin
 import 'package:blockie_app/app/modules/add_whitelist/views/add_whitelist_view.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/bindings/airdrop_nft_binding.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/views/airdrop_nft_view.dart';
-import 'package:blockie_app/app/modules/brand_detail.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
 import 'package:blockie_app/app/modules/gallery/bindings/gallery_binding.dart';

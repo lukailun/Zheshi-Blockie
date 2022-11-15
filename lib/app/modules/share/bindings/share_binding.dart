@@ -14,7 +14,7 @@ class ShareBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
-          () => ShareController(repository: _projectRepository),
+      () => ShareController(projectRepository: _projectRepository),
     );
   }
 }

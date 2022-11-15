@@ -16,13 +16,18 @@ extension GetDialogExtension on GetInterface {
 }
 
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({super.key});
+  final Color color;
+
+  const LoadingIndicator({
+    super.key,
+    this.color = AppThemeData.indicatorColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: CircularProgressIndicator(
-        color: AppThemeData.indicatorColor,
+        color: color,
       ),
     );
   }

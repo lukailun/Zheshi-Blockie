@@ -1,8 +1,10 @@
-import 'package:blockie_app/data/apis/models/issuer.dart';
+import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:get/get.dart';
 
-import '../../activities/models/activity.dart';
+import 'package:blockie_app/app/modules/activities/models/activity.dart';
 
 class BrandDetailsController extends GetxController {
   final ProjectRepository projectRepository;
@@ -13,14 +15,20 @@ class BrandDetailsController extends GetxController {
 
   final issuer = Rxn<Issuer>();
   final activities = Rxn<List<Activity>>();
+  final id = Get.parameters[BrandDetailsParameter.id] as String;
 
   @override
   void onReady() {
     super.onReady();
-    _getActivities();
+    getIssuerDetails();
   }
 
-  void _getActivities() async {
+  void getIssuerDetails() async {
+    issuer.value = await projectRepository.getIssuerInfo(id);
+    getActivities();
+  }
+
+  void getActivities() async {
     final issuerValue = issuer.value;
     if (issuerValue == null) {
       return;
@@ -29,4 +37,13 @@ class BrandDetailsController extends GetxController {
         await projectRepository.getBrandActivities(issuerValue.id);
     activities.value = paginatedActivities?.activities;
   }
+
+  void goToActivity(String id) {
+    final parameters = {ActivityParameter.id: id};
+    Get.toNamed(Routes.activity, parameters: parameters);
+  }
+}
+
+class BrandDetailsParameter {
+  static const id = "id";
 }

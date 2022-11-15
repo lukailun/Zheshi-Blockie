@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:blockie_app/app/modules/activity/bindings/subactivity_binding.dart';
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/extensions/get_dialog_extension.dart';
 import 'package:blockie_app/services/auth_service.dart';
@@ -22,7 +23,7 @@ class ActivityController extends GetxController
   final AccountRepository accountRepository;
   final ProjectRepository projectRepository;
   final activity = Rxn<Activity>();
-  final selectedIndex = 0.obs;
+  final headerIsExpanded = true.obs;
 
   ActivityController({
     required this.accountRepository,
@@ -77,10 +78,8 @@ class ActivityController extends GetxController
     _getActivity();
   }
 
-  void goToBrand(String id) async {
-    final parameters = {
-      'issuerUid': id,
-    };
+  void goToBrandDetails(String id) async {
+    final parameters = {BrandDetailsParameter.id: id};
     await Get.toNamed(Routes.brand, parameters: parameters);
     _getActivity();
   }

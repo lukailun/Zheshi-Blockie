@@ -4,7 +4,7 @@ extension SubactivityControllerRouter on SubactivityController {
   void goToProjectDetails(String id) async {
     final parameters = {ProjectDetailsParameter.id: id};
     await Get.toNamed(Routes.projectDetails, parameters: parameters);
-    _getSubactivity();
+    getSubactivity();
   }
 
   void handleStepTap(SubactivityStep step) {
@@ -23,22 +23,28 @@ extension SubactivityControllerRouter on SubactivityController {
   void openLicenseDialog() {
     Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
-      _getSubactivity();
+      getSubactivity();
     });
   }
 
   void goToRegistrationInfo(String id) async {
     final parameters = {RegistrationInfoParameter.id: id};
     await Get.toNamed(Routes.registrationInfo, parameters: parameters);
-    _getSubactivity();
+    getSubactivity();
   }
 
-  void goToPreviewVideo(String url, String posterUrl) {
+  void goToPreviewVideo(Project project, MintStatus mintStatus) async {
+    final url = project.videoUrl ?? '';
+    final posterUrl = project.coverUrl ?? '';
     final parameters = {
       PreviewVideoParameter.url: url,
       PreviewVideoParameter.posterUrl: posterUrl,
     };
-    Get.toNamed(Routes.previewVideo, parameters: parameters);
+    final toMint =
+        await Get.toNamed(Routes.previewVideo, parameters: parameters);
+    if (toMint == true) {
+      prepareToMint(project, mintStatus);
+    }
   }
 
   void openMintedNftDialog() {
@@ -54,5 +60,13 @@ extension SubactivityControllerRouter on SubactivityController {
         Get.toNamed(Routes.nft, parameters: parameters);
       },
     );
+  }
+
+  void openStaffQrCodeDialog() {
+    final staffQrCodeUrl = subactivity.value?.staffQrCodeUrl;
+    if (staffQrCodeUrl == null) {
+      return;
+    }
+    Get.staffQrCodeDialog(qrCode: staffQrCodeUrl);
   }
 }

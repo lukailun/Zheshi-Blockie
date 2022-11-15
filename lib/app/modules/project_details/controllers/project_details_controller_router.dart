@@ -11,35 +11,32 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
     Get.offAndToNamed(Routes.activity, parameters: parameters);
   }
 
-  void goToGallery(int index) {
+  void goToGallery(int index) async {
     final parameters = {
       GalleryParameter.index: '$index',
       GalleryParameter.imageUrls:
           jsonEncode(projectDetails.value?.imageUrls ?? []),
     };
-    Get.toNamed(Routes.gallery, parameters: parameters);
+    await Get.toNamed(Routes.gallery, parameters: parameters);
+    _updateShareConfig(isDefaultConfig: false);
   }
 
-  void goToBrand(String id) {
-    final parameters = {
-      'issuerUid': id,
-    };
-    Get.toNamed(Routes.brand, parameters: parameters);
+  void goToBrandDetails(String id) async {
+    final parameters = {BrandDetailsParameter.id: id};
+    await Get.toNamed(Routes.brand, parameters: parameters);
+    _updateShareConfig(isDefaultConfig: false);
   }
 
-  void goToShare() {
-    final parameters = {
-      ShareParameter.id: id,
-      ShareParameter.isNft: 'false',
-    };
-    Get.toNamed(Routes.share, parameters: parameters);
+  void goToShare() async {
+    final parameters = {ShareParameter.id: id, ShareParameter.isNft: 'false'};
+    await Get.toNamed(Routes.share, parameters: parameters);
+    _updateShareConfig(isDefaultConfig: false);
   }
 
-  void goToWebView({required String url}) {
-    final parameters = {
-      WebViewParameter.url: url,
-    };
-    Get.toNamed(Routes.webView, parameters: parameters);
+  void goToWebView({required String url}) async {
+    final parameters = {WebViewParameter.url: url};
+    await Get.toNamed(Routes.webView, parameters: parameters);
+    _updateShareConfig(isDefaultConfig: false);
   }
 
   void openHintDialog() {

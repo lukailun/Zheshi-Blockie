@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -42,8 +43,8 @@ class ActivitiesController extends GetxController {
     Get.toNamed(Routes.activity, parameters: parameters);
   }
 
-  void goToBrand(String id) {
-    final parameters = {'issuerUid': id};
+  void goToBrandDetails(String id) {
+    final parameters = {BrandDetailsParameter.id: id};
     Get.toNamed(Routes.brand, parameters: parameters);
   }
 

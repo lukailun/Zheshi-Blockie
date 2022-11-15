@@ -2,6 +2,7 @@ import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_preview.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_step.dart';
+import 'package:blockie_app/app/modules/activity/views/staff_qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/preview_video/controllers/preview_video_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_minted_nft_dialog.dart';
@@ -31,6 +32,7 @@ class SubactivityController extends GetxController {
   final subactivity = Rxn<Subactivity>();
   final mintStatuses = <MintStatus>[].obs;
   final mintedNft = Rxn<NftInfo>();
+  final isScrolling = false.obs;
 
   SubactivityController({
     required this.accountRepository,
@@ -49,11 +51,11 @@ class SubactivityController extends GetxController {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
       AuthService.to.user.value = res;
       AuthService.to.login();
-      _getSubactivity();
+      getSubactivity();
     } else {
       AuthService.to.user.value = null;
       AuthService.to.logout();
-      _getSubactivity();
+      getSubactivity();
     }
   }
 
@@ -65,11 +67,11 @@ class SubactivityController extends GetxController {
       return openLicenseDialog();
     }
     if (mintStatus == MintStatus.mintable) {
-      return _mint(project.id);
+      return mint(project.id);
     }
   }
 
-  void _mint(String id) async {
+  void mint(String id) async {
     final subactivityValue = subactivity.value;
     if (subactivityValue == null) {
       return;
@@ -78,12 +80,12 @@ class SubactivityController extends GetxController {
     mintedNft.value = await projectRepository.mint(id);
     Get.back();
     if (mintedNft.value != null) {
-      _getSubactivity();
+      getSubactivity();
       openMintedNftDialog();
     }
   }
 
-  void _getSubactivity() async {
+  void getSubactivity() async {
     subactivity.value = await projectRepository.getSubactivity(preview.id);
     final subactivityValue = subactivity.value;
     if (subactivityValue == null) {

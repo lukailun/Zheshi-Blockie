@@ -4,6 +4,7 @@ import 'dart:html' as html;
 import 'dart:ui';
 
 // Package imports:
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:get/get.dart';
 
 // Project imports:

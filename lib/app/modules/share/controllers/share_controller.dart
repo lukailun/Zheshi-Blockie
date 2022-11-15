@@ -1,74 +1,117 @@
-// Package imports:
+import 'package:blockie_app/app/modules/share/models/share_info.dart';
+import 'package:blockie_app/app/modules/share/models/share_info_item.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/share//models/share_type.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/widgets/segmented_control/segmented_control.dart';
 
-class ShareController extends GetxController {
-  final ProjectRepository repository;
+class ShareController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final ProjectRepository projectRepository;
 
-  ShareController({required this.repository});
+  ShareController({
+    required this.projectRepository,
+  });
 
-  List<SegmentedControlButtonItem> segmentedControlItems =
-      <SegmentedControlButtonItem>[];
+  final items = <ShareInfoItem>[].obs;
   final selectedIndex = 0.obs;
-  final posterPath = "".obs;
-  final path = "".obs;
-  String videoPath = '';
+  final shareInfo = Rxn<ShareInfo>();
+  TabController? tabController;
 
   final id = Get.parameters[ShareParameter.id] ?? '';
-  final isNft = Get.parameters[ShareParameter.isNft] ?? '';
+  final isNft = (Get.parameters[ShareParameter.isNft] ?? '').parseBool();
 
-  @override
-  void onInit() {
-    super.onInit();
-    const info = ShareType.info;
-    const image = ShareType.image;
-    const poster = ShareType.poster;
-    if (isNft == 'true') {
-      segmentedControlItems = [
-        SegmentedControlButtonItem(ID: info.ID, title: info.title),
-        SegmentedControlButtonItem(ID: image.ID, title: image.title),
-      ];
-    } else {
-      segmentedControlItems = [
-        SegmentedControlButtonItem(ID: poster.ID, title: poster.title),
-      ];
-    }
-  }
+  bool get isVideo => items.value.isNotEmpty
+      ? items.value[selectedIndex.value].id == ShareType.videoId
+      : false;
 
   @override
   void onReady() {
     super.onReady();
-    if (isNft == 'true') {
-      _getNFTDetailsShareInfo();
+    if (isNft) {
+      getNFTDetailsShareInfo();
     } else {
-      _getProjectDetailsShareInfo();
+      getProjectDetailsShareInfo();
     }
   }
 
-  void _getProjectDetailsShareInfo() async {
-    final shareInfo = await repository.getProjectDetailsShareInfo(id);
-    posterPath.value = shareInfo?.posterPath ?? '';
-    path.value = shareInfo?.path ?? '';
+  void handleHintViewTap() async {
+    if (!isVideo) {
+      return;
+    }
+    final videoUrl = shareInfo.value?.videoUrl ?? '';
+    final copySuccess = ClipboardUtils.copyToClipboard(videoUrl);
+    MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
   }
 
-  void _getNFTDetailsShareInfo() async {
-    final shareInfo = await repository.getNFTDetailsShareInfo(id);
-    posterPath.value = shareInfo?.posterPath ?? '';
-    path.value = shareInfo?.path ?? '';
-    if ((shareInfo?.videoPath ?? '').isNotEmpty) {
-      videoPath = shareInfo?.videoPath ?? '';
-      const video = ShareType.video;
-      segmentedControlItems.insert(
-          0, SegmentedControlButtonItem(ID: video.ID, title: video.title));
+  void getProjectDetailsShareInfo() async {
+    shareInfo.value = await projectRepository.getProjectDetailsShareInfo(id);
+    _setupTabBars();
+  }
+
+  void getNFTDetailsShareInfo() async {
+    shareInfo.value = await projectRepository.getNFTDetailsShareInfo(id);
+    _setupTabBars();
+  }
+
+  void _setupTabBars() {
+    items.value = [];
+    final shareInfoValue = shareInfo.value;
+    if (shareInfoValue == null) {
+      return;
     }
+    if (isNft) {
+      if (shareInfoValue.posterUrl != null) {
+        if (shareInfoValue.videoPath != null) {
+          items.value.add(ShareInfoItem(
+            id: ShareType.video.id,
+            title: ShareType.video.title,
+            imageUrl: shareInfoValue.posterUrl ?? '',
+            linkUrl: shareInfoValue.videoUrl,
+          ));
+        }
+        items.value.add(ShareInfoItem(
+          id: ShareType.info.id,
+          title: ShareType.info.title,
+          imageUrl: shareInfoValue.posterUrl ?? '',
+        ));
+      }
+      if (shareInfoValue.imageUrl != null) {
+        items.value.add(ShareInfoItem(
+          id: ShareType.image.id,
+          title: ShareType.image.title,
+          imageUrl: shareInfoValue.imageUrl ?? '',
+        ));
+      }
+    } else {
+      if (shareInfoValue.posterUrl != null) {
+        items.value.add(ShareInfoItem(
+          id: ShareType.poster.id,
+          title: ShareType.poster.title,
+          imageUrl: shareInfoValue.posterUrl ?? '',
+        ));
+      }
+      if (shareInfoValue.imageUrl != null) {
+        items.value.add(ShareInfoItem(
+          id: ShareType.image.id,
+          title: ShareType.image.title,
+          imageUrl: shareInfoValue.imageUrl ?? '',
+        ));
+      }
+    }
+    tabController = TabController(length: items.value.length, vsync: this)
+      ..addListener(() {
+        selectedIndex.value = tabController?.index ?? 0;
+      });
   }
 }
 
 class ShareParameter {
-  static const id = "id";
-  static const isNft = "isNft";
+  static const id = 'id';
+  static const isNft = 'isNft';
 }

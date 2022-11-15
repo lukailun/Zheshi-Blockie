@@ -5,6 +5,7 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -79,7 +80,7 @@ class _NftPageState extends State<NftPage> {
   String getNftSceneUrl(NftInfo nftInfo) {
     switch (nftInfo.type) {
       case 2:
-        return 'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&image0=${nftInfo.textures['part0'] ?? ''}&image1=${nftInfo.textures['part1'] ?? ''}&image2=${nftInfo.textures['part2'] ?? ''}&image3=${nftInfo.textures['part3'] ?? ''}&image4=${nftInfo.textures['part4'] ?? ''}';
+        return 'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
       case 3:
         return 'https://sandbox.blockie.zheshi.tech?type=card&image1=${nftInfo.textures['part0'] ?? ''}&image2=${nftInfo.textures['part1'] ?? ''}';
       case 4:
@@ -93,7 +94,7 @@ class _NftPageState extends State<NftPage> {
   Widget build(BuildContext context) {
     if (_nftInfo == null) {
       return Container(
-        padding: const EdgeInsets.only(top: Global.titleButtonTop),
+        padding: const EdgeInsets.only(top: 23),
         color: AppThemeData.primaryColor,
         child: const Expanded(child: LoadingIndicator()),
       );
@@ -214,12 +215,9 @@ class _NftPageState extends State<NftPage> {
       assetName: "assets/images/common/copy.png",
       size: 23,
       onTap: () {
-        try {
-          Clipboard.setData(ClipboardData(text: _nftInfo!.projectContract));
-          MessageToast.showMessage("复制成功");
-        } catch (e) {
-          MessageToast.showException(e.toString());
-        }
+        final copySuccess =
+            ClipboardUtils.copyToClipboard(_nftInfo?.projectContract ?? '');
+        MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
       },
     );
 

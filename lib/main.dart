@@ -16,7 +16,7 @@ void main() async {
   await dotenv.load(fileName: fileName);
   WidgetsFlutterBinding.ensureInitialized();
   _initServices();
-  runApp(const BlockieApp());
+  runApp(BlockieApp());
 }
 
 void _initServices() {

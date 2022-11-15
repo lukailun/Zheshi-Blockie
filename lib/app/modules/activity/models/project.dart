@@ -35,6 +35,8 @@ class Project {
   final int? mintChances;
   @JsonKey(name: 'video_path')
   final String? videoPath;
+  @JsonKey(name: 'preview_video_path')
+  final String? previewVideoPath;
 
   Project({
     required this.id,
@@ -49,12 +51,17 @@ class Project {
     required this.isQualified,
     required this.mintChances,
     required this.videoPath,
+    required this.previewVideoPath,
   });
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;
 
   String? get videoUrl =>
       (videoPath ?? '').isNotEmpty ? (videoPath ?? '').hostAdded : null;
+
+  String? get previewVideoUrl => (previewVideoPath ?? '').isNotEmpty
+      ? (previewVideoPath ?? '').hostAdded
+      : null;
 
   NftType get nftType =>
       NftType.values.firstWhere((it) => it.value == nftTypeValue);

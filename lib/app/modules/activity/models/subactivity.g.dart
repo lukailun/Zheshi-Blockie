@@ -15,6 +15,7 @@ Subactivity _$SubactivityFromJson(Map<String, dynamic> json) => Subactivity(
       participantAvatarPaths: (json['participants'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      staffQrCodePath: json['staff_qrcode'] as String?,
       steps: (json['missions'] as List<dynamic>)
           .map((e) => SubactivityStep.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$SubactivityToJson(Subactivity instance) =>
       'server_time': instance.serverTimestamp,
       'description': instance.description,
       'participants': instance.participantAvatarPaths,
+      'staff_qrcode': instance.staffQrCodePath,
       'missions': instance.steps.map((e) => e.toJson()).toList(),
       'rights': instance.projects.map((e) => e.toJson()).toList(),
     };

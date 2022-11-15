@@ -22,6 +22,8 @@ class Subactivity {
   final String description;
   @JsonKey(name: 'participants')
   final List<String> participantAvatarPaths;
+  @JsonKey(name: 'staff_qrcode')
+  final String? staffQrCodePath;
   @JsonKey(name: 'missions')
   final List<SubactivityStep> steps;
   @JsonKey(name: 'rights')
@@ -34,6 +36,7 @@ class Subactivity {
     required this.serverTimestamp,
     required this.description,
     required this.participantAvatarPaths,
+    required this.staffQrCodePath,
     required this.steps,
     required this.projects,
   });
@@ -74,6 +77,10 @@ class Subactivity {
 
   List<String> get participantAvatarUrls =>
       participantAvatarPaths.map((it) => it.hostAdded).toList();
+
+  String? get staffQrCodeUrl => (staffQrCodePath ?? '').isNotEmpty
+      ? (staffQrCodePath ?? '').hostAdded
+      : null;
 
   factory Subactivity.fromJson(Map<String, dynamic> json) =>
       _$SubactivityFromJson(json);

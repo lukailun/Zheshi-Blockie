@@ -1,14 +1,19 @@
 enum ShareType {
-  info(ID: 0, title: '作品信息'),
-  image(ID: 1, title: '高清原图'),
-  poster(ID: 2, title: '分享海报'),
-  video(ID: 3, title: '视频下载');
+  info(id: infoId, title: '作品信息'),
+  image(id: imageId, title: '高清原图'),
+  poster(id: posterId, title: '分享海报'),
+  video(id: videoId, title: '视频下载');
 
   const ShareType({
-    required this.ID,
+    required this.id,
     required this.title,
   });
 
-  final int ID;
+  final String id;
   final String title;
+
+  static const infoId = 'info';
+  static const imageId = 'image';
+  static const posterId = 'poster';
+  static const videoId = 'video';
 }

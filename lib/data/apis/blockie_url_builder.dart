@@ -26,13 +26,13 @@ class BlockieUrlBuilder {
 
   String buildGetActivitiesUrl() => '$_baseUrl/groups';
 
-  String buildGetBrandActivitiesUrl(String id) => '$_baseUrl/groups/$id';
+  String buildGetBrandActivitiesUrl(String id) => '$_baseUrl/groups';
 
   String buildGetProjectDetailsUrl(String id) => '$_baseUrl/rights/$id';
 
   String buildMintUrl(String id) => '$_baseUrl/rights/$id/mint';
 
-  String buildGetIssuerInfoUrl() => '$_baseUrl/issuers';
+  String buildGetIssuerInfoUrl(String id) => '$_baseUrl/issuers/$id';
 
   String buildGetQrCodeUrl() => '$_baseUrl/qrcode';
 

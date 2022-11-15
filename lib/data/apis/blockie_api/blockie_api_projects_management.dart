@@ -2,11 +2,12 @@ part of 'blockie_api.dart';
 
 extension BlockieApiProjectsManagement on BlockieApi {
   Future<PaginatedManagedActivities?> getManagedActivities() async {
-    final url = _urlBuilder.buildGetManagedActivitiesUrl();
-    final response = await _dio.get(url);
     try {
+      final url = _urlBuilder.buildGetManagedActivitiesUrl();
+      final response = await _dio.get(url);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final paginatedManagedActivities = PaginatedManagedActivities.fromJson(object);
+      final paginatedManagedActivities =
+          PaginatedManagedActivities.fromJson(object);
       return paginatedManagedActivities;
     } catch (error) {
       return null;
@@ -17,12 +18,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.get(url, queryParameters: requestData);
     try {
+      final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = TicketCheckingDetails.fromJson(object);
       return details;
@@ -35,12 +34,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.get(url, queryParameters: requestData);
     try {
+      final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = HoldVerificationDetails.fromJson(object);
       return details;
@@ -53,12 +50,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildGetAirdropNftsUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.get(url, queryParameters: requestData);
     try {
+      final url = _urlBuilder.buildGetAirdropNftsUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AirdropNftDetails.fromJson(object);
       return details;
@@ -71,12 +66,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildAirdropNftsUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.post(url, data: requestData);
     try {
+      final url = _urlBuilder.buildAirdropNftsUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AirdropNftDetails.fromJson(object);
       return details;
@@ -89,13 +82,13 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required List<Map<String, String>> souvenirsMapList,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildCheckTicketUrl();
-    final requestData = {
-      'qrcode_text': qrCode,
-      'souvenirs': souvenirsMapList,
-    };
-    final response = await _dio.post(url, data: requestData);
     try {
+      final url = _urlBuilder.buildCheckTicketUrl();
+      final requestData = {
+        'qrcode_text': qrCode,
+        'souvenirs': souvenirsMapList,
+      };
+      final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = TicketCheckingDetails.fromJson(object);
       return details;
@@ -108,12 +101,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildGetWhitelistStatusUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.get(url, queryParameters: requestData);
     try {
+      final url = _urlBuilder.buildGetWhitelistStatusUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AddWhitelistDetails.fromJson(object);
       return details;
@@ -126,12 +117,10 @@ extension BlockieApiProjectsManagement on BlockieApi {
     required String id,
     required String qrCode,
   }) async {
-    final url = _urlBuilder.buildAddWhitelistUrl(id);
-    final requestData = {
-      'qrcode_text': qrCode,
-    };
-    final response = await _dio.post(url, queryParameters: requestData);
     try {
+      final url = _urlBuilder.buildAddWhitelistUrl(id);
+      final requestData = {'qrcode_text': qrCode};
+      final response = await _dio.post(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AddWhitelistDetails.fromJson(object);
       return details;

@@ -2,7 +2,7 @@
 import 'dart:math';
 
 // Flutter imports:
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:blockie_app/models/platform_info.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -32,7 +32,7 @@ class ProfileNftsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const maxCount = 4;
-    final width = kIsWeb ? min(Get.width, 450) : Get.width;
+    final width = PlatformInfo.isWeb ? min(Get.width, 450) : Get.width;
     final size = (width - 22 * maxCount) / 3.63;
     return Column(
       children: [

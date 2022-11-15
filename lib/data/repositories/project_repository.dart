@@ -6,6 +6,7 @@ import 'package:blockie_app/app/modules/project_details/models/project_details.d
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
+import 'package:blockie_app/models/issuer.dart';
 import '../../models/nft_info.dart';
 
 class ProjectRepository {
@@ -19,6 +20,8 @@ class ProjectRepository {
 
   Future<PaginatedActivities?> getBrandActivities(String id) =>
       remoteApi.getBrandActivities(id);
+
+  Future<Issuer?> getIssuerInfo(String id)  => remoteApi.getIssuerInfo(id);
 
   Future<Activity?> getActivity(String id) => remoteApi.getActivity(id);
 
