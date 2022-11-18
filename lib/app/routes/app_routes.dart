@@ -10,6 +10,7 @@ abstract class Routes {
   static const nft = '/nft';
   static const projectDetails = '/project_details';
   static const activitiesManagement = '/activities_management';
+  static const subactivitiesManagement = '/subactivities_management';
   static const projectsManagement = '/projects_management';
   static const registrationInfo = '/registration_info';
   static const settings = '/settings';

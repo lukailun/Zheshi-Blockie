@@ -1,4 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
 enum ActivityType {
-  plain,
-  grouped,
+  @JsonValue(2)
+  activity,
+  @JsonValue(1)
+  subactivity,
 }

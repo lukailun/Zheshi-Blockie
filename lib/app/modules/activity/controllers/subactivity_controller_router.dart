@@ -7,6 +7,13 @@ extension SubactivityControllerRouter on SubactivityController {
     getSubactivity();
   }
 
+  void goToProfile() async {
+    final userValue = AuthService.to.user.value;
+    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
+    await Get.toNamed(Routes.profile, parameters: parameters);
+    getSubactivity();
+  }
+
   void handleStepTap(SubactivityStep step) {
     switch (step.type) {
       case SubactivityStepType.login:
@@ -17,7 +24,8 @@ extension SubactivityControllerRouter on SubactivityController {
         }
         return goToRegistrationInfo(preview.id);
       case SubactivityStepType.finish:
-        MessageToast.showMessage('系统自动判断是否${step.title}');
+      case SubactivityStepType.volunteer:
+        return MessageToast.showMessage('系统自动判断是否${step.title}');
     }
   }
 
@@ -55,5 +63,18 @@ extension SubactivityControllerRouter on SubactivityController {
       return;
     }
     Get.staffQrCodeDialog(qrCode: staffQrCodeUrl);
+  }
+
+  void openQrCodeDialog() {
+    final userValue = AuthService.to.user.value;
+    final qrCodeValue = qrCode.value;
+    if (userValue == null || qrCodeValue == null) {
+      return;
+    }
+    Get.qrCodeDialog(
+      user: userValue,
+      qrCode: qrCodeValue,
+      onClosed: getSubactivity,
+    );
   }
 }

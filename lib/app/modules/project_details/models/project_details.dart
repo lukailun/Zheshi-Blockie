@@ -1,5 +1,4 @@
 // Package imports:
-import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
@@ -11,6 +10,7 @@ import 'package:blockie_app/app/modules/project_details/models/project_details_i
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/issuer.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project_details.g.dart';
@@ -62,11 +62,13 @@ class ProjectDetails {
   @JsonKey(name: 'group_uid')
   final String activityId;
   @JsonKey(name: 'video_process_status')
-  final int? videoStatusValue;
+  final VideoStatus? videoStatus;
   @JsonKey(name: 'nft_type')
-  final int nftTypeValue;
+  final NftType nftType;
   @JsonKey(name: 'missions')
   final List<SubactivityStep> steps;
+  @JsonKey(name: 'souvenir_available')
+  final bool needToClaimSouvenir;
 
   const ProjectDetails({
     required this.name,
@@ -91,9 +93,10 @@ class ProjectDetails {
     required this.issuer,
     required this.extraInfo,
     required this.activityId,
-    required this.videoStatusValue,
-    required this.nftTypeValue,
+    required this.videoStatus,
+    required this.nftType,
     required this.steps,
+    required this.needToClaimSouvenir,
   });
 
   String get coverUrl => coverPath.hostAdded;
@@ -101,13 +104,6 @@ class ProjectDetails {
   String get headerUrl => headerPath.hostAdded;
 
   List<String> get imageUrls => imagePaths.map((it) => it.hostAdded).toList();
-
-  VideoStatus get videoStatus => videoStatusValue != null
-      ? VideoStatus.values.firstWhere((it) => it.value == videoStatusValue)
-      : VideoStatus.unknown;
-
-  NftType get nftType =>
-      NftType.values.firstWhere((it) => it.value == nftTypeValue);
 
   bool get isVideoNft => nftType == NftType.video;
 

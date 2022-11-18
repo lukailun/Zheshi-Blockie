@@ -32,11 +32,13 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       extraInfo: ProjectDetailsExtraInfo.fromJson(
           json['content'] as Map<String, dynamic>),
       activityId: json['group_uid'] as String,
-      videoStatusValue: json['video_process_status'] as int?,
-      nftTypeValue: json['nft_type'] as int,
+      videoStatus: $enumDecodeNullable(
+          _$VideoStatusEnumMap, json['video_process_status']),
+      nftType: $enumDecode(_$NftTypeEnumMap, json['nft_type']),
       steps: (json['missions'] as List<dynamic>)
           .map((e) => SubactivityStep.fromJson(e as Map<String, dynamic>))
           .toList(),
+      needToClaimSouvenir: json['souvenir_available'] as bool,
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -63,7 +65,23 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'issuer': instance.issuer.toJson(),
       'content': instance.extraInfo.toJson(),
       'group_uid': instance.activityId,
-      'video_process_status': instance.videoStatusValue,
-      'nft_type': instance.nftTypeValue,
+      'video_process_status': _$VideoStatusEnumMap[instance.videoStatus],
+      'nft_type': _$NftTypeEnumMap[instance.nftType]!,
       'missions': instance.steps.map((e) => e.toJson()).toList(),
+      'souvenir_available': instance.needToClaimSouvenir,
     };
+
+const _$VideoStatusEnumMap = {
+  VideoStatus.unknown: 0,
+  VideoStatus.unrecorded: 1,
+  VideoStatus.inProcess: 2,
+  VideoStatus.successful: 3,
+  VideoStatus.failed: 4,
+};
+
+const _$NftTypeEnumMap = {
+  NftType.basic: 1,
+  NftType.video: 2,
+  NftType.card: 3,
+  NftType.kettleBell: 4,
+};

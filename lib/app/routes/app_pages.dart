@@ -2,9 +2,9 @@
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app//modules/activities_management/bindings/activities_management_binding.dart';
 import 'package:blockie_app/app/modules/activities/bindings/activities_binding.dart';
 import 'package:blockie_app/app/modules/activities/views/activities_view.dart';
+import 'package:blockie_app/app/modules/activities_management/bindings/activities_management_binding.dart';
 import 'package:blockie_app/app/modules/activities_management/views/activities_management_view.dart';
 import 'package:blockie_app/app/modules/activity/bindings/activity_binding.dart';
 import 'package:blockie_app/app/modules/activity/views/activity_view.dart';
@@ -37,6 +37,8 @@ import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart'
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
 import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
 import 'package:blockie_app/app/modules/share/views/share_view.dart';
+import 'package:blockie_app/app/modules/subactivities_management/bindings/subactivities_management_binding.dart';
+import 'package:blockie_app/app/modules/subactivities_management/views/subactivities_management_view.dart';
 import 'package:blockie_app/app/modules/ticket_checking/bindings/ticket_checking_binding.dart';
 import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_view.dart';
 import 'package:blockie_app/app/modules/update_avatar/bindings/update_avatar_binding.dart';
@@ -92,7 +94,10 @@ class AppPages {
         GetPage(
           name: Routes.projectDetails,
           page: () => const ProjectDetailsContainerView(),
-          binding: ProjectDetailsBinding(projectRepository: _projectRepository),
+          binding: ProjectDetailsBinding(
+            accountRepository: _accountRepository,
+            projectRepository: _projectRepository,
+          ),
         ),
         GetPage(
           name: Routes.gallery,
@@ -157,9 +162,15 @@ class AppPages {
               projectsManagementRepository: _projectsManagementRepository),
         ),
         GetPage(
+          name: Routes.subactivitiesManagement,
+          page: () => const SubactivitiesManagementView(),
+          binding: SubactivitiesManagementBinding(),
+        ),
+        GetPage(
           name: Routes.projectsManagement,
           page: () => const ProjectsManagementView(),
-          binding: ProjectsManagementBinding(),
+          binding: ProjectsManagementBinding(
+              projectsManagementRepository: _projectsManagementRepository),
         ),
         GetPage(
           name: Routes.ticketChecking,

@@ -1,16 +1,12 @@
-enum SubactivityStepType {
-  login,
-  registrationInfo,
-  finish;
+import 'package:json_annotation/json_annotation.dart';
 
-  String get value => () {
-        switch (this) {
-          case SubactivityStepType.login:
-            return 'login';
-          case SubactivityStepType.registrationInfo:
-            return 'signup';
-          case SubactivityStepType.finish:
-            return 'finished_match';
-        }
-      }();
+enum SubactivityStepType {
+  @JsonValue('login')
+  login,
+  @JsonValue('signup')
+  registrationInfo,
+  @JsonValue('finished_match')
+  finish,
+  @JsonValue('volunteer')
+  volunteer;
 }

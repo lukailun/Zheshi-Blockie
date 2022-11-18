@@ -49,19 +49,19 @@ class ProfileController extends GetxController {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
       AuthService.to.user.value = res;
       AuthService.to.login();
-      _getQrCode();
-      _getProfile();
+      getQrCode();
+      getProfile();
     } else {
       AuthService.to.user.value = null;
       AuthService.to.logout();
     }
   }
 
-  void _getQrCode() async {
+  void getQrCode() async {
     qrCode.value = await accountRepository.getQrCode();
   }
 
-  void _getProfile() async {
+  void getProfile() async {
     profile.value = await profileRepository.getProfile();
   }
 
@@ -140,7 +140,7 @@ class ProfileController extends GetxController {
 
   void updateLabels(List<String> ids) async {
     await profileRepository.updateLabels(ids);
-    _getProfile();
+    getProfile();
   }
 }
 

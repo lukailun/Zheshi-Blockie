@@ -66,21 +66,24 @@ class BlockieUrlBuilder {
   // ProjectsManagement
   String buildGetManagedActivitiesUrl() => '$_baseUrl/staff/activities';
 
+  String buildGetManagedProjectsUrl(String id) =>
+      '$_baseUrl/staff/activities/$id/rights';
+
   String buildGetManagedProjectNftsUrl(String id) =>
-      '$_baseUrl/staff/activities/$id/NFTs';
+      '$_baseUrl/staff/rights/$id/NFTs';
 
   String buildGetAirdropNftsUrl(String id) =>
-      '$_baseUrl/staff/activities/$id/mint-status';
+      '$_baseUrl/staff/rights/$id/mint-status';
 
   String buildAirdropNftsUrl(String id) =>
-      '$_baseUrl/staff/activities/$id/mint';
+      '$_baseUrl/staff/rights/$id/mint';
 
   String buildCheckTicketUrl() => '$_baseUrl/staff/punch-tickets/souvenirs';
 
   String buildGetWhitelistStatusUrl(String id) =>
-      '$_baseUrl/staff/activities/$id';
+      '$_baseUrl/staff/rights/$id';
 
-  String buildAddWhitelistUrl(String id) => '$_baseUrl/staff/activities/$id';
+  String buildAddWhitelistUrl(String id) => '$_baseUrl/staff/rights/$id';
 
   // Profile
   String buildGetProfileUrl() => '$_baseUrl/my/profile';

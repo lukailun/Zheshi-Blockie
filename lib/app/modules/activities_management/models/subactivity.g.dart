@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project.dart';
+part of 'subactivity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
+Subactivity _$SubactivityFromJson(Map<String, dynamic> json) => Subactivity(
       name: json['name'] as String,
       summary: json['summary'] as String?,
       description: json['description'] as String?,
@@ -16,7 +16,8 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       totalAmount: json['total_amount'] as int?,
     );
 
-Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
+Map<String, dynamic> _$SubactivityToJson(Subactivity instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'summary': instance.summary,
       'description': instance.description,

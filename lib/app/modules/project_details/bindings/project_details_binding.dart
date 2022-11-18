@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -7,14 +8,20 @@ import 'package:blockie_app/data/repositories/project_repository.dart';
 
 class ProjectDetailsBinding implements Bindings {
   ProjectDetailsBinding({
-    required ProjectRepository projectRepository,
-  }) : _projectRepository = projectRepository;
-  final ProjectRepository _projectRepository;
+    required this.accountRepository,
+    required this.projectRepository,
+  });
+
+  final AccountRepository accountRepository;
+  final ProjectRepository projectRepository;
 
   @override
   void dependencies() {
     Get.lazyPut(
-      () => ProjectDetailsController(repository: _projectRepository),
+      () => ProjectDetailsController(
+        accountRepository: accountRepository,
+        projectRepository: projectRepository,
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ enum MintStatus {
   runOut,
   expired,
   minting,
+  needToClaimSouvenir,
 }
 
 extension MintStatusExtension on MintStatus {
@@ -31,15 +32,17 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.mintable:
         return isVideoNft ? '生成个人视频 NFT' : '开启铸造';
       case MintStatus.runOut:
-        return '已铸造';
+        return '我的页面';
       case MintStatus.generating:
-        return '正在识别中';
+        return '个人视频生成中';
       case MintStatus.generationFailed:
         return '没有识别到您的视频，请联系客服';
       case MintStatus.minting:
         return isVideoNft ? '生成个人视频 NFT' : '正在铸造';
       case MintStatus.expired:
         return '活动已结束';
+      case MintStatus.needToClaimSouvenir:
+        return '我的二维码';
     }
   }
 
@@ -61,6 +64,7 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.mintable:
       case MintStatus.runOut:
       case MintStatus.minting:
+      case MintStatus.needToClaimSouvenir:
         return '您当前持有 $userMintedAmount 个，还有 ${mintChances ?? 0} 次铸造机会';
       case MintStatus.expired:
         return '您当前持有 $userMintedAmount 个';
@@ -70,15 +74,15 @@ extension MintStatusExtension on MintStatus {
   int get colorValue => () {
         switch (this) {
           case MintStatus.notLogin:
-            return 0xFFFFFFFF;
+          case MintStatus.runOut:
           case MintStatus.mintable:
+          case MintStatus.needToClaimSouvenir:
             return 0xFFFFFFFF;
           case MintStatus.minting:
             return 0xFF07DFAB;
           case MintStatus.notStartedAndUnqualified:
           case MintStatus.notStarted:
           case MintStatus.unqualified:
-          case MintStatus.runOut:
           case MintStatus.expired:
           case MintStatus.generating:
           case MintStatus.generationFailed:
@@ -91,11 +95,12 @@ extension MintStatusExtension on MintStatus {
         switch (this) {
           case MintStatus.notLogin:
           case MintStatus.mintable:
+          case MintStatus.runOut:
+          case MintStatus.needToClaimSouvenir:
             return true;
           case MintStatus.notStartedAndUnqualified:
           case MintStatus.notStarted:
           case MintStatus.unqualified:
-          case MintStatus.runOut:
           case MintStatus.expired:
           case MintStatus.minting:
           case MintStatus.generating:
@@ -121,6 +126,7 @@ extension MintStatusExtension on MintStatus {
           case MintStatus.minting:
           case MintStatus.mintable:
           case MintStatus.runOut:
+          case MintStatus.needToClaimSouvenir:
             return false;
         }
       }();

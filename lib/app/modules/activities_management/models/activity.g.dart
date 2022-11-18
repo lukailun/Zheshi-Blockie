@@ -11,13 +11,13 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       name: json['name'] as String,
       summary: json['summary'] as String?,
       description: json['description'] as String?,
-      projects: (json['activities'] as List<dynamic>)
-          .map((e) => Project.fromJson(e as Map<String, dynamic>))
+      subactivities: (json['activities'] as List<dynamic>)
+          .map((e) => Subactivity.fromJson(e as Map<String, dynamic>))
           .toList(),
       issuer: json['issuer'] == null
           ? null
           : Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
-      typeValue: json['type'] as int,
+      type: $enumDecode(_$ActivityTypeEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
@@ -25,7 +25,12 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'name': instance.name,
       'summary': instance.summary,
       'description': instance.description,
-      'activities': instance.projects.map((e) => e.toJson()).toList(),
+      'activities': instance.subactivities.map((e) => e.toJson()).toList(),
       'issuer': instance.issuer?.toJson(),
-      'type': instance.typeValue,
+      'type': _$ActivityTypeEnumMap[instance.type]!,
     };
+
+const _$ActivityTypeEnumMap = {
+  ActivityType.activity: 2,
+  ActivityType.subactivity: 1,
+};

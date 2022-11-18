@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_step_button.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 
 class SubactivityStepsView extends StatelessWidget {
   final Subactivity subactivity;

@@ -1,19 +1,12 @@
-enum NftType {
-  sport,
-  video,
-  card,
-  kettleBell;
+import 'package:json_annotation/json_annotation.dart';
 
-  int get value => () {
-        switch (this) {
-          case NftType.sport:
-            return 1;
-          case NftType.video:
-            return 2;
-          case NftType.card:
-            return 3;
-          case NftType.kettleBell:
-            return 4;
-        }
-      }();
+enum NftType {
+  @JsonValue(1)
+  basic,
+  @JsonValue(2)
+  video,
+  @JsonValue(3)
+  card,
+  @JsonValue(4)
+  kettleBell;
 }

@@ -8,13 +8,13 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_view.dart';
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';

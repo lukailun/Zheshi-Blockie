@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 // Package imports:
-import 'package:blockie_app/utils/data_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
@@ -19,6 +18,7 @@ import 'package:blockie_app/app/modules/hold_verification/models/hold_verificati
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
+import 'package:blockie_app/app/modules/projects_management/models/project.dart';
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
@@ -30,6 +30,7 @@ import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 part 'blockie_api_account.dart';

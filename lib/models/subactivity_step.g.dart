@@ -8,7 +8,7 @@ part of 'subactivity_step.dart';
 
 SubactivityStep _$SubactivityStepFromJson(Map<String, dynamic> json) =>
     SubactivityStep(
-      id: json['action'] as String,
+      type: $enumDecode(_$SubactivityStepTypeEnumMap, json['action']),
       category: json['category_cn'] as String,
       title: json['name'] as String,
       iconPath: json['icon_path'] as String,
@@ -17,9 +17,16 @@ SubactivityStep _$SubactivityStepFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SubactivityStepToJson(SubactivityStep instance) =>
     <String, dynamic>{
-      'action': instance.id,
+      'action': _$SubactivityStepTypeEnumMap[instance.type]!,
       'category_cn': instance.category,
       'name': instance.title,
       'icon_path': instance.iconPath,
       'status': instance.isCompleted,
     };
+
+const _$SubactivityStepTypeEnumMap = {
+  SubactivityStepType.login: 'login',
+  SubactivityStepType.registrationInfo: 'signup',
+  SubactivityStepType.finish: 'finished_match',
+  SubactivityStepType.volunteer: 'volunteer',
+};

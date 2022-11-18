@@ -11,6 +11,13 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
     Get.offAndToNamed(Routes.activity, parameters: parameters);
   }
 
+  void goToProfile() async {
+    final userValue = AuthService.to.user.value;
+    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
+    await Get.toNamed(Routes.profile, parameters: parameters);
+    isDefaultConfig = false;
+  }
+
   void goToGallery(int index) async {
     final parameters = {
       GalleryParameter.index: '$index',
@@ -65,7 +72,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   void openLicenseDialog() {
     Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
-      _getProjectDetails();
+      getProjectDetails();
     });
   }
 
@@ -82,6 +89,19 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
         Get.toNamed(Routes.nft, parameters: parameters);
         isDefaultConfig = false;
       },
+    );
+  }
+
+  void openQrCodeDialog() {
+    final userValue = AuthService.to.user.value;
+    final qrCodeValue = qrCode.value;
+    if (userValue == null || qrCodeValue == null) {
+      return;
+    }
+    Get.qrCodeDialog(
+      user: userValue,
+      qrCode: qrCodeValue,
+      onClosed: getProjectDetails,
     );
   }
 }

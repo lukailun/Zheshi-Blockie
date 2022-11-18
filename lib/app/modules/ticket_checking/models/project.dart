@@ -4,27 +4,28 @@ import 'package:json_annotation/json_annotation.dart';
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
 
-part 'activity.g.dart';
+part 'project.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Activity {
+class Project {
   @JsonKey(name: 'uid')
   String id;
   @JsonKey(name: 'name')
   String name;
-  @JsonKey(name: 'cover')
-  String coverPath;
+  @JsonKey(name: 'cover_path')
+  String? coverPath;
 
-  Activity({
+  Project({
     required this.id,
     required this.name,
     required this.coverPath,
   });
 
-  String get coverUrl => coverPath.hostAdded;
+  String? get coverUrl =>
+      (coverPath ?? '').isNotEmpty ? (coverPath ?? '').hostAdded : null;
 
-  factory Activity.fromJson(Map<String, dynamic> json) =>
-      _$ActivityFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) =>
+      _$ProjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActivityToJson(this);
+  Map<String, dynamic> toJson() => _$ProjectToJson(this);
 }

@@ -8,29 +8,17 @@ part 'project.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Project {
-  @JsonKey(name: 'name')
-  final String name;
-  @JsonKey(name: 'summary')
-  final String? summary;
-  @JsonKey(name: 'description')
-  final String? description;
   @JsonKey(name: 'uid')
   final String id;
-  @JsonKey(name: 'cover')
+  @JsonKey(name: 'name')
+  final String title;
+  @JsonKey(name: 'cover_path')
   final String coverPath;
-  @JsonKey(name: 'contract')
-  final String? contract;
-  @JsonKey(name: 'total_amount')
-  final int? totalAmount;
 
   Project({
-    required this.name,
-    required this.summary,
-    required this.description,
     required this.id,
+    required this.title,
     required this.coverPath,
-    required this.contract,
-    required this.totalAmount,
   });
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;

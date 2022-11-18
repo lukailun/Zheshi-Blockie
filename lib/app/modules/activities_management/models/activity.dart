@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities_management/models/activity_type.dart';
-import 'package:blockie_app/app/modules/activities_management/models/project.dart';
+import 'package:blockie_app/app/modules/activities_management/models/subactivity.dart';
 import 'package:blockie_app/models/issuer.dart';
 
 part 'activity.g.dart';
@@ -19,24 +19,21 @@ class Activity {
   @JsonKey(name: 'description')
   String? description;
   @JsonKey(name: 'activities')
-  List<Project> projects;
+  List<Subactivity> subactivities;
   @JsonKey(name: 'issuer')
   Issuer? issuer;
   @JsonKey(name: 'type')
-  int typeValue;
+  ActivityType type;
 
   Activity({
     required this.id,
     required this.name,
     required this.summary,
     required this.description,
-    required this.projects,
+    required this.subactivities,
     required this.issuer,
-    required this.typeValue,
+    required this.type,
   });
-
-  ActivityType get type =>
-      typeValue == 2 ? ActivityType.grouped : ActivityType.plain;
 
   factory Activity.fromJson(Map<String, dynamic> json) =>
       _$ActivityFromJson(json);

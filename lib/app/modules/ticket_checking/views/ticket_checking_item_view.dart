@@ -33,13 +33,13 @@ class _TicketCheckingItemViewState extends State<TicketCheckingItemView> {
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: CachedNetworkImage(
-            imageUrl: widget.nft.activity.coverUrl,
+            imageUrl: widget.nft.project.coverUrl ?? '',
             width: 80,
             height: 80,
             fit: BoxFit.cover,
           ),
         ),
-        Text(widget.nft.activity.name)
+        Text(widget.nft.project.name)
             .textColor(Colors.white)
             .fontSize(16)
             .paddingAll(13),

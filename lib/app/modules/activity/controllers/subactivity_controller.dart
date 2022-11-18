@@ -1,14 +1,14 @@
 // Package imports:
-import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/project_status.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_preview.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
+import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/activity/views/staff_qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
@@ -20,6 +20,7 @@ import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/models/nft_info.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
@@ -37,6 +38,7 @@ class SubactivityController extends GetxController {
   final subactivity = Rxn<Subactivity>();
   final mintStatuses = <MintStatus>[].obs;
   final mintedNft = Rxn<NftInfo>();
+  final qrCode = Rxn<String>();
 
   SubactivityController({
     required this.accountRepository,
@@ -70,6 +72,15 @@ class SubactivityController extends GetxController {
     if (mintStatus == MintStatus.notLogin) {
       return openLicenseDialog();
     }
+    if (mintStatus == MintStatus.runOut) {
+      return goToProfile();
+    }
+    if (mintStatus == MintStatus.needToClaimSouvenir) {
+      if ((qrCode.value ?? '').isNotEmpty) {
+        return openQrCodeDialog();
+      }
+      return getQrCode();
+    }
     if (mintStatus == MintStatus.mintable) {
       return mint(project.id);
     }
@@ -86,6 +97,13 @@ class SubactivityController extends GetxController {
     if (mintedNft.value != null) {
       getSubactivity();
       openMintedNftDialog();
+    }
+  }
+
+  void getQrCode() async {
+    qrCode.value = await accountRepository.getQrCode();
+    if ((qrCode.value ?? '').isNotEmpty) {
+      openQrCodeDialog();
     }
   }
 
@@ -132,6 +150,9 @@ class SubactivityController extends GetxController {
             if (it.videoStatus == VideoStatus.failed) {
               return MintStatus.generationFailed;
             }
+          }
+          if (it.needToClaimSouvenir) {
+            return MintStatus.needToClaimSouvenir;
           }
           if (it.isQualified ?? false) {
             if ((it.mintChances ?? 0) > 0) {

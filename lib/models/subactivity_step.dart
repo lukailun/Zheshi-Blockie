@@ -1,8 +1,8 @@
 // Package imports:
-import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 
 part 'subactivity_step.g.dart';
@@ -10,7 +10,7 @@ part 'subactivity_step.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SubactivityStep {
   @JsonKey(name: 'action')
-  final String id;
+  final SubactivityStepType type;
   @JsonKey(name: 'category_cn')
   final String category;
   @JsonKey(name: 'name')
@@ -21,7 +21,7 @@ class SubactivityStep {
   final bool isCompleted;
 
   SubactivityStep({
-    required this.id,
+    required this.type,
     required this.category,
     required this.title,
     required this.iconPath,
@@ -29,9 +29,6 @@ class SubactivityStep {
   });
 
   String? get iconUrl => iconPath.isNotEmpty ? iconPath.hostAdded : null;
-
-  SubactivityStepType get type =>
-      SubactivityStepType.values.firstWhere((it) => it.value == id);
 
   factory SubactivityStep.fromJson(Map<String, dynamic> json) =>
       _$SubactivityStepFromJson(json);

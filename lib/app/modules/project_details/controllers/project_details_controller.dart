@@ -4,7 +4,9 @@ import 'dart:html' as html;
 import 'dart:ui';
 
 // Package imports:
-import 'package:blockie_app/models/wechat_shareable.dart';
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -26,6 +28,7 @@ import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/location_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
@@ -44,10 +47,15 @@ class ProjectDetailsController extends GetxController with WechatShareable {
   final id = Get.parameters[ProjectDetailsParameter.id] as String;
 
   final mintStatus = MintStatus.notLogin.obs;
+  final qrCode = Rxn<String>();
 
-  final ProjectRepository repository;
+  final AccountRepository accountRepository;
+  final ProjectRepository projectRepository;
 
-  ProjectDetailsController({required this.repository});
+  ProjectDetailsController({
+    required this.accountRepository,
+    required this.projectRepository,
+  });
 
   @override
   void onReady() {
@@ -61,8 +69,8 @@ class ProjectDetailsController extends GetxController with WechatShareable {
     isDefaultConfig = true;
   }
 
-  void _getProjectDetails() async {
-    projectDetails.value = await repository.getProjectDetails(id);
+  void getProjectDetails() async {
+    projectDetails.value = await projectRepository.getProjectDetails(id);
     final details = projectDetails.value;
     if (details == null) {
       return;
@@ -108,6 +116,10 @@ class ProjectDetailsController extends GetxController with WechatShareable {
             return;
           }
         }
+        if (projectDetails.needToClaimSouvenir) {
+          mintStatus.value = MintStatus.needToClaimSouvenir;
+          return;
+        }
         if (projectDetails.isQualified ?? false) {
           if ((projectDetails.mintChances ?? 0) > 0) {
             mintStatus.value = MintStatus.mintable;
@@ -135,6 +147,15 @@ class ProjectDetailsController extends GetxController with WechatShareable {
     }
     if (mintStatus.value == MintStatus.notLogin) {
       return openLicenseDialog();
+    }
+    if (mintStatus.value == MintStatus.runOut) {
+      return goToProfile();
+    }
+    if (mintStatus.value == MintStatus.needToClaimSouvenir) {
+      if ((qrCode.value ?? '').isNotEmpty) {
+        return openQrCodeDialog();
+      }
+      return getQrCode();
     }
     if (mintStatus.value == MintStatus.mintable) {
       final projectDetailsValue = projectDetails.value;
@@ -192,9 +213,9 @@ class ProjectDetailsController extends GetxController with WechatShareable {
       return;
     }
     _updateMintStatus(projectDetails: details, isMinting: true);
-    mintedNft.value = await repository.mint(id);
+    mintedNft.value = await projectRepository.mint(id);
     if (mintedNft.value != null) {
-      _getProjectDetails();
+      getProjectDetails();
       openMintedNftDialog();
     } else {
       mintStatus.value = MintStatus.mintable;
@@ -206,11 +227,18 @@ class ProjectDetailsController extends GetxController with WechatShareable {
       UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
       AuthService.to.user.value = res;
       AuthService.to.login();
-      _getProjectDetails();
+      getProjectDetails();
     } else {
       AuthService.to.user.value = null;
       AuthService.to.logout();
-      _getProjectDetails();
+      getProjectDetails();
+    }
+  }
+
+  void getQrCode() async {
+    qrCode.value = await accountRepository.getQrCode();
+    if ((qrCode.value ?? '').isNotEmpty) {
+      openQrCodeDialog();
     }
   }
 

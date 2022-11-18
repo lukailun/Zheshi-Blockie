@@ -18,13 +18,16 @@ extension GetDialogExtension on GetInterface {
   void qrCodeDialog({
     required UserInfo user,
     required String qrCode,
+    Function()? onClosed,
   }) {
     Get.dialog(
       QrCodeDialog(
         user: user,
         qrCode: qrCode,
+        onClosed: onClosed,
       ),
       barrierColor: AppThemeData.barrierColor,
+      barrierDismissible: false,
     );
   }
 }
@@ -32,11 +35,13 @@ extension GetDialogExtension on GetInterface {
 class QrCodeDialog extends StatelessWidget {
   final UserInfo user;
   final String qrCode;
+  final Function()? onClosed;
 
   const QrCodeDialog({
     Key? key,
     required this.user,
     required this.qrCode,
+    this.onClosed,
   }) : super(key: key);
 
   @override
@@ -47,7 +52,10 @@ class QrCodeDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           GestureDetector(
-            onTap: () => Get.back(),
+            onTap: () {
+              Get.back();
+              onClosed?.call();
+            },
             child: Image.asset(
               "assets/images/app_bar/close.png",
               width: 34,

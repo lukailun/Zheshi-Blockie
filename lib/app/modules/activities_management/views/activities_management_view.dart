@@ -8,12 +8,12 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activities_management/controllers/activities_management_controller.dart';
 import 'package:blockie_app/app/modules/activities_management/models/activity.dart';
 import 'package:blockie_app/app/modules/activities_management/models/activity_type.dart';
-import 'package:blockie_app/app/modules/activities_management/models/project.dart';
+import 'package:blockie_app/app/modules/activities_management/models/subactivity.dart';
+import 'package:blockie_app/app/modules/activities_management/views/activity_item_view.dart';
+import 'package:blockie_app/app/modules/activities_management/views/subactivity_item_view.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:blockie_app/widgets/project_activity_item_view.dart';
-import 'package:blockie_app/widgets/project_item_view.dart';
 
 class ActivitiesManagementContainerView
     extends GetView<ActivitiesManagementController> {
@@ -32,8 +32,8 @@ class ActivitiesManagementContainerView
           } else {
             return _ActivitiesManagementView(
               activities: activitiesValue,
-              plainItemOnTap: controller.openProjectOperationDialog,
-              groupedItemOnTap: controller.goToProjectsManagement,
+              subactivitiesOnTap: controller.goToProjectsManagement,
+              activitiesOnTap: controller.goToSubactivitiesManagement,
             );
           }
         }(),
@@ -44,13 +44,13 @@ class ActivitiesManagementContainerView
 
 class _ActivitiesManagementView extends StatelessWidget {
   final List<Activity> activities;
-  final Function(Project)? plainItemOnTap;
-  final Function(String, List<Project>)? groupedItemOnTap;
+  final Function(String, Subactivity)? subactivitiesOnTap;
+  final Function(String, List<Subactivity>)? activitiesOnTap;
 
   const _ActivitiesManagementView({
     required this.activities,
-    this.plainItemOnTap,
-    this.groupedItemOnTap,
+    this.subactivitiesOnTap,
+    this.activitiesOnTap,
   });
 
   @override
@@ -61,19 +61,19 @@ class _ActivitiesManagementView extends StatelessWidget {
       itemBuilder: (_, index) {
         final activity = activities[index];
         switch (activity.type) {
-          case ActivityType.grouped:
-            return ProjectActivityItemView(
+          case ActivityType.activity:
+            return ActivityItemView(
               activity: activities[index],
               issuer: activities[index].issuer,
-              onTap: () => groupedItemOnTap?.call(
-                  activities[index].name, activities[index].projects),
+              onTap: () => activitiesOnTap?.call(
+                  activities[index].name, activities[index].subactivities),
             );
-          case ActivityType.plain:
-            return ProjectItemView(
-              project: activities[index].projects.first,
+          case ActivityType.subactivity:
+            return SubactivityItemView(
+              subactivity: activities[index].subactivities.first,
               issuer: activities[index].issuer,
-              onTap: () =>
-                  plainItemOnTap?.call(activities[index].projects.first),
+              onTap: () => subactivitiesOnTap?.call(activities[index].name,
+                  activities[index].subactivities.first),
             );
         }
       },

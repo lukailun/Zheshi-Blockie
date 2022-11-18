@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'activity.dart';
+part of 'project.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
+Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       id: json['uid'] as String,
       name: json['name'] as String,
-      coverPath: json['cover'] as String,
+      coverPath: json['cover_path'] as String?,
     );
 
-Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
+Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'uid': instance.id,
       'name': instance.name,
-      'cover': instance.coverPath,
+      'cover_path': instance.coverPath,
     };

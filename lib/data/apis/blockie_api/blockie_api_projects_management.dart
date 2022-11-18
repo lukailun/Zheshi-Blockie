@@ -14,6 +14,20 @@ extension BlockieApiProjectsManagement on BlockieApi {
     }
   }
 
+  Future<List<Project>?> getManagedProjects({
+    required String id,
+  }) async {
+    try {
+      final url = _urlBuilder.buildGetManagedProjectsUrl(id);
+      final response = await _dio.get(url);
+      final List list = BlockieApi._getResponseData(response);
+      final projects = list.map((it) => Project.fromJson(it)).toList();
+      return projects;
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<TicketCheckingDetails?> getTicketCheckingDetails({
     required String id,
     required String qrCode,

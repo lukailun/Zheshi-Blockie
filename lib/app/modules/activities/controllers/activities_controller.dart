@@ -53,7 +53,12 @@ class ActivitiesController extends GetxController {
     if (userValue == null) {
       return _showLicenseDialog();
     }
-    final parameters = {ProfileParameter.id: userValue.id};
+    goToProfile();
+  }
+
+  void goToProfile() {
+    final userValue = user.value;
+    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
     Get.toNamed(Routes.profile, parameters: parameters);
   }
 

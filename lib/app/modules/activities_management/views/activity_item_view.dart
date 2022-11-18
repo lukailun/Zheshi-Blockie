@@ -10,13 +10,13 @@ import 'package:blockie_app/app/modules/activities_management/models/activity.da
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/issuer.dart';
 
-class ProjectActivityItemView extends StatelessWidget {
+class ActivityItemView extends StatelessWidget {
   final Activity activity;
   final Issuer? issuer;
   final Function()? onTap;
   final Function()? issuerOnTap;
 
-  const ProjectActivityItemView({
+  const ActivityItemView({
     super.key,
     required this.activity,
     this.issuer,
@@ -30,10 +30,10 @@ class ProjectActivityItemView extends StatelessWidget {
       height: 280,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: activity.projects.length,
+        itemCount: activity.subactivities.length,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemBuilder: (context, index) {
-          final coverUrl = activity.projects[index].coverUrl ?? '';
+          final coverUrl = activity.subactivities[index].coverUrl ?? '';
           return ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             child: Stack(
@@ -70,7 +70,7 @@ class ProjectActivityItemView extends StatelessWidget {
                   bottom: 13,
                   width: 240,
                   child: Text(
-                    activity.projects[index].name,
+                    activity.subactivities[index].name,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ).textColor(Colors.white).fontSize(20),

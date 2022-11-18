@@ -6,20 +6,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activities_management/models/project.dart';
+import 'package:blockie_app/app/modules/activities_management/models/subactivity.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-import '../models/issuer.dart';
+import '../../../../models/issuer.dart';
 
-class ProjectItemView extends StatelessWidget {
-  final Project project;
+class SubactivityItemView extends StatelessWidget {
+  final Subactivity subactivity;
   final Issuer? issuer;
   final Function()? onTap;
   final Function()? issuerOnTap;
 
-  const ProjectItemView({
+  const SubactivityItemView({
     super.key,
-    required this.project,
+    required this.subactivity,
     this.issuer,
     this.onTap,
     this.issuerOnTap,
@@ -27,7 +27,7 @@ class ProjectItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coverUrl = project.coverUrl ?? '';
+    final coverUrl = subactivity.coverUrl ?? '';
     final cover = AspectRatio(
       aspectRatio: 332.0 / 250.0,
       child: ClipRRect(
@@ -37,20 +37,20 @@ class ProjectItemView extends StatelessWidget {
         ),
         child: coverUrl.isNotEmpty
             ? CachedNetworkImage(
-                imageUrl: project.coverUrl ?? '',
+                imageUrl: subactivity.coverUrl ?? '',
                 fit: BoxFit.cover,
               )
             : const SizedBox(),
       ),
     ).paddingOnly(bottom: 16);
-    final title = Text(project.name)
+    final title = Text(subactivity.name)
         .textColor(Colors.white)
         .fontSize(21)
         .paddingOnly(left: 16, right: 16, bottom: 16);
     final summary = Visibility(
-      visible: (project.summary ?? '').isNotEmpty,
+      visible: (subactivity.summary ?? '').isNotEmpty,
       child: Text(
-        project.summary ?? '',
+        subactivity.summary ?? '',
         maxLines: 2,
       )
           .textColor(const Color(0xB3FFFFFF))
@@ -76,7 +76,7 @@ class ProjectItemView extends StatelessWidget {
                 .textColor(const Color(0xB3FFFFFF))
                 .paddingOnly(left: 7),
             const Spacer(flex: 1),
-            Text('共发行 ${project.totalAmount}')
+            Text('共发行 ${subactivity.totalAmount}')
                 .fontSize(14)
                 .textColor(const Color(0xB3FFFFFF))
                 .paddingOnly(left: 7),

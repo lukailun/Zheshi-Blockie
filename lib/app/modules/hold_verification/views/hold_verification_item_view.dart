@@ -25,13 +25,13 @@ class HoldVerificationItemView extends StatelessWidget {
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: CachedNetworkImage(
-            imageUrl: nft.activity.coverUrl,
+            imageUrl: nft.project.coverUrl ?? '',
             width: 80,
             height: 80,
             fit: BoxFit.cover,
           ),
         ),
-        Text(nft.activity.name)
+        Text(nft.project.name)
             .textColor(Colors.white)
             .fontSize(16)
             .paddingAll(13),

@@ -1,5 +1,4 @@
 // Package imports:
-import 'package:blockie_app/models/video.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
@@ -7,6 +6,7 @@ import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/project_status.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/video.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project.g.dart';
@@ -30,7 +30,7 @@ class Project {
   @JsonKey(name: 'server_time')
   final int serverTimestamp;
   @JsonKey(name: 'nft_type')
-  final int nftTypeValue;
+  final NftType nftType;
   @JsonKey(name: 'is_open')
   final bool? isQualified;
   @JsonKey(name: 'mint_chances')
@@ -40,7 +40,9 @@ class Project {
   @JsonKey(name: 'preview_video')
   final Video? previewVideo;
   @JsonKey(name: 'video_process_status')
-  final int? videoStatusValue;
+  final VideoStatus? videoStatus;
+  @JsonKey(name: 'souvenir_available')
+  final bool needToClaimSouvenir;
 
   Project({
     required this.id,
@@ -51,24 +53,18 @@ class Project {
     required this.startedTimestamp,
     required this.endedTimestamp,
     required this.serverTimestamp,
-    required this.nftTypeValue,
+    required this.nftType,
     required this.isQualified,
     required this.mintChances,
     required this.video,
     required this.previewVideo,
-    required this.videoStatusValue,
+    required this.videoStatus,
+    required this.needToClaimSouvenir,
   });
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;
 
-  NftType get nftType =>
-      NftType.values.firstWhere((it) => it.value == nftTypeValue);
-
   bool get isVideoNft => nftType == NftType.video;
-
-  VideoStatus get videoStatus => videoStatusValue != null
-      ? VideoStatus.values.firstWhere((it) => it.value == videoStatusValue)
-      : VideoStatus.unknown;
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {

@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activities_management/models/project.dart';
+import 'package:blockie_app/app/modules/projects_management/models/project.dart';
+import 'package:blockie_app/app/modules/projects_management/views/project_item_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/project_item_view.dart';
 
 extension GetDialogExtension on GetInterface {
   void projectsManagementDialog({
@@ -75,17 +75,17 @@ class ProjectsManagementDialog extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          Expanded(
-                            child: _ProjectOperationButton(
-                              title: '空投 NFT',
-                              assetName:
-                                  'assets/images/projects_management/airdrop_nft.png',
-                              onTap: () {
-                                Get.back();
-                                airdropNftOnTap();
-                              },
-                            ),
-                          ),
+                          // Expanded(
+                          //   child: _ProjectOperationButton(
+                          //     title: '空投 NFT',
+                          //     assetName:
+                          //         'assets/images/projects_management/airdrop_nft.png',
+                          //     onTap: () {
+                          //       Get.back();
+                          //       airdropNftOnTap();
+                          //     },
+                          //   ),
+                          // ),
                           Expanded(
                             child: _ProjectOperationButton(
                               title: '验票核销',
@@ -108,17 +108,17 @@ class ProjectsManagementDialog extends StatelessWidget {
                               },
                             ),
                           ),
-                          Expanded(
-                            child: _ProjectOperationButton(
-                              title: '加白名单',
-                              assetName:
-                                  'assets/images/projects_management/add_whitelist.png',
-                              onTap: () {
-                                Get.back();
-                                addWhitelistOnTap();
-                              },
-                            ),
-                          ),
+                          // Expanded(
+                          //   child: _ProjectOperationButton(
+                          //     title: '加白名单',
+                          //     assetName:
+                          //         'assets/images/projects_management/add_whitelist.png',
+                          //     onTap: () {
+                          //       Get.back();
+                          //       addWhitelistOnTap();
+                          //     },
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

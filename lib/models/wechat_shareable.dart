@@ -1,5 +1,7 @@
+// Dart imports:
 import 'dart:async';
 
+// Project imports:
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
 abstract class WechatShareable {

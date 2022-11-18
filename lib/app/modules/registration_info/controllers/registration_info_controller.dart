@@ -1,5 +1,4 @@
 // Package imports:
-import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -7,6 +6,7 @@ import 'package:blockie_app/app/modules/face_verification/models/face_info.dart'
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class RegistrationInfoController extends GetxController {
