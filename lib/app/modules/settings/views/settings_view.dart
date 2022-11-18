@@ -23,7 +23,6 @@ class SettingsView extends GetView<SettingsController> {
         .fontSize(24)
         .fontWeight(FontWeightCompat.semiBold)
         .textShadow(color: const Color(0x40000000), offset: const Offset(2, 2));
-    const expanded = Expanded(child: SizedBox());
     final logoutButton = SizedBox(
       width: double.infinity,
       child: Center(
@@ -36,7 +35,7 @@ class SettingsView extends GetView<SettingsController> {
           ),
         ),
       ),
-    ).paddingOnly(bottom: 97);
+    ).paddingOnly(top: 15, bottom: 97);
 
     return Scaffold(
       backgroundColor: AppThemeData.primaryColor,
@@ -49,15 +48,20 @@ class SettingsView extends GetView<SettingsController> {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [title] +
-                _getItemGroupTiles(version: controller.version.value) +
-                [expanded, logoutButton],
+                [
+                  Expanded(
+                    child:
+                        _getItemGroupTiles(version: controller.version.value),
+                  ),
+                ] +
+                [logoutButton],
           ),
         ).paddingSymmetric(horizontal: 20),
       ),
     );
   }
 
-  List<Widget> _getItemGroupTiles({
+  Widget _getItemGroupTiles({
     required String version,
   }) {
     final groups = SettingsItemGroups.initial(
@@ -68,9 +72,12 @@ class SettingsView extends GetView<SettingsController> {
       termsOfServiceOnTap: controller.goToTermsOfService,
       privacyPolicyOnTap: controller.goToPrivacyPolicy,
       activitiesManagementOnTap: controller.goToActivitiesManagement,
+      developerModeOnTap: controller.goToDeveloperMode,
     );
     final List<Widget> itemGroupTiles =
         groups.map((group) => SettingsItemGroupTile(group: group)).toList();
-    return itemGroupTiles;
+    return SingleChildScrollView(
+      child: Column(children: itemGroupTiles),
+    );
   }
 }

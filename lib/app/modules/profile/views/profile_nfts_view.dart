@@ -2,7 +2,6 @@
 import 'dart:math';
 
 // Flutter imports:
-import 'package:blockie_app/models/platform_info.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_nft_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/platform_info.dart';
 
 class ProfileNftsView extends StatelessWidget {
   final String title;

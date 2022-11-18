@@ -1,6 +1,8 @@
+// Dart imports:
 import 'dart:html' as html;
 import 'dart:io';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
 class PlatformInfo {

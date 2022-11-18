@@ -1,7 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
-import 'package:blockie_app/models/environment.dart';
-import 'package:dio_log/overlay_draggable_button.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,7 +8,9 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activities/controllers/activities_controller.dart';
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
+import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
@@ -21,15 +20,12 @@ class ActivitiesContainerView extends GetView<ActivitiesController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Environment.isDevelopment) {
-      showDebugBtn(context);
-    }
     return GetRouterOutlet.builder(
       routerDelegate: Get.rootDelegate,
       builder: (context, delegate, currentRoute) {
         return Obx(
           () => Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppThemeData.primaryColor,
             appBar: BasicAppBar(
               showsLogo: true,
               avatar: _getAvatar(
@@ -112,13 +108,13 @@ class _ActivitiesView extends StatelessWidget {
     return ListView.separated(
       itemCount: activities.length,
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      separatorBuilder: (context, index) => const SizedBox(height: 28),
       itemBuilder: (context, index) {
         final activity = activities[index];
         return ActivitiesItemView(
           activity: activity,
           issuerOnTap: () =>
-              issuerOnTap?.call(activities[index].issuer?.id ?? ''),
+              issuerOnTap?.call(activities[index].issuer.id ?? ''),
           onTap: () => itemOnTap?.call(activities[index].id),
         );
       },

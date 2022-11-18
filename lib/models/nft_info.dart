@@ -20,24 +20,29 @@ class NftInfo {
   final int projectAmount;
   final Issuer issuer;
   final UserInfo user;
+  final String shareTitle;
+  final String shareDescription;
 
-  NftInfo(
-      {required this.projectContract,
-      required this.tokenId,
-      required this.mintedAt,
-      required this.cover,
-      required this.image,
-      required this.textures,
-      required this.modelImage,
-      required this.model,
-      required this.video,
-      required this.type,
-      required this.uid,
-      required this.projectName,
-      required this.projectSummary,
-      required this.projectAmount,
-      required this.issuer,
-      required this.user});
+  NftInfo({
+    required this.projectContract,
+    required this.tokenId,
+    required this.mintedAt,
+    required this.cover,
+    required this.image,
+    required this.textures,
+    required this.modelImage,
+    required this.model,
+    required this.video,
+    required this.type,
+    required this.uid,
+    required this.projectName,
+    required this.projectSummary,
+    required this.projectAmount,
+    required this.issuer,
+    required this.user,
+    required this.shareTitle,
+    required this.shareDescription,
+  });
 
   factory NftInfo.fromJson(Map<String, dynamic> json) {
     return NftInfo(
@@ -46,7 +51,11 @@ class NftInfo {
         cover: Global.assetHost + json['cover'],
         image: Global.assetHost + (json['image']['normal'] ?? ''),
         textures: Map.from(json['image']),
-        modelImage: json['model_image'] == null ? [] : (json['model_image'] as List).map((e) => Map<String, String>.from(e)).toList(),
+        modelImage: json['model_image'] == null
+            ? []
+            : (json['model_image'] as List)
+                .map((e) => Map<String, String>.from(e))
+                .toList(),
         model: json['model'] ?? '',
         video: json['video'] ?? '',
         type: json['type'],
@@ -55,6 +64,8 @@ class NftInfo {
         projectSummary: json['activity']['summary'],
         projectContract: json['activity']['contract'],
         projectAmount: json['activity']['total_amount'],
+        shareTitle: json['activity']['share_title'],
+        shareDescription: json['activity']['share_msg'],
         issuer: Issuer.fromJson(json['issuer']),
         user: UserInfo.fromJson(json['user']));
   }

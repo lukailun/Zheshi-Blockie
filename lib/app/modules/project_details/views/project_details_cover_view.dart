@@ -29,7 +29,7 @@ class ProjectDetailsCoverView extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: CachedNetworkImage(
-                imageUrl: projectDetails.coverUrl,
+                imageUrl: projectDetails.headerUrl,
                 fit: BoxFit.cover,
               ),
             ),

@@ -1,10 +1,12 @@
 // Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_status.dart';
-import 'package:blockie_app/app/modules/activity/models/subactivity_step.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'subactivity.g.dart';
 
@@ -22,6 +24,8 @@ class Subactivity {
   final String description;
   @JsonKey(name: 'participants')
   final List<String> participantAvatarPaths;
+  @JsonKey(name: 'participants_count')
+  final int numberOfParticipants;
   @JsonKey(name: 'staff_qrcode')
   final String? staffQrCodePath;
   @JsonKey(name: 'missions')
@@ -36,6 +40,7 @@ class Subactivity {
     required this.serverTimestamp,
     required this.description,
     required this.participantAvatarPaths,
+    required this.numberOfParticipants,
     required this.staffQrCodePath,
     required this.steps,
     required this.projects,
@@ -81,6 +86,8 @@ class Subactivity {
   String? get staffQrCodeUrl => (staffQrCodePath ?? '').isNotEmpty
       ? (staffQrCodePath ?? '').hostAdded
       : null;
+
+  bool get allStepsCompleted => steps.every((it) => it.isCompleted);
 
   factory Subactivity.fromJson(Map<String, dynamic> json) =>
       _$SubactivityFromJson(json);

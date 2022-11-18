@@ -1,10 +1,4 @@
 // Package imports:
-import 'package:blockie_app/app/modules/brand_details/bindings/brand_details_binding.dart';
-import 'package:blockie_app/app/modules/brand_details/views/brand_details_view.dart';
-import 'package:blockie_app/app/modules/preview_video/bindings/preview_video_binding.dart';
-import 'package:blockie_app/app/modules/preview_video/views/preview_video_view.dart';
-import 'package:blockie_app/app/modules/root/bindings/root_binding.dart';
-import 'package:blockie_app/app/modules/root/views/root_view.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -18,6 +12,10 @@ import 'package:blockie_app/app/modules/add_whitelist/bindings/add_whitelist_bin
 import 'package:blockie_app/app/modules/add_whitelist/views/add_whitelist_view.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/bindings/airdrop_nft_binding.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/views/airdrop_nft_view.dart';
+import 'package:blockie_app/app/modules/brand_details/bindings/brand_details_binding.dart';
+import 'package:blockie_app/app/modules/brand_details/views/brand_details_view.dart';
+import 'package:blockie_app/app/modules/developer_mode/bindings/developer_mode_binding.dart';
+import 'package:blockie_app/app/modules/developer_mode/views/developer_mode_view.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
 import 'package:blockie_app/app/modules/gallery/bindings/gallery_binding.dart';
@@ -33,6 +31,8 @@ import 'package:blockie_app/app/modules/projects_management/bindings/projects_ma
 import 'package:blockie_app/app/modules/projects_management/views/projects_management_view.dart';
 import 'package:blockie_app/app/modules/registration_info/bindings/registration_info_binding.dart';
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
+import 'package:blockie_app/app/modules/root/bindings/root_binding.dart';
+import 'package:blockie_app/app/modules/root/views/root_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
 import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
@@ -199,9 +199,9 @@ class AppPages {
           binding: ShareBinding(projectRepository: _projectRepository),
         ),
         GetPage(
-          name: Routes.previewVideo,
-          page: () => const PreviewVideoView(),
-          binding: PreviewVideoBinding(),
+          name: Routes.developerMode,
+          page: () => const DeveloperModeView(),
+          binding: DeveloperModeBinding(),
         ),
       ],
     ),

@@ -2,6 +2,8 @@
 import 'dart:html' as html;
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 
 enum WechatShareSource {
@@ -42,13 +44,17 @@ extension WechatShareSourceExtension on WechatShareSource {
     }
   }
 
-  String getLink() {
+  String getLink({String? extraInfo}) {
     final defaultLink = html.window.location.href.split('#').first;
     switch (this) {
+      case WechatShareSource.activity:
+        return '$defaultLink#${Routes.activity}${extraInfo != null ? '?$extraInfo' : ''}';
+      case WechatShareSource.project:
+        return '$defaultLink#${Routes.projectDetails}${extraInfo != null ? '?$extraInfo' : ''}';
+      case WechatShareSource.nft:
+        return '$defaultLink#${Routes.nft}${extraInfo != null ? '?$extraInfo' : ''}';
       case WechatShareSource.defaults:
         return defaultLink;
-      default:
-        return html.window.location.href;
     }
   }
 

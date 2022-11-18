@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,7 +11,6 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
-import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_cover_view.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_footer_view.dart';
@@ -20,7 +18,9 @@ import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
@@ -57,7 +57,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
     ];
     return Obx(
       () => Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppThemeData.primaryColor,
         extendBodyBehindAppBar: true,
         appBar: BasicAppBar(
           actionItems: [

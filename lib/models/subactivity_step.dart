@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
@@ -28,6 +29,9 @@ class SubactivityStep {
   });
 
   String? get iconUrl => iconPath.isNotEmpty ? iconPath.hostAdded : null;
+
+  SubactivityStepType get type =>
+      SubactivityStepType.values.firstWhere((it) => it.value == id);
 
   factory SubactivityStep.fromJson(Map<String, dynamic> json) =>
       _$SubactivityStepFromJson(json);

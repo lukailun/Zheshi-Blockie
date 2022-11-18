@@ -1,13 +1,16 @@
 // Package imports:
-import 'package:blockie_app/models/issuer.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
+import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_extra_info.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_item.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project_details.g.dart';
@@ -20,6 +23,8 @@ class ProjectDetails {
   final String? summary;
   @JsonKey(name: 'description')
   final String description;
+  @JsonKey(name: 'bg_path')
+  final String headerPath;
   @JsonKey(name: 'introduction')
   final String introduction;
   @JsonKey(name: 'cover_path')
@@ -54,13 +59,20 @@ class ProjectDetails {
   final Issuer issuer;
   @JsonKey(name: 'content')
   final ProjectDetailsExtraInfo extraInfo;
-  @JsonKey(name: 'activity_uid')
+  @JsonKey(name: 'group_uid')
   final String activityId;
+  @JsonKey(name: 'video_process_status')
+  final int? videoStatusValue;
+  @JsonKey(name: 'nft_type')
+  final int nftTypeValue;
+  @JsonKey(name: 'missions')
+  final List<SubactivityStep> steps;
 
   const ProjectDetails({
     required this.name,
     required this.summary,
     required this.description,
+    required this.headerPath,
     required this.introduction,
     required this.coverPath,
     required this.imagePaths,
@@ -79,11 +91,25 @@ class ProjectDetails {
     required this.issuer,
     required this.extraInfo,
     required this.activityId,
+    required this.videoStatusValue,
+    required this.nftTypeValue,
+    required this.steps,
   });
 
   String get coverUrl => coverPath.hostAdded;
 
+  String get headerUrl => headerPath.hostAdded;
+
   List<String> get imageUrls => imagePaths.map((it) => it.hostAdded).toList();
+
+  VideoStatus get videoStatus => videoStatusValue != null
+      ? VideoStatus.values.firstWhere((it) => it.value == videoStatusValue)
+      : VideoStatus.unknown;
+
+  NftType get nftType =>
+      NftType.values.firstWhere((it) => it.value == nftTypeValue);
+
+  bool get isVideoNft => nftType == NftType.video;
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {
@@ -133,6 +159,8 @@ class ProjectDetails {
         return null;
       }();
 
+  bool get allStepsCompleted => steps.every((it) => it.isCompleted);
+
   factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
       _$ProjectDetailsFromJson(json);
 
@@ -144,7 +172,6 @@ extension ProjectDetailsExtension on ProjectDetails {
         ProjectDetailsItem(title: '发行总量', content: '$totalAmount'),
         ProjectDetailsItem(title: '已铸造', content: '$mintedAmount'),
         ProjectDetailsItem(title: '持有者', content: '$heldAmount'),
-        ProjectDetailsItem(title: '申领规则&玩法介绍', content: introduction),
         ProjectDetailsItem(title: '铸造开始时间', content: startedTime ?? ''),
         ProjectDetailsItem(title: '铸造结束时间', content: endedTime ?? ''),
         ProjectDetailsItem(

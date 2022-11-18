@@ -1,14 +1,17 @@
-import 'package:blockie_app/app/modules/share/models/share_info.dart';
-import 'package:blockie_app/app/modules/share/models/share_info_item.dart';
-import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/utils/clipboard_utils.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/share//models/share_type.dart';
+import 'package:blockie_app/app/modules/share/models/share_info.dart';
+import 'package:blockie_app/app/modules/share/models/share_info_item.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 
 class ShareController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -44,7 +47,7 @@ class ShareController extends GetxController
     if (!isVideo) {
       return;
     }
-    final videoUrl = shareInfo.value?.videoUrl ?? '';
+    final videoUrl = shareInfo.value?.video?.url ?? '';
     final copySuccess = ClipboardUtils.copyToClipboard(videoUrl);
     MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
   }
@@ -67,12 +70,12 @@ class ShareController extends GetxController
     }
     if (isNft) {
       if (shareInfoValue.posterUrl != null) {
-        if (shareInfoValue.videoPath != null) {
+        if ((shareInfoValue.video?.url ?? '').isNotEmpty) {
           items.value.add(ShareInfoItem(
             id: ShareType.video.id,
             title: ShareType.video.title,
             imageUrl: shareInfoValue.posterUrl ?? '',
-            linkUrl: shareInfoValue.videoUrl,
+            video: shareInfoValue.video,
           ));
         }
         items.value.add(ShareInfoItem(

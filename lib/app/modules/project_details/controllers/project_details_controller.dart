@@ -4,14 +4,16 @@ import 'dart:html' as html;
 import 'dart:ui';
 
 // Package imports:
-import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
+import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
+import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
+import 'package:blockie_app/app/modules/activity/models/video_status.dart';
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:blockie_app/app/modules/gallery/controllers/gallery_controller.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
-import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/app/modules/project_details/views/mint_check_code_dialog.dart';
@@ -22,6 +24,7 @@ import 'package:blockie_app/data/apis/models/location/location.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/location_service.dart';
@@ -35,7 +38,7 @@ import '../views/project_details_minted_nft_dialog.dart';
 
 part 'project_details_controller_router.dart';
 
-class ProjectDetailsController extends GetxController {
+class ProjectDetailsController extends GetxController with WechatShareable {
   final mintedNft = Rxn<NftInfo>();
   final projectDetails = Rxn<ProjectDetails>();
   final id = Get.parameters[ProjectDetailsParameter.id] as String;
@@ -55,7 +58,7 @@ class ProjectDetailsController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    _updateShareConfig(isDefaultConfig: true);
+    isDefaultConfig = true;
   }
 
   void _getProjectDetails() async {
@@ -65,7 +68,7 @@ class ProjectDetailsController extends GetxController {
       return;
     }
     _updateMintStatus(projectDetails: details, isMinting: false);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
   void _updateMintStatus({
@@ -90,6 +93,21 @@ class ProjectDetailsController extends GetxController {
           return;
         }
       case ProjectStatus.ongoing:
+        if (!projectDetails.allStepsCompleted) {
+          mintStatus.value = MintStatus.stepNotCompleted;
+          return;
+        }
+        if (projectDetails.isVideoNft) {
+          if (projectDetails.videoStatus == VideoStatus.unrecorded ||
+              projectDetails.videoStatus == VideoStatus.inProcess) {
+            mintStatus.value = MintStatus.generating;
+            return;
+          }
+          if (projectDetails.videoStatus == VideoStatus.failed) {
+            mintStatus.value = MintStatus.generationFailed;
+            return;
+          }
+        }
         if (projectDetails.isQualified ?? false) {
           if ((projectDetails.mintChances ?? 0) > 0) {
             mintStatus.value = MintStatus.mintable;
@@ -196,36 +214,57 @@ class ProjectDetailsController extends GetxController {
     }
   }
 
-  void _updateShareConfig({required bool isDefaultConfig}) {
+  @override
+  String title() {
     final projectDetailsValue = projectDetails.value;
     if (projectDetailsValue == null) {
-      return;
+      return WechatShareSource.defaults.getTitle();
     }
-    final title = isDefaultConfig
+    return isDefaultConfig
         ? WechatShareSource.defaults.getTitle()
         : WechatShareSource.project
             .getTitle(extraInfo: projectDetailsValue.name);
-    final description = isDefaultConfig
+  }
+
+  @override
+  String description() {
+    final projectDetailsValue = projectDetails.value;
+    if (projectDetailsValue == null) {
+      return WechatShareSource.defaults.getTitle();
+    }
+    return isDefaultConfig
         ? WechatShareSource.defaults.getDescription()
         : WechatShareSource.project
             .getDescription(extraInfo: projectDetailsValue.summary);
-    final link = isDefaultConfig
-        ? WechatShareSource.defaults.getLink()
-        : WechatShareSource.project.getLink();
-    final imageUrl = isDefaultConfig
+  }
+
+  @override
+  String imageUrl() {
+    final projectDetailsValue = projectDetails.value;
+    if (projectDetailsValue == null) {
+      return WechatShareSource.defaults.getTitle();
+    }
+    return isDefaultConfig
         ? WechatShareSource.defaults.getImageUrl()
         : WechatShareSource.project.getImageUrl(
             extraInfo: projectDetailsValue.coverUrl,
           );
-    WechatService.to.updateShareConfig(
-      title: title,
-      description: description,
-      link: link,
-      imageUrl: imageUrl,
-    );
+  }
+
+  @override
+  String link() {
+    final projectDetailsValue = projectDetails.value;
+    if (projectDetailsValue == null) {
+      return WechatShareSource.defaults.getTitle();
+    }
+    return isDefaultConfig
+        ? WechatShareSource.defaults.getLink()
+        : WechatShareSource.project.getLink(
+            extraInfo:
+                '${ProjectDetailsParameter.id}=${projectDetailsValue.id}');
   }
 }
 
 class ProjectDetailsParameter {
-  static const id = "id";
+  static const id = 'id';
 }

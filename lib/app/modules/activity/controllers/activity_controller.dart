@@ -1,25 +1,26 @@
-// Package imports:
-import 'package:blockie_app/app/modules/activity/bindings/subactivity_binding.dart';
-import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
-import 'package:blockie_app/extensions/get_dialog_extension.dart';
-import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/bindings/subactivity_binding.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/services/wechat_service/wechat_service.dart';
+import 'package:blockie_app/extensions/get_dialog_extension.dart';
+import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 
 class ActivityController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin, WechatShareable {
   final AccountRepository accountRepository;
   final ProjectRepository projectRepository;
   final activity = Rxn<Activity>();
@@ -37,13 +38,15 @@ class ActivityController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    _getActivity();
+    getActivity();
   }
 
   @override
   void onClose() {
     super.onClose();
-    _updateShareConfig(isDefaultConfig: true);
+    isDefaultConfig = true;
+    wechatReadyStream?.cancel();
+    wechatReadyStream = null;
   }
 
   void showLicenseDialog() {
@@ -69,22 +72,22 @@ class ActivityController extends GetxController
       RegistrationInfoParameter.id: activityId,
     };
     await Get.toNamed(Routes.registrationInfo, parameters: parameters);
-    _getActivity();
+    getActivity();
   }
 
   void goToProjectDetails(String id) async {
     final parameters = {ProjectDetailsParameter.id: id};
     await Get.toNamed(Routes.projectDetails, parameters: parameters);
-    _getActivity();
+    getActivity();
   }
 
   void goToBrandDetails(String id) async {
     final parameters = {BrandDetailsParameter.id: id};
     await Get.toNamed(Routes.brand, parameters: parameters);
-    _getActivity();
+    getActivity();
   }
 
-  void _getActivity() async {
+  void getActivity() async {
     activity.value = await projectRepository.getActivity(id);
     final activityValue = activity.value;
     if (activityValue == null || activityValue.subactivityPreviews.isEmpty) {
@@ -99,38 +102,58 @@ class ActivityController extends GetxController
               preview: it)
           .dependencies();
     });
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
-  void _updateShareConfig({required bool isDefaultConfig}) {
+  @override
+  String title() {
     final activityValue = activity.value;
     if (activityValue == null) {
-      return;
+      return WechatShareSource.defaults.getTitle();
     }
-    final title = isDefaultConfig
+    return isDefaultConfig
         ? WechatShareSource.defaults.getTitle()
         : WechatShareSource.activity.getTitle(extraInfo: activityValue.name);
-    final description = isDefaultConfig
+  }
+
+  @override
+  String description() {
+    final activityValue = activity.value;
+    if (activityValue == null) {
+      return WechatShareSource.defaults.getDescription();
+    }
+    return isDefaultConfig
         ? WechatShareSource.defaults.getDescription()
         : WechatShareSource.activity
             .getDescription(extraInfo: activityValue.summary);
-    final link = isDefaultConfig
-        ? WechatShareSource.defaults.getLink()
-        : WechatShareSource.activity.getLink();
-    final imageUrl = isDefaultConfig
+  }
+
+  @override
+  String imageUrl() {
+    final activityValue = activity.value;
+    if (activityValue == null) {
+      return WechatShareSource.defaults.getImageUrl();
+    }
+    return isDefaultConfig
         ? WechatShareSource.defaults.getImageUrl()
         : WechatShareSource.activity.getImageUrl(
             extraInfo: activityValue.coverUrl,
           );
-    WechatService.to.updateShareConfig(
-      title: title,
-      description: description,
-      link: link,
-      imageUrl: imageUrl,
-    );
+  }
+
+  @override
+  String link() {
+    final activityValue = activity.value;
+    if (activityValue == null) {
+      return WechatShareSource.defaults.getImageUrl();
+    }
+    return isDefaultConfig
+        ? WechatShareSource.defaults.getLink()
+        : WechatShareSource.activity
+            .getLink(extraInfo: '${ActivityParameter.id}=${activityValue.id}');
   }
 }
 
 class ActivityParameter {
-  static const id = "id";
+  static const id = 'id';
 }

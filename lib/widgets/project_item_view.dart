@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activities_management/models/project.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-
 import '../models/issuer.dart';
 
 class ProjectItemView extends StatelessWidget {

@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -18,7 +19,7 @@ class RegistrationInfoController extends GetxController {
   final faceInfos = <FaceInfo>[].obs;
   final exampleNumber = ''.obs;
 
-  final _id = Get.parameters[RegistrationInfoParameter.id] as String;
+  final id = Get.parameters[RegistrationInfoParameter.id] as String;
 
   RegistrationInfoController({
     required this.accountRepository,
@@ -37,9 +38,23 @@ class RegistrationInfoController extends GetxController {
     return notEmpty && notSame;
   }
 
+  void openConfirmToUpdateRegistrationInfoDialog() async {
+    Get.twoButtonDialog(
+      title: '提示',
+      message: '您填写的号码是：${newEntryNumber.value}，提交后不可修改',
+      positiveButtonTitle: '确认',
+      positiveButtonOnTap: () {
+        Get.back();
+        updateRegistrationInfo();
+      },
+      negativeButtonTitle: '取消',
+      negativeButtonOnTap: Get.back,
+    );
+  }
+
   void updateRegistrationInfo() async {
     final isSuccessful = await projectRepository.updateRegistrationInfo(
-        _id, newEntryNumber.value, isUpdate);
+        id, newEntryNumber.value, isUpdate);
     if (isSuccessful) {
       MessageToast.showMessage("保存成功");
       _getRegistrationInfo();
@@ -54,7 +69,7 @@ class RegistrationInfoController extends GetxController {
   }
 
   void _getRegistrationInfo() async {
-    final registrationInfo = await projectRepository.getRegistrationInfo(_id);
+    final registrationInfo = await projectRepository.getRegistrationInfo(id);
     if (registrationInfo == null) {
       return;
     }
@@ -74,5 +89,5 @@ class RegistrationInfoController extends GetxController {
 }
 
 class RegistrationInfoParameter {
-  static const id = "id";
+  static const id = 'id';
 }

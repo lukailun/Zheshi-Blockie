@@ -14,6 +14,7 @@ class BasicElevatedButton extends StatelessWidget {
   final String title;
   final GestureTapCallback? onTap;
   final Color backgroundColor;
+  final Color disabledColor;
   final Color textColor;
   final Color loadingIndicatorColor;
   final double textFontSize;
@@ -22,12 +23,14 @@ class BasicElevatedButton extends StatelessWidget {
   final bool showsShadow;
   final bool isEnabled;
   final bool isLoading;
+  final bool pointerIntercepting;
 
   const BasicElevatedButton({
     Key? key,
     required this.title,
     this.borderRadius = 30,
     this.backgroundColor = AppThemeData.primaryColor,
+    this.disabledColor = AppThemeData.disabledColor,
     this.textColor = Colors.white,
     this.loadingIndicatorColor = Colors.white,
     this.textFontSize = 14,
@@ -35,17 +38,19 @@ class BasicElevatedButton extends StatelessWidget {
     this.showsShadow = true,
     this.isEnabled = true,
     this.isLoading = false,
+    this.pointerIntercepting = false,
     this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PointerInterceptor(
+      intercepting: pointerIntercepting,
       child: GestureDetector(
         onTap: isEnabled ? onTap : null,
         child: Container(
           decoration: BoxDecoration(
-            color: isEnabled ? backgroundColor : AppThemeData.disabledColor,
+            color: isEnabled ? backgroundColor : disabledColor,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(borderRadius),
             border: showsBorder
@@ -65,8 +70,8 @@ class BasicElevatedButton extends StatelessWidget {
                     BoxShadow(
                       color: Color(0xFF000000),
                       spreadRadius: 0,
-                      blurRadius: 2,
-                      offset: Offset(1, 1),
+                      blurRadius: 5,
+                      offset: Offset(5, 5),
                     ),
                   ]
                 : null,

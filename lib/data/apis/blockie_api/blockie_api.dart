@@ -1,8 +1,8 @@
-// Package imports:
+// Dart imports:
 import 'dart:convert';
 
-import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
-import 'package:blockie_app/models/issuer.dart';
+// Package imports:
+import 'package:blockie_app/utils/data_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
@@ -11,6 +11,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:blockie_app/app/modules/activities/models/paginated_activities.dart';
 import 'package:blockie_app/app/modules/activities_management/models/paginated_managed_activities.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
@@ -25,6 +26,7 @@ import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 import 'package:blockie_app/data/apis/models/exceptions.dart';
 import 'package:blockie_app/data/apis/models/wechat_config.dart';
 import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/models/issuer.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
@@ -78,6 +80,7 @@ class BlockieApi {
 
   static const _errorCodeJsonKey = 'err_code';
   static const _errorMessageJsonKey = 'err_msg';
+  static const _tokenInvalidErrorCode = 401000;
 
   static dynamic _getResponseData(Response response) {
     if (response.statusCode != 200) {
@@ -91,6 +94,9 @@ class BlockieApi {
       final int errorCode = object[_errorCodeJsonKey];
       final String errorMessage = object[_errorMessageJsonKey];
       MessageToast.showException(errorMessage);
+      if (errorCode == _tokenInvalidErrorCode) {
+        DataStorage.removeToken();
+      }
       throw UploadFacePhotoNotCenteredBlockieException();
     }
   }

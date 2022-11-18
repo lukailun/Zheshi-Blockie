@@ -1,15 +1,15 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
-import 'package:blockie_app/app/modules/activity/models/subactivity_step.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_step_button.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 
 class SubactivityStepsView extends StatelessWidget {
   final Subactivity subactivity;
@@ -50,11 +50,13 @@ class SubactivityStepsView extends StatelessWidget {
           width: double.infinity,
           child: GestureDetector(
             onTap: contactUsOnTap,
+            behavior: HitTestBehavior.translucent,
             child: const Text('有问题请联系客服')
                 .textColor(const Color(0x80FFFFFF))
                 .fontSize(12)
                 .withUnderLine()
-                .textAlignment(TextAlign.center),
+                .textAlignment(TextAlign.center)
+                .paddingSymmetric(horizontal: 20, vertical: 5),
           ),
         ),
       );
@@ -71,7 +73,7 @@ class SubactivityStepsView extends StatelessWidget {
             const Spacer(flex: 1),
             Text('${subactivity.startedTime ?? ''} ~ ${subactivity.endedTime ?? ''}')
                 .fontSize(10)
-                .textColor(const Color(0xB2FFFFFF))
+                .textColor(Color(subactivity.status.colorValue))
                 .paddingSymmetric(horizontal: 7),
           ],
         ).paddingSymmetric(vertical: 6),

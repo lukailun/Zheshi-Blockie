@@ -30,7 +30,7 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
       child: Obx(() => BasicElevatedButton(
             title: '保存',
             isEnabled: controller.saveButtonIsEnabled(),
-            onTap: () => controller.updateRegistrationInfo(),
+            onTap: controller.openConfirmToUpdateRegistrationInfoDialog,
           )),
     );
     final header = Row(
@@ -126,9 +126,9 @@ class RegistrationInfoView extends GetView<RegistrationInfoController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               header,
-              _itemTitle('参赛号码'),
+              _itemTitle('参赛号码 （必填）'),
               entryNumberTextField,
-              _itemTitle('人脸采集'),
+              _itemTitle('人脸采集 （可填）'),
               const Text('通过采集你人脸照片以自动捕捉你的比赛镜头片段，生成你专属的视频 NFT')
                   .textColor(const Color(0x80FFFFFF))
                   .fontWeight(FontWeightCompat.regular)

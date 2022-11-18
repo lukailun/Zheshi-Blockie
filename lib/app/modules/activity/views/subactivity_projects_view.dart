@@ -1,37 +1,31 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
-import 'package:blockie_app/app/modules/activity/models/project.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/mint_status.dart';
-import 'package:blockie_app/models/platform_info.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
-import 'package:blockie_app/widgets/basic_icon_button.dart';
-import 'package:blockie_app/widgets/html_video.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/models/mint_status.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
+import 'package:blockie_app/widgets/basic_icon_button.dart';
+import 'package:blockie_app/widgets/html_video.dart';
 
 class SubactivityProjectsView extends StatelessWidget {
   final List<Project> projects;
   final List<MintStatus> mintStatuses;
   final Function(String)? detailsOnTap;
-  final Function(Project, MintStatus)? previewOnTap;
   final Function(Project, MintStatus)? mintOnTap;
-  final bool isScrolling;
 
   const SubactivityProjectsView({
     super.key,
     required this.projects,
     required this.mintStatuses,
     this.detailsOnTap,
-    this.previewOnTap,
     this.mintOnTap,
-    required this.isScrolling,
   });
 
   @override
@@ -90,41 +84,26 @@ class SubactivityProjectsView extends StatelessWidget {
             ).paddingOnly(left: 10),
           ],
         ).paddingOnly(top: 27, bottom: 27),
-        Visibility(
-          visible: ((project.previewVideoUrl ?? '').isNotEmpty) ||
-              (project.coverUrl ?? '').isNotEmpty,
-          child: AspectRatio(
-            aspectRatio: 16.0 / 9.0,
-            child: (project.previewVideoUrl ?? '').isNotEmpty
-                ? Stack(
-                    children: [
-                      Visibility(
-                        visible: isScrolling && PlatformInfo.isApple,
-                        child: HtmlVideo(
-                          url: '',
-                          posterUrl: project.coverUrl,
-                          autoplay: false,
-                          muted: false,
-                          controls: false,
-                        ),
-                      ),
-                      Opacity(
-                        opacity: isScrolling && PlatformInfo.isApple ? 0 : 1,
-                        child: HtmlVideo(
-                          url: project.previewVideoUrl ?? '',
-                          posterUrl: project.coverUrl,
-                          autoplay: false,
-                          muted: false,
-                        ),
-                      ),
-                    ],
-                  )
-                : CachedNetworkImage(
-                    imageUrl: project.coverUrl ?? '',
-                    fit: BoxFit.contain,
-                  ),
-          ).paddingSymmetric(horizontal: 27),
-        ),
+        AspectRatio(
+          aspectRatio: 16.0 / 9.0,
+          child: () {
+            if (project.isVideoNft) {
+              final showsPreview = mintStatus.showsPreviewVideo;
+              final video = showsPreview ? project.previewVideo : project.video;
+              return HtmlVideo(
+                url: video?.url ?? '',
+                posterUrl: video?.posterUrl,
+                autoplay: false,
+                muted: false,
+              );
+            } else {
+              return CachedNetworkImage(
+                imageUrl: project.coverUrl ?? '',
+                fit: BoxFit.contain,
+              );
+            }
+          }(),
+        ).paddingSymmetric(horizontal: 27),
         Visibility(
           visible: project.summary.isNotEmpty,
           child: Text(project.summary)
@@ -135,54 +114,20 @@ class SubactivityProjectsView extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           height: 52,
-          child: Row(
-            children: () {
-              final children = <Widget>[];
-              final previewButton = Expanded(
-                flex: 95,
-                child: SizedBox(
-                  height: 52,
-                  child: BasicElevatedButton(
-                    title: '预览',
-                    borderRadius: 8,
-                    textColor: const Color(0xFF3D3D3D),
-                    backgroundColor: Color(mintStatus.colorValue),
-                    textFontSize: 18,
-                    // isEnabled: mintStatus.previewEnabled, // fix disable bg color
-                    onTap: mintStatus.previewEnabled
-                        ? () => previewOnTap?.call(project, mintStatus)
-                        : null,
-                  ),
-                ),
-              );
-              if (mintStatus.showsPreview &&
-                  (project.videoUrl ?? '').isNotEmpty) {
-                children.add(previewButton);
-                children.add(const Spacer(flex: 10));
-              }
-              final mintButton = Expanded(
-                flex: 295,
-                child: SizedBox(
-                  height: 52,
-                  child: BasicElevatedButton(
-                    title: mintStatus.title(
-                      startedTime: project.startedTime,
-                      isVideo: project.nftType == NftType.video,
-                    ),
-                    borderRadius: 8,
-                    textColor: const Color(0xFF3D3D3D),
-                    backgroundColor: Color(mintStatus.colorValue),
-                    textFontSize: 18,
-                    // isEnabled: mintStatus.enabled, // fix disable bg color
-                    onTap: mintStatus.enabled
-                        ? () => mintOnTap?.call(project, mintStatus)
-                        : null,
-                  ),
-                ),
-              );
-              children.add(mintButton);
-              return children;
-            }(),
+          child: BasicElevatedButton(
+            title: mintStatus.title(
+              startedTime: project.startedTime,
+              isVideoNft: project.isVideoNft,
+            ),
+            borderRadius: 8,
+            textColor: const Color(0xFF3D3D3D),
+            backgroundColor: Color(mintStatus.colorValue),
+            disabledColor: Color(mintStatus.colorValue),
+            textFontSize: 18,
+            isEnabled: mintStatus.enabled,
+            onTap: mintStatus.enabled
+                ? () => mintOnTap?.call(project, mintStatus)
+                : null,
           ),
         ).paddingOnly(left: 12, right: 12, top: 15),
       ],

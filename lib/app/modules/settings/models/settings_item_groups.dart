@@ -1,6 +1,9 @@
 // Dart imports:
 import 'dart:ui';
 
+// Project imports:
+import 'package:blockie_app/models/environment.dart';
+
 part 'settings_item_group.dart';
 
 part 'settings_item.dart';
@@ -19,6 +22,7 @@ class SettingsItemGroups {
     required Function() termsOfServiceOnTap,
     required Function() privacyPolicyOnTap,
     required Function() activitiesManagementOnTap,
+    required Function() developerModeOnTap,
   }) {
     final aboutUsItems = [
       SettingsItem(title: '当前版本', content: version, arrowIsVisible: false),
@@ -28,6 +32,9 @@ class SettingsItemGroups {
     if (isStaff) {
       aboutUsItems
           .add(SettingsItem(title: '活动管理', onTap: activitiesManagementOnTap));
+    }
+    if (Environment.isDevelopment) {
+      aboutUsItems.add(SettingsItem(title: '开发者模式', onTap: developerModeOnTap));
     }
     return [
       SettingsItemGroup(

@@ -11,6 +11,7 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       summary: json['summary'] as String?,
       description: json['description'] as String,
+      headerPath: json['bg_path'] as String,
       introduction: json['introduction'] as String,
       coverPath: json['cover_path'] as String,
       imagePaths:
@@ -30,7 +31,12 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
       extraInfo: ProjectDetailsExtraInfo.fromJson(
           json['content'] as Map<String, dynamic>),
-      activityId: json['activity_uid'] as String,
+      activityId: json['group_uid'] as String,
+      videoStatusValue: json['video_process_status'] as int?,
+      nftTypeValue: json['nft_type'] as int,
+      steps: (json['missions'] as List<dynamic>)
+          .map((e) => SubactivityStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -38,6 +44,7 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'name': instance.name,
       'summary': instance.summary,
       'description': instance.description,
+      'bg_path': instance.headerPath,
       'introduction': instance.introduction,
       'cover_path': instance.coverPath,
       'images': instance.imagePaths,
@@ -55,5 +62,8 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'uid': instance.id,
       'issuer': instance.issuer.toJson(),
       'content': instance.extraInfo.toJson(),
-      'activity_uid': instance.activityId,
+      'group_uid': instance.activityId,
+      'video_process_status': instance.videoStatusValue,
+      'nft_type': instance.nftTypeValue,
+      'missions': instance.steps.map((e) => e.toJson()).toList(),
     };

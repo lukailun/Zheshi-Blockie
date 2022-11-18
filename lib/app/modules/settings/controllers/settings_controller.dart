@@ -9,6 +9,7 @@ import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/blockie_url_builder.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 
 class SettingsController extends GetxController {
@@ -50,6 +51,10 @@ class SettingsController extends GetxController {
     Get.toNamed(Routes.activitiesManagement);
   }
 
+  void goToDeveloperMode() {
+    Get.toNamed(Routes.developerMode);
+  }
+
   void openConfirmToLogoutDialog() {
     Get.twoButtonDialog(
       title: '提示',
@@ -67,6 +72,7 @@ class SettingsController extends GetxController {
   void _openLogoutDialog() {
     Get.logoutDialog(onLogoutSuccess: () async {
       await repository.logout();
+      DataStorage.removeToken();
       Get.offAllNamed(Routes.activities);
     });
   }

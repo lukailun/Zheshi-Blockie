@@ -13,18 +13,22 @@ import '../models/app_theme_data.dart';
 class BasicPopupMenuItem extends StatelessWidget {
   final AppBarButtonItem item;
   final bool showsDivider;
+  final bool pointerIntercepting;
 
   const BasicPopupMenuItem({
     Key? key,
     required this.item,
     this.showsDivider = true,
+    this.pointerIntercepting = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PointerInterceptor(
+      intercepting: pointerIntercepting,
       child: GestureDetector(
         onTap: () => item.onTap?.call(), // Image tapped
+        behavior: HitTestBehavior.translucent,
         child: Container(
           color: Colors.transparent,
           height: 40,

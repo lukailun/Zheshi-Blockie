@@ -18,8 +18,13 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       nftTypeValue: json['nft_type'] as int,
       isQualified: json['is_open'] as bool?,
       mintChances: json['mint_chances'] as int?,
-      videoPath: json['video_path'] as String?,
-      previewVideoPath: json['preview_video_path'] as String?,
+      video: json['video'] == null
+          ? null
+          : Video.fromJson(json['video'] as Map<String, dynamic>),
+      previewVideo: json['preview_video'] == null
+          ? null
+          : Video.fromJson(json['preview_video'] as Map<String, dynamic>),
+      videoStatusValue: json['video_process_status'] as int?,
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
@@ -34,6 +39,7 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'nft_type': instance.nftTypeValue,
       'is_open': instance.isQualified,
       'mint_chances': instance.mintChances,
-      'video_path': instance.videoPath,
-      'preview_video_path': instance.previewVideoPath,
+      'video': instance.video?.toJson(),
+      'preview_video': instance.previewVideo?.toJson(),
+      'video_process_status': instance.videoStatusValue,
     };

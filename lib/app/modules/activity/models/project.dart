@@ -1,11 +1,13 @@
 // Package imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
-import 'package:blockie_app/app/modules/activity/models/project_status.dart';
-import 'package:blockie_app/utils/date_time_utils.dart';
+import 'package:blockie_app/models/video.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
+import 'package:blockie_app/app/modules/activity/models/project_status.dart';
+import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project.g.dart';
 
@@ -33,10 +35,12 @@ class Project {
   final bool? isQualified;
   @JsonKey(name: 'mint_chances')
   final int? mintChances;
-  @JsonKey(name: 'video_path')
-  final String? videoPath;
-  @JsonKey(name: 'preview_video_path')
-  final String? previewVideoPath;
+  @JsonKey(name: 'video')
+  final Video? video;
+  @JsonKey(name: 'preview_video')
+  final Video? previewVideo;
+  @JsonKey(name: 'video_process_status')
+  final int? videoStatusValue;
 
   Project({
     required this.id,
@@ -50,21 +54,21 @@ class Project {
     required this.nftTypeValue,
     required this.isQualified,
     required this.mintChances,
-    required this.videoPath,
-    required this.previewVideoPath,
+    required this.video,
+    required this.previewVideo,
+    required this.videoStatusValue,
   });
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;
 
-  String? get videoUrl =>
-      (videoPath ?? '').isNotEmpty ? (videoPath ?? '').hostAdded : null;
-
-  String? get previewVideoUrl => (previewVideoPath ?? '').isNotEmpty
-      ? (previewVideoPath ?? '').hostAdded
-      : null;
-
   NftType get nftType =>
       NftType.values.firstWhere((it) => it.value == nftTypeValue);
+
+  bool get isVideoNft => nftType == NftType.video;
+
+  VideoStatus get videoStatus => videoStatusValue != null
+      ? VideoStatus.values.firstWhere((it) => it.value == videoStatusValue)
+      : VideoStatus.unknown;
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {

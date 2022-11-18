@@ -1,10 +1,10 @@
 // Package imports:
-import 'package:blockie_app/models/issuer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities_management/models/activity_type.dart';
 import 'package:blockie_app/app/modules/activities_management/models/project.dart';
+import 'package:blockie_app/models/issuer.dart';
 
 part 'activity.g.dart';
 

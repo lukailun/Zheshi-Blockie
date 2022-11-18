@@ -1,11 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/app/modules/activity/models/subactivity_step.dart';
-import 'package:blockie_app/app/modules/activity/views/subactivity_view.dart';
-import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -15,7 +8,14 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
+import 'package:blockie_app/models/subactivity_step.dart';
+import 'package:blockie_app/app/modules/activity/views/subactivity_view.dart';
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_bar_button_item.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
@@ -44,10 +44,14 @@ class ActivityContainerView extends GetView<ActivityController> {
     ];
     return Obx(
       () => Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(
           showsLogo: !showsBack,
           paddingTop: 0,
+          title: showsBack && !controller.headerIsExpanded.value
+              ? controller.activity.value?.name
+              : null,
+          backgroundColor: AppThemeData.primaryColor,
           actionItems: [
             AppBarButtonItem(
               assetName: "assets/images/app_bar/menu.png",
@@ -139,13 +143,14 @@ class _ActivityView extends StatelessWidget {
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: AppThemeData.secondaryColor),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 5),
             labelColor: AppThemeData.primaryColor,
             unselectedLabelColor: Colors.white,
             tabs: activity.subactivityPreviews
                 .map(
                   (it) => Tab(
                     child: Text(it.name)
-                        .fontSize(17)
+                        .fontSize(16)
                         .textAlignment(TextAlign.center)
                         .paddingSymmetric(horizontal: 10),
                   ),

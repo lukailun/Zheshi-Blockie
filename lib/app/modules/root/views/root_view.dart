@@ -1,7 +1,12 @@
-import 'package:blockie_app/app/routes/app_pages.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/root/controllers/root_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
 
 class RootView extends GetView<RootController> {
   const RootView({super.key});

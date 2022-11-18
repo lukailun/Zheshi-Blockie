@@ -1,13 +1,15 @@
+import 'package:blockie_app/models/video.dart';
+
 class ShareInfoItem {
   final String id;
   final String title;
   final String imageUrl;
-  final String? linkUrl;
+  final Video? video;
 
   ShareInfoItem({
     required this.id,
     required this.title,
     required this.imageUrl,
-    this.linkUrl,
+    this.video,
   });
 }

@@ -5,7 +5,8 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:blockie_app/utils/clipboard_utils.dart';
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
+import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,6 +25,7 @@ import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
@@ -39,7 +41,7 @@ class NftPage extends StatefulWidget {
   _NftPageState createState() => _NftPageState();
 }
 
-class _NftPageState extends State<NftPage> {
+class _NftPageState extends State<NftPage> with WechatShareable {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
   bool _goneToShare = false;
@@ -63,7 +65,7 @@ class _NftPageState extends State<NftPage> {
             await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
         setState(() {
           _nftInfo = nftInfo;
-          _updateShareConfig(isDefaultConfig: false);
+          isDefaultConfig = false;
         });
       });
     }
@@ -72,22 +74,30 @@ class _NftPageState extends State<NftPage> {
   @override
   void dispose() {
     super.dispose();
-    _updateShareConfig(isDefaultConfig: true);
+    isDefaultConfig = true;
     _scription?.cancel();
     _scription = null;
   }
 
   String getNftSceneUrl(NftInfo nftInfo) {
+    String url = '';
     switch (nftInfo.type) {
       case 2:
-        return 'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
+        url =
+            'https://sandbox.blockie.zheshi.tech?type=cube&video=${nftInfo.video}&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
+        break;
       case 3:
-        return 'https://sandbox.blockie.zheshi.tech?type=card&image1=${nftInfo.textures['part0'] ?? ''}&image2=${nftInfo.textures['part1'] ?? ''}';
+        url =
+            'https://sandbox.blockie.zheshi.tech?type=card&image1=${nftInfo.textures['part0'] ?? ''}&image2=${nftInfo.textures['part1'] ?? ''}';
+        break;
       case 4:
-        return 'https://sandbox.blockie.zheshi.tech?type=model&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
+        url =
+            'https://sandbox.blockie.zheshi.tech?type=model&model=${nftInfo.model}&images=${jsonEncode(nftInfo.modelImage)}';
+        break;
       default:
-        return '';
+        break;
     }
+    return url;
   }
 
   @override
@@ -171,10 +181,10 @@ class _NftPageState extends State<NftPage> {
       child: GestureDetector(
           onTap: () async {
             final parameters = {
-              'issuerUid': _nftInfo!.issuer.id,
+              BrandDetailsParameter.id: _nftInfo?.issuer.id ?? ''
             };
             await Get.toNamed(Routes.brand, parameters: parameters);
-            _updateShareConfig(isDefaultConfig: false);
+            isDefaultConfig = false;
           },
           child: Row(
             children: [
@@ -301,6 +311,7 @@ class _NftPageState extends State<NftPage> {
       ),
     ];
     final appBar = BasicAppBar(
+      pointerIntercepting: true,
       actionItems: [
         AppBarButtonItem(
           assetName: "assets/images/app_bar/share.png",
@@ -313,7 +324,7 @@ class _NftPageState extends State<NftPage> {
       ],
     );
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppThemeData.primaryColor,
       extendBodyBehindAppBar: true,
       appBar: appBar,
       body: ListView(
@@ -376,35 +387,57 @@ class _NftPageState extends State<NftPage> {
       ShareParameter.isNft: 'true',
     };
     await Get.toNamed(Routes.share, parameters: parameters);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
     _goneToShare = false;
   }
 
-  void _updateShareConfig({required bool isDefaultConfig}) {
-    final nftValue = _nftInfo;
-    if (nftValue == null) {
-      return;
+  @override
+  String description() {
+    final nftInfoValue = _nftInfo;
+    if (nftInfoValue == null) {
+      return WechatShareSource.defaults.getDescription();
     }
-    final title = isDefaultConfig
+    return isDefaultConfig
         ? WechatShareSource.defaults.getTitle()
-        : WechatShareSource.nft.getTitle(extraInfo: nftValue.projectName);
-    final description = isDefaultConfig
-        ? WechatShareSource.defaults.getDescription()
-        : WechatShareSource.nft
-            .getDescription(extraInfo: nftValue.projectSummary);
-    final link = isDefaultConfig
+        : (nftInfoValue.shareDescription.isNotEmpty
+            ? nftInfoValue.shareDescription
+            : WechatShareSource.nft
+                .getDescription(extraInfo: nftInfoValue.projectSummary));
+  }
+
+  @override
+  String imageUrl() {
+    final nftInfoValue = _nftInfo;
+    if (nftInfoValue == null) {
+      return WechatShareSource.defaults.getImageUrl();
+    }
+    return isDefaultConfig
+        ? WechatShareSource.defaults.getTitle()
+        : WechatShareSource.nft.getImageUrl(extraInfo: nftInfoValue.cover);
+  }
+
+  @override
+  String link() {
+    final nftInfoValue = _nftInfo;
+    if (nftInfoValue == null) {
+      return WechatShareSource.defaults.getImageUrl();
+    }
+    return isDefaultConfig
         ? WechatShareSource.defaults.getLink()
-        : WechatShareSource.nft.getLink();
-    final imageUrl = isDefaultConfig
-        ? WechatShareSource.defaults.getImageUrl()
-        : WechatShareSource.nft.getImageUrl(
-            extraInfo: nftValue.cover,
-          );
-    WechatService.to.updateShareConfig(
-      title: title,
-      description: description,
-      link: link,
-      imageUrl: imageUrl,
-    );
+        : WechatShareSource.nft.getLink(extraInfo: 'uid=${nftInfoValue.uid}');
+  }
+
+  @override
+  String title() {
+    final nftInfoValue = _nftInfo;
+    if (nftInfoValue == null) {
+      return WechatShareSource.defaults.getTitle();
+    }
+    return isDefaultConfig
+        ? WechatShareSource.defaults.getTitle()
+        : (nftInfoValue.shareTitle.isNotEmpty
+            ? nftInfoValue.shareTitle
+            : WechatShareSource.nft
+                .getTitle(extraInfo: nftInfoValue.projectName));
   }
 }

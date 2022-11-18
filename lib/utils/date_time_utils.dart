@@ -1,6 +1,6 @@
 // Package imports:
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 enum DateFormatType {
   YYYY_MM_DD_HH_MM('yyyy-MM-dd HH:mm'),

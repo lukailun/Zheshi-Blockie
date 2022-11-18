@@ -46,7 +46,6 @@ class AuthService extends GetxService {
   }) {
     _logoutStream = AnyWebService.to.logout.listen((_) {
       _closeLogoutDialog();
-      DataStorage.setToken('');
       logout();
       onLogoutSuccess();
     });

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/activities_management/controllers/activities_management_controller.dart';
 import 'package:blockie_app/app/modules/activities_management/models/activity.dart';
 import 'package:blockie_app/app/modules/activities_management/models/activity_type.dart';
 import 'package:blockie_app/app/modules/activities_management/models/project.dart';
-import 'package:blockie_app/app/modules/activities_management/controllers/activities_management_controller.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';

@@ -1,14 +1,19 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+// Package imports:
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/activity/controllers/subactivity_controller.dart';
-import 'package:blockie_app/app/modules/activity/views/subactivity_projects_view.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_description_view.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_participants_view.dart';
+import 'package:blockie_app/app/modules/activity/views/subactivity_projects_view.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_steps_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/keep_alive_wrapper.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
 
 class SubactivityView extends GetView<SubactivityController> {
   final scrollController = ScrollController();
@@ -48,9 +53,7 @@ class SubactivityView extends GetView<SubactivityController> {
             projects: subactivity.projects,
             mintStatuses: controller.mintStatuses.value,
             detailsOnTap: controller.goToProjectDetails,
-            previewOnTap: controller.goToPreviewVideo,
             mintOnTap: controller.prepareToMint,
-            isScrolling: controller.isScrolling.value,
           ),
         );
         final descriptionView = Visibility(
@@ -64,6 +67,7 @@ class SubactivityView extends GetView<SubactivityController> {
           visible: subactivity.participantAvatarUrls.isNotEmpty,
           child: SubactivityParticipantsView(
             title: '参与者',
+            numberOfParticipants: subactivity.numberOfParticipants,
             avatarUrls: subactivity.participantAvatarUrls,
           ),
         );
@@ -71,11 +75,6 @@ class SubactivityView extends GetView<SubactivityController> {
           keepAlive: true,
           child: NotificationListener<ScrollNotification>(
             onNotification: (notification) {
-              if (notification is ScrollStartNotification) {
-                controller.isScrolling.value = true;
-              } else if (notification is ScrollEndNotification) {
-                controller.isScrolling.value = false;
-              }
               final offset = notification.metrics.pixels;
               final isScrollForward =
                   scrollController.position.userScrollDirection ==

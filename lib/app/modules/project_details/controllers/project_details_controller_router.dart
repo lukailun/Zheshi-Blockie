@@ -18,25 +18,25 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
           jsonEncode(projectDetails.value?.imageUrls ?? []),
     };
     await Get.toNamed(Routes.gallery, parameters: parameters);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
   void goToBrandDetails(String id) async {
     final parameters = {BrandDetailsParameter.id: id};
     await Get.toNamed(Routes.brand, parameters: parameters);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
   void goToShare() async {
     final parameters = {ShareParameter.id: id, ShareParameter.isNft: 'false'};
     await Get.toNamed(Routes.share, parameters: parameters);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
   void goToWebView({required String url}) async {
     final parameters = {WebViewParameter.url: url};
     await Get.toNamed(Routes.webView, parameters: parameters);
-    _updateShareConfig(isDefaultConfig: false);
+    isDefaultConfig = false;
   }
 
   void openHintDialog() {
@@ -80,6 +80,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
         Get.back();
         final parameters = {"uid": nft.uid};
         Get.toNamed(Routes.nft, parameters: parameters);
+        isDefaultConfig = false;
       },
     );
   }

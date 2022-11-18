@@ -14,7 +14,6 @@ import 'package:blockie_app/models/environment.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import '../../../../models/global.dart';
 
 extension GetDialogExtension on GetInterface {
   void logoutDialog({

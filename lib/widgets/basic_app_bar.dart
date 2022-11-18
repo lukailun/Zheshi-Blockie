@@ -19,6 +19,8 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   final Widget? avatar;
   final bool showsLogo;
   final double? paddingTop;
+  final Color backgroundColor;
+  final bool pointerIntercepting;
   final List<AppBarButtonItem>? actionItems;
 
   BasicAppBar({
@@ -31,6 +33,8 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
     this.actionItems,
     this.avatar,
     this.paddingTop,
+    this.pointerIntercepting = false,
+    this.backgroundColor = Colors.transparent,
   }) : super(key: key);
 
   double get toolbarHeight => _paddingTop + 80;
@@ -41,7 +45,11 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     final List<Widget>? actions = actionItems?.map((item) {
       final button = BasicIconButton(
-          assetName: item.assetName, size: 34, onTap: item.onTap);
+        assetName: item.assetName,
+        size: 34,
+        pointerIntercepting: pointerIntercepting,
+        onTap: item.onTap,
+      );
       return (item.items ?? []).isEmpty
           ? button.paddingOnly(right: 13)
           : BasicPopupMenuButton(
@@ -51,6 +59,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
                     .entries
                     .map((it) => BasicPopupMenuItem(
                           item: it.value,
+                          pointerIntercepting: pointerIntercepting,
                           showsDivider: it.key != (item.items ?? []).length - 1,
                         ))
                     .toList(),
@@ -64,6 +73,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
       child: BasicIconButton(
         assetName: "assets/images/app_bar/back.png",
         size: 34,
+        pointerIntercepting: pointerIntercepting,
         onTap: () {
           if (backButtonOnTap != null) {
             backButtonOnTap?.call();
@@ -84,7 +94,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
       leadingWidth: showsLogo ? double.infinity : 56,
       actions: (avatar != null ? [avatar!] : actions)
         ?..add(const SizedBox(width: 9)),
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       centerTitle: true,
       toolbarHeight: toolbarHeight,
       title: titleView ??

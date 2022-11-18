@@ -15,8 +15,16 @@ class DataStorage {
         : null;
   }
 
+  static void _removeValue(String valueName) {
+    window.localStorage.remove(valueName);
+  }
+
   static void setToken(String token) {
     DataStorage._setStorageValue(tokenName, token);
+  }
+
+  static void removeToken() {
+    DataStorage._removeValue(tokenName);
   }
 
   static String? getToken() {

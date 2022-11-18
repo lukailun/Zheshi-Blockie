@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,6 +10,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/profile/views/label_view.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 
 extension GetDialogExtension on GetInterface {
   void updateLabelsDialog({
@@ -56,13 +56,13 @@ class UpdateLabelsDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('选择你感兴趣的项目')
-                          .fontSize(10)
+                          .fontSize(13)
                           .textColor(Colors.black)
-                          .paddingOnly(left: 22, right: 22, top: 22),
+                          .fontWeight(FontWeight.bold)
+                          .paddingOnly(left: 32, right: 22, top: 32),
                       GridView.count(
                         shrinkWrap: true,
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 10, left: 10, right: 10),
+                        padding: const EdgeInsets.all(10),
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 5,
                         children: labels

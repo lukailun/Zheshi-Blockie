@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
@@ -15,6 +14,7 @@ import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/profile_repository.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/message_toast.dart';

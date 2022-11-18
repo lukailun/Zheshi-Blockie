@@ -3,6 +3,8 @@ import 'dart:html' as html;
 import 'dart:js' as js;
 
 // Package imports:
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -17,6 +19,7 @@ class WechatService extends GetxService {
   static WechatService get to => Get.find();
 
   WechatConfig? _config;
+  final isReady = false.obs;
 
   final _repository = AccountRepository(
     remoteApi: BlockieApi(
@@ -76,6 +79,11 @@ class WechatService extends GetxService {
     wechatReady(
       js.allowInterop(
         () {
+          isReady.value = true;
+          final route = html.window.location.href.split('#').last;
+          if (route != Routes.activities) {
+            return;
+          }
           updateShareConfig(
             title: title,
             description: description,

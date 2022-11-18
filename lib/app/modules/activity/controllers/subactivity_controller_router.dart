@@ -8,15 +8,16 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void handleStepTap(SubactivityStep step) {
-    switch (step.id) {
-      case 'login':
+    switch (step.type) {
+      case SubactivityStepType.login:
         return openLicenseDialog();
-      case 'signup':
+      case SubactivityStepType.registrationInfo:
+        if (!AuthService.to.isLoggedIn) {
+          return MessageToast.showMessage('登录后使用');
+        }
         return goToRegistrationInfo(preview.id);
-      case 'finished_match':
-        return;
-      default:
-        return;
+      case SubactivityStepType.finish:
+        MessageToast.showMessage('系统自动判断是否${step.title}');
     }
   }
 
@@ -31,20 +32,6 @@ extension SubactivityControllerRouter on SubactivityController {
     final parameters = {RegistrationInfoParameter.id: id};
     await Get.toNamed(Routes.registrationInfo, parameters: parameters);
     getSubactivity();
-  }
-
-  void goToPreviewVideo(Project project, MintStatus mintStatus) async {
-    final url = project.videoUrl ?? '';
-    final posterUrl = project.coverUrl ?? '';
-    final parameters = {
-      PreviewVideoParameter.url: url,
-      PreviewVideoParameter.posterUrl: posterUrl,
-    };
-    final toMint =
-        await Get.toNamed(Routes.previewVideo, parameters: parameters);
-    if (toMint == true) {
-      prepareToMint(project, mintStatus);
-    }
   }
 
   void openMintedNftDialog() {

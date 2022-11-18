@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/blockie_app.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
+import 'package:blockie_app/services/debug_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 
 void main() async {
@@ -16,11 +17,12 @@ void main() async {
   await dotenv.load(fileName: fileName);
   WidgetsFlutterBinding.ensureInitialized();
   _initServices();
-  runApp(BlockieApp());
+  runApp(const BlockieApp());
 }
 
 void _initServices() {
   Get.put(AuthService());
   Get.put(AnyWebService());
   Get.put(WechatService());
+  Get.put(DebugService());
 }

@@ -23,5 +23,5 @@ abstract class Routes {
   static const webView = '/web_view';
   static const profile = '/profile';
   static const share = '/share';
-  static const previewVideo = '/preview_video';
+  static const developerMode = '/developer_mode';
 }

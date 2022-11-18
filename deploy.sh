@@ -11,7 +11,7 @@ gitCommitMessage=$(git show --pretty=format:%s -s HEAD)
 if [ "$1" == "production" ]; then
   env=$1
   appName="BLOCKIE"
-  url="https://app.blockie.fun/"
+  url="https://frontend.blockie.fun/"
 fi
 sh copy_web_env.sh $env
 flutter build web --web-renderer html --dart-define ENV_FILE_NAME=env/$env.env

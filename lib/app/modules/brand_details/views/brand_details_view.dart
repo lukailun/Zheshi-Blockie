@@ -1,11 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
+import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 
 class BrandDetailsView extends GetView<BrandDetailsController> {
   const BrandDetailsView({super.key});
@@ -14,7 +20,7 @@ class BrandDetailsView extends GetView<BrandDetailsController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(),
         body: () {
           final issuer = controller.issuer.value;
@@ -86,55 +92,5 @@ class BrandDetailsView extends GetView<BrandDetailsController> {
         }(),
       ),
     );
-
-    // Widget brandCards = SizedBox(
-    //   child: ListView.builder(
-    //       itemCount: _projectGroups.length + 1,
-    //       shrinkWrap: true,
-    //       physics: const ClampingScrollPhysics(),
-    //       itemBuilder: (context, index) {
-    //         //如果到了表尾
-    //         if (index == _projectGroups.length) {
-    //           if (_nextPageUrl != null) {
-    //             _addProjects();
-    //             return Container(
-    //               // padding: const EdgeInsets.all(16.0),
-    //               alignment: Alignment.center,
-    //               child: const SizedBox(
-    //                 width: 24.0,
-    //                 height: 24.0,
-    //                 child: CircularProgressIndicator(strokeWidth: 2.0),
-    //               ),
-    //             );
-    //           } else {
-    //             return Container(
-    //               alignment: Alignment.center,
-    //               // padding: const EdgeInsets.all(16.0),
-    //               child: const Text(
-    //                 "没有更多了",
-    //                 style: TextStyle(color: Colors.grey),
-    //               ).paddingOnly(bottom: 15),
-    //             );
-    //           }
-    //         }
-    //         return createProjectItemMixed(_projectGroups[index],
-    //             showBrand: false);
-    //       }),
-    // );
-    //
-    // return Scaffold(
-    //   backgroundColor: Colors.transparent,
-    //   appBar: BasicAppBar(),
-    //   body: ListView(
-    //     shrinkWrap: true,
-    //     padding: const EdgeInsets.symmetric(horizontal: 20),
-    //     children: [
-    //       brandInfo,
-    //       brandIntro,
-    //       brandCardTitle,
-    //       brandCards,
-    //     ],
-    //   ),
-    // );
   }
 }

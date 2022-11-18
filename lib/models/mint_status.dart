@@ -3,6 +3,9 @@ enum MintStatus {
   notStartedAndUnqualified,
   notStarted,
   unqualified,
+  stepNotCompleted,
+  generating,
+  generationFailed,
   mintable,
   runOut,
   expired,
@@ -12,7 +15,7 @@ enum MintStatus {
 extension MintStatusExtension on MintStatus {
   String title({
     String? startedTime,
-    bool isVideo = false,
+    bool isVideoNft = false,
   }) {
     switch (this) {
       case MintStatus.notLogin:
@@ -24,11 +27,17 @@ extension MintStatusExtension on MintStatus {
         }
         return '$startedTime 开启铸造';
       case MintStatus.unqualified:
+      case MintStatus.stepNotCompleted:
       case MintStatus.mintable:
+        return isVideoNft ? '生成个人视频 NFT' : '开启铸造';
       case MintStatus.runOut:
-        return isVideo ? '生成个人视频 NFT' : '立即铸造';
+        return '已铸造';
+      case MintStatus.generating:
+        return '正在识别中';
+      case MintStatus.generationFailed:
+        return '没有识别到您的视频，请联系客服';
       case MintStatus.minting:
-        return isVideo ? '生成个人视频 NFT' : '正在铸造';
+        return isVideoNft ? '生成个人视频 NFT' : '正在铸造';
       case MintStatus.expired:
         return '活动已结束';
     }
@@ -43,9 +52,12 @@ extension MintStatusExtension on MintStatus {
         return '请登录以获取你的铸造资格';
       case MintStatus.notStartedAndUnqualified:
       case MintStatus.unqualified:
+      case MintStatus.stepNotCompleted:
         return '您当前没有铸造资格，如何获取资格？';
       case MintStatus.notStarted:
         return '您当前有 ${mintChances ?? 0} 次铸造机会';
+      case MintStatus.generating:
+      case MintStatus.generationFailed:
       case MintStatus.mintable:
       case MintStatus.runOut:
       case MintStatus.minting:
@@ -68,7 +80,10 @@ extension MintStatusExtension on MintStatus {
           case MintStatus.unqualified:
           case MintStatus.runOut:
           case MintStatus.expired:
-            return 0x80FFFFFF;
+          case MintStatus.generating:
+          case MintStatus.generationFailed:
+          case MintStatus.stepNotCompleted:
+            return 0xFF909090;
         }
       }();
 
@@ -83,26 +98,30 @@ extension MintStatusExtension on MintStatus {
           case MintStatus.runOut:
           case MintStatus.expired:
           case MintStatus.minting:
+          case MintStatus.generating:
+          case MintStatus.generationFailed:
+          case MintStatus.stepNotCompleted:
             return false;
         }
       }();
 
   bool get showsHint => this != MintStatus.notLogin;
 
-  bool get showsPreview => () {
+  bool get showsPreviewVideo => () {
         switch (this) {
           case MintStatus.notLogin:
           case MintStatus.notStartedAndUnqualified:
           case MintStatus.notStarted:
           case MintStatus.expired:
-          case MintStatus.minting:
-            return false;
+          case MintStatus.generating:
+          case MintStatus.generationFailed:
+          case MintStatus.stepNotCompleted:
           case MintStatus.unqualified:
+            return true;
+          case MintStatus.minting:
           case MintStatus.mintable:
           case MintStatus.runOut:
-            return true;
+            return false;
         }
       }();
-
-  bool get previewEnabled => this == MintStatus.mintable;
 }

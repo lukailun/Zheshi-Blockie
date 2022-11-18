@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/models/mint_status.dart';
+import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
 class ProjectDetailsFooterView extends StatelessWidget {
@@ -54,7 +55,10 @@ class ProjectDetailsFooterView extends StatelessWidget {
     );
 
     final mintButton = BasicElevatedButton(
-      title: mintStatus.title(startedTime: projectDetails.startedTime),
+      title: mintStatus.title(
+        startedTime: projectDetails.startedTime,
+        isVideoNft: projectDetails.isVideoNft,
+      ),
       borderRadius: 12,
       backgroundColor: Color(mintStatus.colorValue),
       textColor: Colors.black,

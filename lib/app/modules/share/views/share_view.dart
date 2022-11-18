@@ -2,10 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -14,7 +11,10 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
+import 'package:blockie_app/widgets/html_video.dart';
+import 'package:blockie_app/widgets/loading_indicator.dart';
 
 class ShareView extends GetView<ShareController> {
   const ShareView({super.key});
@@ -41,6 +41,7 @@ class ShareView extends GetView<ShareController> {
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: AppThemeData.primaryColor,
             indicatorPadding: const EdgeInsets.symmetric(horizontal: 30),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 5),
             labelColor: AppThemeData.primaryColor,
             unselectedLabelColor: const Color(0xFF8F8F8F),
             tabs: controller.items.value
@@ -80,7 +81,7 @@ class ShareView extends GetView<ShareController> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Center(
-                  child: Text(controller.isVideo ? '点击复制链接 到默认浏览器下载' : '长按图片保存')
+                  child: Text(controller.isVideo ? '点此复制链接 到默认浏览器下载' : '长按图片保存')
                       .textColor(Colors.white)
                       .fontSize(14)
                       .fontWeight(FontWeightCompat.regular),
@@ -100,13 +101,25 @@ class ShareView extends GetView<ShareController> {
               () => Column(
                 children: [
                   Expanded(
-                    child: TabBarView(
-                      controller: controller.tabController,
-                      children: controller.items.value.map((it) {
-                        return Center(
-                          child: HtmlImage(url: it.imageUrl).paddingAll(30),
-                        );
-                      }).toList(),
+                    child: Center(
+                      child: controller.isVideo
+                          ? HtmlVideo(
+                              url: controller
+                                      .items[controller.selectedIndex.value]
+                                      .video
+                                      ?.url ??
+                                  '',
+                              posterUrl: controller
+                                      .items[controller.selectedIndex.value]
+                                      .video
+                                      ?.posterUrl ??
+                                  '',
+                            ).paddingAll(30)
+                          : HtmlImage(
+                                  url: controller
+                                      .items[controller.selectedIndex.value]
+                                      .imageUrl)
+                              .paddingAll(30),
                     ),
                   ),
                   saveHintView,
