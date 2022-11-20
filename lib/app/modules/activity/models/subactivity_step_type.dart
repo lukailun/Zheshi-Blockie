@@ -1,12 +1,15 @@
+// Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
 enum SubactivityStepType {
   @JsonValue('login')
   login,
   @JsonValue('signup')
-  registrationInfo,
+  register,
   @JsonValue('finished_match')
   finish,
   @JsonValue('volunteer')
-  volunteer;
+  volunteer,
+  @JsonValue('manual_finish')
+  submitToFinish;
 }

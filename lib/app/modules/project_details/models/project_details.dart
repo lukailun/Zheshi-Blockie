@@ -7,9 +7,9 @@ import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_extra_info.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_item.dart';
-import 'package:blockie_app/app/modules/project_details/models/project_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/issuer.dart';
+import 'package:blockie_app/models/project_status.dart';
 import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
@@ -19,8 +19,8 @@ part 'project_details.g.dart';
 class ProjectDetails {
   @JsonKey(name: 'name')
   final String name;
-  @JsonKey(name: 'summary')
-  final String? summary;
+  @JsonKey(name: 'summary', defaultValue: '')
+  final String summary;
   @JsonKey(name: 'description')
   final String description;
   @JsonKey(name: 'bg_path')
@@ -45,14 +45,14 @@ class ProjectDetails {
   final int mintedAmount;
   @JsonKey(name: 'holded_person')
   final int heldAmount;
-  @JsonKey(name: 'is_open')
-  final bool? isQualified;
-  @JsonKey(name: 'is_subscribed')
-  final bool? isSubscribed;
-  @JsonKey(name: 'mint_chances')
-  final int? mintChances;
-  @JsonKey(name: 'user_minted_amount')
-  final int? userMintedAmount;
+  @JsonKey(name: 'is_open', defaultValue: false)
+  final bool isQualified;
+  @JsonKey(name: 'is_subscribed', defaultValue: false)
+  final bool isSubscribed;
+  @JsonKey(name: 'mint_chances', defaultValue: 0)
+  final int mintChances;
+  @JsonKey(name: 'user_minted_amount', defaultValue: 0)
+  final int userMintedAmount;
   @JsonKey(name: 'uid')
   final String id;
   @JsonKey(name: 'issuer')

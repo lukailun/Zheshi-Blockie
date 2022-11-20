@@ -14,18 +14,39 @@ extension SubactivityControllerRouter on SubactivityController {
     getSubactivity();
   }
 
-  void handleStepTap(SubactivityStep step) {
+  void handleStepTap(Subactivity subactivity, SubactivityStep step) {
+    if (step.type != SubactivityStepType.login && !AuthService.to.isLoggedIn) {
+      return MessageToast.showMessage('登录后使用');
+    }
     switch (step.type) {
       case SubactivityStepType.login:
         return openLicenseDialog();
-      case SubactivityStepType.registrationInfo:
-        if (!AuthService.to.isLoggedIn) {
-          return MessageToast.showMessage('登录后使用');
-        }
+      case SubactivityStepType.register:
         return goToRegistrationInfo(preview.id);
       case SubactivityStepType.finish:
       case SubactivityStepType.volunteer:
         return MessageToast.showMessage('系统自动判断是否${step.title}');
+      case SubactivityStepType.submitToFinish:
+        final otherStepsCompleted = subactivity.steps
+            .where((it) => it.type != step.type)
+            .every((it) => it.isCompleted);
+        if (!otherStepsCompleted) {
+          return MessageToast.showMessage('请先完成其他${step.category}');
+        }
+        return Get.twoButtonDialog(
+          title: '提示',
+          message: '确定已经完成${step.category}: ${step.title}，提交后不可修改',
+          positiveButtonTitle: '确认',
+          positiveButtonOnTap: () async {
+            final isSuccessful = await submitToFinish(id: subactivity.id);
+            Get.back();
+            if (isSuccessful) {
+              getSubactivity();
+            }
+          },
+          negativeButtonTitle: '取消',
+          negativeButtonOnTap: Get.back,
+        );
     }
   }
 

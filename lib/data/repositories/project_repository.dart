@@ -21,12 +21,14 @@ class ProjectRepository {
   Future<PaginatedActivities?> getBrandActivities(String id) =>
       remoteApi.getBrandActivities(id);
 
-  Future<Issuer?> getIssuerInfo(String id)  => remoteApi.getIssuerInfo(id);
+  Future<Issuer?> getIssuerInfo(String id) => remoteApi.getIssuerInfo(id);
 
   Future<Activity?> getActivity(String id) => remoteApi.getActivity(id);
 
   Future<Subactivity?> getSubactivity(String id) =>
       remoteApi.getSubactivity(id);
+
+  Future<bool> submitToFinish(String id) => remoteApi.submitToFinish(id);
 
   Future<RegistrationInfo?> getRegistrationInfo(String id) =>
       remoteApi.getRegistrationInfo(id);

@@ -43,14 +43,14 @@ class SubactivityView extends GetView<SubactivityController> {
           visible: subactivity.steps.isNotEmpty,
           child: SubactivityStepsView(
             subactivity: subactivity,
-            stepOnTap: controller.handleStepTap,
+            stepOnTap: (step) => controller.handleStepTap(subactivity, step),
             contactUsOnTap: controller.openStaffQrCodeDialog,
           ),
         );
         final projectsView = Visibility(
           visible: subactivity.projects.isNotEmpty,
           child: SubactivityProjectsView(
-            projects: subactivity.projects,
+            subactivity: subactivity,
             mintStatuses: controller.mintStatuses.value,
             detailsOnTap: controller.goToProjectDetails,
             mintOnTap: controller.prepareToMint,

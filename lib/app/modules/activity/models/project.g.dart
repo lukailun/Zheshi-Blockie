@@ -11,13 +11,12 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       category: json['category_cn'] as String,
       title: json['name'] as String,
       coverPath: json['cover_path'] as String,
-      summary: json['summary'] as String,
       startedTimestamp: json['started_at'] as int,
       endedTimestamp: json['ended_at'] as int,
       serverTimestamp: json['server_time'] as int,
       nftType: $enumDecode(_$NftTypeEnumMap, json['nft_type']),
-      isQualified: json['is_open'] as bool?,
-      mintChances: json['mint_chances'] as int?,
+      isQualified: json['is_open'] as bool? ?? false,
+      mintChances: json['mint_chances'] as int? ?? 0,
       video: json['video'] == null
           ? null
           : Video.fromJson(json['video'] as Map<String, dynamic>),
@@ -34,7 +33,6 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'category_cn': instance.category,
       'name': instance.title,
       'cover_path': instance.coverPath,
-      'summary': instance.summary,
       'started_at': instance.startedTimestamp,
       'ended_at': instance.endedTimestamp,
       'server_time': instance.serverTimestamp,

@@ -46,6 +46,34 @@ extension MintStatusExtension on MintStatus {
     }
   }
 
+  String message({
+    required String category,
+    bool isVideoNft = false,
+  }) {
+    switch (this) {
+      case MintStatus.notLogin:
+      case MintStatus.notStartedAndUnqualified:
+      case MintStatus.stepNotCompleted:
+      case MintStatus.notStarted:
+        return '请完成所有$category开启铸造';
+      case MintStatus.unqualified:
+        return '暂无铸造资格';
+      case MintStatus.generating:
+        return '已完成所有$category';
+      case MintStatus.generationFailed:
+        return '很遗憾，未能生成个人视频';
+      case MintStatus.mintable:
+      case MintStatus.minting:
+        return isVideoNft ? '个人视频已生成完毕，点击按钮铸造 3D NFT' : '点击按钮铸造';
+      case MintStatus.runOut:
+        return isVideoNft ? '个人视频已铸造，请至“我的”页面查看' : '数字藏品已铸造，请至“我的”页面查看';
+      case MintStatus.needToClaimSouvenir:
+        return '线下扫码领取礼品';
+      case MintStatus.expired:
+        return '活动已结束';
+    }
+  }
+
   String hint({
     required int userMintedAmount,
     required int? mintChances,

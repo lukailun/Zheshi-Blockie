@@ -3,9 +3,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
-import 'package:blockie_app/app/modules/activity/models/project_status.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/models/project_status.dart';
 import 'package:blockie_app/models/video.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
@@ -21,8 +21,6 @@ class Project {
   final String title;
   @JsonKey(name: 'cover_path')
   final String coverPath;
-  @JsonKey(name: 'summary')
-  final String summary;
   @JsonKey(name: 'started_at')
   final int startedTimestamp;
   @JsonKey(name: 'ended_at')
@@ -31,10 +29,10 @@ class Project {
   final int serverTimestamp;
   @JsonKey(name: 'nft_type')
   final NftType nftType;
-  @JsonKey(name: 'is_open')
-  final bool? isQualified;
-  @JsonKey(name: 'mint_chances')
-  final int? mintChances;
+  @JsonKey(name: 'is_open', defaultValue: false)
+  final bool isQualified;
+  @JsonKey(name: 'mint_chances', defaultValue: 0)
+  final int mintChances;
   @JsonKey(name: 'video')
   final Video? video;
   @JsonKey(name: 'preview_video')
@@ -49,7 +47,6 @@ class Project {
     required this.category,
     required this.title,
     required this.coverPath,
-    required this.summary,
     required this.startedTimestamp,
     required this.endedTimestamp,
     required this.serverTimestamp,

@@ -9,7 +9,7 @@ part of 'project_details.dart';
 ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
     ProjectDetails(
       name: json['name'] as String,
-      summary: json['summary'] as String?,
+      summary: json['summary'] as String? ?? '',
       description: json['description'] as String,
       headerPath: json['bg_path'] as String,
       introduction: json['introduction'] as String,
@@ -23,10 +23,10 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
       contract: json['contract'] as String,
       mintedAmount: json['minted_amount'] as int,
       heldAmount: json['holded_person'] as int,
-      isQualified: json['is_open'] as bool?,
-      isSubscribed: json['is_subscribed'] as bool?,
-      mintChances: json['mint_chances'] as int?,
-      userMintedAmount: json['user_minted_amount'] as int?,
+      isQualified: json['is_open'] as bool? ?? false,
+      isSubscribed: json['is_subscribed'] as bool? ?? false,
+      mintChances: json['mint_chances'] as int? ?? 0,
+      userMintedAmount: json['user_minted_amount'] as int? ?? 0,
       id: json['uid'] as String,
       issuer: Issuer.fromJson(json['issuer'] as Map<String, dynamic>),
       extraInfo: ProjectDetailsExtraInfo.fromJson(

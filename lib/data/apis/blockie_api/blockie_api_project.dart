@@ -62,6 +62,17 @@ extension BlockieApiProject on BlockieApi {
     }
   }
 
+  Future<bool> submitToFinish(String id) async {
+    try {
+      final url = _urlBuilder.buildSubmitToFinishUrl(id);
+      final response = await _dio.post(url);
+      BlockieApi._getResponseData(response);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   Future<ProjectDetails?> getProjectDetails(String id) async {
     try {
       final url = _urlBuilder.buildGetProjectDetailsUrl(id);

@@ -1,16 +1,15 @@
 // Package imports:
-import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
-import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/project.dart';
-import 'package:blockie_app/app/modules/activity/models/project_status.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_preview.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/activity/views/staff_qr_code_dialog.dart';
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
+import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_minted_nft_dialog.dart';
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
@@ -20,11 +19,13 @@ import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/models/nft_info.dart';
+import 'package:blockie_app/models/project_status.dart';
 import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/utils/http_request.dart';
+import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
@@ -116,6 +117,12 @@ class SubactivityController extends GetxController {
     _updateMintStatuses(subactivity: subactivityValue, isMinting: false);
   }
 
+  Future<bool> submitToFinish({
+    required String id,
+  }) async {
+    return await projectRepository.submitToFinish(id);
+  }
+
   void _updateMintStatuses({
     required Subactivity subactivity,
     required bool isMinting,
@@ -133,7 +140,7 @@ class SubactivityController extends GetxController {
     mintStatuses.value = subactivity.projects.map((it) {
       switch (it.status) {
         case ProjectStatus.notStarted:
-          if (it.isQualified ?? false) {
+          if (it.isQualified) {
             return MintStatus.notStarted;
           } else {
             return MintStatus.notStartedAndUnqualified;
@@ -154,8 +161,8 @@ class SubactivityController extends GetxController {
           if (it.needToClaimSouvenir) {
             return MintStatus.needToClaimSouvenir;
           }
-          if (it.isQualified ?? false) {
-            if ((it.mintChances ?? 0) > 0) {
+          if (it.isQualified) {
+            if (it.mintChances > 0) {
               return MintStatus.mintable;
             } else {
               return MintStatus.runOut;

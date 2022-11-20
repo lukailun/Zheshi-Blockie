@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/project.dart';
+import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
 import 'package:blockie_app/models/mint_status.dart';
@@ -15,14 +16,16 @@ import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/html_video.dart';
 
 class SubactivityProjectsView extends StatelessWidget {
-  final List<Project> projects;
+  final Subactivity subactivity;
   final List<MintStatus> mintStatuses;
   final Function(String)? detailsOnTap;
   final Function(Project, MintStatus)? mintOnTap;
 
+  List<Project> get projects => subactivity.projects;
+
   const SubactivityProjectsView({
     super.key,
-    required this.projects,
+    required this.subactivity,
     required this.mintStatuses,
     this.detailsOnTap,
     this.mintOnTap,
@@ -33,7 +36,7 @@ class SubactivityProjectsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-            Text(projects.first.category)
+            Text(projects.isNotEmpty ? projects.first.category : '')
                 .textColor(AppThemeData.secondaryColor)
                 .fontSize(18)
                 .fontWeight(FontWeightCompat.bold)
@@ -70,6 +73,7 @@ class SubactivityProjectsView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () => detailsOnTap?.call(project.id),
+              behavior: HitTestBehavior.translucent,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -105,8 +109,13 @@ class SubactivityProjectsView extends StatelessWidget {
           }(),
         ).paddingSymmetric(horizontal: 27),
         Visibility(
-          visible: project.summary.isNotEmpty,
-          child: Text(project.summary)
+          visible: subactivity.steps.isNotEmpty,
+          child: Text(mintStatus.message(
+            category: subactivity.steps.isNotEmpty
+                ? subactivity.steps.first.category
+                : '',
+            isVideoNft: project.isVideoNft,
+          ))
               .textColor(const Color(0x80FFFFFF))
               .fontSize(13)
               .paddingOnly(top: 10),

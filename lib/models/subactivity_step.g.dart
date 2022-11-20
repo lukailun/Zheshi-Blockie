@@ -26,7 +26,8 @@ Map<String, dynamic> _$SubactivityStepToJson(SubactivityStep instance) =>
 
 const _$SubactivityStepTypeEnumMap = {
   SubactivityStepType.login: 'login',
-  SubactivityStepType.registrationInfo: 'signup',
+  SubactivityStepType.register: 'signup',
   SubactivityStepType.finish: 'finished_match',
   SubactivityStepType.volunteer: 'volunteer',
+  SubactivityStepType.submitToFinish: 'manual_finish',
 };

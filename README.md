@@ -19,7 +19,7 @@ A Web3 sports life platform.
 $ flutter pub run import_sorter:main
 ```
 
-## Generate Json Code
+## Generate JSON Serialization Code
 ```
 $ flutter pub run build_runner build --delete-conflicting-outputs
 ```

@@ -49,6 +49,9 @@ class BlockieUrlBuilder {
   String buildGetSubactivityUrl(String id) =>
       '$_baseUrl/activities/$id/tutorial';
 
+  String buildSubmitToFinishUrl(String id) =>
+      '$_baseUrl/activity/$id/workout-finish';
+
   String buildGetRegistrationInfoUrl(String id) =>
       '$_baseUrl/activity/$id/workout';
 
@@ -75,13 +78,11 @@ class BlockieUrlBuilder {
   String buildGetAirdropNftsUrl(String id) =>
       '$_baseUrl/staff/rights/$id/mint-status';
 
-  String buildAirdropNftsUrl(String id) =>
-      '$_baseUrl/staff/rights/$id/mint';
+  String buildAirdropNftsUrl(String id) => '$_baseUrl/staff/rights/$id/mint';
 
   String buildCheckTicketUrl() => '$_baseUrl/staff/punch-tickets/souvenirs';
 
-  String buildGetWhitelistStatusUrl(String id) =>
-      '$_baseUrl/staff/rights/$id';
+  String buildGetWhitelistStatusUrl(String id) => '$_baseUrl/staff/rights/$id';
 
   String buildAddWhitelistUrl(String id) => '$_baseUrl/staff/rights/$id';
 

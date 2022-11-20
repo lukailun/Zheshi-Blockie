@@ -6,7 +6,6 @@ import 'dart:ui' as ui;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -20,11 +19,9 @@ import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/models/app_bar_button_item.dart';
 import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/global.dart';
 import 'package:blockie_app/models/nft_info.dart';
 import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/services/wechat_service/wechat_service.dart';
 import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
