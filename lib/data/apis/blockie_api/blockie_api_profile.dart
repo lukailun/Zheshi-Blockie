@@ -20,7 +20,6 @@ extension BlockieApiProfile on BlockieApi {
       final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
-      Global.userInfo = userInfo;
       return userInfo;
     } catch (error) {
       return null;
@@ -34,7 +33,6 @@ extension BlockieApiProfile on BlockieApi {
       final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
-      Global.userInfo = userInfo;
       return userInfo;
     } catch (error) {
       return null;

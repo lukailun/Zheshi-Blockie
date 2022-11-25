@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -9,8 +10,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/mint_status.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/html_video.dart';
@@ -40,7 +40,7 @@ class SubactivityProjectsView extends StatelessWidget {
                 .textColor(AppThemeData.secondaryColor)
                 .fontSize(18)
                 .fontWeight(FontWeightCompat.bold)
-                .paddingZero,
+                .paddingSymmetric(horizontal: 10),
           ] +
           projects
               .asMap()
@@ -48,7 +48,7 @@ class SubactivityProjectsView extends StatelessWidget {
               .map((it) => _getBenefitView(it.key))
               .toList(),
     )
-        .paddingOnly(top: 11, bottom: 24, left: 10, right: 10)
+        .paddingOnly(top: 11, bottom: 24)
         .outlined()
         .paddingSymmetric(vertical: 14);
   }
@@ -87,7 +87,7 @@ class SubactivityProjectsView extends StatelessWidget {
               ),
             ).paddingOnly(left: 10),
           ],
-        ).paddingOnly(top: 27, bottom: 27),
+        ).paddingSymmetric(horizontal: 10, vertical: 14),
         AspectRatio(
           aspectRatio: 16.0 / 9.0,
           child: () {
@@ -107,7 +107,7 @@ class SubactivityProjectsView extends StatelessWidget {
               );
             }
           }(),
-        ).paddingSymmetric(horizontal: 27),
+        ),
         Visibility(
           visible: subactivity.steps.isNotEmpty,
           child: Text(mintStatus.message(
@@ -118,7 +118,7 @@ class SubactivityProjectsView extends StatelessWidget {
           ))
               .textColor(const Color(0x80FFFFFF))
               .fontSize(13)
-              .paddingOnly(top: 10),
+              .paddingOnly(top: 10, left: 10, right: 10),
         ),
         SizedBox(
           width: double.infinity,
@@ -130,6 +130,9 @@ class SubactivityProjectsView extends StatelessWidget {
             ),
             borderRadius: 8,
             textColor: const Color(0xFF3D3D3D),
+            backgroundColors:
+                mintStatus.colorValues?.map((it) => Color(it)).toList(),
+            backgroundColorsStops: const [0, 0.5, 0.5, 1],
             backgroundColor: Color(mintStatus.colorValue),
             disabledColor: Color(mintStatus.colorValue),
             textFontSize: 18,
@@ -138,7 +141,7 @@ class SubactivityProjectsView extends StatelessWidget {
                 ? () => mintOnTap?.call(project, mintStatus)
                 : null,
           ),
-        ).paddingOnly(left: 12, right: 12, top: 15),
+        ).paddingOnly(left: 22, right: 22, top: 15),
       ],
     );
   }

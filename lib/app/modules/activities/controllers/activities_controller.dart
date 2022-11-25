@@ -24,16 +24,16 @@ class ActivitiesController extends GetxController {
   });
 
   final activities = Rxn<List<Activity>>();
-  final user = AuthService.to.user;
+  final user = AuthService.to.userInfo;
 
   @override
   void onReady() {
     super.onReady();
-    _getActivities();
-    getUser();
+    getActivities();
+    getUserInfo();
   }
 
-  void _getActivities() async {
+  void getActivities() async {
     final paginatedActivities = await projectRepository.getActivities();
     activities.value = paginatedActivities?.activities;
   }
@@ -65,17 +65,17 @@ class ActivitiesController extends GetxController {
   void _showLicenseDialog() {
     Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage("登录成功");
-      getUser();
+      getUserInfo();
     });
   }
 
-  void getUser() async {
+  void getUserInfo() async {
     if ((DataStorage.getToken() ?? '').isNotEmpty) {
-      final user = await accountRepository.getUser();
-      AuthService.to.user.value = user;
+      final user = await accountRepository.getUserInfo();
+      AuthService.to.userInfo.value = user;
       AuthService.to.login();
     } else {
-      AuthService.to.user.value = null;
+      AuthService.to.userInfo.value = null;
       AuthService.to.logout();
     }
   }

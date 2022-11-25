@@ -7,7 +7,7 @@ import 'package:blockie_app/services/auth_service.dart';
 
 class UpdateAvatarController extends GetxController {
   final AccountRepository repository;
-  final initialAvatar = (AuthService.to.user.value?.avatarUrl ?? "").obs;
+  final initialAvatar = (AuthService.to.userInfo.value?.avatarUrl ?? "").obs;
 
   UpdateAvatarController({required this.repository});
 }

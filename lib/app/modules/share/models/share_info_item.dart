@@ -1,5 +1,5 @@
-// Project imports:
-import 'package:blockie_app/models/video.dart';
+
+import 'package:blockie_app/data/models/video.dart';
 
 class ShareInfoItem {
   final String id;

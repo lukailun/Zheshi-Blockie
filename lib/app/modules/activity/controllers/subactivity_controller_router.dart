@@ -8,7 +8,7 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void goToProfile() async {
-    final userValue = AuthService.to.user.value;
+    final userValue = AuthService.to.userInfo.value;
     final parameters = {ProfileParameter.id: userValue?.id ?? ''};
     await Get.toNamed(Routes.profile, parameters: parameters);
     getSubactivity();
@@ -72,8 +72,8 @@ extension SubactivityControllerRouter on SubactivityController {
       nft: nft,
       buttonOnTap: () {
         Get.back();
-        final parameters = {"uid": nft.uid};
-        Get.toNamed(Routes.nft, parameters: parameters);
+        final parameters = {NftDetailsParameter.id: nft.uid};
+        Get.toNamed(Routes.nftDetails, parameters: parameters);
       },
     );
   }
@@ -87,7 +87,7 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void openQrCodeDialog() {
-    final userValue = AuthService.to.user.value;
+    final userValue = AuthService.to.userInfo.value;
     final qrCodeValue = qrCode.value;
     if (userValue == null || qrCodeValue == null) {
       return;

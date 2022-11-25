@@ -9,16 +9,17 @@ import '../../../../data/apis/blockie_api/blockie_api.dart';
 import '../../../../utils/data_storage.dart';
 
 class FaceVerificationBinding implements Bindings {
-  FaceVerificationBinding({required AccountRepository accountRepository})
-      : _accountRepository = accountRepository;
+  FaceVerificationBinding({
+    required this.accountRepository,
+  });
 
-  final AccountRepository _accountRepository;
+  final AccountRepository accountRepository;
 
   @override
   void dependencies() {
     Get.lazyPut(
       () => FaceVerificationController(
-        repository: _accountRepository,
+        repository: accountRepository,
       ),
     );
   }

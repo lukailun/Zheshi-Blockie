@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
-import 'package:blockie_app/data/apis/models/wechat_config.dart';
-import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_config.dart';
+import 'package:blockie_app/data/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 import 'package:blockie_app/utils/data_storage.dart';

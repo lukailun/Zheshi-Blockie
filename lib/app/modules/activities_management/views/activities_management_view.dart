@@ -11,7 +11,7 @@ import 'package:blockie_app/app/modules/activities_management/models/activity_ty
 import 'package:blockie_app/app/modules/activities_management/models/subactivity.dart';
 import 'package:blockie_app/app/modules/activities_management/views/activity_item_view.dart';
 import 'package:blockie_app/app/modules/activities_management/views/subactivity_item_view.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

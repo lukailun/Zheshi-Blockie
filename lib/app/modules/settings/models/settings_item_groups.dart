@@ -1,8 +1,9 @@
 // Dart imports:
 import 'dart:ui';
 
+import 'package:blockie_app/data/models/environment.dart';
+
 // Project imports:
-import 'package:blockie_app/models/environment.dart';
 
 part 'settings_item_group.dart';
 

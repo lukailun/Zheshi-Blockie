@@ -6,5 +6,5 @@ class WebViewController extends GetxController {
 }
 
 class WebViewParameter {
-  static const url = "url";
+  static const url = 'url';
 }

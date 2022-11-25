@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/data/repositories/profile_repository.dart';
-import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class UpdateUsernameController extends GetxController {
   final ProfileRepository repository;
-  final initialName = (AuthService.to.user.value?.username ?? "").obs;
+  final initialName = (AuthService.to.userInfo.value?.username ?? "").obs;
   final newName = ''.obs;
 
   UpdateUsernameController({required this.repository});

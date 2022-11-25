@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -48,8 +49,10 @@ class UpdateLabelsDialog extends StatelessWidget {
           child: ClipRect(
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(16)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Blur(
+                blur: 5,
+                blurColor: const Color(0x10FFFFFF),
+                colorOpacity: 0.05,
                 child: Container(
                   color: const Color(0x4DFFFFFF),
                   child: Column(

@@ -1,4 +1,7 @@
 // Package imports:
+import 'package:blockie_app/data/models/issuer.dart';
+import 'package:blockie_app/data/models/project_status.dart';
+import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
@@ -8,9 +11,6 @@ import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_extra_info.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_item.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/issuer.dart';
-import 'package:blockie_app/models/project_status.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'project_details.g.dart';

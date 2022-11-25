@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
+import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_button.dart';
 import 'package:blockie_app/widgets/basic_popup_menu_item.dart';

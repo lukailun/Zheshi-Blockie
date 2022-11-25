@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/data/repositories/profile_repository.dart';
-import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class UpdateBioController extends GetxController {
   final ProfileRepository repository;
-  final initialBio = (AuthService.to.user.value?.bio ?? "").obs;
+  final initialBio = (AuthService.to.userInfo.value?.bio ?? '').obs;
   final newBio = ''.obs;
 
   UpdateBioController({required this.repository});
@@ -30,8 +29,8 @@ class UpdateBioController extends GetxController {
     if (userInfo == null) {
       return;
     }
-    initialBio.value = userInfo.bio ?? '';
-    newBio.value = userInfo.bio ?? '';
+    initialBio.value = userInfo.bio;
+    newBio.value = userInfo.bio;
     AuthService.to.updateUserInfo();
     MessageToast.showMessage('修改成功');
   }

@@ -1,7 +1,8 @@
-// Dart imports:
-import 'dart:convert';
-
 // Package imports:
+import 'package:blockie_app/data/models/issuer.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/token_info.dart';
+import 'package:blockie_app/data/models/user_info.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
@@ -22,13 +23,9 @@ import 'package:blockie_app/app/modules/projects_management/models/project.dart'
 import 'package:blockie_app/app/modules/registration_info/models/registration_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
-import 'package:blockie_app/data/apis/blockie_url_builder.dart';
-import 'package:blockie_app/data/apis/models/exceptions.dart';
-import 'package:blockie_app/data/apis/models/wechat_config.dart';
-import 'package:blockie_app/models/global.dart';
-import 'package:blockie_app/models/issuer.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
+import 'package:blockie_app/data/models/exceptions.dart';
+import 'package:blockie_app/data/models/wechat_config.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
@@ -54,30 +51,6 @@ class BlockieApi {
 
   final Dio _dio;
   final BlockieUrlBuilder _urlBuilder;
-
-  Future<ShareInfo?> getNftDetailsShareInfo(String id) async {
-    final url = _urlBuilder.buildGetNftDetailsShareInfoUrl(id);
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final shareInfo = ShareInfo.fromJson(object);
-      return shareInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<ShareInfo?> getProjectDetailsShareInfo(String id) async {
-    final url = _urlBuilder.buildGetProjectDetailsShareInfoUrl(id);
-    final response = await _dio.get(url);
-    try {
-      final Map<String, dynamic> object = _getResponseData(response);
-      final shareInfo = ShareInfo.fromJson(object);
-      return shareInfo;
-    } catch (error) {
-      return null;
-    }
-  }
 
   static const _errorCodeJsonKey = 'err_code';
   static const _errorMessageJsonKey = 'err_msg';
@@ -109,10 +82,8 @@ extension on Dio {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final userToken = userTokenSupplier();
-          if (userToken != null) {
-            options.headers.addAll({
-              'Authorization': 'Bearer $userToken',
-            });
+          if ((userToken ?? '').isNotEmpty) {
+            options.headers.addAll({'Authorization': 'Bearer $userToken'});
           }
           return handler.next(options);
         },

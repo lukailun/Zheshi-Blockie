@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activities_management/views/subactivity_item_view.dart';
 import 'package:blockie_app/app/modules/subactivities_management/controllers/subactivities_management_controller.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 
 class SubactivitiesManagementView

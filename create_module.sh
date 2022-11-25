@@ -29,7 +29,18 @@ if [ "$1" ]; then
     cat > $1/controllers/$1_controller.dart << END_TEXT
 import 'package:get/get.dart';
 
+part '$1_controller_router.dart';
+
 class ${upperCamelCaseClassName}Controller extends GetxController {}
+END_TEXT
+
+    echo "Creating $1/controllers/$1_controller_router.dart File..."
+    cat > $1/controllers/$1_controller_router.dart << END_TEXT
+part of '$1_controller.dart';
+
+extension ${upperCamelCaseClassName}ControllerRouter on ${upperCamelCaseClassName}Controller {
+
+}
 END_TEXT
 
     echo "Creating $1/views Directory..."

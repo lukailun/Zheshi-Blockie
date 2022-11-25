@@ -1,10 +1,11 @@
 // Project imports:
-import 'package:blockie_app/models/global.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
 
 extension StringExtension on String {
   String get formatted => replaceAll("\\n", "\n");
 
-  String get hostAdded => isNotEmpty ? "${Global.assetHost}$this" : this;
+  String get hostAdded =>
+      isNotEmpty ? "${BlockieUrlBuilder.resourceHost}/$this" : this;
 
   bool parseBool() {
     if (toLowerCase() == 'true') {

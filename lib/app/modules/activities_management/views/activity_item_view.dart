@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/issuer.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,7 +9,6 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activities_management/models/activity.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/issuer.dart';
 
 class ActivityItemView extends StatelessWidget {
   final Activity activity;

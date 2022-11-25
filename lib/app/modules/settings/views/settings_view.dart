@@ -9,7 +9,7 @@ import 'package:blockie_app/app/modules/settings/controllers/settings_controller
 import 'package:blockie_app/app/modules/settings/models/settings_item_groups.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_item_group_tile.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 

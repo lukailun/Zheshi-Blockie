@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/projects_management/models/project.dart';
 import 'package:blockie_app/app/modules/projects_management/views/project_item_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
 extension GetDialogExtension on GetInterface {
@@ -53,8 +54,10 @@ class ProjectsManagementDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+    return Blur(
+      blur: 5,
+      blurColor: const Color(0x10FFFFFF),
+      colorOpacity: 0.05,
       child: Center(
         child: Column(
           children: [

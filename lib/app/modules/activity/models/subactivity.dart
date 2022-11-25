@@ -1,11 +1,11 @@
 // Package imports:
+import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'subactivity.g.dart';

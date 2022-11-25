@@ -7,7 +7,7 @@ abstract class Routes {
   static const brand = '/brand';
   static const faceVerification = '/face_verification';
   static const gallery = '/gallery';
-  static const nft = '/nft';
+  static const nftDetails = '/nft_details';
   static const projectDetails = '/project_details';
   static const activitiesManagement = '/activities_management';
   static const subactivitiesManagement = '/subactivities_management';
@@ -23,6 +23,7 @@ abstract class Routes {
   static const updateBio = '/update_bio';
   static const webView = '/web_view';
   static const profile = '/profile';
+  static const editUserInfo = '/edit_user_info';
   static const share = '/share';
   static const developerMode = '/developer_mode';
 }

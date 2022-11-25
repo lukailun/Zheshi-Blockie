@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/environment.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -9,8 +10,7 @@ import 'package:blockie_app/app/modules/developer_mode/controllers/developer_mod
 import 'package:blockie_app/app/modules/settings/models/settings_item_groups.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_item_tile.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/environment.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/services/debug_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 

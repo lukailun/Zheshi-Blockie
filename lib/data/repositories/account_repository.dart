@@ -1,18 +1,20 @@
 // Project imports:
 import 'package:blockie_app/app/modules/face_verification/models/face_info.dart';
-import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
-import 'package:blockie_app/data/apis/models/wechat_config.dart';
-import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/data/models/token_info.dart';
+import 'package:blockie_app/data/models/user_info.dart';
+import 'package:blockie_app/data/models/wechat_config.dart';
 
 class AccountRepository {
   final BlockieApi remoteApi;
 
   AccountRepository({required this.remoteApi});
 
+  Future<TokenInfo?> login(String code) => remoteApi.login(code);
+
   Future<bool> logout() => remoteApi.logout();
 
-  Future<UserInfo?> getUser() => remoteApi.getUser();
+  Future<UserInfo?> getUserInfo() => remoteApi.getUserInfo();
 
   Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) =>
       remoteApi.uploadFacePhoto(bytes, filename);

@@ -2,13 +2,14 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'basic_elevated_button.dart';
 
 class ProjectsManagementFooterView extends StatelessWidget {
@@ -54,8 +55,10 @@ class ProjectsManagementFooterView extends StatelessWidget {
         width: double.infinity,
         height: topButtonTitle != null ? 160 : 90,
         child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Blur(
+            blur: 5,
+            blurColor: const Color(0x10FFFFFF),
+            colorOpacity: 0.05,
             child: Column(
               children: [
                 const Spacer(flex: 1),

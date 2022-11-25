@@ -2,10 +2,10 @@
 import 'dart:html' show Geolocation, Geoposition, Navigator, Permissions;
 
 // Project imports:
-import 'package:blockie_app/data/apis/models/location/Location_settings.dart';
-import 'package:blockie_app/data/apis/models/location/location.dart';
-import 'package:blockie_app/data/apis/models/location/location_accuracy.dart';
-import 'package:blockie_app/data/apis/models/location/location_permission_status.dart';
+import 'package:blockie_app/data/models/location/Location_settings.dart';
+import 'package:blockie_app/data/models/location/location.dart';
+import 'package:blockie_app/data/models/location/location_accuracy.dart';
+import 'package:blockie_app/data/models/location/location_permission_status.dart';
 
 class LocationService {
   LocationService(Navigator navigator)

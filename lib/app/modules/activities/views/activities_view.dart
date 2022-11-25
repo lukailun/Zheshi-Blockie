@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/user_info.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,8 +11,7 @@ import 'package:blockie_app/app/modules/activities/controllers/activities_contro
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
 import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

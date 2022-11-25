@@ -12,7 +12,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   }
 
   void goToProfile() async {
-    final userValue = AuthService.to.user.value;
+    final userValue = AuthService.to.userInfo.value;
     final parameters = {ProfileParameter.id: userValue?.id ?? ''};
     await Get.toNamed(Routes.profile, parameters: parameters);
     isDefaultConfig = false;
@@ -85,15 +85,15 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
       nft: nft,
       buttonOnTap: () {
         Get.back();
-        final parameters = {"uid": nft.uid};
-        Get.toNamed(Routes.nft, parameters: parameters);
+        final parameters = {NftDetailsParameter.id: nft.uid};
+        Get.toNamed(Routes.nftDetails, parameters: parameters);
         isDefaultConfig = false;
       },
     );
   }
 
   void openQrCodeDialog() {
-    final userValue = AuthService.to.user.value;
+    final userValue = AuthService.to.userInfo.value;
     final qrCodeValue = qrCode.value;
     if (userValue == null || qrCodeValue == null) {
       return;

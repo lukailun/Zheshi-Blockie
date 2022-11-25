@@ -124,4 +124,28 @@ extension BlockieApiProject on BlockieApi {
       return null;
     }
   }
+
+  Future<ShareInfo?> getNftDetailsShareInfo(String id) async {
+    try {
+      final url = _urlBuilder.buildGetNftDetailsShareInfoUrl(id);
+      final response = await _dio.get(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final shareInfo = ShareInfo.fromJson(object);
+      return shareInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<ShareInfo?> getProjectDetailsShareInfo(String id) async {
+    try {
+      final url = _urlBuilder.buildGetProjectDetailsShareInfoUrl(id);
+      final response = await _dio.get(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final shareInfo = ShareInfo.fromJson(object);
+      return shareInfo;
+    } catch (error) {
+      return null;
+    }
+  }
 }

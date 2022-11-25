@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_text_field.dart';
 
@@ -50,8 +51,10 @@ class _MintCheckCodeDialogState extends State<_MintCheckCodeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+    return Blur(
+      blur: 5,
+      blurColor: const Color(0x10FFFFFF),
+      colorOpacity: 0.05,
       child: Center(
         child: Container(
           decoration: const BoxDecoration(

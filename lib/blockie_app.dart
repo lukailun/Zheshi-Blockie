@@ -2,6 +2,13 @@
 import 'dart:math';
 
 // Flutter imports:
+import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/environment.dart';
+import 'package:blockie_app/data/models/platform_info.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/profile_repository.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,13 +17,21 @@ import 'package:statsfl/statsfl.dart';
 
 // Project imports:
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/environment.dart';
-import 'package:blockie_app/models/platform_info.dart';
 import 'package:blockie_app/services/debug_service.dart';
 
 class BlockieApp extends StatelessWidget {
-  const BlockieApp({Key? key}) : super(key: key);
+  final AccountRepository accountRepository;
+  final ProfileRepository profileRepository;
+  final ProjectRepository projectRepository;
+  final ProjectsManagementRepository projectsManagementRepository;
+
+  const BlockieApp({
+    super.key,
+    required this.accountRepository,
+    required this.profileRepository,
+    required this.projectRepository,
+    required this.projectsManagementRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +46,12 @@ class BlockieApp extends StatelessWidget {
             title: DebugService.to.isDevTitle.value
                 ? Environment.appTitle
                 : Environment.appTitle.replaceAll('[DEV] ', ''),
-            getPages: AppPages.routes,
+            getPages: AppPages(
+              accountRepository: accountRepository,
+              profileRepository: profileRepository,
+              projectRepository: projectRepository,
+              projectsManagementRepository: projectsManagementRepository,
+            ).routes,
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.activities,
             defaultTransition: Transition.cupertino,

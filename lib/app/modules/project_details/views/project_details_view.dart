@@ -1,9 +1,7 @@
-// Dart imports:
-import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -16,9 +14,8 @@ import 'package:blockie_app/app/modules/project_details/views/project_details_co
 import 'package:blockie_app/app/modules/project_details/views/project_details_footer_view.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/mint_status.dart';
+import 'package:blockie_app/data/models/app_bar_button_item.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
@@ -44,7 +41,7 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
         assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            ProfileParameter.id: AuthService.to.user.value?.id ?? "",
+            ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
           };
           Get.offNamed(Routes.profile, parameters: parameters);
         },

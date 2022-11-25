@@ -12,9 +12,8 @@ import 'package:blockie_app/app/modules/activity/views/subactivity_view.dart';
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
+import 'package:blockie_app/data/models/app_bar_button_item.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
@@ -36,7 +35,7 @@ class ActivityContainerView extends GetView<ActivityController> {
         assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            ProfileParameter.id: AuthService.to.user.value?.id ?? "",
+            ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
           };
           Get.offNamed(Routes.profile, parameters: parameters);
         },

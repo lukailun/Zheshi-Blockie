@@ -2,16 +2,16 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/data/models/mint_status.dart';
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/mint_status.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 
 class ProjectDetailsFooterView extends StatelessWidget {
@@ -73,8 +73,10 @@ class ProjectDetailsFooterView extends StatelessWidget {
       width: double.infinity,
       height: 160,
       child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: Blur(
+          blur: 5,
+          blurColor: const Color(0x10FFFFFF),
+          colorOpacity: 0.05,
           child: Column(
             children: [
               hintText.paddingSymmetric(vertical: 16),

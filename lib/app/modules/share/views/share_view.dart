@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/html_video.dart';
@@ -78,10 +79,12 @@ class ShareView extends GetView<ShareController> {
             width: double.infinity,
             height: 76,
             child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Blur(
+                blur: 5,
+                blurColor: const Color(0x10FFFFFF),
+                colorOpacity: 0.05,
                 child: Center(
-                  child: Text(controller.isVideo ? '点此复制链接 到默认浏览器下载' : '长按图片保存')
+                  child: Text(controller.isVideo ? '点此复制链接，到默认浏览器下载' : '长按图片保存')
                       .textColor(Colors.white)
                       .fontSize(14)
                       .fontWeight(FontWeightCompat.regular),

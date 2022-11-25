@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/projects_management/models/project.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 
 class ProjectItemView extends StatelessWidget {
   final Project project;

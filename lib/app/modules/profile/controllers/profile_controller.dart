@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:flutter/services.dart';
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
 
 // Package imports:
 import 'package:get/get.dart';
@@ -12,12 +12,10 @@ import 'package:blockie_app/app/modules/profile/views/update_labels_dialog.dart'
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/profile_repository.dart';
-import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/utils/http_request.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+
+part 'profile_controller_router.dart';
 
 class ProfileController extends GetxController {
   final AccountRepository accountRepository;
@@ -32,27 +30,27 @@ class ProfileController extends GetxController {
   final profile = Rxn<Profile>();
   final labels = Rxn<List<ProfileLabel>>();
   final isTagsExpanded = false.obs;
-  final user = AuthService.to.user;
+  final userInfo = AuthService.to.userInfo;
 
   @override
   void onReady() {
     super.onReady();
-    _updateUser();
+    getUserInfo();
   }
 
   void toggleTags() {
     isTagsExpanded.value = !isTagsExpanded.value;
   }
 
-  void _updateUser() async {
-    if ((DataStorage.getToken() ?? "").isNotEmpty) {
-      UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-      AuthService.to.user.value = res;
+  void getUserInfo() async {
+    if ((DataStorage.getToken() ?? '').isNotEmpty) {
+      final user = await accountRepository.getUserInfo();
+      AuthService.to.userInfo.value = user;
       AuthService.to.login();
       getQrCode();
       getProfile();
     } else {
-      AuthService.to.user.value = null;
+      AuthService.to.userInfo.value = null;
       AuthService.to.logout();
     }
   }
@@ -63,79 +61,6 @@ class ProfileController extends GetxController {
 
   void getProfile() async {
     profile.value = await profileRepository.getProfile();
-  }
-
-  void goToProjects() {
-    Get.offAllNamed(Routes.activities);
-  }
-
-  void goToSettings() {
-    Get.toNamed(Routes.settings);
-  }
-
-  void goToUpdateUsername() {
-    Get.toNamed(Routes.updateUsername);
-  }
-
-  void goToUpdateAvatar() {
-    Get.toNamed(Routes.updateAvatar);
-  }
-
-  void goToUpdateBio() {
-    Get.toNamed(Routes.updateBio);
-  }
-
-  void goToNftDetails(String id) {
-    final parameters = {
-      'uid': id,
-    };
-    Get.toNamed(Routes.nft, parameters: parameters);
-  }
-
-  void copyWalletAddress(String walletAddress) {
-    final copySuccess = ClipboardUtils.copyToClipboard(walletAddress);
-    MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
-  }
-
-  void openQrCodeDialog() {
-    final userValue = user.value;
-    final qrCodeValue = qrCode.value;
-    if (userValue == null || qrCodeValue == null) {
-      return;
-    }
-    Get.qrCodeDialog(
-      user: userValue,
-      qrCode: qrCodeValue,
-    );
-  }
-
-  void openUpdateLabelsDialog(int index) async {
-    labels.value ??= await profileRepository.getAllLabels();
-    if ((labels.value ?? []).isNotEmpty) {
-      final selectedLabelIds =
-          profile.value?.labels.map((it) => it.id).toList() ?? [];
-      Get.updateLabelsDialog(
-          labels: labels.value ?? [],
-          labelOnTap: (id) {
-            Get.back();
-            List<String> ids = selectedLabelIds;
-            if (index >= selectedLabelIds.length) {
-              ids += [id];
-            } else {
-              final currentIndex = ids.indexOf(id);
-              if (currentIndex == -1) {
-                ids[index] = id;
-              } else {
-                if (currentIndex == index) {
-                  return;
-                }
-                ids[currentIndex] = ids[index];
-                ids[index] = id;
-              }
-            }
-            updateLabels(ids);
-          });
-    }
   }
 
   void updateLabels(List<String> ids) async {

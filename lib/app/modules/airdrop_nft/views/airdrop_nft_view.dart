@@ -9,7 +9,7 @@ import 'package:blockie_app/app/modules/airdrop_nft/controllers/airdrop_nft_cont
 import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/views/airdrop_nft_item_view.dart';
 import 'package:blockie_app/extensions/text_extension.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/projects_management_footer_view.dart';
 import 'package:blockie_app/widgets/projects_management_user_view.dart';

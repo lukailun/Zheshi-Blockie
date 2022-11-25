@@ -5,6 +5,9 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -15,12 +18,10 @@ import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_share_source.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_bar_button_item.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/models/wechat_shareable.dart';
+import 'package:blockie_app/data/models/app_bar_button_item.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/http_request.dart';
@@ -42,7 +43,7 @@ class _NftPageState extends State<NftPage> with WechatShareable {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
   bool _goneToShare = false;
-  final _uid = Get.parameters["uid"] as String;
+  final _uid = Get.parameters["id"] as String;
   StreamSubscription<html.MessageEvent>? _scription;
 
   @override
@@ -58,8 +59,7 @@ class _NftPageState extends State<NftPage> with WechatShareable {
     });
     if (_nftInfo == null) {
       Future.delayed(Duration.zero, () async {
-        NftInfo nftInfo =
-            await HttpRequest.loadNft(uid: Get.parameters["uid"]!);
+        NftInfo nftInfo = await HttpRequest.loadNft(uid: _uid);
         setState(() {
           _nftInfo = nftInfo;
           isDefaultConfig = false;
@@ -301,7 +301,7 @@ class _NftPageState extends State<NftPage> with WechatShareable {
         assetName: "assets/images/app_bar/user.png",
         onTap: () {
           final parameters = {
-            ProfileParameter.id: AuthService.to.user.value?.id ?? "",
+            ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
           };
           Get.offNamed(Routes.profile, parameters: parameters);
         },
@@ -421,7 +421,8 @@ class _NftPageState extends State<NftPage> with WechatShareable {
     }
     return isDefaultConfig
         ? WechatShareSource.defaults.getLink()
-        : WechatShareSource.nft.getLink(extraInfo: 'uid=${nftInfoValue.uid}');
+        : WechatShareSource.nft.getLink(
+            extraInfo: '${NftDetailsParameter.id}=${nftInfoValue.uid}');
   }
 
   @override

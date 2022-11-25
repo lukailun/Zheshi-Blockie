@@ -8,16 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
-import 'package:blockie_app/app/modules/settings/views/logout_dialog.dart';
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/apis/blockie_url_builder.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/user_info.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/widgets/basic_one_button_dialog.dart';
-import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/login_dialog.dart';
 

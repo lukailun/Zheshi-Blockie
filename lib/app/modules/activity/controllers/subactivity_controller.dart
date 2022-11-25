@@ -1,4 +1,9 @@
 // Package imports:
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
+import 'package:blockie_app/data/models/mint_status.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/project_status.dart';
+import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -17,14 +22,8 @@ import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/mint_status.dart';
-import 'package:blockie_app/models/nft_info.dart';
-import 'package:blockie_app/models/project_status.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
-import 'package:blockie_app/models/user_info.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/utils/http_request.dart';
 import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
@@ -50,17 +49,17 @@ class SubactivityController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _updateUser();
+    getUserInfo();
   }
 
-  void _updateUser() async {
-    if ((DataStorage.getToken() ?? "").isNotEmpty) {
-      UserInfo res = await HttpRequest.getUserInfo(DataStorage.getToken()!);
-      AuthService.to.user.value = res;
+  void getUserInfo() async {
+    if ((DataStorage.getToken() ?? '').isNotEmpty) {
+      final user = await accountRepository.getUserInfo();
+      AuthService.to.userInfo.value = user;
       AuthService.to.login();
       getSubactivity();
     } else {
-      AuthService.to.user.value = null;
+      AuthService.to.userInfo.value = null;
       AuthService.to.logout();
       getSubactivity();
     }

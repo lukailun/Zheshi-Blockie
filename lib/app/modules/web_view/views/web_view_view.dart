@@ -17,7 +17,7 @@ class WebViewView extends GetView<WebViewController> {
 
   @override
   Widget build(BuildContext context) {
-    const viewType = 'web_view';
+    final viewType = 'web_view_${controller.url}';
     //ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(viewType, (int viewId) {
       return html.IFrameElement()
@@ -26,7 +26,7 @@ class WebViewView extends GetView<WebViewController> {
         ..src = controller.url
         ..style.border = 'none';
     });
-    const webView = HtmlElementView(viewType: viewType);
+    final webView = HtmlElementView(viewType: viewType);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: BasicAppBar(),

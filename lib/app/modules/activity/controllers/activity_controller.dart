@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,11 +12,10 @@ import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/apis/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_share_source.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/get_dialog_extension.dart';
-import 'package:blockie_app/models/wechat_shareable.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
@@ -53,17 +53,17 @@ class ActivityController extends GetxController
   void showLicenseDialog() {
     Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage("登录成功");
-      getUser();
+      getUserInfo();
     });
   }
 
-  void getUser() async {
+  void getUserInfo() async {
     if ((DataStorage.getToken() ?? '').isNotEmpty) {
-      final user = await accountRepository.getUser();
-      AuthService.to.user.value = user;
+      final user = await accountRepository.getUserInfo();
+      AuthService.to.userInfo.value = user;
       AuthService.to.login();
     } else {
-      AuthService.to.user.value = null;
+      AuthService.to.userInfo.value = null;
       AuthService.to.logout();
     }
   }

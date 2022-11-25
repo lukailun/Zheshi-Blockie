@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/add_whitelist/controllers/add_whitelist_controller.dart';
 import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_details.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/projects_management_footer_view.dart';
 import 'package:blockie_app/widgets/projects_management_user_view.dart';

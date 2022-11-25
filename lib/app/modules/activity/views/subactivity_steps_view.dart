@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,8 +9,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_step_button.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/models/app_theme_data.dart';
-import 'package:blockie_app/models/subactivity_step.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 
 class SubactivityStepsView extends StatelessWidget {
   final Subactivity subactivity;
@@ -80,7 +80,7 @@ class SubactivityStepsView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: children,
-        ).paddingOnly(top: 11, bottom: 24, left: 10, right: 10).outlined(),
+        ).paddingOnly(top: 11, bottom: 14, left: 10, right: 10).outlined(),
       ],
     ).paddingSymmetric(vertical: 14);
   }

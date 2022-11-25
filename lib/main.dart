@@ -1,4 +1,10 @@
 // Flutter imports:
+import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/profile_repository.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
+import 'package:blockie_app/utils/data_storage.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -16,12 +22,35 @@ void main() async {
   const fileName = String.fromEnvironment('ENV_FILE_NAME');
   await dotenv.load(fileName: fileName);
   WidgetsFlutterBinding.ensureInitialized();
-  _initServices();
-  runApp(const BlockieApp());
+  final remoteApi = BlockieApi(userTokenSupplier: () => DataStorage.getToken());
+  final accountRepository = AccountRepository(remoteApi: remoteApi);
+  final profileRepository = ProfileRepository(remoteApi: remoteApi);
+  final projectRepository = ProjectRepository(remoteApi: remoteApi);
+  final projectsManagementRepository =
+      ProjectsManagementRepository(remoteApi: remoteApi);
+  _initServices(
+    accountRepository: accountRepository,
+    profileRepository: profileRepository,
+    projectRepository: projectRepository,
+    projectsManagementRepository: projectsManagementRepository,
+  );
+  runApp(
+    BlockieApp(
+      accountRepository: accountRepository,
+      profileRepository: profileRepository,
+      projectRepository: projectRepository,
+      projectsManagementRepository: projectsManagementRepository,
+    ),
+  );
 }
 
-void _initServices() {
-  Get.put(AuthService());
+void _initServices({
+  required AccountRepository accountRepository,
+  required ProfileRepository profileRepository,
+  required ProjectRepository projectRepository,
+  required ProjectsManagementRepository projectsManagementRepository,
+}) {
+  Get.put(AuthService(accountRepository: accountRepository));
   Get.put(AnyWebService());
   Get.put(WechatService());
   Get.put(DebugService());
