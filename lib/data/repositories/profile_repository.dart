@@ -11,11 +11,6 @@ class ProfileRepository {
 
   Future<Profile?> getProfile() => remoteApi.getProfile();
 
-  Future<UserInfo?> updateUsername(String username) =>
-      remoteApi.updateUsername(username);
-  Future<UserInfo?> updateBio(String bio) =>
-      remoteApi.updateBio(bio);
-
   Future<List<ProfileLabel>?> getAllLabels() => remoteApi.getAllLabels();
 
   Future<List<ProfileLabel>?> updateLabels(List<String> ids) =>

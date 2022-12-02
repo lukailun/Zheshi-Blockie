@@ -5,9 +5,6 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
-import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -15,13 +12,16 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/models/wechat_share_source.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_shareable.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/utils/http_request.dart';
@@ -43,7 +43,7 @@ class _NftPageState extends State<NftPage> with WechatShareable {
   NftInfo? _nftInfo;
   bool updatedNftUrl = false;
   bool _goneToShare = false;
-  final _uid = Get.parameters["id"] as String;
+  final _uid = Get.parameters["uid"] as String;
   StreamSubscription<html.MessageEvent>? _scription;
 
   @override

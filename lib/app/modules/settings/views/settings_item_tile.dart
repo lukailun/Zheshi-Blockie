@@ -45,7 +45,7 @@ class SettingsItemTile extends StatelessWidget {
               Offstage(
                 offstage: !item.arrowIsVisible,
                 child: const BasicIconButton(
-                  assetName: 'assets/images/settings/arrow.png',
+                  assetName: 'assets/images/common/arrow.png',
                   size: 22,
                 ),
               ),

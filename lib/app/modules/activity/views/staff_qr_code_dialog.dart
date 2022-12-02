@@ -5,7 +5,6 @@ import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -13,8 +12,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

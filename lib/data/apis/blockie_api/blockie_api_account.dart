@@ -63,20 +63,6 @@ extension BlockieApiAccount on BlockieApi {
     }
   }
 
-  Future<WechatConfig?> getWechatConfig(
-      String supportedUrl, List<String> apis) async {
-    try {
-      final url = _urlBuilder.buildGetWechatConfigUrl();
-      final requestData = {'url': supportedUrl, 'api_list': apis};
-      final response = await _dio.post(url, data: requestData);
-      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final config = WechatConfig.fromJson(object);
-      return config;
-    } catch (error) {
-      return null;
-    }
-  }
-
   Future<String?> getQrCode() async {
     try {
       final url = _urlBuilder.buildGetQrCodeUrl();
@@ -92,6 +78,71 @@ extension BlockieApiAccount on BlockieApi {
     try {
       final url = _urlBuilder.buildGetUserInfoUrl();
       final response = await _dio.get(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<UserInfo?> updateUsername(String username) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final requestData = {"nickname": username};
+      final response = await _dio.post(url, data: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<UserInfo?> updateBio(String bio) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final requestData = {"biography": bio};
+      final response = await _dio.post(url, data: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<UserInfo?> updateGender(int gender) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final requestData = {"gender": gender};
+      final response = await _dio.post(url, data: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<UserInfo?> updateBirthday(String birthday) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final requestData = {"birth_date": birthday};
+      final response = await _dio.post(url, data: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<UserInfo?> updateRegion(String region) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final requestData = {"locale": region};
+      final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;

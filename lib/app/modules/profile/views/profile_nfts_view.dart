@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/models/profile_nft.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_nft_view.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/platform_info.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 
 class ProfileNftsView extends StatelessWidget {
   final String title;

@@ -9,8 +9,8 @@ import 'package:blockie_app/app/modules/ticket_checking/controllers/ticket_check
 import 'package:blockie_app/app/modules/ticket_checking/models/souvenir.dart';
 import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_details.dart';
 import 'package:blockie_app/app/modules/ticket_checking/views/ticket_checking_item_view.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/projects_management_footer_view.dart';
 import 'package:blockie_app/widgets/projects_management_user_view.dart';

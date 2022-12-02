@@ -1,9 +1,9 @@
 // Package imports:
-import 'package:blockie_app/data/models/projects_management_user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/airdrop_nft/models/activity.dart';
+import 'package:blockie_app/data/models/projects_management_user.dart';
 
 part 'airdrop_nft_details.g.dart';
 

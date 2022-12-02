@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 // Project imports:
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 
 class BasicElevatedButton extends StatelessWidget {

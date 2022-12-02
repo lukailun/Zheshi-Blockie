@@ -64,6 +64,9 @@ class BlockieUrlBuilder {
 
   String buildGetWechatConfigUrl() => '$_baseUrl/wechat';
 
+  /// 逆地址解析（坐标位置描述）: https://lbs.qq.com/service/webService/webServiceGuide/webServiceGcoder
+  String buildReverseAddressLookupUrl() => '$_baseUrl/location';
+
   // ProjectsManagement
   String buildGetManagedActivitiesUrl() => '$_baseUrl/staff/activities';
 

@@ -1,11 +1,11 @@
 // Package imports:
-import 'package:blockie_app/data/models/project_status.dart';
-import 'package:blockie_app/data/models/video.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
+import 'package:blockie_app/data/models/project_status.dart';
+import 'package:blockie_app/data/models/video.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 

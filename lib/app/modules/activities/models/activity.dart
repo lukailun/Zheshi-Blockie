@@ -1,8 +1,8 @@
 // Package imports:
-import 'package:blockie_app/data/models/issuer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
+import 'package:blockie_app/data/models/issuer.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/utils/date_time_utils.dart';
 

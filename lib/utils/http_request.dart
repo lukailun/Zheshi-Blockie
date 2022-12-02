@@ -2,9 +2,11 @@
 import 'dart:convert';
 
 // Package imports:
+import 'package:dio/dio.dart';
+
+// Project imports:
 import 'package:blockie_app/data/models/environment.dart';
 import 'package:blockie_app/data/models/nft_info.dart';
-import 'package:dio/dio.dart';
 
 const scheme = "https";
 final serverHost = Environment.serverHost;

@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activities/views/activities_item_view.dart';
 import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

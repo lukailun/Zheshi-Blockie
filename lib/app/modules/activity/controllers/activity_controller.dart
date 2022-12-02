@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -13,6 +12,7 @@ import 'package:blockie_app/app/modules/project_details/controllers/project_deta
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/get_dialog_extension.dart';

@@ -6,11 +6,11 @@ import 'package:js/js.dart';
 
 part 'wechat_js_sdk_supported_apis.dart';
 
-part 'wechat_js_sdk_check_js_api.dart';
-
 part 'wechat_js_sdk_config.dart';
 
 part 'wechat_js_sdk_error.dart';
+
+part 'wechat_js_sdk_get_location.dart';
 
 part 'wechat_js_sdk_ready.dart';
 

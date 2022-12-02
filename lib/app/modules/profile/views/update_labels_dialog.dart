@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/profile/views/label_view.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/widgets/blur.dart';
 
 extension GetDialogExtension on GetInterface {
   void updateLabelsDialog({

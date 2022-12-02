@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,10 +11,11 @@ import 'package:blockie_app/app/modules/profile/controllers/profile_controller.d
 import 'package:blockie_app/app/modules/profile/views/label_view.dart';
 import 'package:blockie_app/app/modules/profile/views/profile_nfts_view.dart';
 import 'package:blockie_app/app/modules/profile/views/tag_view.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

@@ -2,8 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/data/models/mint_status.dart';
-import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,8 +9,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
+import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
+import 'package:blockie_app/widgets/blur.dart';
 
 class ProjectDetailsFooterView extends StatelessWidget {
   final ProjectDetails projectDetails;

@@ -1,6 +1,7 @@
 // Dart imports:
 import 'dart:ui';
 
+// Project imports:
 import 'package:blockie_app/data/models/environment.dart';
 
 // Project imports:

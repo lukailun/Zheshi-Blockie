@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,6 +9,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/widgets/blur.dart';
 import 'basic_elevated_button.dart';
 
 class ProjectsManagementFooterView extends StatelessWidget {

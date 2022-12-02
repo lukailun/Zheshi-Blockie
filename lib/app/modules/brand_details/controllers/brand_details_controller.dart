@@ -1,11 +1,11 @@
 // Package imports:
-import 'package:blockie_app/data/models/issuer.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/models/issuer.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 
 class BrandDetailsController extends GetxController {

@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/update_bio/controllers/update_bio_controller.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_text_field.dart';
@@ -34,7 +34,7 @@ class UpdateBioView extends GetView<UpdateBioController> {
     final header = Row(
       children: [
         title,
-        const Expanded(child: SizedBox()),
+        const Spacer(flex: 1),
         saveButton,
       ],
     );

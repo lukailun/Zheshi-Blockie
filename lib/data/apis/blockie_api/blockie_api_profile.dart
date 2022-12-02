@@ -13,32 +13,6 @@ extension BlockieApiProfile on BlockieApi {
     }
   }
 
-  Future<UserInfo?> updateUsername(String username) async {
-    try {
-      final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"nickname": username};
-      final response = await _dio.post(url, data: requestData);
-      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final userInfo = UserInfo.fromJson(object);
-      return userInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  Future<UserInfo?> updateBio(String bio) async {
-    try {
-      final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"biography": bio};
-      final response = await _dio.post(url, data: requestData);
-      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final userInfo = UserInfo.fromJson(object);
-      return userInfo;
-    } catch (error) {
-      return null;
-    }
-  }
-
   Future<List<ProfileLabel>?> getAllLabels() async {
     try {
       final url = _urlBuilder.buildGetAllLabelsUrl();

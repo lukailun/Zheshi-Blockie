@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:blockie_app/widgets/blur.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,9 +9,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/html_video.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';

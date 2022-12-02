@@ -7,13 +7,10 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/routes/app_pages.dart';
-import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
 import 'package:blockie_app/data/models/wechat_config.dart';
 import 'package:blockie_app/data/models/wechat_share_source.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/common_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
-import 'package:blockie_app/utils/data_storage.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
 
 class WechatService extends GetxService {
   static WechatService get to => Get.find();
@@ -21,11 +18,9 @@ class WechatService extends GetxService {
   WechatConfig? _config;
   final isReady = false.obs;
 
-  final _repository = AccountRepository(
-    remoteApi: BlockieApi(
-      userTokenSupplier: () => DataStorage.getToken(),
-    ),
-  );
+  final CommonRepository commonRepository;
+
+  WechatService({required this.commonRepository});
 
   @override
   void onReady() {
@@ -61,7 +56,8 @@ class WechatService extends GetxService {
     final description = WechatShareSource.defaults.getDescription();
     final link = html.window.location.href.split("#").first;
     final imageUrl = WechatShareSource.defaults.getImageUrl();
-    _config ??= await _repository.getWechatConfig(link, wechatSupportedApis);
+    _config ??=
+        await commonRepository.getWechatConfig(link, wechatSupportedApis);
     if (_config == null) {
       return;
     }

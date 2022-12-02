@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -9,8 +8,9 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/activity/models/project.dart';
 import 'package:blockie_app/app/modules/activity/models/subactivity.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/mint_status.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/html_video.dart';
@@ -82,7 +82,7 @@ class SubactivityProjectsView extends StatelessWidget {
                       .fontSize(14)
                       .paddingOnly(right: 2),
                   const BasicIconButton(
-                      assetName: 'assets/images/activity/arrow.png', size: 22),
+                      assetName: 'assets/images/common/arrow.png', size: 22),
                 ],
               ),
             ).paddingOnly(left: 10),

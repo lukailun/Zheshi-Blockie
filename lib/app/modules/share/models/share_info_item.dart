@@ -1,4 +1,4 @@
-
+// Project imports:
 import 'package:blockie_app/data/models/video.dart';
 
 class ShareInfoItem {

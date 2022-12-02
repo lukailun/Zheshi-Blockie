@@ -1,10 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
-import 'package:blockie_app/data/repositories/profile_repository.dart';
-import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/data/repositories/projects_management_repository.dart';
-import 'package:blockie_app/utils/data_storage.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -13,10 +7,18 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/blockie_app.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/common_repository.dart';
+import 'package:blockie_app/data/repositories/profile_repository.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/debug_service.dart';
+import 'package:blockie_app/services/local_assets_service.dart';
 import 'package:blockie_app/services/wechat_service/wechat_service.dart';
+import 'package:blockie_app/utils/data_storage.dart';
 
 void main() async {
   const fileName = String.fromEnvironment('ENV_FILE_NAME');
@@ -24,12 +26,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final remoteApi = BlockieApi(userTokenSupplier: () => DataStorage.getToken());
   final accountRepository = AccountRepository(remoteApi: remoteApi);
+  final commonRepository = CommonRepository(remoteApi: remoteApi);
   final profileRepository = ProfileRepository(remoteApi: remoteApi);
   final projectRepository = ProjectRepository(remoteApi: remoteApi);
   final projectsManagementRepository =
       ProjectsManagementRepository(remoteApi: remoteApi);
   _initServices(
     accountRepository: accountRepository,
+    commonRepository: commonRepository,
     profileRepository: profileRepository,
     projectRepository: projectRepository,
     projectsManagementRepository: projectsManagementRepository,
@@ -37,6 +41,7 @@ void main() async {
   runApp(
     BlockieApp(
       accountRepository: accountRepository,
+      commonRepository: commonRepository,
       profileRepository: profileRepository,
       projectRepository: projectRepository,
       projectsManagementRepository: projectsManagementRepository,
@@ -46,12 +51,14 @@ void main() async {
 
 void _initServices({
   required AccountRepository accountRepository,
+  required CommonRepository commonRepository,
   required ProfileRepository profileRepository,
   required ProjectRepository projectRepository,
   required ProjectsManagementRepository projectsManagementRepository,
 }) {
   Get.put(AuthService(accountRepository: accountRepository));
   Get.put(AnyWebService());
-  Get.put(WechatService());
+  Get.put(WechatService(commonRepository: commonRepository));
+  Get.put(LocalAssetsService());
   Get.put(DebugService());
 }

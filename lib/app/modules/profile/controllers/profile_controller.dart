@@ -1,10 +1,8 @@
-// Flutter imports:
-import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
 import 'package:blockie_app/app/modules/profile/models/profile.dart';
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';

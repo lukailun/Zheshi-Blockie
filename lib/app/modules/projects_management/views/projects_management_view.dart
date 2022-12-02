@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/projects_management/controllers/projects_management_controller.dart';
 import 'package:blockie_app/app/modules/projects_management/views/project_item_view.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 

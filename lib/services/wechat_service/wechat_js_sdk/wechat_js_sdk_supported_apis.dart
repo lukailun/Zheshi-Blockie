@@ -1,9 +1,10 @@
 part of wechat_js_sdk;
 
 enum WechatSupportedApis {
-  updateAppMessageShareData("updateAppMessageShareData"),
-  updateTimelineShareData("updateTimelineShareData"),
-  scanQrCode("scanQRCode");
+  updateAppMessageShareData('updateAppMessageShareData'),
+  updateTimelineShareData('updateTimelineShareData'),
+  scanQrCode('scanQRCode'),
+  getLocation('getLocation');
 
   const WechatSupportedApis(this.value);
 

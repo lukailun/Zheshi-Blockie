@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 
 class ActivitiesItemView extends StatelessWidget {
   final Activity activity;

@@ -6,8 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/extensions/extensions.dart';
 
 class SubactivityStepButton extends StatelessWidget {
   final String title;
@@ -62,8 +62,9 @@ class SubactivityStepButton extends StatelessWidget {
               visible: isCompleted,
               child: Image.asset(
                 'assets/images/activity/done.png',
-                width: 40,
-                height: 40,
+                width: 45,
+                height: 45,
+                fit: BoxFit.contain,
               ),
             ),
           ],

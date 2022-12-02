@@ -3,10 +3,10 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:blockie_app/data/models/environment.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:blockie_app/data/models/environment.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 
 class LoginDialog extends StatelessWidget {

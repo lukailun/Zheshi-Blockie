@@ -2,13 +2,6 @@
 import 'dart:math';
 
 // Flutter imports:
-import 'package:blockie_app/data/models/app_theme_data.dart';
-import 'package:blockie_app/data/models/environment.dart';
-import 'package:blockie_app/data/models/platform_info.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
-import 'package:blockie_app/data/repositories/profile_repository.dart';
-import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -17,10 +10,19 @@ import 'package:statsfl/statsfl.dart';
 
 // Project imports:
 import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
+import 'package:blockie_app/data/models/environment.dart';
+import 'package:blockie_app/data/models/platform_info.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/common_repository.dart';
+import 'package:blockie_app/data/repositories/profile_repository.dart';
+import 'package:blockie_app/data/repositories/project_repository.dart';
+import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/debug_service.dart';
 
 class BlockieApp extends StatelessWidget {
   final AccountRepository accountRepository;
+  final CommonRepository commonRepository;
   final ProfileRepository profileRepository;
   final ProjectRepository projectRepository;
   final ProjectsManagementRepository projectsManagementRepository;
@@ -28,6 +30,7 @@ class BlockieApp extends StatelessWidget {
   const BlockieApp({
     super.key,
     required this.accountRepository,
+    required this.commonRepository,
     required this.profileRepository,
     required this.projectRepository,
     required this.projectsManagementRepository,
@@ -48,6 +51,7 @@ class BlockieApp extends StatelessWidget {
                 : Environment.appTitle.replaceAll('[DEV] ', ''),
             getPages: AppPages(
               accountRepository: accountRepository,
+              commonRepository: commonRepository,
               profileRepository: profileRepository,
               projectRepository: projectRepository,
               projectsManagementRepository: projectsManagementRepository,

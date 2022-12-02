@@ -20,6 +20,14 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       roles:
           (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               [],
+      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']) ??
+          Gender.undefined,
+      birthday: json['birth_date'] == null
+          ? null
+          : Date.fromJson(json['birth_date'] as Map<String, dynamic>),
+      region: json['locale'] == null
+          ? null
+          : Region.fromJson(json['locale'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -31,4 +39,13 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'wallets': instance.wallets.map((e) => e.toJson()).toList(),
       'biography': instance.bio,
       'roles': instance.roles,
+      'gender': _$GenderEnumMap[instance.gender]!,
+      'birth_date': instance.birthday?.toJson(),
+      'locale': instance.region?.toJson(),
     };
+
+const _$GenderEnumMap = {
+  Gender.undefined: 0,
+  Gender.male: 1,
+  Gender.female: 2,
+};

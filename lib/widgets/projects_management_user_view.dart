@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:blockie_app/data/models/projects_management_user.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/data/models/projects_management_user.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'ellipsized_text.dart';
 

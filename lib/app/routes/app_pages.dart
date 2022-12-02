@@ -1,6 +1,4 @@
 // Package imports:
-import 'package:blockie_app/app/modules/edit_user_info/bindings/edit_user_info_binding.dart';
-import 'package:blockie_app/app/modules/edit_user_info/views/edit_user_info_view.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -18,6 +16,8 @@ import 'package:blockie_app/app/modules/brand_details/bindings/brand_details_bin
 import 'package:blockie_app/app/modules/brand_details/views/brand_details_view.dart';
 import 'package:blockie_app/app/modules/developer_mode/bindings/developer_mode_binding.dart';
 import 'package:blockie_app/app/modules/developer_mode/views/developer_mode_view.dart';
+import 'package:blockie_app/app/modules/edit_user_info/bindings/edit_user_info_binding.dart';
+import 'package:blockie_app/app/modules/edit_user_info/views/edit_user_info_view.dart';
 import 'package:blockie_app/app/modules/face_verification/bindings/face_verification_binding.dart';
 import 'package:blockie_app/app/modules/face_verification/views/face_verification_view.dart';
 import 'package:blockie_app/app/modules/gallery/bindings/gallery_binding.dart';
@@ -47,11 +47,18 @@ import 'package:blockie_app/app/modules/update_avatar/bindings/update_avatar_bin
 import 'package:blockie_app/app/modules/update_avatar/views/update_avatar_view.dart';
 import 'package:blockie_app/app/modules/update_bio/bindings/update_bio_binding.dart';
 import 'package:blockie_app/app/modules/update_bio/views/update_bio_view.dart';
+import 'package:blockie_app/app/modules/update_birthday/bindings/update_birthday_binding.dart';
+import 'package:blockie_app/app/modules/update_birthday/views/update_birthday_view.dart';
+import 'package:blockie_app/app/modules/update_gender/bindings/update_gender_binding.dart';
+import 'package:blockie_app/app/modules/update_gender/views/update_gender_view.dart';
+import 'package:blockie_app/app/modules/update_region/bindings/update_region_binding.dart';
+import 'package:blockie_app/app/modules/update_region/views/update_region_view.dart';
 import 'package:blockie_app/app/modules/update_username/bindings/update_username_binding.dart';
 import 'package:blockie_app/app/modules/update_username/views/update_username_view.dart';
 import 'package:blockie_app/app/modules/web_view/bindings/web_view_binding.dart';
 import 'package:blockie_app/app/modules/web_view/views/web_view_view.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
+import 'package:blockie_app/data/repositories/common_repository.dart';
 import 'package:blockie_app/data/repositories/profile_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
@@ -60,12 +67,14 @@ part 'app_routes.dart';
 
 class AppPages {
   final AccountRepository accountRepository;
+  final CommonRepository commonRepository;
   final ProfileRepository profileRepository;
   final ProjectRepository projectRepository;
   final ProjectsManagementRepository projectsManagementRepository;
 
   AppPages({
     required this.accountRepository,
+    required this.commonRepository,
     required this.profileRepository,
     required this.projectRepository,
     required this.projectsManagementRepository,
@@ -119,18 +128,38 @@ class AppPages {
               name: Routes.updateUsername,
               page: () => const UpdateUsernameView(),
               binding:
-                  UpdateUsernameBinding(profileRepository: profileRepository),
+                  UpdateUsernameBinding(accountRepository: accountRepository),
             ),
             GetPage(
               name: Routes.updateBio,
               page: () => const UpdateBioView(),
-              binding: UpdateBioBinding(profileRepository: profileRepository),
+              binding: UpdateBioBinding(accountRepository: accountRepository),
             ),
             GetPage(
               name: Routes.updateAvatar,
               page: () => const UpdateAvatarView(),
               binding:
                   UpdateAvatarBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateGender,
+              page: () => const UpdateGenderView(),
+              binding:
+                  UpdateGenderBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateBirthday,
+              page: () => const UpdateBirthdayView(),
+              binding:
+                  UpdateBirthdayBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateRegion,
+              page: () => const UpdateRegionView(),
+              binding: UpdateRegionBinding(
+                accountRepository: accountRepository,
+                commonRepository: commonRepository,
+              ),
             ),
             GetPage(
               name: Routes.registrationInfo,

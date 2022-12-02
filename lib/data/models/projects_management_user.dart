@@ -1,6 +1,8 @@
 // Package imports:
-import 'package:blockie_app/data/models/wallet.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:blockie_app/data/models/wallet.dart';
 
 // Project imports:
 

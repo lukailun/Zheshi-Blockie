@@ -1,9 +1,4 @@
 // Package imports:
-import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
-import 'package:blockie_app/data/models/mint_status.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
-import 'package:blockie_app/data/models/project_status.dart';
-import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -13,12 +8,17 @@ import 'package:blockie_app/app/modules/activity/models/subactivity_preview.dart
 import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/activity/views/staff_qr_code_dialog.dart';
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_minted_nft_dialog.dart';
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/models/mint_status.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/project_status.dart';
+import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';

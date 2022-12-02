@@ -3,11 +3,6 @@ import 'dart:convert';
 import 'dart:html' as html;
 
 // Package imports:
-import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
-import 'package:blockie_app/data/models/mint_status.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
-import 'package:blockie_app/data/models/project_status.dart';
-import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -15,6 +10,7 @@ import 'package:blockie_app/app/modules/activity/controllers/activity_controller
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/brand_details/controllers/brand_details_controller.dart';
 import 'package:blockie_app/app/modules/gallery/controllers/gallery_controller.dart';
+import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
 import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
@@ -24,7 +20,11 @@ import 'package:blockie_app/app/modules/share/controllers/share_controller.dart'
 import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/location/location.dart';
+import 'package:blockie_app/data/models/mint_status.dart';
+import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/wechat_share_source.dart';
+import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';

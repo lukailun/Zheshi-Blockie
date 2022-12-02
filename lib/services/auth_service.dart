@@ -2,11 +2,11 @@
 import 'dart:async';
 
 // Package imports:
-import 'package:blockie_app/data/models/user_info.dart';
-import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/data/models/user_info.dart';
+import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/anyweb_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 
