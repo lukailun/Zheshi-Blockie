@@ -34,7 +34,7 @@ class ActivityController extends GetxController
 
   TabController? tabController;
 
-  final id = Get.parameters[ActivityParameter.id] as String;
+  final id = Get.rootDelegate.parameters[ActivityParameter.id] as String;
 
   @override
   void onReady() {
@@ -48,13 +48,6 @@ class ActivityController extends GetxController
     isDefaultConfig = true;
     wechatReadyStream?.cancel();
     wechatReadyStream = null;
-  }
-
-  void showLicenseDialog() {
-    Get.licenseDialog(onLoginSuccess: () {
-      MessageToast.showMessage("登录成功");
-      getUserInfo();
-    });
   }
 
   void getUserInfo() async {

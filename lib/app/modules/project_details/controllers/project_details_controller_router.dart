@@ -70,22 +70,22 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   }
 
   void openLicenseDialog() {
-    Get.licenseDialog(onLoginSuccess: () {
+    Get.rootDelegate.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
       getProjectDetails();
     });
   }
 
   void openMintedNftDialog() {
-    final nft = mintedNft.value;
-    if (nft == null) {
+    final nftDetails = mintedNftDetails.value;
+    if (nftDetails == null) {
       return;
     }
     Get.projectDetailsMintedNftDialog(
-      nft: nft,
+      nftDetails: nftDetails,
       buttonOnTap: () {
         Get.back();
-        final parameters = {NftDetailsParameter.id: nft.uid};
+        final parameters = {NftDetailsParameter.id: nftDetails.id};
         Get.toNamed(Routes.nftDetails, parameters: parameters);
         isDefaultConfig = false;
       },

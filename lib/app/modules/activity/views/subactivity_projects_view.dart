@@ -91,7 +91,7 @@ class SubactivityProjectsView extends StatelessWidget {
         AspectRatio(
           aspectRatio: 16.0 / 9.0,
           child: () {
-            if (project.isVideoNft) {
+            if (project.isBlockieNft) {
               final showsPreview = mintStatus.showsPreviewVideo;
               final video = showsPreview ? project.previewVideo : project.video;
               return HtmlVideo(
@@ -114,7 +114,7 @@ class SubactivityProjectsView extends StatelessWidget {
             category: subactivity.steps.isNotEmpty
                 ? subactivity.steps.first.category
                 : '',
-            isVideoNft: project.isVideoNft,
+            isBlockieNft: project.isBlockieNft,
           ))
               .textColor(const Color(0x80FFFFFF))
               .fontSize(13)
@@ -126,7 +126,7 @@ class SubactivityProjectsView extends StatelessWidget {
           child: BasicElevatedButton(
             title: mintStatus.title(
               startedTime: project.startedTime,
-              isVideoNft: project.isVideoNft,
+              isBlockieNft: project.isBlockieNft,
             ),
             borderRadius: 8,
             textColor: const Color(0xFF3D3D3D),

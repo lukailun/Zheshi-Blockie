@@ -1,6 +1,18 @@
 part of 'blockie_api.dart';
 
 extension BlockieApiProject on BlockieApi {
+  Future<NftDetails?> getNftDetails(String id) async {
+    try {
+      final url = _urlBuilder.buildGetNftDetailsUrl(id);
+      final response = await _dio.get(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final nftDetails = NftDetails.fromJson(object);
+      return nftDetails;
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<PaginatedActivities?> getActivities() async {
     try {
       final url = _urlBuilder.buildGetActivitiesUrl();
@@ -113,12 +125,12 @@ extension BlockieApiProject on BlockieApi {
     }
   }
 
-  Future<NftInfo?> mint(String id) async {
+  Future<NftDetails?> mint(String id) async {
     try {
       final url = _urlBuilder.buildMintUrl(id);
       final response = await _dio.post(url);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
-      final nft = NftInfo.fromJson(object);
+      final nft = NftDetails.fromJson(object);
       return nft;
     } catch (error) {
       return null;

@@ -16,7 +16,7 @@ enum MintStatus {
 extension MintStatusExtension on MintStatus {
   String title({
     String? startedTime,
-    bool isVideoNft = false,
+    bool isBlockieNft = false,
   }) {
     switch (this) {
       case MintStatus.notLogin:
@@ -30,7 +30,7 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.unqualified:
       case MintStatus.stepNotCompleted:
       case MintStatus.mintable:
-        return isVideoNft ? '生成个人视频 NFT' : '开启铸造';
+        return isBlockieNft ? '生成个人视频 NFT' : '开启铸造';
       case MintStatus.runOut:
         return '我的页面';
       case MintStatus.generating:
@@ -38,7 +38,7 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.generationFailed:
         return '没有识别到您的视频，请联系客服';
       case MintStatus.minting:
-        return isVideoNft ? '生成个人视频 NFT' : '正在铸造';
+        return isBlockieNft ? '生成个人视频 NFT' : '正在铸造';
       case MintStatus.expired:
         return '活动已结束';
       case MintStatus.needToClaimSouvenir:
@@ -48,7 +48,7 @@ extension MintStatusExtension on MintStatus {
 
   String message({
     required String category,
-    bool isVideoNft = false,
+    bool isBlockieNft = false,
   }) {
     switch (this) {
       case MintStatus.notLogin:
@@ -64,9 +64,9 @@ extension MintStatusExtension on MintStatus {
         return '很遗憾，未能生成个人视频';
       case MintStatus.mintable:
       case MintStatus.minting:
-        return isVideoNft ? '个人视频已生成完毕，点击按钮铸造 3D NFT' : '点击按钮铸造';
+        return isBlockieNft ? '个人视频已生成完毕，点击按钮铸造 3D NFT' : '点击按钮铸造';
       case MintStatus.runOut:
-        return isVideoNft ? '个人视频已铸造，请至“我的”页面查看' : '数字藏品已铸造，请至“我的”页面查看';
+        return isBlockieNft ? '个人视频已铸造，请至“我的”页面查看' : '数字藏品已铸造，请至“我的”页面查看';
       case MintStatus.needToClaimSouvenir:
         return '线下扫码领取礼品';
       case MintStatus.expired:

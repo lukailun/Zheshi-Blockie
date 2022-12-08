@@ -6,9 +6,13 @@ import 'package:js/js.dart';
 
 part 'wechat_js_sdk_supported_apis.dart';
 
+part 'wechat_js_sdk_choose_image.dart';
+
 part 'wechat_js_sdk_config.dart';
 
 part 'wechat_js_sdk_error.dart';
+
+part 'wechat_js_sdk_get_local_image_data.dart';
 
 part 'wechat_js_sdk_get_location.dart';
 

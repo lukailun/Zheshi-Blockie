@@ -3,7 +3,8 @@ part of 'subactivity_controller.dart';
 extension SubactivityControllerRouter on SubactivityController {
   void goToProjectDetails(String id) async {
     final parameters = {ProjectDetailsParameter.id: id};
-    await Get.toNamed(Routes.projectDetails, parameters: parameters);
+    await Get.rootDelegate
+        .toNamed(Routes.projectDetails, parameters: parameters);
     getSubactivity();
   }
 
@@ -51,7 +52,7 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void openLicenseDialog() {
-    Get.licenseDialog(onLoginSuccess: () {
+    Get.rootDelegate.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
       getSubactivity();
     });
@@ -64,15 +65,15 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void openMintedNftDialog() {
-    final nft = mintedNft.value;
-    if (nft == null) {
+    final nftDetails = mintedNftDetails.value;
+    if (nftDetails == null) {
       return;
     }
     Get.projectDetailsMintedNftDialog(
-      nft: nft,
+      nftDetails: nftDetails,
       buttonOnTap: () {
         Get.back();
-        final parameters = {NftDetailsParameter.id: nft.uid};
+        final parameters = {NftDetailsParameter.id: nftDetails.id};
         Get.toNamed(Routes.nftDetails, parameters: parameters);
       },
     );

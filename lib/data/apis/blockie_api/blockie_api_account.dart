@@ -86,6 +86,28 @@ extension BlockieApiAccount on BlockieApi {
     }
   }
 
+  Future<UserInfo?> updateAvatar(String imageData) async {
+    try {
+      final url = _urlBuilder.buildUpdateUserInfoUrl();
+      final bytes = base64Decode(imageData);
+      final requestData = FormData.fromMap(
+        {
+          'avatar': MultipartFile.fromBytes(
+            bytes,
+            filename: 'avatar.jpg',
+            contentType: MediaType('image', 'jpeg'),
+          )
+        },
+      );
+      final response = await _dio.post(url, data: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final userInfo = UserInfo.fromJson(object);
+      return userInfo;
+    } catch (error) {
+      return null;
+    }
+  }
+
   Future<UserInfo?> updateUsername(String username) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();

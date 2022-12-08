@@ -39,6 +39,7 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) =>
           .map((e) => SubactivityStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       needToClaimSouvenir: json['souvenir_available'] as bool,
+      pasterType: $enumDecode(_$NftPasterTypeEnumMap, json['blockie_type']),
     );
 
 Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
@@ -69,6 +70,7 @@ Map<String, dynamic> _$ProjectDetailsToJson(ProjectDetails instance) =>
       'nft_type': _$NftTypeEnumMap[instance.nftType]!,
       'missions': instance.steps.map((e) => e.toJson()).toList(),
       'souvenir_available': instance.needToClaimSouvenir,
+      'blockie_type': _$NftPasterTypeEnumMap[instance.pasterType]!,
     };
 
 const _$VideoStatusEnumMap = {
@@ -80,8 +82,15 @@ const _$VideoStatusEnumMap = {
 };
 
 const _$NftTypeEnumMap = {
-  NftType.basic: 1,
-  NftType.video: 2,
+  NftType.image: 1,
+  NftType.blockie: 2,
   NftType.card: 3,
-  NftType.kettleBell: 4,
+  NftType.model: 4,
+};
+
+const _$NftPasterTypeEnumMap = {
+  NftPasterType.undefined: 0,
+  NftPasterType.blockie: 1,
+  NftPasterType.blockie2d: 2,
+  NftPasterType.blockie3d: 3,
 };

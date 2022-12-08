@@ -11,6 +11,4 @@ class Environment {
   static String get blockieUrl => dotenv.env['BLOCKIE_URL'] ?? '';
 
   static String get anyWebUrl => dotenv.env['ANY_WEB_URL'] ?? '';
-
-  static String get serverHost => dotenv.env['SERVER_HOST'] ?? '';
 }

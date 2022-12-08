@@ -28,7 +28,6 @@ class ProfileView extends GetView<ProfileController> {
       () => Scaffold(
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(
-          backButtonOnTap: controller.goToProjects,
           actionItems: [
             AppBarButtonItem(
               assetName: 'assets/images/app_bar/qr_code.png',

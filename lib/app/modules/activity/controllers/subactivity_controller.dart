@@ -16,7 +16,7 @@ import 'package:blockie_app/app/modules/project_details/views/project_details_mi
 import 'package:blockie_app/app/modules/registration_info/controllers/registration_info_controller.dart';
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/mint_status.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/nft_details.dart';
 import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
@@ -37,7 +37,7 @@ class SubactivityController extends GetxController {
 
   final subactivity = Rxn<Subactivity>();
   final mintStatuses = <MintStatus>[].obs;
-  final mintedNft = Rxn<NftInfo>();
+  final mintedNftDetails = Rxn<NftDetails>();
   final qrCode = Rxn<String>();
 
   SubactivityController({
@@ -92,9 +92,9 @@ class SubactivityController extends GetxController {
       return;
     }
     Get.loadingIndicatorDialog();
-    mintedNft.value = await projectRepository.mint(id);
+    mintedNftDetails.value = await projectRepository.mint(id);
     Get.back();
-    if (mintedNft.value != null) {
+    if (mintedNftDetails.value != null) {
       getSubactivity();
       openMintedNftDialog();
     }
@@ -148,7 +148,7 @@ class SubactivityController extends GetxController {
           if (!subactivity.allStepsCompleted) {
             return MintStatus.stepNotCompleted;
           }
-          if (it.isVideoNft) {
+          if (it.isBlockieNft) {
             if (it.videoStatus == VideoStatus.unrecorded ||
                 it.videoStatus == VideoStatus.inProcess) {
               return MintStatus.generating;

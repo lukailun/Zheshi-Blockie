@@ -7,7 +7,7 @@ import 'package:blockie_app/app/modules/registration_info/models/registration_in
 import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/data/apis/blockie_api/blockie_api.dart';
 import 'package:blockie_app/data/models/issuer.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/nft_details.dart';
 
 class ProjectRepository {
   final BlockieApi remoteApi;
@@ -15,6 +15,8 @@ class ProjectRepository {
   ProjectRepository({
     required this.remoteApi,
   });
+
+  Future<NftDetails?> getNftDetails(String id) => remoteApi.getNftDetails(id);
 
   Future<PaginatedActivities?> getActivities() => remoteApi.getActivities();
 
@@ -46,5 +48,5 @@ class ProjectRepository {
   Future<ProjectDetails?> getProjectDetails(String id) =>
       remoteApi.getProjectDetails(id);
 
-  Future<NftInfo?> mint(String id) => remoteApi.mint(id);
+  Future<NftDetails?> mint(String id) => remoteApi.mint(id);
 }

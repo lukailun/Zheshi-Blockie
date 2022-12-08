@@ -1,13 +1,14 @@
 // Package imports:
+import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/project_details/models/mint_rule.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details_extra_info.dart';
-import 'package:blockie_app/app/modules/project_details/models/project_details_item.dart';
+import 'package:blockie_app/data/models/basic_details_card_item.dart';
 import 'package:blockie_app/data/models/issuer.dart';
+import 'package:blockie_app/data/models/nft_type.dart';
 import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:blockie_app/extensions/extensions.dart';
@@ -69,6 +70,8 @@ class ProjectDetails {
   final List<SubactivityStep> steps;
   @JsonKey(name: 'souvenir_available')
   final bool needToClaimSouvenir;
+  @JsonKey(name: 'blockie_type')
+  final NftPasterType pasterType;
 
   const ProjectDetails({
     required this.name,
@@ -97,6 +100,7 @@ class ProjectDetails {
     required this.nftType,
     required this.steps,
     required this.needToClaimSouvenir,
+    required this.pasterType,
   });
 
   String get coverUrl => coverPath.hostAdded;
@@ -105,7 +109,7 @@ class ProjectDetails {
 
   List<String> get imageUrls => imagePaths.map((it) => it.hostAdded).toList();
 
-  bool get isVideoNft => nftType == NftType.video;
+  bool get isBlockieNft => nftType == NftType.blockie;
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {
@@ -113,7 +117,7 @@ class ProjectDetails {
         }
         return DateTimeUtils.dateTimeStringFromTimestamp(
           timestamp: startedTimestamp,
-          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM_SS,
+          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM,
         );
       }();
 
@@ -123,7 +127,7 @@ class ProjectDetails {
         }
         return DateTimeUtils.dateTimeStringFromTimestamp(
           timestamp: endedTimestamp,
-          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM_SS,
+          dateFormatType: DateFormatType.YYYY_MM_DD_HH_MM,
         );
       }();
 
@@ -164,13 +168,11 @@ class ProjectDetails {
 }
 
 extension ProjectDetailsExtension on ProjectDetails {
-  List<ProjectDetailsItem> get items => [
-        ProjectDetailsItem(title: '发行总量', content: '$totalAmount'),
-        ProjectDetailsItem(title: '已铸造', content: '$mintedAmount'),
-        ProjectDetailsItem(title: '持有者', content: '$heldAmount'),
-        ProjectDetailsItem(title: '铸造开始时间', content: startedTime ?? ''),
-        ProjectDetailsItem(title: '铸造结束时间', content: endedTime ?? ''),
-        ProjectDetailsItem(
+  List<BasicDetailsCardItem> get items => [
+        BasicDetailsCardItem(title: '总发行量', content: '$totalAmount'),
+        BasicDetailsCardItem(title: '已铸造', content: '$mintedAmount'),
+        BasicDetailsCardItem(
             title: '合约地址', content: contract, ellipsized: true, copyable: true),
+        const BasicDetailsCardItem(title: '链', content: 'Conflux'),
       ];
 }

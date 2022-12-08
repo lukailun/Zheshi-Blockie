@@ -16,7 +16,9 @@ class CityPickersUtils {
               '${it.code}': {'name': it.name, 'alpha': it.alpha}
             })
         .toList();
-    final countryMap = maps.reduce((value, element) => {...value, ...element});
+    final countryMap = maps.isNotEmpty
+        ? maps.reduce((value, element) => {...value, ...element})
+        : {};
     final abroadCities = {abroadKey: countryMap};
     return {...CityPickers.metaCities, ...abroadCities};
   }

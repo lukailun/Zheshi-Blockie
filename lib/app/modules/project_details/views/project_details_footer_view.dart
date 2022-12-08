@@ -57,7 +57,7 @@ class ProjectDetailsFooterView extends StatelessWidget {
     final mintButton = BasicElevatedButton(
       title: mintStatus.title(
         startedTime: projectDetails.startedTime,
-        isVideoNft: projectDetails.isVideoNft,
+        isBlockieNft: projectDetails.isBlockieNft,
       ),
       borderRadius: 12,
       backgroundColor: Color(mintStatus.colorValue),

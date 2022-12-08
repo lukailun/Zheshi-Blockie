@@ -34,7 +34,7 @@ class BlockieUrlBuilder {
 
   String buildGetQrCodeUrl() => '$_baseUrl/qrcode';
 
-  String buildGetNftsUrl() => '$_baseUrl/NFTs';
+  String buildGetNftDetailsUrl(String id) => '$_baseUrl/NFTs/$id';
 
   String buildLogoutUrl() => '$_baseUrl/logout';
 

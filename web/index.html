@@ -43,6 +43,19 @@
     });
   </script>
   <script>
+    pushHistory();
+
+    function pushHistory() {
+      window.history.pushState(null, "", location.href);
+    };
+
+    window.onload = function() {
+      window.addEventListener('popstate', function() {
+          pushHistory();
+      }, false);
+    };
+  </script>
+  <script>
        // Disable Adjust Text Size in Wechat
        (function() {
            if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {

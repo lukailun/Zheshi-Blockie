@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:math';
-import 'dart:ui';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -11,19 +10,20 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/data/models/app_theme_data.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/nft_details.dart';
+import 'package:blockie_app/data/models/nft_type.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/blur.dart';
 
 extension GetDialogExtension on GetInterface {
   void projectDetailsMintedNftDialog({
-    required NftInfo nft,
+    required NftDetails nftDetails,
     Function()? buttonOnTap,
   }) {
     Get.dialog(
       ProjectDetailsMintedNftDialog(
-        nft: nft,
+        nftDetails: nftDetails,
         buttonOnTap: buttonOnTap,
       ),
       barrierColor: AppThemeData.barrierColor,
@@ -32,12 +32,12 @@ extension GetDialogExtension on GetInterface {
 }
 
 class ProjectDetailsMintedNftDialog extends StatelessWidget {
-  final NftInfo nft;
+  final NftDetails nftDetails;
   final Function()? buttonOnTap;
 
   const ProjectDetailsMintedNftDialog({
     super.key,
-    required this.nft,
+    required this.nftDetails,
     this.buttonOnTap,
   });
 
@@ -70,18 +70,30 @@ class ProjectDetailsMintedNftDialog extends StatelessWidget {
                         topRight: Radius.circular(8),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl: nft.cover,
+                        imageUrl: nftDetails.coverUrl ?? '',
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Text(
-                    '${nft.projectName} ${nft.tokenId}',
+                    '${nftDetails.benefit.name} ${nftDetails.tokenId}',
                     maxLines: 100,
                     textAlign: TextAlign.center,
                   ).textColor(Colors.white).fontSize(20).paddingAll(17),
                 ],
               ).outlined().paddingSymmetric(vertical: 17),
+              Visibility(
+                visible: nftDetails.souvenirs.isNotEmpty,
+                child: Text(
+                  nftDetails.souvenirs.isNotEmpty
+                      ? '恭喜您可获得：\n${nftDetails.souvenirs.map((it) => it.description).reduce((value, element) => '$value\n$element')}'
+                      : '',
+                  maxLines: 100,
+                )
+                    .textColor(const Color(0xCCFFFFFF))
+                    .fontSize(14)
+                    .textAlignment(TextAlign.center),
+              ).paddingOnly(bottom: 10),
               BasicElevatedButton(
                 title: '立即查看',
                 backgroundColor: Colors.white,
@@ -96,7 +108,8 @@ class ProjectDetailsMintedNftDialog extends StatelessWidget {
                       const TextStyle(color: Color(0x80FFFFFF), fontSize: 14),
                   children: [
                     TextSpan(
-                      text: '我的 - ${nft.type == 2 ? '视频凭证' : '运动凭证'}',
+                      text:
+                          '我的 - ${nftDetails.nftType == NftType.blockie ? '视频凭证' : '运动凭证'}',
                       style: const TextStyle(
                           color: Color(0xCCFFFFFF), fontSize: 14),
                     ),

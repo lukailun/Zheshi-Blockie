@@ -4,7 +4,9 @@ enum WechatSupportedApis {
   updateAppMessageShareData('updateAppMessageShareData'),
   updateTimelineShareData('updateTimelineShareData'),
   scanQrCode('scanQRCode'),
-  getLocation('getLocation');
+  getLocation('getLocation'),
+  chooseImage('chooseImage'),
+  getLocalImageData('getLocalImgData');
 
   const WechatSupportedApis(this.value);
 

@@ -46,10 +46,10 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
     };
 
 const _$NftTypeEnumMap = {
-  NftType.basic: 1,
-  NftType.video: 2,
+  NftType.image: 1,
+  NftType.blockie: 2,
   NftType.card: 3,
-  NftType.kettleBell: 4,
+  NftType.model: 4,
 };
 
 const _$VideoStatusEnumMap = {

@@ -2,8 +2,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/activity/models/nft_type.dart';
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
+import 'package:blockie_app/data/models/nft_type.dart';
 import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/video.dart';
 import 'package:blockie_app/extensions/extensions.dart';
@@ -61,7 +61,7 @@ class Project {
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;
 
-  bool get isVideoNft => nftType == NftType.video;
+  bool get isBlockieNft => nftType == NftType.blockie;
 
   String? get startedTime => () {
         if (startedTimestamp <= 0) {

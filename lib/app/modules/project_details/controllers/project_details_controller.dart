@@ -21,7 +21,7 @@ import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/location/location.dart';
 import 'package:blockie_app/data/models/mint_status.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/nft_details.dart';
 import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/wechat_share_source.dart';
 import 'package:blockie_app/data/models/wechat_shareable.dart';
@@ -38,9 +38,9 @@ import '../views/project_details_minted_nft_dialog.dart';
 part 'project_details_controller_router.dart';
 
 class ProjectDetailsController extends GetxController with WechatShareable {
-  final mintedNft = Rxn<NftInfo>();
+  final mintedNftDetails = Rxn<NftDetails>();
   final projectDetails = Rxn<ProjectDetails>();
-  final id = Get.parameters[ProjectDetailsParameter.id] as String;
+  final id = Get.rootDelegate.parameters[ProjectDetailsParameter.id] as String;
 
   final mintStatus = MintStatus.notLogin.obs;
   final qrCode = Rxn<String>();
@@ -101,7 +101,7 @@ class ProjectDetailsController extends GetxController with WechatShareable {
           mintStatus.value = MintStatus.stepNotCompleted;
           return;
         }
-        if (projectDetails.isVideoNft) {
+        if (projectDetails.isBlockieNft) {
           if (projectDetails.videoStatus == VideoStatus.unrecorded ||
               projectDetails.videoStatus == VideoStatus.inProcess) {
             mintStatus.value = MintStatus.generating;
@@ -209,8 +209,8 @@ class ProjectDetailsController extends GetxController with WechatShareable {
       return;
     }
     _updateMintStatus(projectDetails: details, isMinting: true);
-    mintedNft.value = await projectRepository.mint(id);
-    if (mintedNft.value != null) {
+    mintedNftDetails.value = await projectRepository.mint(id);
+    if (mintedNftDetails.value != null) {
       getProjectDetails();
       openMintedNftDialog();
     } else {

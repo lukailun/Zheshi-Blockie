@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -16,13 +17,9 @@ import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/services/auth_service.dart';
-import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_icon_button.dart';
-import 'package:blockie_app/widgets/ellipsized_text.dart';
-import 'package:blockie_app/widgets/expandable_text.dart';
+import 'package:blockie_app/widgets/basic_details_card.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
 
 class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
   const ProjectDetailsContainerView({super.key});
@@ -114,7 +111,7 @@ class _ProjectDetailsView extends StatelessWidget {
     final title = Text(projectDetails.name)
         .fontSize(20)
         .textColor(Colors.white)
-        .paddingSymmetric(horizontal: 22, vertical: 14);
+        .paddingOnly(left: 22, right: 22, bottom: 8);
 
     final brand = GestureDetector(
       onTap: () => brandOnTap(projectDetails.issuer.id),
@@ -134,65 +131,75 @@ class _ProjectDetailsView extends StatelessWidget {
       ),
     ).paddingSymmetric(horizontal: 22);
 
-    final description = ExpandableText(
-      text: projectDetails.description,
-      maxLines: 2,
-    ).paddingSymmetric(horizontal: 22, vertical: 14);
+    final time = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text('铸造时间')
+            .textColor(const Color(0x80FFFFFF))
+            .fontSize(12)
+            .fontWeight(FontWeightCompat.regular),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+                  '${projectDetails.startedTime ?? ''} ~ ${projectDetails.endedTime ?? ''}')
+              .textColor(const Color(0xFFCAFF04))
+              .fontSize(12)
+              .fontWeight(FontWeightCompat.bold),
+        ),
+      ],
+    ).paddingOnly(left: 25, right: 25, top: 18, bottom: 2);
 
-    final details = Column(
-      children: projectDetails.items.asMap().entries.map(
-        (it) {
-          final index = it.key;
-          final item = it.value;
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Text(item.title)
-                      .textColor(const Color(0xB3FFFFFF))
-                      .fontSize(14)
-                      .paddingOnly(right: 35),
-                  Expanded(
-                    child: item.ellipsized
-                        ? EllipsizedText(
-                            item.content,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 14),
-                            ellipsis: Ellipsis.middle,
-                          )
-                        : Text(
-                            item.content,
-                            textAlign: TextAlign.right,
-                            maxLines: 10,
-                            overflow: TextOverflow.ellipsis,
-                          ).textColor(Colors.white).fontSize(14),
-                  ),
-                  Offstage(
-                    offstage: !item.copyable,
-                    child: BasicIconButton(
-                      assetName: "assets/images/common/copy.png",
-                      size: 24,
-                      onTap: () {
-                        final copySuccess =
-                            ClipboardUtils.copyToClipboard(item.content);
-                        MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
-                      },
-                    ).paddingOnly(left: 10),
-                  ),
-                ],
-              ).paddingSymmetric(vertical: 14),
-              Offstage(
-                offstage: index == projectDetails.items.length - 1,
-                child: const Divider(
-                  color: Color(0x32FFFFFF),
-                  thickness: 1,
-                ),
+    final divider = Container(
+      height: 2,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.rectangle,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x4DFFFFFF),
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: Offset(-2, 1),
+          ),
+          BoxShadow(
+            color: Colors.black,
+            spreadRadius: 0,
+            blurRadius: 8,
+            offset: Offset(-1, -1),
+          ),
+        ],
+      ),
+    );
+
+    final description = Text(
+      projectDetails.description,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    )
+        .textColor(const Color(0xCCFFFFFF))
+        .paddingOnly(left: 25, right: 25, top: 6);
+
+    final details = Stack(
+      children: [
+        BasicDetailsCard(items: projectDetails.items),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Visibility(
+            visible: projectDetails.pasterType != NftPasterType.undefined,
+            child: Container(
+              transform: Matrix4.translationValues(16.0, -16.0, 0.0),
+              child: Image.asset(
+                projectDetails.pasterType.assetName,
+                width: 96,
+                height: 96,
+                fit: BoxFit.contain,
               ),
-            ],
-          );
-        },
-      ).toList(),
-    ).paddingOnly(left: 22, right: 22, top: 14, bottom: 174);
+            ),
+          ),
+        ),
+      ],
+    ).paddingOnly(left: 44, right: 44, top: 24, bottom: 20);
 
     final footer = ProjectDetailsFooterView(
       projectDetails: projectDetails,
@@ -233,10 +240,12 @@ class _ProjectDetailsView extends StatelessWidget {
                     children: [
                       title,
                       brand,
+                      time,
+                      divider,
                       description,
                       details,
                     ],
-                  )
+                  ).paddingOnly(bottom: 160),
                 ],
               ),
             ],

@@ -18,6 +18,9 @@ class AccountRepository {
   Future<UserInfo?> updateUsername(String username) =>
       remoteApi.updateUsername(username);
 
+  Future<UserInfo?> updateAvatar(String imageData) =>
+      remoteApi.updateAvatar(imageData);
+
   Future<UserInfo?> updateBio(String bio) => remoteApi.updateBio(bio);
 
   Future<UserInfo?> updateGender(int gender) => remoteApi.updateGender(gender);

@@ -40,15 +40,15 @@ class Activity {
 
   String? get coverUrl => coverPath.isNotEmpty ? coverPath.hostAdded : null;
 
-  String? get startedTime => () {
-        if (startedTimestamp <= 0) {
-          return null;
-        }
-        return DateTimeUtils.dateTimeStringFromTimestamp(
-          timestamp: startedTimestamp,
-          dateFormatType: DateFormatType.MM_DD_EEE_HH_MM,
-        );
-      }();
+  String? get startedTime {
+    if (startedTimestamp <= 0) {
+      return null;
+    }
+    return DateTimeUtils.dateTimeStringFromTimestamp(
+      timestamp: startedTimestamp,
+      dateFormatType: DateFormatType.MM_DD_EEE_HH_MM,
+    );
+  }
 
   factory Activity.fromJson(Map<String, dynamic> json) =>
       _$ActivityFromJson(json);

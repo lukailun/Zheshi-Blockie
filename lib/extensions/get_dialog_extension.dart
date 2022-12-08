@@ -16,7 +16,7 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/login_dialog.dart';
 
-extension GetDialogExtension on GetInterface {
+extension GetDialogExtension on GetDelegate {
   void licenseDialog({
     required VoidCallback onLoginSuccess,
   }) {
@@ -26,13 +26,13 @@ extension GetDialogExtension on GetInterface {
           final parameters = {
             WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl(),
           };
-          Get.toNamed(Routes.webView, parameters: parameters);
+          Get.rootDelegate.toNamed(Routes.webView, parameters: parameters);
         },
         onPrivacyPolicyTap: () {
           final parameters = {
             WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
           };
-          Get.toNamed(Routes.webView, parameters: parameters);
+          Get.rootDelegate.toNamed(Routes.webView, parameters: parameters);
         },
         onPositiveButtonTap: () {
           Get.back();
@@ -41,6 +41,7 @@ extension GetDialogExtension on GetInterface {
         onNegativeButtonTap: () => Get.back(),
       ),
       barrierColor: AppThemeData.barrierColor,
+      // navigatorKey: Get.rootDelegate.navigatorKey,
     );
   }
 

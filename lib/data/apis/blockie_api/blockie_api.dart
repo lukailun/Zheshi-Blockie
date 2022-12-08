@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:convert';
+
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
@@ -22,7 +25,7 @@ import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_d
 import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
 import 'package:blockie_app/data/models/environment.dart';
 import 'package:blockie_app/data/models/issuer.dart';
-import 'package:blockie_app/data/models/nft_info.dart';
+import 'package:blockie_app/data/models/nft_details.dart';
 import 'package:blockie_app/data/models/reverse_address/reverse_address.dart';
 import 'package:blockie_app/data/models/token_info.dart';
 import 'package:blockie_app/data/models/user_info.dart';
