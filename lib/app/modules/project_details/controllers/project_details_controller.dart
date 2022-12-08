@@ -32,6 +32,7 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/services/location_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/basic_one_button_dialog.dart';
+import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 import '../views/project_details_minted_nft_dialog.dart';
 
@@ -40,7 +41,7 @@ part 'project_details_controller_router.dart';
 class ProjectDetailsController extends GetxController with WechatShareable {
   final mintedNftDetails = Rxn<NftDetails>();
   final projectDetails = Rxn<ProjectDetails>();
-  final id = Get.rootDelegate.parameters[ProjectDetailsParameter.id] as String;
+  final id = Get.parameters[ProjectDetailsParameter.id] as String;
 
   final mintStatus = MintStatus.notLogin.obs;
   final qrCode = Rxn<String>();

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:blockie_app/app/modules/profile/models/profile_label.dart';
 import 'package:blockie_app/app/modules/profile/views/label_view.dart';
+import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/blur.dart';
 
@@ -23,7 +24,7 @@ extension GetDialogExtension on GetInterface {
         labels: labels,
         labelOnTap: labelOnTap,
       ),
-      barrierColor: Colors.transparent,
+      barrierColor: AppThemeData.barrierColor,
     );
   }
 }
@@ -50,9 +51,6 @@ class UpdateLabelsDialog extends StatelessWidget {
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(16)),
               child: Blur(
-                blur: 5,
-                blurColor: const Color(0x10FFFFFF),
-                colorOpacity: 0.05,
                 child: Container(
                   color: const Color(0x4DFFFFFF),
                   child: Column(

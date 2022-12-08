@@ -23,8 +23,8 @@ class CityPickersUtils {
     return {...CityPickers.metaCities, ...abroadCities};
   }
 
-  static String? getRegion(String? code) {
-    if (code == null) {
+  static String? getRegion(String code) {
+    if (code.isEmpty) {
       return null;
     }
     final util = CityPickerUtil(provincesData: provinces, citiesData: cities);

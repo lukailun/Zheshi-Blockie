@@ -2,16 +2,16 @@
 import 'dart:convert';
 
 // Package imports:
-import 'package:blockie_app/data/models/nft_paster_type.dart';
-import 'package:blockie_app/utils/date_time_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 import 'package:blockie_app/data/models/basic_details_card_item.dart';
 import 'package:blockie_app/data/models/issuer.dart';
+import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:blockie_app/data/models/nft_type.dart';
 import 'package:blockie_app/data/models/user_info.dart';
 import 'package:blockie_app/extensions/extensions.dart';
+import 'package:blockie_app/utils/date_time_utils.dart';
 
 part 'nft_details.g.dart';
 

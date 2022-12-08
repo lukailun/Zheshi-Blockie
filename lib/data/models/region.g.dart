@@ -8,8 +8,8 @@ part of 'region.dart';
 
 Region _$RegionFromJson(Map<String, dynamic> json) => Region(
       isChina: json['is_china'] as bool,
-      areaCode: json['area_code'] as String?,
-      countryCode: json['country_code'] as String?,
+      areaCode: json['area_code'] as String? ?? '',
+      countryCode: json['country_code'] as String? ?? '',
     );
 
 Map<String, dynamic> _$RegionToJson(Region instance) => <String, dynamic>{

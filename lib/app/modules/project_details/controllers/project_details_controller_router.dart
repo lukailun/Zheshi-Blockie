@@ -70,7 +70,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   }
 
   void openLicenseDialog() {
-    Get.rootDelegate.licenseDialog(onLoginSuccess: () {
+    Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
       getProjectDetails();
     });

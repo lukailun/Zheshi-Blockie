@@ -15,21 +15,21 @@ part 'region.g.dart';
 class Region {
   @JsonKey(name: 'is_china')
   bool isChina;
-  @JsonKey(name: 'area_code')
-  String? areaCode;
-  @JsonKey(name: 'country_code')
-  String? countryCode;
+  @JsonKey(name: 'area_code', defaultValue: '')
+  String areaCode;
+  @JsonKey(name: 'country_code', defaultValue: '')
+  String countryCode;
 
   Region({
     required this.isChina,
-    this.areaCode,
-    this.countryCode,
+    required this.areaCode,
+    required this.countryCode,
   });
 
   String? get region =>
       CityPickersUtils.getRegion(isChina ? areaCode : countryCode);
 
-  String? get code => isChina ? areaCode : countryCode;
+  String get code => isChina ? areaCode : countryCode;
 
   String get toJsonString => jsonEncode(this);
 

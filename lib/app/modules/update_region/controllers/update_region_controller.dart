@@ -70,7 +70,9 @@ class UpdateRegionController extends GetxController {
       context: context,
       provincesData: CityPickersUtils.provinces,
       citiesData: CityPickersUtils.cities,
-      locationCode: selectedRegion.value?.code ?? '110000',
+      locationCode: (selectedRegion.value?.code ?? '').isNotEmpty
+          ? (selectedRegion.value?.code ?? '')
+          : '110000',
       confirmWidget: const Text('确定')
           .textColor(AppThemeData.primaryColor)
           .fontSize(16)

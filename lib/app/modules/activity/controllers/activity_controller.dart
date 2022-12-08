@@ -15,9 +15,9 @@ import 'package:blockie_app/data/models/wechat_share_source.dart';
 import 'package:blockie_app/data/models/wechat_shareable.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/extensions/get_dialog_extension.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
+import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
 class ActivityController extends GetxController
@@ -34,7 +34,7 @@ class ActivityController extends GetxController
 
   TabController? tabController;
 
-  final id = Get.rootDelegate.parameters[ActivityParameter.id] as String;
+  final id = Get.parameters[ActivityParameter.id] as String;
 
   @override
   void onReady() {
@@ -48,6 +48,13 @@ class ActivityController extends GetxController
     isDefaultConfig = true;
     wechatReadyStream?.cancel();
     wechatReadyStream = null;
+  }
+
+  void showLicenseDialog() {
+    Get.licenseDialog(onLoginSuccess: () {
+      MessageToast.showMessage("登录成功");
+      getUserInfo();
+    });
   }
 
   void getUserInfo() async {

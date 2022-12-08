@@ -68,9 +68,7 @@ class BasicTwoButtonDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Blur(
-      blur: 5,
-      blurColor: const Color(0x10FFFFFF),
-      colorOpacity: 0.05,
+      blurOnTap: Get.back,
       child: Center(
         child: Container(
           decoration: const BoxDecoration(

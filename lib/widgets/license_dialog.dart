@@ -10,10 +10,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
+import 'package:blockie_app/app/modules/web_view/controllers/web_view_controller.dart';
+import 'package:blockie_app/app/routes/app_pages.dart';
+import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/blur.dart';
+import 'package:blockie_app/widgets/login_dialog.dart';
+
+extension GetDialogExtension on GetInterface {
+  void licenseDialog({
+    required VoidCallback onLoginSuccess,
+  }) {
+    Get.dialog(
+      LicenseDialog(
+        onTermsOfServiceTap: () {
+          final parameters = {
+            WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl()
+          };
+          Get.toNamed(Routes.webView, parameters: parameters);
+        },
+        onPrivacyPolicyTap: () {
+          final parameters = {
+            WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
+          };
+          Get.toNamed(Routes.webView, parameters: parameters);
+        },
+        onPositiveButtonTap: () {
+          Get.back();
+          Get.loginDialog(onLoginSuccess: onLoginSuccess);
+        },
+        onNegativeButtonTap: () => Get.back(),
+      ),
+      barrierColor: AppThemeData.barrierColor,
+    );
+  }
+}
 
 class LicenseDialog extends StatelessWidget {
   final Function() onTermsOfServiceTap;
@@ -32,9 +65,6 @@ class LicenseDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Blur(
-      blur: 5,
-      blurColor: const Color(0x10FFFFFF),
-      colorOpacity: 0.05,
       child: Center(
         child: Container(
           decoration: const BoxDecoration(

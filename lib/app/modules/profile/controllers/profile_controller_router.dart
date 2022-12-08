@@ -5,6 +5,10 @@ extension ProfileControllerRouter on ProfileController {
     Get.toNamed(Routes.editUserInfo);
   }
 
+  void goToProjects() {
+    Get.offAllNamed(Routes.activities);
+  }
+
   void goToSettings() {
     Get.toNamed(Routes.settings);
   }

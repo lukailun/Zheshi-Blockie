@@ -4,7 +4,6 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -18,6 +17,7 @@ import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/data/models/basic_details_card_item.dart';
 import 'package:blockie_app/data/models/nft_details.dart';
+import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:blockie_app/data/models/nft_type.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';

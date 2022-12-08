@@ -1,8 +1,5 @@
 // Dart imports:
-import 'dart:convert';
-import 'dart:html';
 import 'dart:math';
-import 'dart:ui';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -13,7 +10,6 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:blockie_app/data/models/app_theme_data.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/blur.dart';
 import 'package:blockie_app/widgets/html_image.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
@@ -53,9 +49,6 @@ class StaffQrCodeDialog extends StatelessWidget {
     }));
     return Obx(
       () => Blur(
-        blur: 5,
-        blurColor: const Color(0x10FFFFFF),
-        colorOpacity: 0.05,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

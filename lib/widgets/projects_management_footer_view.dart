@@ -56,7 +56,6 @@ class ProjectsManagementFooterView extends StatelessWidget {
         height: topButtonTitle != null ? 160 : 90,
         child: ClipRect(
           child: Blur(
-            blur: 5,
             blurColor: const Color(0x10FFFFFF),
             colorOpacity: 0.05,
             child: Column(

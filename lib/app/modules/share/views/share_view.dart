@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 // Project imports:
 import 'package:blockie_app/app/modules/share/controllers/share_controller.dart';
@@ -37,25 +38,27 @@ class ShareView extends GetView<ShareController> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
           ),
-          child: TabBar(
-            controller: controller.tabController,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorColor: AppThemeData.primaryColor,
-            indicatorPadding: const EdgeInsets.symmetric(horizontal: 30),
-            labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-            labelColor: AppThemeData.primaryColor,
-            unselectedLabelColor: const Color(0xFF8F8F8F),
-            tabs: controller.items.value
-                .map(
-                  (it) => Tab(
-                    child: Text(it.title)
-                        .fontSize(15)
-                        .fontWeight(FontWeightCompat.semiBold)
-                        .textAlignment(TextAlign.center)
-                        .paddingSymmetric(horizontal: 10),
-                  ),
-                )
-                .toList(),
+          child: PointerInterceptor(
+            child: TabBar(
+              controller: controller.tabController,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorColor: AppThemeData.primaryColor,
+              indicatorPadding: const EdgeInsets.symmetric(horizontal: 30),
+              labelPadding: const EdgeInsets.symmetric(horizontal: 5),
+              labelColor: AppThemeData.primaryColor,
+              unselectedLabelColor: const Color(0xFF8F8F8F),
+              tabs: controller.items.value
+                  .map(
+                    (it) => Tab(
+                      child: Text(it.title)
+                          .fontSize(15)
+                          .fontWeight(FontWeightCompat.semiBold)
+                          .textAlignment(TextAlign.center)
+                          .paddingSymmetric(horizontal: 10),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         );
         final saveHintView = GestureDetector(
@@ -80,7 +83,6 @@ class ShareView extends GetView<ShareController> {
             height: 76,
             child: ClipRect(
               child: Blur(
-                blur: 5,
                 blurColor: const Color(0x10FFFFFF),
                 colorOpacity: 0.05,
                 child: Center(
@@ -100,34 +102,32 @@ class ShareView extends GetView<ShareController> {
             width: double.infinity,
             height: double.infinity,
             color: Colors.white,
-            child: Obx(
-              () => Column(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: controller.isVideo
-                          ? HtmlVideo(
-                              url: controller
-                                      .items[controller.selectedIndex.value]
-                                      .video
-                                      ?.url ??
-                                  '',
-                              posterUrl: controller
-                                      .items[controller.selectedIndex.value]
-                                      .video
-                                      ?.posterUrl ??
-                                  '',
-                            ).paddingAll(30)
-                          : HtmlImage(
-                                  url: controller
-                                      .items[controller.selectedIndex.value]
-                                      .imageUrl)
-                              .paddingAll(30),
-                    ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: controller.isVideo
+                        ? HtmlVideo(
+                            url: controller
+                                    .items[controller.selectedIndex.value]
+                                    .video
+                                    ?.url ??
+                                '',
+                            posterUrl: controller
+                                    .items[controller.selectedIndex.value]
+                                    .video
+                                    ?.posterUrl ??
+                                '',
+                          ).paddingAll(30)
+                        : HtmlImage(
+                                url: controller
+                                    .items[controller.selectedIndex.value]
+                                    .imageUrl)
+                            .paddingAll(30),
                   ),
-                  saveHintView,
-                ],
-              ),
+                ),
+                saveHintView,
+              ],
             ),
           ),
         );

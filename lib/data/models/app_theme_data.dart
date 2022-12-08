@@ -6,5 +6,5 @@ class AppThemeData {
   static const secondaryColor = Color(0xFFCAFF04);
   static const disabledColor = Color(0xFFC8C8C8);
   static const indicatorColor = Colors.white;
-  static const barrierColor = Color(0x80FFFFFF);
+  static const barrierColor = Colors.transparent;
 }

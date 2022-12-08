@@ -1,10 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-class HideKeyboard extends StatelessWidget {
+class HideKeyboardWrapper extends StatelessWidget {
   final Widget child;
 
-  const HideKeyboard({
+  const HideKeyboardWrapper({
     super.key,
     required this.child,
   });

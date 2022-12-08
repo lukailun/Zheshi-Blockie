@@ -23,13 +23,12 @@ class ActivityContainerView extends GetView<ActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    final showsBack = Get.rootDelegate.history.length > 1;
+    final showsBack = Get.routing.previous.isNotEmpty;
     final menuItems = [
       AppBarButtonItem(
         title: '首页',
         assetName: "assets/images/app_bar/home.png",
-        // onTap: () => Get.offAllNamed(Routes.activities),
-        onTap: () => Get.rootDelegate.offNamed(Routes.activities),
+        onTap: () => Get.offAllNamed(Routes.activities),
       ),
       AppBarButtonItem(
         title: '我的',
@@ -38,8 +37,7 @@ class ActivityContainerView extends GetView<ActivityController> {
           final parameters = {
             ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
           };
-          Get.rootDelegate.toNamed(Routes.profile, parameters: parameters);
-          // Get.offNamed(Routes.profile, parameters: parameters);
+          Get.offNamed(Routes.profile, parameters: parameters);
         },
       ),
     ];

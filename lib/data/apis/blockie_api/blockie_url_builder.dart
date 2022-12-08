@@ -67,6 +67,8 @@ class BlockieUrlBuilder {
   /// 逆地址解析（坐标位置描述）: https://lbs.qq.com/service/webService/webServiceGuide/webServiceGcoder
   String buildReverseAddressLookupUrl() => '$_baseUrl/location';
 
+  String buildGetWechatMiniProgramCode() => '$_baseUrl/wechat-app-code';
+
   // ProjectsManagement
   String buildGetManagedActivitiesUrl() => '$_baseUrl/staff/activities';
 

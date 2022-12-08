@@ -34,6 +34,8 @@ import 'package:blockie_app/app/modules/projects_management/bindings/projects_ma
 import 'package:blockie_app/app/modules/projects_management/views/projects_management_view.dart';
 import 'package:blockie_app/app/modules/registration_info/bindings/registration_info_binding.dart';
 import 'package:blockie_app/app/modules/registration_info/views/registration_info_view.dart';
+import 'package:blockie_app/app/modules/root/bindings/root_binding.dart';
+import 'package:blockie_app/app/modules/root/views/root_view.dart';
 import 'package:blockie_app/app/modules/settings/bindings/settings_binding.dart';
 import 'package:blockie_app/app/modules/settings/views/settings_view.dart';
 import 'package:blockie_app/app/modules/share/bindings/share_binding.dart';
@@ -81,166 +83,179 @@ class AppPages {
 
   List<GetPage> get routes => [
         GetPage(
-          name: Routes.activities,
-          page: () => const ActivitiesContainerView(),
-          binding: ActivitiesBinding(
-            accountRepository: accountRepository,
-            projectRepository: projectRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.brand,
-          page: () => const BrandDetailsView(),
-          binding: BrandDetailsBinding(
-            projectRepository: projectRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.projectDetails,
-          page: () => const ProjectDetailsContainerView(),
-          binding: ProjectDetailsBinding(
-            accountRepository: accountRepository,
-            projectRepository: projectRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.gallery,
-          page: () => const GalleryView(),
-          binding: GalleryBinding(),
-        ),
-        GetPage(
-          name: Routes.nftDetails,
-          page: () => const NftDetailsView(),
-          binding: NftDetailsBinding(projectRepository: projectRepository),
-        ),
-        GetPage(
-          name: Routes.settings,
-          page: () => const SettingsView(),
-          binding: SettingsBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateUsername,
-          page: () => const UpdateUsernameView(),
-          binding: UpdateUsernameBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateBio,
-          page: () => const UpdateBioView(),
-          binding: UpdateBioBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateAvatar,
-          page: () => const UpdateAvatarView(),
-          binding: UpdateAvatarBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateGender,
-          page: () => const UpdateGenderView(),
-          binding: UpdateGenderBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateBirthday,
-          page: () => const UpdateBirthdayView(),
-          binding: UpdateBirthdayBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.updateRegion,
-          page: () => const UpdateRegionView(),
-          binding: UpdateRegionBinding(
-            accountRepository: accountRepository,
-            commonRepository: commonRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.registrationInfo,
-          page: () => const RegistrationInfoView(),
-          binding: RegistrationInfoBinding(
-            accountRepository: accountRepository,
-            projectRepository: projectRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.faceVerification,
-          page: () => FaceVerificationView(),
-          binding:
-              FaceVerificationBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.activity,
-          page: () => const ActivityContainerView(),
-          binding: ActivityBinding(
-            accountRepository: accountRepository,
-            projectRepository: projectRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.webView,
-          page: () => const WebViewView(),
-          binding: WebViewBinding(),
-        ),
-        GetPage(
-          name: Routes.activitiesManagement,
-          page: () => const ActivitiesManagementContainerView(),
-          binding: ActivitiesManagementBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.subactivitiesManagement,
-          page: () => const SubactivitiesManagementView(),
-          binding: SubactivitiesManagementBinding(),
-        ),
-        GetPage(
-          name: Routes.projectsManagement,
-          page: () => const ProjectsManagementView(),
-          binding: ProjectsManagementBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.ticketChecking,
-          page: () => const TicketCheckingContainerView(),
-          binding: TicketCheckingBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.addWhitelist,
-          page: () => const AddWhitelistContainerView(),
-          binding: AddWhitelistBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.airdropNft,
-          page: () => const AirdropNftContainerView(),
-          binding: AirdropNftBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.holdVerification,
-          page: () => const HoldVerificationContainerView(),
-          binding: HoldVerificationBinding(
-              projectsManagementRepository: projectsManagementRepository),
-        ),
-        GetPage(
-          name: Routes.profile,
-          page: () => const ProfileView(),
-          binding: ProfileBinding(
-            accountRepository: accountRepository,
-            profileRepository: profileRepository,
-          ),
-        ),
-        GetPage(
-          name: Routes.editUserInfo,
-          page: () => const EditUserInfoView(),
-          binding: EditUserInfoBinding(accountRepository: accountRepository),
-        ),
-        GetPage(
-          name: Routes.share,
-          page: () => const ShareView(),
-          binding: ShareBinding(projectRepository: projectRepository),
-        ),
-        GetPage(
-          name: Routes.developerMode,
-          page: () => const DeveloperModeView(),
-          binding: DeveloperModeBinding(),
+          name: Routes.initial,
+          page: () => const RootView(),
+          binding: RootBinding(),
+          participatesInRootNavigator: true,
+          children: [
+            GetPage(
+              name: Routes.activities,
+              page: () => const ActivitiesContainerView(),
+              binding: ActivitiesBinding(
+                accountRepository: accountRepository,
+                projectRepository: projectRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.brand,
+              page: () => const BrandDetailsView(),
+              binding: BrandDetailsBinding(
+                projectRepository: projectRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.projectDetails,
+              page: () => const ProjectDetailsContainerView(),
+              binding: ProjectDetailsBinding(
+                accountRepository: accountRepository,
+                projectRepository: projectRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.gallery,
+              page: () => const GalleryView(),
+              binding: GalleryBinding(),
+            ),
+            GetPage(
+              name: Routes.nftDetails,
+              page: () => const NftDetailsView(),
+              binding: NftDetailsBinding(projectRepository: projectRepository),
+            ),
+            GetPage(
+              name: Routes.settings,
+              page: () => const SettingsView(),
+              binding: SettingsBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateUsername,
+              page: () => const UpdateUsernameView(),
+              binding:
+                  UpdateUsernameBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateBio,
+              page: () => const UpdateBioView(),
+              binding: UpdateBioBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateAvatar,
+              page: () => const UpdateAvatarView(),
+              binding:
+                  UpdateAvatarBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateGender,
+              page: () => const UpdateGenderView(),
+              binding:
+                  UpdateGenderBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateBirthday,
+              page: () => const UpdateBirthdayView(),
+              binding:
+                  UpdateBirthdayBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.updateRegion,
+              page: () => const UpdateRegionView(),
+              binding: UpdateRegionBinding(
+                accountRepository: accountRepository,
+                commonRepository: commonRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.registrationInfo,
+              page: () => const RegistrationInfoView(),
+              binding: RegistrationInfoBinding(
+                accountRepository: accountRepository,
+                projectRepository: projectRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.faceVerification,
+              page: () => FaceVerificationView(),
+              binding:
+                  FaceVerificationBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.activity,
+              page: () => const ActivityContainerView(),
+              binding: ActivityBinding(
+                accountRepository: accountRepository,
+                projectRepository: projectRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.webView,
+              page: () => const WebViewView(),
+              binding: WebViewBinding(),
+            ),
+            GetPage(
+              name: Routes.activitiesManagement,
+              page: () => const ActivitiesManagementContainerView(),
+              binding: ActivitiesManagementBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.subactivitiesManagement,
+              page: () => const SubactivitiesManagementView(),
+              binding: SubactivitiesManagementBinding(),
+            ),
+            GetPage(
+              name: Routes.projectsManagement,
+              page: () => const ProjectsManagementView(),
+              binding: ProjectsManagementBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.ticketChecking,
+              page: () => const TicketCheckingContainerView(),
+              binding: TicketCheckingBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.addWhitelist,
+              page: () => const AddWhitelistContainerView(),
+              binding: AddWhitelistBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.airdropNft,
+              page: () => const AirdropNftContainerView(),
+              binding: AirdropNftBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.holdVerification,
+              page: () => const HoldVerificationContainerView(),
+              binding: HoldVerificationBinding(
+                  projectsManagementRepository: projectsManagementRepository),
+            ),
+            GetPage(
+              name: Routes.profile,
+              page: () => const ProfileView(),
+              binding: ProfileBinding(
+                accountRepository: accountRepository,
+                profileRepository: profileRepository,
+              ),
+            ),
+            GetPage(
+              name: Routes.editUserInfo,
+              page: () => const EditUserInfoView(),
+              binding:
+                  EditUserInfoBinding(accountRepository: accountRepository),
+            ),
+            GetPage(
+              name: Routes.share,
+              page: () => const ShareView(),
+              binding: ShareBinding(projectRepository: projectRepository),
+            ),
+            GetPage(
+              name: Routes.developerMode,
+              page: () => const DeveloperModeView(),
+              binding: DeveloperModeBinding(),
+            ),
+          ],
         ),
       ];
 }

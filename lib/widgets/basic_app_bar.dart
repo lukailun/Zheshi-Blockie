@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -70,7 +69,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
             ).paddingOnly(right: 13);
     }).toList();
     final backButton = Visibility(
-      visible: showsBackButton && Get.rootDelegate.history.length > 1,
+      visible: showsBackButton && Get.routing.previous.isNotEmpty,
       child: BasicIconButton(
         assetName: "assets/images/app_bar/back.png",
         size: 34,
@@ -79,8 +78,7 @@ class BasicAppBar extends StatelessWidget with PreferredSizeWidget {
           if (backButtonOnTap != null) {
             backButtonOnTap?.call();
           } else {
-            Get.rootDelegate.popRoute();
-            // Get.rootDelegate.backUntil(Routes.activities);
+            Get.back();
           }
         },
       ).paddingOnly(left: 22),

@@ -28,6 +28,7 @@ class ProfileView extends GetView<ProfileController> {
       () => Scaffold(
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(
+          backButtonOnTap: controller.goToProjects,
           actionItems: [
             AppBarButtonItem(
               assetName: 'assets/images/app_bar/qr_code.png',
@@ -98,11 +99,11 @@ class ProfileView extends GetView<ProfileController> {
                 const Spacer(flex: 1),
                 Center(
                   child: SizedBox(
-                    width: 72,
-                    height: 22,
+                    width: 94,
+                    height: 28,
                     child: BasicElevatedButton(
                       title: '编辑资料',
-                      textFontSize: 9,
+                      textFontSize: 11,
                       paddingVertical: 2,
                       paddingHorizontal: 5,
                       onTap: controller.goToEditUserInfo,

@@ -3,8 +3,7 @@ part of 'subactivity_controller.dart';
 extension SubactivityControllerRouter on SubactivityController {
   void goToProjectDetails(String id) async {
     final parameters = {ProjectDetailsParameter.id: id};
-    await Get.rootDelegate
-        .toNamed(Routes.projectDetails, parameters: parameters);
+    await Get.toNamed(Routes.projectDetails, parameters: parameters);
     getSubactivity();
   }
 
@@ -52,7 +51,7 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void openLicenseDialog() {
-    Get.rootDelegate.licenseDialog(onLoginSuccess: () {
+    Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage('登录成功');
       getSubactivity();
     });

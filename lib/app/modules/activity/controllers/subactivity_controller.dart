@@ -25,6 +25,7 @@ import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
+import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
