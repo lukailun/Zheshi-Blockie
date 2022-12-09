@@ -30,15 +30,15 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.unqualified:
       case MintStatus.stepNotCompleted:
       case MintStatus.mintable:
-        return isBlockieNft ? '生成个人视频 NFT' : '开启铸造';
+        return isBlockieNft ? '生成视频 NFT' : '开启铸造';
       case MintStatus.runOut:
         return '我的页面';
       case MintStatus.generating:
-        return '个人视频生成中';
+        return '视频生成中';
       case MintStatus.generationFailed:
         return '没有识别到您的视频，请联系客服';
       case MintStatus.minting:
-        return isBlockieNft ? '生成个人视频 NFT' : '正在铸造';
+        return isBlockieNft ? '生成视频 NFT' : '正在铸造';
       case MintStatus.expired:
         return '活动已结束';
       case MintStatus.needToClaimSouvenir:
@@ -61,12 +61,12 @@ extension MintStatusExtension on MintStatus {
       case MintStatus.generating:
         return '已完成所有$category';
       case MintStatus.generationFailed:
-        return '很遗憾，未能生成个人视频';
+        return '很遗憾，未能生成视频';
       case MintStatus.mintable:
       case MintStatus.minting:
-        return isBlockieNft ? '个人视频已生成完毕，点击按钮铸造 3D NFT' : '点击按钮铸造';
+        return isBlockieNft ? '视频已生成完毕，点击按钮铸造 3D NFT' : '点击按钮铸造';
       case MintStatus.runOut:
-        return isBlockieNft ? '个人视频已铸造，请至“我的”页面查看' : '数字藏品已铸造，请至“我的”页面查看';
+        return isBlockieNft ? '视频已铸造，请至“我的”页面查看' : '数字藏品已铸造，请至“我的”页面查看';
       case MintStatus.needToClaimSouvenir:
         return '线下扫码领取礼品';
       case MintStatus.expired:

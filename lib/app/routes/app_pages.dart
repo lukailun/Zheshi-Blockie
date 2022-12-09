@@ -248,7 +248,10 @@ class AppPages {
             GetPage(
               name: Routes.share,
               page: () => const ShareView(),
-              binding: ShareBinding(projectRepository: projectRepository),
+              binding: ShareBinding(
+                projectRepository: projectRepository,
+                commonRepository: commonRepository,
+              ),
             ),
             GetPage(
               name: Routes.developerMode,

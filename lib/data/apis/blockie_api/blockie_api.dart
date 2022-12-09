@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 // Package imports:
+import 'package:blockie_app/data/models/wechat_mini_program_code.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:http_parser/http_parser.dart';

@@ -97,16 +97,28 @@ class ProfileView extends GetView<ProfileController> {
                     .fontSize(20)
                     .paddingSymmetric(vertical: 12),
                 const Spacer(flex: 1),
-                Center(
+                GestureDetector(
+                  onTap: controller.goToEditUserInfo,
+                  behavior: HitTestBehavior.translucent,
                   child: SizedBox(
-                    width: 94,
-                    height: 28,
-                    child: BasicElevatedButton(
-                      title: '编辑资料',
-                      textFontSize: 11,
-                      paddingVertical: 2,
-                      paddingHorizontal: 5,
-                      onTap: controller.goToEditUserInfo,
+                    width: 108,
+                    height: 33,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.asset(
+                            'assets/images/profile/edit_profile_background.png',
+                            width: 108,
+                            height: 33,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Center(
+                          child: const Text('编辑资料')
+                              .fontSize(11)
+                              .textColor(const Color(0xFFEBEBEB)),
+                        ),
+                      ],
                     ),
                   ),
                 ),

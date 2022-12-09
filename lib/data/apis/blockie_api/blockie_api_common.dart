@@ -28,4 +28,17 @@ extension BlockieApiCommon on BlockieApi {
       return null;
     }
   }
+
+  Future<WechatMiniProgramCode?> getWechatMiniProgramCode(String id) async {
+    try {
+      final url = _urlBuilder.buildGetWechatMiniProgramCode();
+      final requestData = {'page': 'pages/dld/dld', 'scene': 'u=$id'};
+      final response = await _dio.get(url, queryParameters: requestData);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final code = WechatMiniProgramCode.fromJson(object);
+      return code;
+    } catch (error) {
+      return null;
+    }
+  }
 }

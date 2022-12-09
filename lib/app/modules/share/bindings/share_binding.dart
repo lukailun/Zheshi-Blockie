@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/data/repositories/common_repository.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -6,15 +7,21 @@ import 'package:blockie_app/app/modules/share/controllers/share_controller.dart'
 import 'package:blockie_app/data/repositories/project_repository.dart';
 
 class ShareBinding implements Bindings {
-  ShareBinding({required ProjectRepository projectRepository})
-      : _projectRepository = projectRepository;
+  ShareBinding({
+    required this.projectRepository,
+    required this.commonRepository,
+  });
 
-  final ProjectRepository _projectRepository;
+  final ProjectRepository projectRepository;
+  final CommonRepository commonRepository;
 
   @override
   void dependencies() {
     Get.lazyPut(
-      () => ShareController(projectRepository: _projectRepository),
+      () => ShareController(
+        projectRepository: projectRepository,
+        commonRepository: commonRepository,
+      ),
     );
   }
 }

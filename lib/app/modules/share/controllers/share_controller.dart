@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/repositories/common_repository.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -16,9 +17,11 @@ import 'package:blockie_app/widgets/message_toast.dart';
 class ShareController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final ProjectRepository projectRepository;
+  final CommonRepository commonRepository;
 
   ShareController({
     required this.projectRepository,
+    required this.commonRepository,
   });
 
   final items = <ShareInfoItem>[].obs;
@@ -54,15 +57,24 @@ class ShareController extends GetxController
 
   void getProjectDetailsShareInfo() async {
     shareInfo.value = await projectRepository.getProjectDetailsShareInfo(id);
-    _setupTabBars();
+    setupTabBars();
+    getWechatMiniProgramCode();
   }
 
   void getNFTDetailsShareInfo() async {
     shareInfo.value = await projectRepository.getNFTDetailsShareInfo(id);
-    _setupTabBars();
+    setupTabBars();
+    getWechatMiniProgramCode();
   }
 
-  void _setupTabBars() {
+  void getWechatMiniProgramCode() async {
+    if (items.value.where((it) => it.id == ShareType.videoId).isEmpty) {
+      return;
+    }
+    final code = await commonRepository.getWechatMiniProgramCode('15nxaqKxB0');
+  }
+
+  void setupTabBars() {
     items.value = [];
     final shareInfoValue = shareInfo.value;
     if (shareInfoValue == null) {
