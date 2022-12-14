@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -8,6 +9,8 @@ import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
+
+part 'registration_info_controller_router.dart';
 
 class RegistrationInfoController extends GetxController {
   final AccountRepository accountRepository;
@@ -29,7 +32,7 @@ class RegistrationInfoController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _getRegistrationInfo();
+    getRegistrationInfo();
   }
 
   bool saveButtonIsEnabled() {
@@ -38,37 +41,16 @@ class RegistrationInfoController extends GetxController {
     return notEmpty && notSame;
   }
 
-  void openConfirmToUpdateRegistrationInfoDialog() async {
-    Get.twoButtonDialog(
-      title: '提示',
-      message: '您填写的号码是：${newEntryNumber.value}，提交后不可修改',
-      positiveButtonTitle: '确认',
-      positiveButtonOnTap: () {
-        Get.back();
-        updateRegistrationInfo();
-      },
-      negativeButtonTitle: '取消',
-      negativeButtonOnTap: Get.back,
-    );
-  }
-
   void updateRegistrationInfo() async {
     final isSuccessful = await projectRepository.updateRegistrationInfo(
         id, newEntryNumber.value, isUpdate);
     if (isSuccessful) {
       MessageToast.showMessage("保存成功");
-      _getRegistrationInfo();
+      getRegistrationInfo();
     }
   }
 
-  void goToFaceVerification() async {
-    final needUpdate = await Get.toNamed(Routes.faceVerification);
-    if (needUpdate == true) {
-      _getRegistrationInfo();
-    }
-  }
-
-  void _getRegistrationInfo() async {
+  void getRegistrationInfo() async {
     final registrationInfo = await projectRepository.getRegistrationInfo(id);
     if (registrationInfo == null) {
       return;
@@ -83,7 +65,7 @@ class RegistrationInfoController extends GetxController {
     final isSuccessful = await accountRepository.deleteFacePhoto(faceID);
     if (isSuccessful) {
       MessageToast.showMessage("删除成功");
-      _getRegistrationInfo();
+      getRegistrationInfo();
     }
   }
 }

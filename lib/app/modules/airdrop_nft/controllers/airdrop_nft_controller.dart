@@ -1,5 +1,3 @@
-// Package imports:
-
 // Dart imports:
 import 'dart:js' as js;
 
@@ -10,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/airdrop_nft/models/airdrop_nft_details.dart';
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
+
+part 'airdrop_nft_controller_router.dart';
 
 class AirdropNftController extends GetxController {
   final ProjectsManagementRepository repository;
@@ -57,14 +57,14 @@ class AirdropNftController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getAirdropNfts();
+            getAirdropNfts();
           },
         ),
       ),
     );
   }
 
-  void _getAirdropNfts() async {
+  void getAirdropNfts() async {
     airdropNftDetails.value =
         await repository.getAirdropNfts(id: id, qrCode: qrCode.value ?? '');
   }

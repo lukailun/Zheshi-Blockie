@@ -11,6 +11,8 @@ import 'package:blockie_app/app/modules/add_whitelist/models/add_whitelist_detai
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
+part 'add_whitelist_controller_router.dart';
+
 class AddWhitelistController extends GetxController {
   final ProjectsManagementRepository repository;
 
@@ -50,14 +52,14 @@ class AddWhitelistController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getWhitelistStatus();
+            getWhitelistStatus();
           },
         ),
       ),
     );
   }
 
-  void _getWhitelistStatus() async {
+  void getWhitelistStatus() async {
     addWhitelistDetails.value =
         await repository.getWhitelistStatus(id: id, qrCode: qrCode.value ?? '');
   }

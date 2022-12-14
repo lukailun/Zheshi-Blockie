@@ -99,82 +99,82 @@ extension MintStatusExtension on MintStatus {
     }
   }
 
-  int get colorValue => () {
-        switch (this) {
-          case MintStatus.notLogin:
-          case MintStatus.runOut:
-          case MintStatus.mintable:
-          case MintStatus.needToClaimSouvenir:
-            return 0xFFFFFFFF;
-          case MintStatus.minting:
-            return 0xFF07DFAB;
-          case MintStatus.notStartedAndUnqualified:
-          case MintStatus.notStarted:
-          case MintStatus.unqualified:
-          case MintStatus.expired:
-          case MintStatus.generating:
-          case MintStatus.generationFailed:
-          case MintStatus.stepNotCompleted:
-            return 0xFF909090;
-        }
-      }();
+  int get colorValue {
+    switch (this) {
+      case MintStatus.notLogin:
+      case MintStatus.runOut:
+      case MintStatus.mintable:
+      case MintStatus.needToClaimSouvenir:
+        return 0xFFFFFFFF;
+      case MintStatus.minting:
+        return 0xFF07DFAB;
+      case MintStatus.notStartedAndUnqualified:
+      case MintStatus.notStarted:
+      case MintStatus.unqualified:
+      case MintStatus.expired:
+      case MintStatus.generating:
+      case MintStatus.generationFailed:
+      case MintStatus.stepNotCompleted:
+        return 0xFF909090;
+    }
+  }
 
-  List<int>? get colorValues => () {
-        switch (this) {
-          case MintStatus.generating:
-            return [0xFF07DFAB, 0xFF07DFAB, 0xFFFFFFFF, 0xFFFFFFFF];
-          case MintStatus.notLogin:
-          case MintStatus.runOut:
-          case MintStatus.mintable:
-          case MintStatus.needToClaimSouvenir:
-          case MintStatus.minting:
-          case MintStatus.notStartedAndUnqualified:
-          case MintStatus.notStarted:
-          case MintStatus.unqualified:
-          case MintStatus.expired:
-          case MintStatus.generationFailed:
-          case MintStatus.stepNotCompleted:
-            return null;
-        }
-      }();
+  List<int>? get colorValues {
+    switch (this) {
+      case MintStatus.generating:
+        return [0xFF07DFAB, 0xFF07DFAB, 0xFFFFFFFF, 0xFFFFFFFF];
+      case MintStatus.notLogin:
+      case MintStatus.runOut:
+      case MintStatus.mintable:
+      case MintStatus.needToClaimSouvenir:
+      case MintStatus.minting:
+      case MintStatus.notStartedAndUnqualified:
+      case MintStatus.notStarted:
+      case MintStatus.unqualified:
+      case MintStatus.expired:
+      case MintStatus.generationFailed:
+      case MintStatus.stepNotCompleted:
+        return null;
+    }
+  }
 
-  bool get enabled => () {
-        switch (this) {
-          case MintStatus.notLogin:
-          case MintStatus.mintable:
-          case MintStatus.runOut:
-          case MintStatus.needToClaimSouvenir:
-            return true;
-          case MintStatus.notStartedAndUnqualified:
-          case MintStatus.notStarted:
-          case MintStatus.unqualified:
-          case MintStatus.expired:
-          case MintStatus.minting:
-          case MintStatus.generating:
-          case MintStatus.generationFailed:
-          case MintStatus.stepNotCompleted:
-            return false;
-        }
-      }();
+  bool get enabled {
+    switch (this) {
+      case MintStatus.notLogin:
+      case MintStatus.mintable:
+      case MintStatus.runOut:
+      case MintStatus.needToClaimSouvenir:
+        return true;
+      case MintStatus.notStartedAndUnqualified:
+      case MintStatus.notStarted:
+      case MintStatus.unqualified:
+      case MintStatus.expired:
+      case MintStatus.minting:
+      case MintStatus.generating:
+      case MintStatus.generationFailed:
+      case MintStatus.stepNotCompleted:
+        return false;
+    }
+  }
 
   bool get showsHint => this != MintStatus.notLogin;
 
-  bool get showsPreviewVideo => () {
-        switch (this) {
-          case MintStatus.notLogin:
-          case MintStatus.notStartedAndUnqualified:
-          case MintStatus.notStarted:
-          case MintStatus.expired:
-          case MintStatus.generating:
-          case MintStatus.generationFailed:
-          case MintStatus.stepNotCompleted:
-          case MintStatus.unqualified:
-            return true;
-          case MintStatus.minting:
-          case MintStatus.mintable:
-          case MintStatus.runOut:
-          case MintStatus.needToClaimSouvenir:
-            return false;
-        }
-      }();
+  bool get showsPreviewVideo {
+    switch (this) {
+      case MintStatus.notLogin:
+      case MintStatus.notStartedAndUnqualified:
+      case MintStatus.notStarted:
+      case MintStatus.expired:
+      case MintStatus.generating:
+      case MintStatus.generationFailed:
+      case MintStatus.stepNotCompleted:
+      case MintStatus.unqualified:
+        return true;
+      case MintStatus.minting:
+      case MintStatus.mintable:
+      case MintStatus.runOut:
+      case MintStatus.needToClaimSouvenir:
+        return false;
+    }
+  }
 }

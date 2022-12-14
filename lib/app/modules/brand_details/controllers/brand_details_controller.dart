@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -7,6 +8,8 @@ import 'package:blockie_app/app/modules/activity/controllers/activity_controller
 import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/issuer.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
+
+part 'brand_details_controller_router.dart';
 
 class BrandDetailsController extends GetxController {
   final ProjectRepository projectRepository;
@@ -39,13 +42,8 @@ class BrandDetailsController extends GetxController {
         await projectRepository.getBrandActivities(issuerValue.id);
     activities.value = paginatedActivities?.activities;
   }
-
-  void goToActivity(String id) {
-    final parameters = {ActivityParameter.id: id};
-    Get.toNamed(Routes.activity, parameters: parameters);
-  }
 }
 
 class BrandDetailsParameter {
-  static const id = "id";
+  static const id = 'id';
 }

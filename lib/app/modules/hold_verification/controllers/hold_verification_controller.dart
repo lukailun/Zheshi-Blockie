@@ -9,6 +9,8 @@ import 'package:blockie_app/app/modules/hold_verification/models/hold_verificati
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
+part 'hold_verification_controller_router.dart';
+
 class HoldVerificationController extends GetxController {
   final ProjectsManagementRepository repository;
 
@@ -35,14 +37,14 @@ class HoldVerificationController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getHoldVerificationDetails();
+            getHoldVerificationDetails();
           },
         ),
       ),
     );
   }
 
-  void _getHoldVerificationDetails() async {
+  void getHoldVerificationDetails() async {
     holdVerificationDetails.value = await repository.getHoldVerificationDetails(
         id: id, qrCode: qrCode.value ?? '');
   }

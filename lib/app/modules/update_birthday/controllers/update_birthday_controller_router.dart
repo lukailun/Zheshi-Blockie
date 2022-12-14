@@ -1,5 +1,3 @@
 part of 'update_birthday_controller.dart';
 
-extension UpdateBirthdayControllerRouter on UpdateBirthdayController {
-
-}
+extension UpdateBirthdayControllerRouter on UpdateBirthdayController {}

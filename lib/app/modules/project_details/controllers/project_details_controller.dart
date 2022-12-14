@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html' as html;
 
 // Package imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:get/get.dart';
 
 // Project imports:

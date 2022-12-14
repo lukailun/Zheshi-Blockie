@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:
@@ -86,7 +87,11 @@ class ShareView extends GetView<ShareController> {
                 blurColor: const Color(0x10FFFFFF),
                 colorOpacity: 0.05,
                 child: Center(
-                  child: Text(controller.isVideo ? '点此复制链接，到默认浏览器下载' : '长按图片保存')
+                  child: Text(controller.isVideo
+                          ? (controller.isShowingWechatMiniProgramQrCode.value
+                              ? '点此查看视频'
+                              : '点此显示下载二维码')
+                          : '长按图片保存')
                       .textColor(Colors.white)
                       .fontSize(14)
                       .fontWeight(FontWeightCompat.regular),
@@ -107,18 +112,28 @@ class ShareView extends GetView<ShareController> {
                 Expanded(
                   child: Center(
                     child: controller.isVideo
-                        ? HtmlVideo(
-                            url: controller
-                                    .items[controller.selectedIndex.value]
-                                    .video
-                                    ?.url ??
-                                '',
-                            posterUrl: controller
-                                    .items[controller.selectedIndex.value]
-                                    .video
-                                    ?.posterUrl ??
-                                '',
-                          ).paddingAll(30)
+                        ? (controller.isShowingWechatMiniProgramQrCode.value
+                                ? AspectRatio(
+                                    aspectRatio: 1,
+                                    child: HtmlImage(
+                                        url:
+                                            'data:image/jpg;base64,${controller.videoDownloadBase64String.value ?? ''}'),
+                                  )
+                                : HtmlVideo(
+                                    url: controller
+                                            .items[
+                                                controller.selectedIndex.value]
+                                            .video
+                                            ?.url ??
+                                        '',
+                                    posterUrl: controller
+                                            .items[
+                                                controller.selectedIndex.value]
+                                            .video
+                                            ?.posterUrl ??
+                                        '',
+                                  ))
+                            .paddingAll(30)
                         : HtmlImage(
                                 url: controller
                                     .items[controller.selectedIndex.value]

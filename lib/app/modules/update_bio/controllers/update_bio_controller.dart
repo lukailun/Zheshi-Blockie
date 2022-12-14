@@ -6,6 +6,8 @@ import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
+part 'update_bio_controller_router.dart';
+
 class UpdateBioController extends GetxController {
   final AccountRepository accountRepository;
   final initialBio = (AuthService.to.userInfo.value?.bio ?? '').obs;

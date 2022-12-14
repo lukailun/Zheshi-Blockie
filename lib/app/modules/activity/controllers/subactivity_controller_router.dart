@@ -3,14 +3,14 @@ part of 'subactivity_controller.dart';
 extension SubactivityControllerRouter on SubactivityController {
   void goToProjectDetails(String id) async {
     final parameters = {ProjectDetailsParameter.id: id};
-    await Get.toNamed(Routes.projectDetails, parameters: parameters);
+    await AppRouter.toNamed(Routes.projectDetails, parameters: parameters);
     getSubactivity();
   }
 
   void goToProfile() async {
     final userValue = AuthService.to.userInfo.value;
     final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    await Get.toNamed(Routes.profile, parameters: parameters);
+    await AppRouter.toNamed(Routes.profile, parameters: parameters);
     getSubactivity();
   }
 
@@ -59,7 +59,7 @@ extension SubactivityControllerRouter on SubactivityController {
 
   void goToRegistrationInfo(String id) async {
     final parameters = {RegistrationInfoParameter.id: id};
-    await Get.toNamed(Routes.registrationInfo, parameters: parameters);
+    await AppRouter.toNamed(Routes.registrationInfo, parameters: parameters);
     getSubactivity();
   }
 
@@ -73,7 +73,7 @@ extension SubactivityControllerRouter on SubactivityController {
       buttonOnTap: () {
         Get.back();
         final parameters = {NftDetailsParameter.id: nftDetails.id};
-        Get.toNamed(Routes.nftDetails, parameters: parameters);
+        AppRouter.toNamed(Routes.nftDetails, parameters: parameters);
       },
     );
   }

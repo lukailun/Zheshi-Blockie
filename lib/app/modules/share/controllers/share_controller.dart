@@ -11,8 +11,8 @@ import 'package:blockie_app/app/modules/share/models/share_info.dart';
 import 'package:blockie_app/app/modules/share/models/share_info_item.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/utils/clipboard_utils.dart';
-import 'package:blockie_app/widgets/message_toast.dart';
+
+part 'share_controller_router.dart';
 
 class ShareController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -27,6 +27,8 @@ class ShareController extends GetxController
   final items = <ShareInfoItem>[].obs;
   final selectedIndex = 0.obs;
   final shareInfo = Rxn<ShareInfo>();
+  final isShowingWechatMiniProgramQrCode = false.obs;
+  final videoDownloadBase64String = Rxn<String>();
   TabController? tabController;
 
   final id = Get.parameters[ShareParameter.id] ?? '';
@@ -50,9 +52,8 @@ class ShareController extends GetxController
     if (!isVideo) {
       return;
     }
-    final videoUrl = shareInfo.value?.video?.url ?? '';
-    final copySuccess = ClipboardUtils.copyToClipboard(videoUrl);
-    MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
+    isShowingWechatMiniProgramQrCode.value =
+        !isShowingWechatMiniProgramQrCode.value;
   }
 
   void getProjectDetailsShareInfo() async {
@@ -71,7 +72,8 @@ class ShareController extends GetxController
     if (items.value.where((it) => it.id == ShareType.videoId).isEmpty) {
       return;
     }
-    final code = await commonRepository.getWechatMiniProgramCode('15nxaqKxB0');
+    final code = await commonRepository.getWechatMiniProgramCode(id);
+    videoDownloadBase64String.value = code?.base64String;
   }
 
   void setupTabBars() {

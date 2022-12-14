@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -13,6 +14,8 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
+
+part 'activities_controller_router.dart';
 
 class ActivitiesController extends GetxController {
   final AccountRepository accountRepository;
@@ -38,35 +41,12 @@ class ActivitiesController extends GetxController {
     activities.value = paginatedActivities?.activities;
   }
 
-  void goToActivity(GetDelegate delegate, String id) {
-    final parameters = {ActivityParameter.id: id};
-    Get.toNamed(Routes.activity, parameters: parameters);
-  }
-
-  void goToBrandDetails(String id) {
-    final parameters = {BrandDetailsParameter.id: id};
-    Get.toNamed(Routes.brand, parameters: parameters);
-  }
-
   void avatarOnTap() {
     final userValue = user.value;
     if (userValue == null) {
-      return _showLicenseDialog();
+      return showLicenseDialog();
     }
     goToProfile();
-  }
-
-  void goToProfile() {
-    final userValue = user.value;
-    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    Get.toNamed(Routes.profile, parameters: parameters);
-  }
-
-  void _showLicenseDialog() {
-    Get.licenseDialog(onLoginSuccess: () {
-      MessageToast.showMessage("登录成功");
-      getUserInfo();
-    });
   }
 
   void getUserInfo() async {

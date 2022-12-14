@@ -6,6 +6,8 @@ import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
 
+part 'update_username_controller_router.dart';
+
 class UpdateUsernameController extends GetxController {
   final AccountRepository accountRepository;
   final initialName = (AuthService.to.userInfo.value?.username ?? "").obs;

@@ -14,7 +14,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   void goToProfile() async {
     final userValue = AuthService.to.userInfo.value;
     final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    await Get.toNamed(Routes.profile, parameters: parameters);
+    await AppRouter.toNamed(Routes.profile, parameters: parameters);
     isDefaultConfig = false;
   }
 
@@ -24,25 +24,25 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
       GalleryParameter.imageUrls:
           jsonEncode(projectDetails.value?.imageUrls ?? []),
     };
-    await Get.toNamed(Routes.gallery, parameters: parameters);
+    await AppRouter.toNamed(Routes.gallery, parameters: parameters);
     isDefaultConfig = false;
   }
 
   void goToBrandDetails(String id) async {
     final parameters = {BrandDetailsParameter.id: id};
-    await Get.toNamed(Routes.brand, parameters: parameters);
+    await AppRouter.toNamed(Routes.brand, parameters: parameters);
     isDefaultConfig = false;
   }
 
   void goToShare() async {
     final parameters = {ShareParameter.id: id, ShareParameter.isNft: 'false'};
-    await Get.toNamed(Routes.share, parameters: parameters);
+    await AppRouter.toNamed(Routes.share, parameters: parameters);
     isDefaultConfig = false;
   }
 
   void goToWebView({required String url}) async {
     final parameters = {WebViewParameter.url: url};
-    await Get.toNamed(Routes.webView, parameters: parameters);
+    await AppRouter.toNamed(Routes.webView, parameters: parameters);
     isDefaultConfig = false;
   }
 
@@ -86,7 +86,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
       buttonOnTap: () {
         Get.back();
         final parameters = {NftDetailsParameter.id: nftDetails.id};
-        Get.toNamed(Routes.nftDetails, parameters: parameters);
+        AppRouter.toNamed(Routes.nftDetails, parameters: parameters);
         isDefaultConfig = false;
       },
     );

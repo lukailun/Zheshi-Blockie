@@ -9,6 +9,8 @@ import 'package:blockie_app/app/modules/ticket_checking/models/ticket_checking_d
 import 'package:blockie_app/data/repositories/projects_management_repository.dart';
 import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
 
+part 'ticket_checking_controller_router.dart';
+
 class TicketCheckingController extends GetxController {
   final ProjectsManagementRepository repository;
 
@@ -71,14 +73,14 @@ class TicketCheckingController extends GetxController {
         success: js.allowInterop(
           (result) {
             qrCode.value = result.resultStr;
-            _getTicketCheckingDetails();
+            getTicketCheckingDetails();
           },
         ),
       ),
     );
   }
 
-  void _getTicketCheckingDetails() async {
+  void getTicketCheckingDetails() async {
     ticketCheckingDetails.value = await repository.getTicketCheckingDetails(
         id: id, qrCode: qrCode.value ?? '');
   }

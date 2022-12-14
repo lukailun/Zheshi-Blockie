@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -101,11 +102,21 @@ class BasicElevatedButton extends StatelessWidget {
                     ),
                   ).paddingOnly(right: 15),
                 ),
-                Text(title)
-                    .withoutUnderLine()
-                    .textColor(textColor)
-                    .fontWeight(FontWeightCompat.semiBold)
-                    .fontSize(textFontSize),
+                Expanded(
+                  child: AutoSizeText(
+                    title,
+                    style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeightCompat.semiBold,
+                      decoration: TextDecoration.none,
+                      fontSize: textFontSize,
+                    ),
+                    maxLines: 1,
+                    minFontSize: 8,
+                    maxFontSize: textFontSize,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             ),
           ).paddingSymmetric(

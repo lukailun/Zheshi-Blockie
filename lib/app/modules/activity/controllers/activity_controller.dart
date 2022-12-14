@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -19,6 +20,8 @@ import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/license_dialog.dart';
 import 'package:blockie_app/widgets/message_toast.dart';
+
+part 'activity_controller_router.dart';
 
 class ActivityController extends GetxController
     with GetSingleTickerProviderStateMixin, WechatShareable {
@@ -50,13 +53,6 @@ class ActivityController extends GetxController
     wechatReadyStream = null;
   }
 
-  void showLicenseDialog() {
-    Get.licenseDialog(onLoginSuccess: () {
-      MessageToast.showMessage("登录成功");
-      getUserInfo();
-    });
-  }
-
   void getUserInfo() async {
     if ((DataStorage.getToken() ?? '').isNotEmpty) {
       final user = await accountRepository.getUserInfo();
@@ -66,26 +62,6 @@ class ActivityController extends GetxController
       AuthService.to.userInfo.value = null;
       AuthService.to.logout();
     }
-  }
-
-  void goToRegistrationInfo(String activityId) async {
-    final parameters = {
-      RegistrationInfoParameter.id: activityId,
-    };
-    await Get.toNamed(Routes.registrationInfo, parameters: parameters);
-    getActivity();
-  }
-
-  void goToProjectDetails(String id) async {
-    final parameters = {ProjectDetailsParameter.id: id};
-    await Get.toNamed(Routes.projectDetails, parameters: parameters);
-    getActivity();
-  }
-
-  void goToBrandDetails(String id) async {
-    final parameters = {BrandDetailsParameter.id: id};
-    await Get.toNamed(Routes.brand, parameters: parameters);
-    getActivity();
   }
 
   void getActivity() async {

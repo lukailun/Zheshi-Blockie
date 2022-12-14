@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:
+import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -29,19 +30,19 @@ extension GetDialogExtension on GetInterface {
           final parameters = {
             WebViewParameter.url: BlockieUrlBuilder.buildTermsOfServiceUrl()
           };
-          Get.toNamed(Routes.webView, parameters: parameters);
+          AppRouter.toNamed(Routes.webView, parameters: parameters);
         },
         onPrivacyPolicyTap: () {
           final parameters = {
             WebViewParameter.url: BlockieUrlBuilder.buildPrivacyPolicyUrl(),
           };
-          Get.toNamed(Routes.webView, parameters: parameters);
+          AppRouter.toNamed(Routes.webView, parameters: parameters);
         },
         onPositiveButtonTap: () {
-          Get.back();
+          AppRouter.back();
           Get.loginDialog(onLoginSuccess: onLoginSuccess);
         },
-        onNegativeButtonTap: () => Get.back(),
+        onNegativeButtonTap: () => AppRouter.back(),
       ),
       barrierColor: AppThemeData.barrierColor,
     );

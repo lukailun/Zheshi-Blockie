@@ -2,7 +2,7 @@ part of 'profile_controller.dart';
 
 extension ProfileControllerRouter on ProfileController {
   void goToEditUserInfo() {
-    Get.toNamed(Routes.editUserInfo);
+    AppRouter.toNamed(Routes.editUserInfo);
   }
 
   void goToProjects() {
@@ -10,12 +10,12 @@ extension ProfileControllerRouter on ProfileController {
   }
 
   void goToSettings() {
-    Get.toNamed(Routes.settings);
+    AppRouter.toNamed(Routes.settings);
   }
 
   void goToNftDetails(String id) {
     final parameters = {NftDetailsParameter.id: id};
-    Get.toNamed(Routes.nftDetails, parameters: parameters);
+    AppRouter.toNamed(Routes.nftDetails, parameters: parameters);
   }
 
   void openQrCodeDialog() {
