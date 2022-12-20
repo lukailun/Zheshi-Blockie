@@ -39,6 +39,8 @@ part 'blockie_api_account.dart';
 
 part 'blockie_api_common.dart';
 
+part 'blockie_api_finance.dart';
+
 part 'blockie_api_profile.dart';
 
 part 'blockie_api_project.dart';

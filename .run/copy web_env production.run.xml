@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="copy web_env production" type="ShConfigurationType">
+  <configuration default="false" name="Windows: copy web_env production" type="ShConfigurationType">
     <option name="SCRIPT_TEXT" value="" />
-    <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
+    <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="$PROJECT_DIR$/copy_web_env.cmd" />
     <option name="SCRIPT_OPTIONS" value="production" />
     <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
     <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    <option name="INDEPENDENT_INTERPRETER_PATH" value="false" />
+    <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
     <option name="INTERPRETER_PATH" value="C:/Windows/System32/cmd.exe" />
     <option name="INTERPRETER_OPTIONS" value="/C" />
     <option name="EXECUTE_IN_TERMINAL" value="true" />

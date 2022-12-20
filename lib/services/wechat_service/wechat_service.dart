@@ -56,8 +56,8 @@ class WechatService extends GetxService {
     final description = WechatShareSource.defaults.getDescription();
     final link = html.window.location.href.split("#").first;
     final imageUrl = WechatShareSource.defaults.getImageUrl();
-    _config ??=
-        await commonRepository.getWechatConfig(link, wechatSupportedApis);
+    _config ??= await commonRepository.getWechatConfig(
+        link, wechatSupportedApis, wechatSupportedOpenTags);
     if (_config == null) {
       return;
     }
@@ -70,6 +70,7 @@ class WechatService extends GetxService {
         nonceStr: config.nonceString,
         signature: config.signature,
         jsApiList: wechatSupportedApis,
+        openTagList: wechatSupportedOpenTags,
       ),
     );
     wechatReady(

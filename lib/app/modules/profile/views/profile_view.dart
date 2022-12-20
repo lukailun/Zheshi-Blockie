@@ -15,7 +15,6 @@ import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
-import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/ellipsized_text.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
@@ -31,12 +30,24 @@ class ProfileView extends GetView<ProfileController> {
           backButtonOnTap: controller.goToProjects,
           actionItems: [
             AppBarButtonItem(
-              assetName: 'assets/images/app_bar/qr_code.png',
-              onTap: controller.openQrCodeDialog,
-            ),
-            AppBarButtonItem(
-              assetName: 'assets/images/app_bar/settings.png',
-              onTap: controller.goToSettings,
+              assetName: "assets/images/app_bar/menu.png",
+              items: [
+                AppBarButtonItem(
+                  title: '设置',
+                  assetName: "assets/images/app_bar/settings.png",
+                  onTap: controller.goToSettings,
+                ),
+                AppBarButtonItem(
+                  title: '我的二维码',
+                  assetName: "assets/images/app_bar/qr_code.png",
+                  onTap: controller.openQrCodeDialog,
+                ),
+                AppBarButtonItem(
+                  title: '我的订单',
+                  assetName: "assets/images/app_bar/order.png",
+                  onTap: controller.goToOrders,
+                ),
+              ],
             ),
           ],
         ),

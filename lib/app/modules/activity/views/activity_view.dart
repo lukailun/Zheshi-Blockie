@@ -9,12 +9,9 @@ import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/activity/controllers/activity_controller.dart';
 import 'package:blockie_app/app/modules/activity/models/activity.dart';
 import 'package:blockie_app/app/modules/activity/views/subactivity_view.dart';
-import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 
@@ -23,54 +20,50 @@ class ActivityContainerView extends GetView<ActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    final showsBack = Get.routing.previous.isNotEmpty;
-    final menuItems = [
-      AppBarButtonItem(
-        title: '首页',
-        assetName: "assets/images/app_bar/home.png",
-        onTap: () => Get.offAllNamed(Routes.activities),
-      ),
-      AppBarButtonItem(
-        title: '我的',
-        assetName: "assets/images/app_bar/user.png",
-        onTap: () {
-          final parameters = {
-            ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
-          };
-          Get.offNamed(Routes.profile, parameters: parameters);
-        },
-      ),
-    ];
     return Obx(
-      () => Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        appBar: BasicAppBar(
-          showsLogo: !showsBack,
-          paddingTop: 0,
-          title: showsBack && !controller.headerIsExpanded.value
-              ? controller.activity.value?.name
-              : null,
+      () {
+        final showsBack = Get.routing.previous.isNotEmpty;
+        return Scaffold(
           backgroundColor: AppThemeData.primaryColor,
-          actionItems: [
-            AppBarButtonItem(
-              assetName: "assets/images/app_bar/menu.png",
-              items: menuItems,
-            ),
-          ],
-        ),
-        body: () {
-          final activityValue = controller.activity.value;
-          if (activityValue == null) {
-            return const LoadingIndicator();
-          } else {
-            return _ActivityView(
-              activity: activityValue,
-              controller: controller,
-              issuerOnTap: controller.goToBrandDetails,
-            );
-          }
-        }(),
-      ),
+          appBar: BasicAppBar(
+            showsLogo: !showsBack,
+            paddingTop: 0,
+            title: showsBack && !controller.headerIsExpanded.value
+                ? controller.activity.value?.name
+                : null,
+            backgroundColor: AppThemeData.primaryColor,
+            actionItems: [
+              AppBarButtonItem(
+                assetName: "assets/images/app_bar/menu.png",
+                items: [
+                  AppBarButtonItem(
+                    title: '首页',
+                    assetName: "assets/images/app_bar/home.png",
+                    onTap: controller.goToActivities,
+                  ),
+                  AppBarButtonItem(
+                    title: '我的',
+                    assetName: "assets/images/app_bar/user.png",
+                    onTap: controller.goToProfile,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: () {
+            final activityValue = controller.activity.value;
+            if (activityValue == null) {
+              return const LoadingIndicator();
+            } else {
+              return _ActivityView(
+                activity: activityValue,
+                controller: controller,
+                issuerOnTap: controller.goToBrandDetails,
+              );
+            }
+          }(),
+        );
+      },
     );
   }
 }

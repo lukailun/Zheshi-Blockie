@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 

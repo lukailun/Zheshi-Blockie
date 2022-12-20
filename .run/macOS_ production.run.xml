@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="macOS: production" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="additionalArgs" value="--dart-define ENV_FILE_NAME=env/production.env" />
+    <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="macOS: copy web_env production" run_configuration_type="ShConfigurationType" />
+    </method>
+  </configuration>
+</component>

@@ -130,7 +130,7 @@ class BasicPopupMenuButtonState extends State<BasicPopupMenuButton> {
                       Material(
                         color: Colors.transparent,
                         child: Container(
-                          width: 132,
+                          width: 138,
                           decoration: BoxDecoration(
                             color: widget.arrowColor,
                             borderRadius:

@@ -13,6 +13,9 @@ WechatConfig _$WechatConfigFromJson(Map<String, dynamic> json) => WechatConfig(
       signature: json['signature'] as String,
       apis:
           (json['jsApiList'] as List<dynamic>).map((e) => e as String).toList(),
+      openTags: (json['openTagList'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       isDebug: json['debug'] as bool,
     );
 
@@ -23,5 +26,6 @@ Map<String, dynamic> _$WechatConfigToJson(WechatConfig instance) =>
       'timestamp': instance.timestamp,
       'signature': instance.signature,
       'jsApiList': instance.apis,
+      'openTagList': instance.openTags,
       'debug': instance.isDebug,
     };

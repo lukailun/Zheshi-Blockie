@@ -13,6 +13,10 @@ extension ProfileControllerRouter on ProfileController {
     AppRouter.toNamed(Routes.settings);
   }
 
+  void goToOrders() {
+    AppRouter.toNamed(Routes.orders);
+  }
+
   void goToNftDetails(String id) {
     final parameters = {NftDetailsParameter.id: id};
     AppRouter.toNamed(Routes.nftDetails, parameters: parameters);

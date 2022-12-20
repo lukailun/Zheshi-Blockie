@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "development",
+      "type": "dart",
+      "request": "launch",
+      "args": [
+        "--dart-define ENV_FILE_NAME=env/development.env"
+      ]
+    },
+    {
+      "name": "production",
+      "type": "dart",
+      "request": "launch",
+      "args": [
+        "--dart-define ENV_FILE_NAME=env/production.env"
+      ]
+    }
+  ]
+}

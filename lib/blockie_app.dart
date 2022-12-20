@@ -2,6 +2,7 @@
 import 'dart:math';
 
 // Flutter imports:
+import 'package:blockie_app/data/repositories/finance_repository.dart';
 import 'package:blockie_app/widgets/hide_keyboard_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,7 @@ import 'package:blockie_app/services/debug_service.dart';
 class BlockieApp extends StatelessWidget {
   final AccountRepository accountRepository;
   final CommonRepository commonRepository;
+  final FinanceRepository financeRepository;
   final ProfileRepository profileRepository;
   final ProjectRepository projectRepository;
   final ProjectsManagementRepository projectsManagementRepository;
@@ -32,6 +34,7 @@ class BlockieApp extends StatelessWidget {
     super.key,
     required this.accountRepository,
     required this.commonRepository,
+    required this.financeRepository,
     required this.profileRepository,
     required this.projectRepository,
     required this.projectsManagementRepository,
@@ -54,6 +57,7 @@ class BlockieApp extends StatelessWidget {
               getPages: AppPages(
                 accountRepository: accountRepository,
                 commonRepository: commonRepository,
+                financeRepository: financeRepository,
                 profileRepository: profileRepository,
                 projectRepository: projectRepository,
                 projectsManagementRepository: projectsManagementRepository,

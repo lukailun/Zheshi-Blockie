@@ -5,18 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/models/project_details.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_cover_view.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_footer_view.dart';
-import 'package:blockie_app/app/routes/app_pages.dart';
 import 'package:blockie_app/data/models/app_bar_button_item.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/data/models/mint_status.dart';
 import 'package:blockie_app/data/models/nft_paster_type.dart';
 import 'package:blockie_app/extensions/extensions.dart';
-import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
 import 'package:blockie_app/widgets/basic_details_card.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
@@ -26,61 +23,57 @@ class ProjectDetailsContainerView extends GetView<ProjectDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final menuItems = [
-      AppBarButtonItem(
-        title: '首页',
-        assetName: "assets/images/app_bar/home.png",
-        onTap: () => Get.offAllNamed(Routes.activities),
-      ),
-      AppBarButtonItem(
-        title: '我的',
-        assetName: "assets/images/app_bar/user.png",
-        onTap: () {
-          final parameters = {
-            ProfileParameter.id: AuthService.to.userInfo.value?.id ?? "",
-          };
-          Get.offNamed(Routes.profile, parameters: parameters);
-        },
-      ),
-      AppBarButtonItem(
-        title: '活动规则',
-        assetName: "assets/images/app_bar/info.png",
-        onTap: controller.goToActivity,
-      ),
-    ];
     return Obx(
-      () => Scaffold(
-        backgroundColor: AppThemeData.primaryColor,
-        extendBodyBehindAppBar: true,
-        appBar: BasicAppBar(
-          actionItems: [
-            AppBarButtonItem(
-              assetName: "assets/images/app_bar/share.png",
-              onTap: controller.goToShare,
-            ),
-            AppBarButtonItem(
-              assetName: "assets/images/app_bar/menu.png",
-              items: menuItems,
-            ),
-          ],
-        ),
-        body: () {
-          final projectDetails = controller.projectDetails.value;
-          if (projectDetails == null) {
-            return const LoadingIndicator();
-          } else {
-            return _ProjectDetailsView(
-              projectDetails: projectDetails,
-              mintStatus: controller.mintStatus.value,
-              galleryOnTap: controller.goToGallery,
-              brandOnTap: controller.goToBrandDetails,
-              hintOnTap: controller.openHintDialog,
-              mintButtonOnTap: () =>
-                  controller.prepareToMint(projectDetails.id),
-            );
-          }
-        }(),
-      ),
+      () {
+        return Scaffold(
+          backgroundColor: AppThemeData.primaryColor,
+          extendBodyBehindAppBar: true,
+          appBar: BasicAppBar(
+            actionItems: [
+              AppBarButtonItem(
+                assetName: "assets/images/app_bar/share.png",
+                onTap: controller.goToShare,
+              ),
+              AppBarButtonItem(
+                assetName: "assets/images/app_bar/menu.png",
+                items: [
+                  AppBarButtonItem(
+                    title: '首页',
+                    assetName: "assets/images/app_bar/home.png",
+                    onTap: controller.goToActivities,
+                  ),
+                  AppBarButtonItem(
+                    title: '我的',
+                    assetName: "assets/images/app_bar/user.png",
+                    onTap: controller.goToProfile,
+                  ),
+                  AppBarButtonItem(
+                    title: '活动规则',
+                    assetName: "assets/images/app_bar/info.png",
+                    onTap: controller.goToActivity,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: () {
+            final projectDetails = controller.projectDetails.value;
+            if (projectDetails == null) {
+              return const LoadingIndicator();
+            } else {
+              return _ProjectDetailsView(
+                projectDetails: projectDetails,
+                mintStatus: controller.mintStatus.value,
+                galleryOnTap: controller.goToGallery,
+                brandOnTap: controller.goToBrandDetails,
+                hintOnTap: controller.openHintDialog,
+                mintButtonOnTap: () =>
+                    controller.prepareToMint(projectDetails.id),
+              );
+            }
+          }(),
+        );
+      },
     );
   }
 }

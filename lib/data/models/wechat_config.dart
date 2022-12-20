@@ -15,6 +15,8 @@ class WechatConfig {
   String signature;
   @JsonKey(name: 'jsApiList')
   List<String> apis;
+  @JsonKey(name: 'openTagList')
+  List<String> openTags;
   @JsonKey(name: 'debug')
   bool isDebug;
 
@@ -24,6 +26,7 @@ class WechatConfig {
     required this.timestamp,
     required this.signature,
     required this.apis,
+    required this.openTags,
     required this.isDebug,
   });
 

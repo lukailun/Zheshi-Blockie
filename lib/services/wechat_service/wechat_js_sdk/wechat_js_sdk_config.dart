@@ -18,6 +18,8 @@ class WechatConfigParams {
 
   external List<String> get jsApiList;
 
+  external List<String> get openTagList;
+
   external factory WechatConfigParams({
     bool debug,
     String appId,
@@ -25,5 +27,6 @@ class WechatConfigParams {
     String nonceStr,
     String signature,
     List<String> jsApiList,
+    List<String> openTagList,
   });
 }

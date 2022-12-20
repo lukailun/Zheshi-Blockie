@@ -10,8 +10,8 @@ class CommonRepository {
   CommonRepository({required this.remoteApi});
 
   Future<WechatConfig?> getWechatConfig(
-          String supportedUrl, List<String> apis) =>
-      remoteApi.getWechatConfig(supportedUrl, apis);
+          String supportedUrl, List<String> apis, List<String> openTags) =>
+      remoteApi.getWechatConfig(supportedUrl, apis, openTags);
 
   Future<ReverseAddress?> reverseAddressLookup(
           String latitude, String longitude) =>

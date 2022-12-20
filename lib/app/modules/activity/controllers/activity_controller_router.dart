@@ -1,6 +1,16 @@
 part of 'activity_controller.dart';
 
 extension ActivityControllerRouter on ActivityController {
+  void goToActivities() {
+    Get.offAllNamed(Routes.activities);
+  }
+
+  void goToProfile() {
+    final userValue = AuthService.to.userInfo.value;
+    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
+    Get.offNamed(Routes.profile, parameters: parameters);
+  }
+
   void showLicenseDialog() {
     Get.licenseDialog(onLoginSuccess: () {
       MessageToast.showMessage("登录成功");

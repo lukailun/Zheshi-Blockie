@@ -29,4 +29,5 @@ abstract class Routes {
   static const editUserInfo = '/edit_user_info';
   static const share = '/share';
   static const developerMode = '/developer_mode';
+  static const orders = '/orders';
 }

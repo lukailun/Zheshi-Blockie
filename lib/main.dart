@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/data/repositories/finance_repository.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -27,6 +28,7 @@ void main() async {
   final remoteApi = BlockieApi(userTokenSupplier: () => DataStorage.getToken());
   final accountRepository = AccountRepository(remoteApi: remoteApi);
   final commonRepository = CommonRepository(remoteApi: remoteApi);
+  final financeRepository = FinanceRepository(remoteApi: remoteApi);
   final profileRepository = ProfileRepository(remoteApi: remoteApi);
   final projectRepository = ProjectRepository(remoteApi: remoteApi);
   final projectsManagementRepository =
@@ -34,6 +36,7 @@ void main() async {
   _initServices(
     accountRepository: accountRepository,
     commonRepository: commonRepository,
+    financeRepository: financeRepository,
     profileRepository: profileRepository,
     projectRepository: projectRepository,
     projectsManagementRepository: projectsManagementRepository,
@@ -42,6 +45,7 @@ void main() async {
     BlockieApp(
       accountRepository: accountRepository,
       commonRepository: commonRepository,
+      financeRepository: financeRepository,
       profileRepository: profileRepository,
       projectRepository: projectRepository,
       projectsManagementRepository: projectsManagementRepository,
@@ -52,6 +56,7 @@ void main() async {
 void _initServices({
   required AccountRepository accountRepository,
   required CommonRepository commonRepository,
+  required FinanceRepository financeRepository,
   required ProfileRepository profileRepository,
   required ProjectRepository projectRepository,
   required ProjectsManagementRepository projectsManagementRepository,

@@ -1,4 +1,7 @@
 // Package imports:
+import 'package:blockie_app/app/modules/orders/bindings/orders_binding.dart';
+import 'package:blockie_app/app/modules/orders/views/orders_view.dart';
+import 'package:blockie_app/data/repositories/finance_repository.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -67,6 +70,7 @@ part 'app_routes.dart';
 class AppPages {
   final AccountRepository accountRepository;
   final CommonRepository commonRepository;
+  final FinanceRepository financeRepository;
   final ProfileRepository profileRepository;
   final ProjectRepository projectRepository;
   final ProjectsManagementRepository projectsManagementRepository;
@@ -74,6 +78,7 @@ class AppPages {
   AppPages({
     required this.accountRepository,
     required this.commonRepository,
+    required this.financeRepository,
     required this.profileRepository,
     required this.projectRepository,
     required this.projectsManagementRepository,
@@ -244,6 +249,11 @@ class AppPages {
           name: Routes.developerMode,
           page: () => const DeveloperModeView(),
           binding: DeveloperModeBinding(),
+        ),
+        GetPage(
+          name: Routes.orders,
+          page: () => const OrdersView(),
+          binding: OrdersBinding(),
         ),
       ];
 }

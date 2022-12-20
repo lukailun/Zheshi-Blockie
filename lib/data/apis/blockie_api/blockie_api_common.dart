@@ -2,10 +2,17 @@ part of 'blockie_api.dart';
 
 extension BlockieApiCommon on BlockieApi {
   Future<WechatConfig?> getWechatConfig(
-      String supportedUrl, List<String> apis) async {
+    String supportedUrl,
+    List<String> apis,
+    List<String> openTags,
+  ) async {
     try {
       final url = _urlBuilder.buildGetWechatConfigUrl();
-      final requestData = {'url': supportedUrl, 'api_list': apis};
+      final requestData = {
+        'url': supportedUrl,
+        'api_list': apis,
+        'open_tag_list': openTags,
+      };
       final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final config = WechatConfig.fromJson(object);

@@ -1,6 +1,10 @@
 part of 'project_details_controller.dart';
 
 extension ProjectDetailsControllerRouter on ProjectDetailsController {
+  void goToActivities() {
+    Get.offAllNamed(Routes.activities);
+  }
+
   void goToActivity() {
     if (Get.routing.previous.contains(Routes.activity)) {
       return Get.back();
@@ -11,11 +15,10 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
     Get.offAndToNamed(Routes.activity, parameters: parameters);
   }
 
-  void goToProfile() async {
+  void goToProfile() {
     final userValue = AuthService.to.userInfo.value;
     final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    await AppRouter.toNamed(Routes.profile, parameters: parameters);
-    isDefaultConfig = false;
+    Get.offNamed(Routes.profile, parameters: parameters);
   }
 
   void goToGallery(int index) async {
