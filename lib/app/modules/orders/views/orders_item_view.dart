@@ -69,9 +69,41 @@ class OrdersItemView extends StatelessWidget {
         .paddingOnly(right: 4)
         .paddingOnly(top: 4);
     final test = ['3V3 女子赛报名门票', '纪念飞盘'];
-    final goods = test.map((it) {
-      return Column();
-    });
+    final goods = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: test.map((it) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(it).fontSize(12).textColor(Colors.white),
+                ),
+                Text('¥ 220')
+                    .fontSize(14)
+                    .fontWeight(FontWeightCompat.bold)
+                    .textColor(Colors.white)
+              ],
+            ),
+            Text('× 1').fontSize(10).textColor(const Color(0x99FFFFFF)),
+          ],
+        ).paddingOnly(top: 2, bottom: 8);
+      }).toList(),
+    );
+    final totalAmount = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Text('共 2 件').fontSize(10).textColor(const Color(0x99FFFFFF)),
+        ),
+        Text('¥ 220')
+            .fontSize(14)
+            .fontWeight(FontWeightCompat.bold)
+            .textColor(Colors.white),
+      ],
+    ).paddingOnly(top: 8, bottom: 16);
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.translucent,
@@ -81,6 +113,8 @@ class OrdersItemView extends StatelessWidget {
           title,
           location,
           time,
+          goods,
+          totalAmount,
         ],
       ).paddingSymmetric(horizontal: 20).outlined(),
     );
