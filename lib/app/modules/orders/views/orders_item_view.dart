@@ -66,7 +66,6 @@ class OrdersItemView extends StatelessWidget {
     )
         .fontSize(10)
         .textColor(const Color(0x80FFFFFF))
-        .paddingOnly(right: 4)
         .paddingOnly(top: 4);
     final test = ['3V3 女子赛报名门票', '纪念飞盘'];
     final goods = Column(
