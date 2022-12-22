@@ -1,7 +1,9 @@
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_elevated_button.dart';
 import 'package:blockie_app/widgets/basic_icon_button.dart';
+import 'package:blockie_app/widgets/blur.dart';
 import 'package:blockie_app/widgets/expand_tap_area.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
@@ -140,23 +142,74 @@ class OrderCreationView extends GetView<OrderCreationController> {
               ).paddingSymmetric(horizontal: 22, vertical: 16);
             }).toList(),
           ).outlined().paddingSymmetric(horizontal: 22);
-          return SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                title,
-                location,
-                time,
-                divider,
-                const Text('票种选择：')
-                    .fontSize(14)
-                    .fontWeight(FontWeightCompat.medium)
-                    .textColor(Colors.white)
-                    .paddingOnly(left: 22, right: 22, top: 35, bottom: 10),
-                goods,
-              ],
-            ),
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 143),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    title,
+                    location,
+                    time,
+                    divider,
+                    const Text('票种选择：')
+                        .fontSize(14)
+                        .fontWeight(FontWeightCompat.medium)
+                        .textColor(Colors.white)
+                        .paddingOnly(left: 22, right: 22, top: 35, bottom: 10),
+                    goods,
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          top: BorderSide(color: Colors.white24, width: 1))),
+                  width: double.infinity,
+                  height: 130,
+                  child: ClipRect(
+                    child: Blur(
+                      blurColor: const Color(0x10FFFFFF),
+                      colorOpacity: 0.05,
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text('合计：')
+                                    .fontSize(16)
+                                    .textColor(Colors.white),
+                                Text('¥ 200')
+                                    .fontSize(24)
+                                    .textColor(Colors.white),
+                              ],
+                            ),
+                            const Spacer(flex: 1),
+                            SizedBox(
+                              width: 150,
+                              height: 48,
+                              child: BasicElevatedButton(
+                                title: '去支付',
+                                borderRadius: 8,
+                                backgroundColor: Colors.white,
+                                textColor: Colors.black,
+                                textFontSize: 16,
+                                onTap: () {},
+                              ),
+                            )
+                          ],
+                        ),
+                      ).paddingSymmetric(horizontal: 22),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         }(),
       ),
