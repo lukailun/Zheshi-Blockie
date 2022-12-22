@@ -1,6 +1,8 @@
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
+import 'package:blockie_app/widgets/basic_icon_button.dart';
+import 'package:blockie_app/widgets/expand_tap_area.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,12 +94,46 @@ class OrderCreationView extends GetView<OrderCreationController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
+                        flex: 2,
                         child: Text('¥ 220')
                             .fontSize(14)
                             .fontWeight(FontWeightCompat.bold)
                             .textColor(Colors.white),
                       ),
-                      Text(it).fontSize(12).textColor(Colors.white)
+                      Expanded(
+                        flex: 3,
+                        child: Text('剩余 21 张')
+                            .fontSize(14)
+                            .textColor(const Color(0x80FFFFFF)),
+                      ),
+                      ExpandTapWidget(
+                        onTap: () {},
+                        tapPadding: const EdgeInsets.all(10),
+                        child: BasicIconButton(
+                          assetName:
+                              'assets/images/order_creation/decrease.png',
+                          size: 16,
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30,
+                        child: Text('1')
+                            .fontSize(14)
+                            .fontWeight(FontWeightCompat.bold)
+                            .textAlignment(TextAlign.center)
+                            .textColor(const Color(0x80FFFFFF)),
+                      ),
+                      ExpandTapWidget(
+                        onTap: () {},
+                        tapPadding: const EdgeInsets.all(10),
+                        child: BasicIconButton(
+                          assetName:
+                              'assets/images/order_creation/increase.png',
+                          size: 16,
+                          onTap: () {},
+                        ),
+                      ),
                     ],
                   ).paddingOnly(top: 10),
                 ],

@@ -51,6 +51,7 @@ flutter:
     - assets/images/app_bar/
     - assets/images/common/
     - assets/images/orders/
+    - assets/images/order_creation/
     - assets/images/profile/
     - assets/images/project_details/
     - assets/images/projects_management/
