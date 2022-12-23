@@ -6,6 +6,7 @@ import 'package:blockie_app/widgets/basic_icon_button.dart';
 import 'package:blockie_app/widgets/blur.dart';
 import 'package:blockie_app/widgets/expand_tap_area.dart';
 import 'package:blockie_app/widgets/loading_indicator.dart';
+import 'package:blockie_app/widgets/order_description.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/order_creation/controllers/order_creation_controller.dart';
@@ -159,6 +160,8 @@ class OrderCreationView extends GetView<OrderCreationController> {
                         .textColor(Colors.white)
                         .paddingOnly(left: 22, right: 22, top: 35, bottom: 10),
                     goods,
+                    OrderDescription(descriptions: [])
+                        .paddingSymmetric(horizontal: 22, vertical: 33),
                   ],
                 ),
               ),
