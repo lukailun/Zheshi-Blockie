@@ -27,6 +27,11 @@ class PlatformInfo {
 
   static bool get isWeb => kIsWeb;
 
+  static bool get isWechatBrowser {
+    final userAgent = html.window.navigator.userAgent.toLowerCase();
+    return userAgent.contains('micromessenger');
+  }
+
   static void _getPlatforms() {
     if (kIsWeb) {
       _getWebPlatforms();
