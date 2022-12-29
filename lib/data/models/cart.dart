@@ -28,11 +28,14 @@ class CartGoods {
   int inventory;
   @JsonKey(name: 'discounted_price')
   double price;
+  @JsonKey(name: 'number')
+  int amount;
 
   CartGoods({
     required this.name,
     required this.inventory,
     required this.price,
+    required this.amount,
   });
 
   factory CartGoods.fromJson(Map<String, dynamic> json) =>
