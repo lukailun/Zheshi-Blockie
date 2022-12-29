@@ -23,6 +23,8 @@ extension SubactivityControllerRouter on SubactivityController {
         return openLicenseDialog();
       case SubactivityStepType.register:
         return goToRegistrationInfo(preview.id);
+      case SubactivityStepType.pay:
+        return goToOrderCreation(preview.id);
       case SubactivityStepType.finish:
       case SubactivityStepType.volunteer:
         return MessageToast.showMessage('系统自动判断是否${step.title}');
@@ -60,6 +62,12 @@ extension SubactivityControllerRouter on SubactivityController {
   void goToRegistrationInfo(String id) async {
     final parameters = {RegistrationInfoParameter.id: id};
     await AppRouter.toNamed(Routes.registrationInfo, parameters: parameters);
+    getSubactivity();
+  }
+
+  void goToOrderCreation(String id) async {
+    final parameters = {OrderCreationParameter.id: id};
+    await AppRouter.toNamed(Routes.orderCreation, parameters: parameters);
     getSubactivity();
   }
 

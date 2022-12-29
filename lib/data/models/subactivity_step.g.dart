@@ -30,4 +30,5 @@ const _$SubactivityStepTypeEnumMap = {
   SubactivityStepType.finish: 'finished_match',
   SubactivityStepType.volunteer: 'volunteer',
   SubactivityStepType.submitToFinish: 'manual_finish',
+  SubactivityStepType.pay: 'paid',
 };

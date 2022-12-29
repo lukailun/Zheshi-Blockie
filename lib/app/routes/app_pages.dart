@@ -1,6 +1,8 @@
 // Package imports:
 import 'package:blockie_app/app/modules/order_creation/bindings/order_creation_binding.dart';
 import 'package:blockie_app/app/modules/order_creation/views/order_creation_view.dart';
+import 'package:blockie_app/app/modules/order_details/bindings/order_details_binding.dart';
+import 'package:blockie_app/app/modules/order_details/views/order_details_view.dart';
 import 'package:blockie_app/app/modules/orders/bindings/orders_binding.dart';
 import 'package:blockie_app/app/modules/orders/views/orders_view.dart';
 import 'package:blockie_app/data/repositories/finance_repository.dart';
@@ -260,7 +262,12 @@ class AppPages {
         GetPage(
           name: Routes.orderCreation,
           page: () => const OrderCreationView(),
-          binding: OrderCreationBinding(),
+          binding: OrderCreationBinding(financeRepository: financeRepository),
+        ),
+        GetPage(
+          name: Routes.orderDetails,
+          page: () => const OrderDetailsView(),
+          binding: OrderDetailsBinding(),
         ),
       ];
 }

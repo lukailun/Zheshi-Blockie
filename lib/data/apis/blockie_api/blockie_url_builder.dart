@@ -97,4 +97,7 @@ class BlockieUrlBuilder {
   String buildGetAllLabelsUrl() => '$_baseUrl/labels';
 
   String buildUpdateLabelsUrl() => '$_baseUrl/labels';
+
+  // Finance
+  String buildGetCartUrl(String id) => '$_baseUrl/activities/$id/cart';
 }

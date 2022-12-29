@@ -173,6 +173,6 @@ extension ProjectDetailsExtension on ProjectDetails {
         BasicDetailsCardItem(title: '已铸造', content: '$mintedAmount'),
         BasicDetailsCardItem(
             title: '合约地址', content: contract, ellipsized: true, copyable: true),
-        const BasicDetailsCardItem(title: '链', content: 'Conflux'),
+        const BasicDetailsCardItem(title: '链', content: 'Conflux 树图区块链'),
       ];
 }

@@ -123,7 +123,7 @@ extension NftDetailsExtension on NftDetails {
           copyable: true,
         ),
         BasicDetailsCardItem(title: 'Token ID', content: unionTokenId),
-        const BasicDetailsCardItem(title: '链', content: 'Conflux'),
+        const BasicDetailsCardItem(title: '链', content: 'Conflux 树图区块链'),
       ];
 }
 

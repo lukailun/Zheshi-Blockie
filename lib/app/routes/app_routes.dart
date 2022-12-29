@@ -31,4 +31,5 @@ abstract class Routes {
   static const developerMode = '/developer_mode';
   static const orders = '/orders';
   static const orderCreation = '/order_creation';
+  static const orderDetails = '/order_details';
 }

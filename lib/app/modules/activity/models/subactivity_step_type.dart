@@ -11,5 +11,7 @@ enum SubactivityStepType {
   @JsonValue('volunteer')
   volunteer,
   @JsonValue('manual_finish')
-  submitToFinish;
+  submitToFinish,
+  @JsonValue('paid')
+  pay;
 }
