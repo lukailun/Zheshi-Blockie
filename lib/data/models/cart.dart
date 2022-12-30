@@ -27,7 +27,7 @@ class CartGoods {
   @JsonKey(name: 'inventory')
   int inventory;
   @JsonKey(name: 'discounted_price')
-  double price;
+  String price;
   @JsonKey(name: 'number')
   int amount;
 

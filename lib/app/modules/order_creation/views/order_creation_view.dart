@@ -21,9 +21,8 @@ class OrderCreationView extends GetView<OrderCreationController> {
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(title: '订单确认'),
         body: () {
-          // final orders = controller.orders.value;
-          final orders = [controller.a.value, 'b', 'c', 'd', 'dd', 'd'];
-          if (orders == null) {
+          final cart = controller.cart.value;
+          if (cart == null) {
             return const LoadingIndicator();
           }
           final title = Text('2022上海市篮球冠军联赛')
@@ -82,14 +81,13 @@ class OrderCreationView extends GetView<OrderCreationController> {
               ],
             ),
           );
-          final test = ['3V3 女子赛报名门票', '纪念飞盘'];
           final goods = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: test.map((it) {
+            children: cart.goods.map((it) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(it)
+                  Text(it.name)
                       .fontSize(14)
                       .fontWeight(FontWeightCompat.mostThick)
                       .textColor(Colors.white),
@@ -98,14 +96,14 @@ class OrderCreationView extends GetView<OrderCreationController> {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text('¥ 220')
+                        child: Text('¥ ${it.price}')
                             .fontSize(14)
                             .fontWeight(FontWeightCompat.bold)
                             .textColor(Colors.white),
                       ),
                       Expanded(
                         flex: 3,
-                        child: Text('剩余 21 张')
+                        child: Text('剩余 ${it.inventory}')
                             .fontSize(14)
                             .textColor(const Color(0x80FFFFFF)),
                       ),
@@ -121,7 +119,7 @@ class OrderCreationView extends GetView<OrderCreationController> {
                       ),
                       SizedBox(
                         width: 30,
-                        child: Text('1')
+                        child: Text('${it.amount}')
                             .fontSize(14)
                             .fontWeight(FontWeightCompat.bold)
                             .textAlignment(TextAlign.center)

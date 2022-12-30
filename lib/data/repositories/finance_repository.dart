@@ -8,4 +8,7 @@ class FinanceRepository {
   FinanceRepository({required this.remoteApi});
 
   Future<Cart?> getCart(String id) => remoteApi.getCart(id);
+
+  Future<Cart?> addToCart(String id, int amount) =>
+      remoteApi.addToCart(id, amount);
 }

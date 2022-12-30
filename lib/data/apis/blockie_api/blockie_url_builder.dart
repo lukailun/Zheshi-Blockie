@@ -100,4 +100,6 @@ class BlockieUrlBuilder {
 
   // Finance
   String buildGetCartUrl(String id) => '$_baseUrl/activities/$id/cart';
+
+  String buildAddToCartUrl(String id) => '$_baseUrl/merches/$id/add-to-cart';
 }
