@@ -18,7 +18,6 @@ flutter build web --web-renderer html --dart-define ENV_FILE_NAME=env/$env.env
 if [ $env != "production" ]; then
   sed -i "s/<base href=\"\/\">/<base href=\"\/app\/\">/g" ./build/web/index.html
 fi
-sed -i "s/pushState/replaceState/g" ./build/web/main.dart.js
 if [ $env == "production" ]; then
   scp -r -P 20087 ./build/web/* root@218.78.22.175:/apps/blockie_frontend/
 else

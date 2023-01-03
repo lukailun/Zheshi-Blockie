@@ -1,6 +1,8 @@
 // Package imports:
 import 'package:blockie_app/app/modules/order_creation/controllers/order_creation_controller.dart';
 import 'package:blockie_app/app/routes/app_router.dart';
+import 'package:blockie_app/services/wechat_service/wechat_js_sdk/wechat_js_sdk.dart';
+import 'package:blockie_app/utils/anchor_utils.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -23,7 +25,6 @@ import 'package:blockie_app/data/models/project_status.dart';
 import 'package:blockie_app/data/models/subactivity_step.dart';
 import 'package:blockie_app/data/repositories/account_repository.dart';
 import 'package:blockie_app/data/repositories/project_repository.dart';
-import 'package:blockie_app/extensions/extensions.dart';
 import 'package:blockie_app/services/auth_service.dart';
 import 'package:blockie_app/utils/data_storage.dart';
 import 'package:blockie_app/widgets/basic_two_button_dialog.dart';
@@ -101,6 +102,22 @@ class SubactivityController extends GetxController {
       getSubactivity();
       openMintedNftDialog();
     }
+  }
+
+  void openLocation() {
+    wechatOpenLocation(
+      WechatOpenLocationParams(
+        latitude: 31.231706,
+        longitude: 121.472644,
+        name: '上海市徐汇区篮球馆',
+        address: '上海市静安区永和路456弄',
+        scale: 18,
+      ),
+    );
+  }
+
+  void makePhoneCall() {
+    AnchorUtils.call(phoneNumber: '02178297834');
   }
 
   void getQrCode() async {

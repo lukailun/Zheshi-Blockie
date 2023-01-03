@@ -29,7 +29,7 @@
 </head>
 <body>
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function(e) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
@@ -41,6 +41,18 @@
         return appRunner.runApp();
       });
     });
+  </script>
+  <script>
+    // 隐藏 iOS 微信底部导航栏：重写 `pushState` 为 `replaceState`
+    let userAgent = navigator.userAgent;
+    let isIOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    if (isIOS) {
+      window.history.pushState = new Proxy(window.history.replaceState, {
+        apply: (target, thisArg, argArray) => {
+          return target.apply(thisArg, argArray);
+        },
+      });
+    }
   </script>
   <script>
        // Disable Adjust Text Size in Wechat

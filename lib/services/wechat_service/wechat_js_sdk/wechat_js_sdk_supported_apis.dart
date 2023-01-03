@@ -6,7 +6,8 @@ enum WechatSupportedApis {
   scanQrCode('scanQRCode'),
   getLocation('getLocation'),
   chooseImage('chooseImage'),
-  getLocalImageData('getLocalImgData');
+  getLocalImageData('getLocalImgData'),
+  openLocation('openLocation');
 
   const WechatSupportedApis(this.value);
 

@@ -18,6 +18,8 @@ part 'wechat_js_sdk_get_local_image_data.dart';
 
 part 'wechat_js_sdk_get_location.dart';
 
+part 'wechat_js_sdk_open_location.dart';
+
 part 'wechat_js_sdk_ready.dart';
 
 part 'wechat_js_sdk_scan_qr_code.dart';

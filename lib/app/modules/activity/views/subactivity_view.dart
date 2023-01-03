@@ -1,4 +1,7 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/activity/views/subactivity_info_view.dart';
+import 'package:blockie_app/utils/clipboard_utils.dart';
+import 'package:blockie_app/widgets/message_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -56,6 +59,18 @@ class SubactivityView extends GetView<SubactivityController> {
             mintOnTap: controller.prepareToMint,
           ),
         );
+        final infoView = Visibility(
+          visible: true,
+          child: SubactivityInfoView(
+            title: '活动信息',
+            onLocationTap: controller.openLocation,
+            onPhoneTap: controller.makePhoneCall,
+            onWechatTap: () {
+              final copySuccess = ClipboardUtils.copyToClipboard('123');
+              MessageToast.showMessage(copySuccess ? '复制成功' : '复制失败');
+            },
+          ),
+        );
         final descriptionView = Visibility(
           visible: subactivity.description.isNotEmpty,
           child: SubactivityDescriptionView(
@@ -100,6 +115,7 @@ class SubactivityView extends GetView<SubactivityController> {
                 children: [
                   stepViews,
                   projectsView,
+                  infoView,
                   descriptionView,
                   participantsView,
                   const Text(
