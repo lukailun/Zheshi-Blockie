@@ -14,10 +14,7 @@ extension NftDetailsControllerRouter on NftDetailsController {
   }
 
   void goToProfile() async {
-    final parameters = {
-      ProfileParameter.id: AuthService.to.userInfo.value?.id ?? ''
-    };
-    await Get.offNamed(Routes.profile, parameters: parameters);
+    await Get.offNamed(Routes.profile);
     isDefaultConfig = false;
   }
 

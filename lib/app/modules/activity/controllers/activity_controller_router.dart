@@ -6,9 +6,7 @@ extension ActivityControllerRouter on ActivityController {
   }
 
   void goToProfile() {
-    final userValue = AuthService.to.userInfo.value;
-    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    Get.offNamed(Routes.profile, parameters: parameters);
+    Get.offNamed(Routes.profile);
   }
 
   void showLicenseDialog() {

@@ -16,9 +16,7 @@ extension ProjectDetailsControllerRouter on ProjectDetailsController {
   }
 
   void goToProfile() {
-    final userValue = AuthService.to.userInfo.value;
-    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    Get.offNamed(Routes.profile, parameters: parameters);
+    Get.offNamed(Routes.profile);
   }
 
   void goToGallery(int index) async {

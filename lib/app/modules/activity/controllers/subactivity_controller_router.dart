@@ -8,9 +8,7 @@ extension SubactivityControllerRouter on SubactivityController {
   }
 
   void goToProfile() async {
-    final userValue = AuthService.to.userInfo.value;
-    final parameters = {ProfileParameter.id: userValue?.id ?? ''};
-    await AppRouter.toNamed(Routes.profile, parameters: parameters);
+    await AppRouter.toNamed(Routes.profile);
     getSubactivity();
   }
 

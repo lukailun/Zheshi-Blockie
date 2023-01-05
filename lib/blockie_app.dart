@@ -64,6 +64,9 @@ class BlockieApp extends StatelessWidget {
               ).routes,
               debugShowCheckedModeBanner: false,
               initialRoute: Routes.activities,
+              onGenerateRoute: (route) {
+                print('Route: $route');
+              },
               defaultTransition: Transition.cupertino,
               theme: ThemeData(
                 appBarTheme: const AppBarTheme(elevation: 0),

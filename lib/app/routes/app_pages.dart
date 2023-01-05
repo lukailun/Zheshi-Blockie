@@ -1,4 +1,6 @@
 // Package imports:
+import 'package:blockie_app/app/modules/apply_for_refund/bindings/apply_for_refund_binding.dart';
+import 'package:blockie_app/app/modules/apply_for_refund/views/apply_for_refund_view.dart';
 import 'package:blockie_app/app/modules/order_creation/bindings/order_creation_binding.dart';
 import 'package:blockie_app/app/modules/order_creation/views/order_creation_view.dart';
 import 'package:blockie_app/app/modules/order_details/bindings/order_details_binding.dart';
@@ -268,6 +270,11 @@ class AppPages {
           name: Routes.orderDetails,
           page: () => const OrderDetailsView(),
           binding: OrderDetailsBinding(),
+        ),
+        GetPage(
+          name: Routes.applyForRefund,
+          page: () => const ApplyForRefundView(),
+          binding: ApplyForRefundBinding(),
         ),
       ];
 }

@@ -20,7 +20,7 @@ if [ $env != "production" ]; then
 fi
 if [ $env == "production" ]; then
   scp -r -P 20087 ./build/web/* root@218.78.22.175:/apps/blockie_frontend/
+  curl -X POST -H "Content-Type: application/json" -d "{\"msg_type\":\"post\",\"content\":{\"post\":{\"zh_cn\":{\"title\":\"New Update\",\"content\":[[{\"tag\":\"a\",\"text\":\"$appName\",\"href\":\"$url\"},{\"tag\":\"text\",\"text\":\" has been updated.\nBranch: $gitBranch\nCommit ID: $gitCommitId\nCommit Message: $gitCommitMessage\"}]]}}}}" $webhookUrl
 else
   scp -r ./build/web/* root@122.112.231.151:/apps/blockie_app/
 fi
-curl -X POST -H "Content-Type: application/json" -d "{\"msg_type\":\"post\",\"content\":{\"post\":{\"zh_cn\":{\"title\":\"New Update\",\"content\":[[{\"tag\":\"a\",\"text\":\"$appName\",\"href\":\"$url\"},{\"tag\":\"text\",\"text\":\" has been updated.\nBranch: $gitBranch\nCommit ID: $gitCommitId\nCommit Message: $gitCommitMessage\"}]]}}}}" $webhookUrl
