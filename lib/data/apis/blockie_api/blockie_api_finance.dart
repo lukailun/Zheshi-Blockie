@@ -13,9 +13,9 @@ extension BlockieApiFinance on BlockieApi {
     }
   }
 
-  Future<Cart?> addToCart(String id, int amount) async {
+  Future<Cart?> updateCart(String id, int amount) async {
     try {
-      final url = _urlBuilder.buildAddToCartUrl(id);
+      final url = _urlBuilder.buildUpdateCartUrl(id);
       final requestData = {'number': amount};
       final response = await _dio.post(url, data: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);

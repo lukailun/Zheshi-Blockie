@@ -13,7 +13,6 @@ import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.da
 import 'package:blockie_app/app/modules/activity/models/video_status.dart';
 import 'package:blockie_app/app/modules/activity/views/staff_qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/nft_details/controllers/nft_details_controller.dart';
-import 'package:blockie_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:blockie_app/app/modules/profile/views/qr_code_dialog.dart';
 import 'package:blockie_app/app/modules/project_details/controllers/project_details_controller.dart';
 import 'package:blockie_app/app/modules/project_details/views/project_details_minted_nft_dialog.dart';

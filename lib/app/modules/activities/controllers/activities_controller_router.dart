@@ -2,27 +2,25 @@ part of 'activities_controller.dart';
 
 extension ActivitiesControllerRouter on ActivitiesController {
   void goToActivity(String id) {
-    if (id == 'B51ywVPzYl') {
-      getBaseInfo();
-      return;
-    }
     final parameters = {ActivityParameter.id: id};
     AppRouter.toNamed(Routes.activity, parameters: parameters);
   }
 
   void getBaseInfo() {
-    AppRouter.toNamed(Routes.applyForRefund);
-    return;
-    const appId = 'wxafee24fb692df7d8';
-    const blockie = 'https://s.blockie.zheshi.tech/api/v1/user';
-    // const blockie = 'https://s.blockie.zheshi.tech/app/#/profile';
-
-    // const appId = 'wx5ba17671f71b748b';
-    // const blockie = 'https://www.github.com/';
-    final encoded = Uri.encodeComponent(blockie);
-    final url =
-        'https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$encoded&response_type=code&scope=snsapi_base#wechat_redirect';
-    html.window.location.href = blockie;
+    final currentHref = html.window.location.href;
+    final userInfo = AuthService.to.userInfo.value;
+    if (userInfo == null) {
+      return;
+    }
+    final urlComponents = currentHref.split('#');
+    final redirectUrlPrefix = urlComponents.first;
+    final redirectUrlSuffix =
+        urlComponents.length > 1 ? urlComponents[1] : null;
+    final redirectUrl = BlockieUrlBuilder().buildGetWechatSilentAuthRedirectUrl(
+        userInfo.id, redirectUrlPrefix, redirectUrlSuffix);
+    final wechatAuthorizationUrl =
+        BlockieUrlBuilder.buildWechatAuthorizationUrl(redirectUrl);
+    html.window.location.href = wechatAuthorizationUrl;
   }
 
   void goToBrandDetails(String id) {

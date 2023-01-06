@@ -96,7 +96,7 @@ class OrderCreationView extends GetView<OrderCreationController> {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text('¥ ${it.price}')
+                        child: Text(it.displayedPrice)
                             .fontSize(14)
                             .fontWeight(FontWeightCompat.bold)
                             .textColor(Colors.white),
@@ -108,13 +108,18 @@ class OrderCreationView extends GetView<OrderCreationController> {
                             .textColor(const Color(0x80FFFFFF)),
                       ),
                       ExpandTapWidget(
-                        onTap: () {},
+                        onTap: () {
+                          if (it.amount <= 0) {
+                            return;
+                          }
+                          controller.updateCart(it.id, it.amount - 1);
+                        },
                         tapPadding: const EdgeInsets.all(10),
                         child: BasicIconButton(
-                          assetName:
-                              'assets/images/order_creation/decrease.png',
+                          assetName: it.amount <= 0
+                              ? 'assets/images/order_creation/decrease_disabled.png'
+                              : 'assets/images/order_creation/decrease.png',
                           size: 16,
-                          onTap: () {},
                         ),
                       ),
                       SizedBox(
@@ -126,13 +131,18 @@ class OrderCreationView extends GetView<OrderCreationController> {
                             .textColor(const Color(0x80FFFFFF)),
                       ),
                       ExpandTapWidget(
-                        onTap: () {},
+                        onTap: () {
+                          if (it.amount >= it.inventory) {
+                            return;
+                          }
+                          controller.updateCart(it.id, it.amount + 1);
+                        },
                         tapPadding: const EdgeInsets.all(10),
                         child: BasicIconButton(
-                          assetName:
-                              'assets/images/order_creation/increase.png',
+                          assetName: it.amount >= it.inventory
+                              ? 'assets/images/order_creation/increase_disabled.png'
+                              : 'assets/images/order_creation/increase.png',
                           size: 16,
-                          onTap: () {},
                         ),
                       ),
                     ],

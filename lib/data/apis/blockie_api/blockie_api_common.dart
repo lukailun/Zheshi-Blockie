@@ -38,7 +38,7 @@ extension BlockieApiCommon on BlockieApi {
 
   Future<WechatMiniProgramCode?> getWechatMiniProgramCode(String id) async {
     try {
-      final url = _urlBuilder.buildGetWechatMiniProgramCode();
+      final url = _urlBuilder.buildGetWechatMiniProgramCodeUrl();
       final requestData = {'page': 'pages/dld/dld', 'scene': 'u=$id'};
       final response = await _dio.get(url, queryParameters: requestData);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);

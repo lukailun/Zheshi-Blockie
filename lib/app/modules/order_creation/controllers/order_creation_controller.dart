@@ -28,8 +28,9 @@ class OrderCreationController extends GetxController {
     cart.value = await financeRepository.getCart(id);
   }
 
-  void addToCart() async {
-    cart.value = await financeRepository.addToCart('', 0);
+  void updateCart(String id, int amount) async {
+    final result = await financeRepository.updateCart(id, amount);
+    cart.value = result;
   }
 }
 

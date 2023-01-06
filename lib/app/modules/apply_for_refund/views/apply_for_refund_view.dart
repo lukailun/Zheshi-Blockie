@@ -17,48 +17,52 @@ class ApplyForRefundView extends GetView<ApplyForRefundController> {
 
   @override
   Widget build(BuildContext context) {
-    final reason = const Text('退款原因').textColor(Colors.white).fontSize(14);
-    final textField = SizedBox(
-      width: double.infinity,
-      child: Center(
-        child: BasicTextField(
-          autofocus: true,
-          maxLines: 10,
-          text: controller.refundReason.value,
-          onValueChanged: (text) => controller.refundReason.value = text,
-        ).paddingSymmetric(horizontal: 18),
-      ),
-    ).outlined().paddingOnly(top: 13, bottom: 21);
-    final submitButton = SizedBox(
-      height: 48,
-      child: BasicElevatedButton(
-        title: '提交',
-        // isEnabled: controller.refundReason.isNotEmpty,
-        borderRadius: 8,
-        backgroundColor: Colors.white,
-        textColor: AppThemeData.primaryColor,
-        textFontSize: 18,
-        onTap: () {},
-      ),
-    ).paddingSymmetric(vertical: 36);
-    return Scaffold(
-      backgroundColor: AppThemeData.primaryColor,
-      appBar: BasicAppBar(title: '退款申请'),
-      body: Container(
+    return Obx(() {
+      final reason = const Text('退款原因').textColor(Colors.white).fontSize(14);
+      final textField = SizedBox(
         width: double.infinity,
-        height: double.infinity,
-        color: AppThemeData.primaryColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            reason,
-            textField,
-            const OrderDescription(descriptions: ['退款申请成功后我们将原路退回你所支付的金额。']),
-            const Spacer(flex: 1),
-            submitButton,
-          ],
-        ).paddingSymmetric(horizontal: 20),
-      ),
-    );
+        child: Center(
+          child: BasicTextField(
+            autofocus: false,
+            maxLines: 10,
+            maxLength: 200,
+            hintText: '是不是哪里不符合你的预期？',
+            text: controller.refundReason.value,
+            onValueChanged: (text) => controller.refundReason.value = text,
+          ).paddingSymmetric(horizontal: 18),
+        ),
+      ).outlined().paddingOnly(top: 13, bottom: 21);
+      final submitButton = SizedBox(
+        height: 48,
+        child: BasicElevatedButton(
+          title: '提交',
+          isEnabled: controller.refundReason.isNotEmpty,
+          borderRadius: 8,
+          backgroundColor: Colors.white,
+          textColor: AppThemeData.primaryColor,
+          textFontSize: 18,
+          onTap: () {},
+        ),
+      ).paddingSymmetric(vertical: 36);
+      return Scaffold(
+        backgroundColor: AppThemeData.primaryColor,
+        appBar: BasicAppBar(title: '退款申请'),
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: AppThemeData.primaryColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              reason,
+              textField,
+              const OrderDescription(descriptions: ['退款申请成功后我们将原路退回你所支付的金额。']),
+              const Spacer(flex: 1),
+              submitButton,
+            ],
+          ).paddingSymmetric(horizontal: 20),
+        ),
+      );
+    });
   }
 }

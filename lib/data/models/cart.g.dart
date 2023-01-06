@@ -19,6 +19,7 @@ Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
     };
 
 CartGoods _$CartGoodsFromJson(Map<String, dynamic> json) => CartGoods(
+      id: json['uid'] as String,
       name: json['name'] as String,
       inventory: json['inventory'] as int,
       price: (json['discounted_price'] as num).toDouble(),
@@ -26,6 +27,7 @@ CartGoods _$CartGoodsFromJson(Map<String, dynamic> json) => CartGoods(
     );
 
 Map<String, dynamic> _$CartGoodsToJson(CartGoods instance) => <String, dynamic>{
+      'uid': instance.id,
       'name': instance.name,
       'inventory': instance.inventory,
       'discounted_price': instance.price,

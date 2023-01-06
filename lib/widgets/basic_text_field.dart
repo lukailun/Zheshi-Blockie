@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,6 +12,7 @@ import '../extensions/font_weight_compat.dart';
 class BasicTextField extends StatelessWidget {
   final String text;
   final int maxLines;
+  final int? maxLength;
   final String? hintText;
   final bool autofocus;
   final bool showsUnderline;
@@ -20,6 +22,7 @@ class BasicTextField extends StatelessWidget {
     super.key,
     this.text = '',
     this.maxLines = 1,
+    this.maxLength,
     this.autofocus = false,
     this.hintText,
     this.showsUnderline = false,
@@ -44,6 +47,7 @@ class BasicTextField extends StatelessWidget {
             onValueChanged?.call(controller.text);
             _currentText.value = controller.text;
           }),
+        maxLength: maxLength,
         maxLines: maxLines,
         autofocus: autofocus,
         style: const TextStyle(
@@ -54,6 +58,12 @@ class BasicTextField extends StatelessWidget {
         cursorColor: Colors.white,
         decoration: InputDecoration(
           hintText: hintText,
+          counter: maxLength == null
+              ? null
+              : Text('${_currentText.value.length}/$maxLength')
+                  .textColor(const Color(0x80FFFFFF))
+                  .fontSize(14)
+                  .paddingOnly(bottom: 17),
           hintStyle: const TextStyle(
             color: Color(0x80FFFFFF),
             fontSize: 16,

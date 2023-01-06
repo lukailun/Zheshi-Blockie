@@ -22,6 +22,8 @@ class Cart {
 
 @JsonSerializable(explicitToJson: true)
 class CartGoods {
+  @JsonKey(name: 'uid')
+  String id;
   @JsonKey(name: 'name')
   String name;
   @JsonKey(name: 'inventory')
@@ -32,11 +34,14 @@ class CartGoods {
   int amount;
 
   CartGoods({
+    required this.id,
     required this.name,
     required this.inventory,
     required this.price,
     required this.amount,
   });
+
+  String get displayedPrice => '¥ ${price.toStringAsFixed(2)}';
 
   factory CartGoods.fromJson(Map<String, dynamic> json) =>
       _$CartGoodsFromJson(json);

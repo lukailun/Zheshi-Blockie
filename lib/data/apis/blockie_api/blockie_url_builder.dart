@@ -18,6 +18,9 @@ class BlockieUrlBuilder {
 
   static String buildAppIconUrl() => '$resourceHost/assets/flt/share_icon.png';
 
+  static String buildWechatAuthorizationUrl(String redirectUrl) =>
+      'https://open.weixin.qq.com/connect/oauth2/authorize?appid=${Environment.wechatOfficialAccountId}&redirect_uri=${Uri.encodeComponent(redirectUrl)}&response_type=code&scope=snsapi_base#wechat_redirect';
+
   String buildLoginUrl() => '$_baseUrl/login';
 
   String buildGetUserInfoUrl() => '$_baseUrl/user';
@@ -67,7 +70,11 @@ class BlockieUrlBuilder {
   /// 逆地址解析（坐标位置描述）: https://lbs.qq.com/service/webService/webServiceGuide/webServiceGcoder
   String buildReverseAddressLookupUrl() => '$_baseUrl/location';
 
-  String buildGetWechatMiniProgramCode() => '$_baseUrl/wechat-app-code';
+  String buildGetWechatMiniProgramCodeUrl() => '$_baseUrl/wechat-app-code';
+
+  String buildGetWechatSilentAuthRedirectUrl(
+          String userId, String redirectUrlPrefix, String? redirectUrlSuffix) =>
+      '$_baseUrl/wx-silent-login?user_uid=$userId&redirect_prefix=$redirectUrlPrefix${(redirectUrlSuffix ?? '').isNotEmpty ? '&redirect_suffix=${redirectUrlSuffix ?? ''}' : ''}';
 
   // ProjectsManagement
   String buildGetManagedActivitiesUrl() => '$_baseUrl/staff/activities';
@@ -101,5 +108,5 @@ class BlockieUrlBuilder {
   // Finance
   String buildGetCartUrl(String id) => '$_baseUrl/activities/$id/cart';
 
-  String buildAddToCartUrl(String id) => '$_baseUrl/merches/$id/add-to-cart';
+  String buildUpdateCartUrl(String id) => '$_baseUrl/merches/$id/add-to-cart';
 }
