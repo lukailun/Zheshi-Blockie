@@ -14,7 +14,7 @@ extension ProfileControllerRouter on ProfileController {
   }
 
   void goToOrders() {
-    AppRouter.toNamed(Routes.orderDetails);
+    AppRouter.toNamed(Routes.orders);
   }
 
   void goToNftDetails(String id) {

@@ -18,12 +18,10 @@ class OrdersView extends GetView<OrdersController> {
         backgroundColor: AppThemeData.primaryColor,
         appBar: BasicAppBar(title: '我的订单'),
         body: () {
-          // final orders = controller.orders.value;
-          final orders = [controller.a.value, 'b', 'c', 'd', 'dd', 'd'];
+          final orders = controller.orders.value;
           if (orders == null) {
             return const LoadingIndicator();
           }
-
           return Stack(
             children: [
               ListView.separated(
@@ -32,7 +30,7 @@ class OrdersView extends GetView<OrdersController> {
                     const EdgeInsets.only(left: 22, right: 22, bottom: 143),
                 itemBuilder: (context, index) {
                   final order = orders[index];
-                  return OrdersItemView();
+                  return OrdersItemView(order: order);
                 },
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 26),

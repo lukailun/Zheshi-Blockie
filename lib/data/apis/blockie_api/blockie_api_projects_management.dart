@@ -34,8 +34,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.get(url, queryParameters: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = TicketCheckingDetails.fromJson(object);
       return details;
@@ -50,8 +50,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildGetManagedProjectNftsUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.get(url, queryParameters: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = HoldVerificationDetails.fromJson(object);
       return details;
@@ -66,8 +66,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildGetAirdropNftsUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.get(url, queryParameters: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AirdropNftDetails.fromJson(object);
       return details;
@@ -82,8 +82,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildAirdropNftsUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AirdropNftDetails.fromJson(object);
       return details;
@@ -98,11 +98,11 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildCheckTicketUrl();
-      final requestData = {
+      final parameters = {
         'qrcode_text': qrCode,
         'souvenirs': souvenirsMapList,
       };
-      final response = await _dio.post(url, data: requestData);
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = TicketCheckingDetails.fromJson(object);
       return details;
@@ -117,8 +117,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildGetWhitelistStatusUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.get(url, queryParameters: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AddWhitelistDetails.fromJson(object);
       return details;
@@ -133,8 +133,8 @@ extension BlockieApiProjectsManagement on BlockieApi {
   }) async {
     try {
       final url = _urlBuilder.buildAddWhitelistUrl(id);
-      final requestData = {'qrcode_text': qrCode};
-      final response = await _dio.post(url, queryParameters: requestData);
+      final parameters = {'qrcode_text': qrCode};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final details = AddWhitelistDetails.fromJson(object);
       return details;

@@ -28,8 +28,8 @@ extension BlockieApiProfile on BlockieApi {
   Future<List<ProfileLabel>?> updateLabels(List<String> ids) async {
     try {
       final url = _urlBuilder.buildUpdateLabelsUrl();
-      final requestData = {"label_uids": ids};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"label_uids": ids};
+      final response = await _dio.post(url, queryParameters: parameters);
       final List list = BlockieApi._getResponseData(response);
       final labels = list.map((it) => ProfileLabel.fromJson(it)).toList();
       return labels;

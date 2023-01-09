@@ -16,11 +16,35 @@ extension BlockieApiFinance on BlockieApi {
   Future<Cart?> updateCart(String id, int amount) async {
     try {
       final url = _urlBuilder.buildUpdateCartUrl(id);
-      final requestData = {'number': amount};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {'number': amount};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final cart = Cart.fromJson(object);
       return cart;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<WechatPayParameters?> submitOrder(String id) async {
+    try {
+      final url = _urlBuilder.buildSubmitOrderUrl(id);
+      final response = await _dio.post(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final parameters = WechatPayParameters.fromJson(object);
+      return parameters;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<PaginatedOrders?> getOrders() async {
+    try {
+      final url = _urlBuilder.buildGetOrdersUrl();
+      final response = await _dio.get(url);
+      final Map<String, dynamic> object = BlockieApi._getResponseData(response);
+      final orders = PaginatedOrders.fromJson(object);
+      return orders;
     } catch (error) {
       return null;
     }

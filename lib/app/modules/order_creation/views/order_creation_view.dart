@@ -96,7 +96,7 @@ class OrderCreationView extends GetView<OrderCreationController> {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text(it.displayedPrice)
+                        child: Text(it.price.toDisplayPrice())
                             .fontSize(14)
                             .fontWeight(FontWeightCompat.bold)
                             .textColor(Colors.white),
@@ -108,12 +108,7 @@ class OrderCreationView extends GetView<OrderCreationController> {
                             .textColor(const Color(0x80FFFFFF)),
                       ),
                       ExpandTapWidget(
-                        onTap: () {
-                          if (it.amount <= 0) {
-                            return;
-                          }
-                          controller.updateCart(it.id, it.amount - 1);
-                        },
+                        onTap: () => controller.decreaseGoods(it.id),
                         tapPadding: const EdgeInsets.all(10),
                         child: BasicIconButton(
                           assetName: it.amount <= 0
@@ -131,12 +126,7 @@ class OrderCreationView extends GetView<OrderCreationController> {
                             .textColor(const Color(0x80FFFFFF)),
                       ),
                       ExpandTapWidget(
-                        onTap: () {
-                          if (it.amount >= it.inventory) {
-                            return;
-                          }
-                          controller.updateCart(it.id, it.amount + 1);
-                        },
+                        onTap: () => controller.increaseGoods(it.id),
                         tapPadding: const EdgeInsets.all(10),
                         child: BasicIconButton(
                           assetName: it.amount >= it.inventory
@@ -192,10 +182,10 @@ class OrderCreationView extends GetView<OrderCreationController> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('合计：')
+                                const Text('合计：')
                                     .fontSize(16)
                                     .textColor(Colors.white),
-                                Text('¥ 200')
+                                Text(cart.totalPrice.toDisplayPrice())
                                     .fontSize(24)
                                     .textColor(Colors.white),
                               ],
@@ -210,7 +200,8 @@ class OrderCreationView extends GetView<OrderCreationController> {
                                 backgroundColor: Colors.white,
                                 textColor: Colors.black,
                                 textFontSize: 16,
-                                onTap: () {},
+                                isEnabled: cart.totalPrice > 0,
+                                onTap: controller.submitOrder,
                               ),
                             )
                           ],

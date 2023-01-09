@@ -40,8 +40,8 @@ extension BlockieApiProject on BlockieApi {
   Future<PaginatedActivities?> getBrandActivities(String id) async {
     try {
       final url = _urlBuilder.buildGetBrandActivitiesUrl(id);
-      final requestData = {'issuer_uid': id};
-      final response = await _dio.get(url, queryParameters: requestData);
+      final parameters = {'issuer_uid': id};
+      final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final paginatedActivities = PaginatedActivities.fromJson(object);
       return paginatedActivities;
@@ -113,11 +113,11 @@ extension BlockieApiProject on BlockieApi {
       String id, String number, bool isUpdate) async {
     try {
       final url = _urlBuilder.buildUpdateRegistrationInfoUrl(id);
-      final requestData = {
+      final parameters = {
         'number': number,
         'action': isUpdate ? 'update' : 'create',
       };
-      final response = await _dio.post(url, data: requestData);
+      final response = await _dio.post(url, queryParameters: parameters);
       BlockieApi._getResponseData(response);
       return true;
     } catch (error) {

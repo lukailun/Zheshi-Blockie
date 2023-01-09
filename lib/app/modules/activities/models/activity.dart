@@ -25,7 +25,7 @@ class Activity {
   @JsonKey(name: 'issuer')
   Issuer issuer;
   @JsonKey(name: 'started_at')
-  final int startedTimestamp;
+  int startedTimestamp;
 
   Activity({
     required this.id,

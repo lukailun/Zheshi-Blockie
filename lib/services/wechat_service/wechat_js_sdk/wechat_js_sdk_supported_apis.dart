@@ -7,7 +7,8 @@ enum WechatSupportedApis {
   getLocation('getLocation'),
   chooseImage('chooseImage'),
   getLocalImageData('getLocalImgData'),
-  openLocation('openLocation');
+  openLocation('openLocation'),
+  chooseWechatPay('chooseWXPay');
 
   const WechatSupportedApis(this.value);
 

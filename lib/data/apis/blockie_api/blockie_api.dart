@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 // Package imports:
+import 'package:blockie_app/app/modules/order_creation/models/wechat_pay_parameters.dart';
+import 'package:blockie_app/app/modules/orders/models/paginated_orders.dart';
 import 'package:blockie_app/data/models/cart.dart';
 import 'package:blockie_app/data/models/wechat_mini_program_code.dart';
 import 'package:dio/dio.dart';
@@ -56,6 +58,7 @@ class BlockieApi {
   })  : _dio = Dio(),
         _urlBuilder = BlockieUrlBuilder() {
     _dio.setUpAuthHeaders(userTokenSupplier);
+    _dio.options.listFormat = ListFormat.multiCompatible;
     _dio.interceptors.add(DioLogInterceptor());
   }
 

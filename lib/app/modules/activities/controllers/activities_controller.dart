@@ -1,9 +1,6 @@
 // Package imports:
 import 'package:blockie_app/app/routes/app_router.dart';
-import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
-import 'package:blockie_app/utils/clipboard_utils.dart';
 import 'package:get/get.dart';
-import 'dart:html' as html;
 
 // Project imports:
 import 'package:blockie_app/app/modules/activities/models/activity.dart';
@@ -30,7 +27,6 @@ class ActivitiesController extends GetxController {
 
   final activities = Rxn<List<Activity>>();
   final user = AuthService.to.userInfo;
-  final openId = Get.parameters[ActivitiesParameter.openId] ?? '';
 
   @override
   void onReady() {
@@ -57,18 +53,9 @@ class ActivitiesController extends GetxController {
       final user = await accountRepository.getUserInfo();
       AuthService.to.userInfo.value = user;
       AuthService.to.login();
-      // if (openId.isEmpty) {
-      //   getBaseInfo();
-      // } else {
-      //   MessageToast.showException('静默授权成功');
-      // }
     } else {
       AuthService.to.userInfo.value = null;
       AuthService.to.logout();
     }
   }
-}
-
-class ActivitiesParameter {
-  static const openId = 'openid';
 }

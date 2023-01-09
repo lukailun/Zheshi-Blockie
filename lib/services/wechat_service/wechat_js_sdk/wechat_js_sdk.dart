@@ -10,6 +10,8 @@ part 'wechat_js_sdk_supported_open_tags.dart';
 
 part 'wechat_js_sdk_choose_image.dart';
 
+part 'wechat_js_sdk_choose_wechat_pay.dart';
+
 part 'wechat_js_sdk_config.dart';
 
 part 'wechat_js_sdk_error.dart';

@@ -1,12 +1,16 @@
+import 'package:blockie_app/app/modules/orders/models/order.dart';
+import 'package:blockie_app/app/modules/orders/models/order_status.dart';
 import 'package:blockie_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrdersItemView extends StatelessWidget {
+  final Order order;
   final Function()? onTap;
 
   const OrdersItemView({
     super.key,
+    required this.order,
     this.onTap,
   });
 
@@ -17,7 +21,7 @@ class OrdersItemView extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            '2022上海市篮球冠军联赛',
+            order.subactivity.name,
             maxLines: 2,
             softWrap: true,
             overflow: TextOverflow.ellipsis,
@@ -26,7 +30,7 @@ class OrdersItemView extends StatelessWidget {
               .fontWeight(FontWeightCompat.bold)
               .textColor(Colors.white),
         ),
-        Text('已完成')
+        Text(order.status.displayValue)
             .fontSize(12)
             .textColor(const Color(0x80FFFFFF))
             .paddingSymmetric(horizontal: 7),
@@ -41,7 +45,7 @@ class OrdersItemView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Visibility(
-          visible: true,
+          visible: !order.subactivity.isOnline,
           child: Image.asset(
             'assets/images/activities/location.png',
             width: 10,
@@ -51,7 +55,7 @@ class OrdersItemView extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            '上海 ·徐汇XXX篮球场',
+            order.subactivity.location,
             overflow: TextOverflow.ellipsis,
           )
               .fontSize(10)
@@ -61,16 +65,12 @@ class OrdersItemView extends StatelessWidget {
       ],
     );
     final time = Text(
-      '9月30日 周六 18:00',
+      order.subactivity.startedTime ?? '',
       overflow: TextOverflow.ellipsis,
-    )
-        .fontSize(10)
-        .textColor(const Color(0x80FFFFFF))
-        .paddingOnly(top: 4);
-    final test = ['3V3 女子赛报名门票', '纪念飞盘'];
+    ).fontSize(10).textColor(const Color(0x80FFFFFF)).paddingOnly(top: 4);
     final goods = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: test.map((it) {
+      children: order.goods.where((it) => it.amount > 0).map((it) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -78,7 +78,7 @@ class OrdersItemView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Text(it).fontSize(12).textColor(Colors.white),
+                  child: Text(it.name).fontSize(12).textColor(Colors.white),
                 ),
                 Text('¥ 220')
                     .fontSize(14)
@@ -86,7 +86,9 @@ class OrdersItemView extends StatelessWidget {
                     .textColor(Colors.white)
               ],
             ),
-            Text('× 1').fontSize(10).textColor(const Color(0x99FFFFFF)),
+            Text('× ${it.amount}')
+                .fontSize(10)
+                .textColor(const Color(0x99FFFFFF)),
           ],
         ).paddingOnly(top: 2, bottom: 8);
       }).toList(),
@@ -95,9 +97,11 @@ class OrdersItemView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Text('共 2 件').fontSize(10).textColor(const Color(0x99FFFFFF)),
+          child: Text('共 ${order.totalAmount} 件')
+              .fontSize(10)
+              .textColor(const Color(0x99FFFFFF)),
         ),
-        Text('¥ 220')
+        Text(order.totalPrice)
             .fontSize(14)
             .fontWeight(FontWeightCompat.bold)
             .textColor(Colors.white),

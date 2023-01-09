@@ -109,4 +109,9 @@ class BlockieUrlBuilder {
   String buildGetCartUrl(String id) => '$_baseUrl/activities/$id/cart';
 
   String buildUpdateCartUrl(String id) => '$_baseUrl/merches/$id/add-to-cart';
+
+  String buildSubmitOrderUrl(String id) =>
+      '$_baseUrl/activities/$id/checkout-cart';
+
+  String buildGetOrdersUrl() => '$_baseUrl/orders';
 }

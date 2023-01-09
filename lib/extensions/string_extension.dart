@@ -1,6 +1,3 @@
-// Package imports:
-import 'package:city_pickers/city_pickers.dart';
-
 // Project imports:
 import 'package:blockie_app/data/apis/blockie_api/blockie_url_builder.dart';
 

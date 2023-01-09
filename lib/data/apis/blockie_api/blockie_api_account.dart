@@ -4,8 +4,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<TokenInfo?> login(String code) async {
     try {
       final url = _urlBuilder.buildLoginUrl();
-      final requestData = {"code": code};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {'code': code};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final tokenInfo = TokenInfo.fromJson(object);
       AuthService.to.login();
@@ -30,7 +30,7 @@ extension BlockieApiAccount on BlockieApi {
   Future<FaceInfo?> uploadFacePhoto(List<int> bytes, String filename) async {
     try {
       final url = _urlBuilder.buildUploadFacePhotoUrl();
-      final requestData = FormData.fromMap(
+      final data = FormData.fromMap(
         {
           'face': MultipartFile.fromBytes(
             bytes,
@@ -39,7 +39,7 @@ extension BlockieApiAccount on BlockieApi {
           )
         },
       );
-      final response = await _dio.post(url, data: requestData);
+      final response = await _dio.post(url, data: data);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       FaceInfo faceInfo = FaceInfo.fromJson(object);
       return faceInfo;
@@ -90,7 +90,7 @@ extension BlockieApiAccount on BlockieApi {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
       final bytes = base64Decode(imageData);
-      final requestData = FormData.fromMap(
+      final data = FormData.fromMap(
         {
           'avatar': MultipartFile.fromBytes(
             bytes,
@@ -99,7 +99,7 @@ extension BlockieApiAccount on BlockieApi {
           )
         },
       );
-      final response = await _dio.post(url, data: requestData);
+      final response = await _dio.post(url, data: data);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;
@@ -111,8 +111,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<UserInfo?> updateUsername(String username) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"nickname": username};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"nickname": username};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;
@@ -124,8 +124,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<UserInfo?> updateBio(String bio) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"biography": bio};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"biography": bio};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;
@@ -137,8 +137,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<UserInfo?> updateGender(int gender) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"gender": gender};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"gender": gender};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;
@@ -150,8 +150,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<UserInfo?> updateBirthday(String birthday) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"birth_date": birthday};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"birth_date": birthday};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;
@@ -163,8 +163,8 @@ extension BlockieApiAccount on BlockieApi {
   Future<UserInfo?> updateRegion(String region) async {
     try {
       final url = _urlBuilder.buildUpdateUserInfoUrl();
-      final requestData = {"locale": region};
-      final response = await _dio.post(url, data: requestData);
+      final parameters = {"locale": region};
+      final response = await _dio.post(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final userInfo = UserInfo.fromJson(object);
       return userInfo;

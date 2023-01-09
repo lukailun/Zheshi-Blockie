@@ -259,7 +259,7 @@ class AppPages {
         GetPage(
           name: Routes.orders,
           page: () => const OrdersView(),
-          binding: OrdersBinding(),
+          binding: OrdersBinding(financeRepository: financeRepository),
         ),
         GetPage(
           name: Routes.orderCreation,

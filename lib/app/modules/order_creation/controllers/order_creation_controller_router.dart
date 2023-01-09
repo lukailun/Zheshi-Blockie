@@ -9,6 +9,7 @@ extension OrderCreationControllerRouter on OrderCreationController {
       positiveButtonOnTap: () {
         Get.back();
         Get.back();
+        AnchorUtils.openWechat();
       },
       negativeButtonTitle: '取消',
       negativeButtonOnTap: () {

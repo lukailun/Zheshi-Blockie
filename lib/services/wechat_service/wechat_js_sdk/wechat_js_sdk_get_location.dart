@@ -26,8 +26,8 @@ class WechatGetLocationResult {
   external String get errMsg;
 
   external factory WechatGetLocationResult({
-    String latitude,
-    String longitude,
+    String? latitude,
+    String? longitude,
     String errMsg,
   });
 }

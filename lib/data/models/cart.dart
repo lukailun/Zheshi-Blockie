@@ -10,6 +10,16 @@ class Cart {
   @JsonKey(name: 'merches')
   List<CartGoods> goods;
 
+  double get totalPrice {
+    if (goods.isEmpty) {
+      return 0;
+    }
+    return goods.fold(
+        0,
+        (previousValue, element) =>
+            previousValue + element.price * element.amount);
+  }
+
   Cart({
     required this.id,
     required this.goods,
@@ -40,8 +50,6 @@ class CartGoods {
     required this.price,
     required this.amount,
   });
-
-  String get displayedPrice => '¥ ${price.toStringAsFixed(2)}';
 
   factory CartGoods.fromJson(Map<String, dynamic> json) =>
       _$CartGoodsFromJson(json);
