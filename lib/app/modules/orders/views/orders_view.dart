@@ -36,30 +36,34 @@ class OrdersView extends GetView<OrdersController> {
                     const SizedBox(height: 26),
                 itemCount: orders.length,
               ),
-              Container(
-                alignment: Alignment.bottomCenter,
+              Visibility(
+                visible: false,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    decoration: const BoxDecoration(
                       border: Border(
-                          top: BorderSide(color: Colors.white24, width: 1))),
-                  width: double.infinity,
-                  height: 130,
-                  child: ClipRect(
-                    child: Blur(
-                      blurColor: const Color(0x10FFFFFF),
-                      colorOpacity: 0.05,
-                      child: Center(
-                        child: SizedBox(
-                          height: 48,
-                          child: BasicElevatedButton(
-                            title: '再次购买',
-                            borderRadius: 8,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            textFontSize: 18,
-                            onTap: () {},
-                          ),
-                        ).paddingSymmetric(horizontal: 22),
+                          top: BorderSide(color: Colors.white24, width: 1)),
+                    ),
+                    width: double.infinity,
+                    height: 130,
+                    child: ClipRect(
+                      child: Blur(
+                        blurColor: const Color(0x10FFFFFF),
+                        colorOpacity: 0.05,
+                        child: Center(
+                          child: SizedBox(
+                            height: 48,
+                            child: BasicElevatedButton(
+                              title: '再次购买',
+                              borderRadius: 8,
+                              backgroundColor: Colors.white,
+                              textColor: Colors.black,
+                              textFontSize: 18,
+                              onTap: () {},
+                            ),
+                          ).paddingSymmetric(horizontal: 22),
+                        ),
                       ),
                     ),
                   ),

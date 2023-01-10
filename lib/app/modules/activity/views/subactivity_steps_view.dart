@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blockie_app/app/modules/activity/models/subactivity_step_type.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -31,7 +32,7 @@ class SubactivityStepsView extends StatelessWidget {
             title: it.title,
             iconUrl: it.iconUrl,
             isCompleted: it.isCompleted,
-            isEnabled: !it.isCompleted,
+            isEnabled: !it.isCompleted || it.type == SubactivityStepType.pay,
             onTap: () => stepOnTap?.call(it),
           ).paddingSymmetric(vertical: 8),
         )

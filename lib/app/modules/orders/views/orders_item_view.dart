@@ -80,7 +80,7 @@ class OrdersItemView extends StatelessWidget {
                 Expanded(
                   child: Text(it.name).fontSize(12).textColor(Colors.white),
                 ),
-                Text('¥ 220')
+                Text(it.price.toDisplayPrice())
                     .fontSize(14)
                     .fontWeight(FontWeightCompat.bold)
                     .textColor(Colors.white)
@@ -101,7 +101,7 @@ class OrdersItemView extends StatelessWidget {
               .fontSize(10)
               .textColor(const Color(0x99FFFFFF)),
         ),
-        Text(order.totalPrice)
+        Text(order.totalPrice.toDisplayPrice())
             .fontSize(14)
             .fontWeight(FontWeightCompat.bold)
             .textColor(Colors.white),

@@ -9,8 +9,6 @@ part 'order.g.dart';
 class Order {
   @JsonKey(name: 'uid')
   String id;
-  @JsonKey(name: 'total_fee')
-  String totalPrice;
   @JsonKey(name: 'status')
   OrderStatus status;
   @JsonKey(name: 'extra_json')
@@ -23,9 +21,18 @@ class Order {
           0, (previousValue, element) => previousValue + element.amount)
       : 0;
 
+  double get totalPrice {
+    if (goods.isEmpty) {
+      return 0;
+    }
+    return goods.fold(
+        0,
+        (previousValue, element) =>
+            previousValue + element.price * element.amount);
+  }
+
   Order({
     required this.id,
-    required this.totalPrice,
     required this.status,
     required this.goods,
     required this.subactivity,
@@ -42,10 +49,13 @@ class OrderGoods {
   String name;
   @JsonKey(name: 'number')
   int amount;
+  @JsonKey(name: 'discounted_price')
+  double price;
 
   OrderGoods({
     required this.name,
     required this.amount,
+    required this.price,
   });
 
   factory OrderGoods.fromJson(Map<String, dynamic> json) =>

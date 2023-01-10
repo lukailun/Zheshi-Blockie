@@ -8,7 +8,6 @@ part of 'order.dart';
 
 Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       id: json['uid'] as String,
-      totalPrice: json['total_fee'] as String,
       status: $enumDecode(_$OrderStatusEnumMap, json['status']),
       goods: (json['extra_json'] as List<dynamic>)
           .map((e) => OrderGoods.fromJson(e as Map<String, dynamic>))
@@ -19,7 +18,6 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'uid': instance.id,
-      'total_fee': instance.totalPrice,
       'status': _$OrderStatusEnumMap[instance.status]!,
       'extra_json': instance.goods.map((e) => e.toJson()).toList(),
       'group': instance.subactivity.toJson(),
@@ -38,12 +36,14 @@ const _$OrderStatusEnumMap = {
 OrderGoods _$OrderGoodsFromJson(Map<String, dynamic> json) => OrderGoods(
       name: json['name'] as String,
       amount: json['number'] as int,
+      price: (json['discounted_price'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$OrderGoodsToJson(OrderGoods instance) =>
     <String, dynamic>{
       'name': instance.name,
       'number': instance.amount,
+      'discounted_price': instance.price,
     };
 
 OrderSubactivity _$OrderSubactivityFromJson(Map<String, dynamic> json) =>
