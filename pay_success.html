@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cn">
+ <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="referrer" content="origin" />
+  <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>支付完成</title>
+  <script type="text/javascript" charset="UTF-8" src="https://wx.gtimg.com/pay_h5/goldplan/js/jgoldplan-1.0.0.js"></script>
+  <style>
+        body {
+            font-family: PingFang SC, "Helvetica Neue", Arial, sans-serif;
+        }
+        .container {
+          padding: 15px;
+          display: flex;
+          height: 600px;
+          flex-direction: column;
+          align-items: center;
+        }
+        .icon {
+          background: url('https://3ayj-oss.oss-cn-shenzhen.aliyuncs.com/pic/sprite_fm.png') 0 0 no-repeat;
+          background-size: 985px 650px;
+          width: 40px;
+          height: 40px;
+          margin: 15px;
+          border-radius: 50%;
+          background-position: -729px -215px;
+        }
+        .icon img {
+          display: inline-block;
+          height: 40px;
+          width: 40px;
+          border-radius: 20px;
+        }
+        .msg {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+        #tips {
+          margin-bottom: 15px;
+        }
+        #cost {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+        #toOrder {
+          width: 100%;
+          line-height: 50px;
+          background-color: #00d660;
+          color: #fff;
+          border-radius: 7px;
+        }
+        #toOrder span {
+          display: inline-block;
+          width: 100%;
+          text-align: center;
+        }
+    </style>
+ </head>
+ <body>
+  <div class="container">
+   <div class="icon"></div>
+   <div class="msg">
+    <span style="color: #00d660;">支付成功</span>
+   </div>
+   <div id="tips"></div>
+   <div id="cost"></div>
+   <div id="toOrder">
+    <span>查看订单详情</span>
+   </div>
+  </div>
+  <script>
+   let jumpOutUrl = "https://s.blockie.zheshi.tech/app/#/settings"
+    let initData = {
+      action: 'onIframeReady',
+      displayStyle: 'SHOW_CUSTOM_PAGE',
+    }
+    let initPostData = JSON.stringify(initData)
+    parent.postMessage(initPostData, "https://payapp.weixin.qq.com")
+    document.querySelector('#toOrder').onclick = function () {
+      let mchData = {
+        action: 'jumpOut',
+        jumpOutUrl: jumpOutUrl,
+      }
+      let postData = JSON.stringify(mchData)
+      parent.postMessage(postData, "https://payapp.weixin.qq.com")
+    }
+</script>
+ </body>
+</html>
