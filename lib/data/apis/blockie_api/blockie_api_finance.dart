@@ -38,10 +38,13 @@ extension BlockieApiFinance on BlockieApi {
     }
   }
 
-  Future<PaginatedOrders?> getOrders({String? subactivityId}) async {
+  Future<PaginatedOrders?> getOrders({
+    required int pageIndex,
+    String? subactivityId,
+  }) async {
     try {
       final url = _urlBuilder.buildGetOrdersUrl();
-      final parameters = {'per_page': 3};
+      final parameters = {'per_page': 10, 'page': pageIndex};
       final response = await _dio.get(url, queryParameters: parameters);
       final Map<String, dynamic> object = BlockieApi._getResponseData(response);
       final orders = PaginatedOrders.fromJson(object);

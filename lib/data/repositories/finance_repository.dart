@@ -17,5 +17,6 @@ class FinanceRepository {
   Future<WechatPayParameters?> submitOrder(String id) =>
       remoteApi.submitOrder(id);
 
-  Future<PaginatedOrders?> getOrders() => remoteApi.getOrders();
+  Future<PaginatedOrders?> getOrders(int pageIndex) =>
+      remoteApi.getOrders(pageIndex: pageIndex);
 }

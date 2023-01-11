@@ -1,3 +1,4 @@
+import 'package:blockie_app/app/modules/orders/models/order.dart';
 import 'package:blockie_app/app/modules/orders/views/orders_item_view.dart';
 import 'package:blockie_app/data/models/app_theme_data.dart';
 import 'package:blockie_app/widgets/basic_app_bar.dart';
@@ -7,6 +8,7 @@ import 'package:blockie_app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:blockie_app/app/modules/orders/controllers/orders_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrdersView extends GetView<OrdersController> {
   const OrdersView({super.key});
@@ -24,18 +26,24 @@ class OrdersView extends GetView<OrdersController> {
           }
           return Stack(
             children: [
-              ListView.separated(
-                shrinkWrap: true,
-                padding:
-                    const EdgeInsets.only(left: 22, right: 22, bottom: 143),
-                itemBuilder: (context, index) {
-                  final order = orders[index];
-                  return OrdersItemView(order: order);
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 26),
-                itemCount: orders.length,
-              ),
+              SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                controller: controller.refreshController,
+                onRefresh: () => controller.getOrders(isRefresh: true),
+                onLoading: () => controller.getOrders(isRefresh: false),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  itemBuilder: (context, index) {
+                    final order = orders[index];
+                    return OrdersItemView(order: order);
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 26),
+                  itemCount: orders.length,
+                ),
+              ).paddingOnly(bottom: 143 - 143),
               Visibility(
                 visible: false,
                 child: Container(

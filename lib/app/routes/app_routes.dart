@@ -32,5 +32,6 @@ abstract class Routes {
   static const orders = '/orders';
   static const orderCreation = '/order_creation';
   static const orderDetails = '/order_details';
-  static const applyForRefund = '/applyForRefund';
+  static const applyForRefund = '/apply_for_refund';
+  static const wechatPayGoldPlan = '/wechat_pay_gold_plan';
 }
